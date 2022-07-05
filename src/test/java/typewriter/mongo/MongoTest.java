@@ -1,0 +1,123 @@
+/*
+ * Copyright (C) 2022 Nameless Production Committee
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          http://opensource.org/licenses/mit-license.php
+ */
+package typewriter.mongo;
+
+import org.junit.jupiter.api.Test;
+
+public class MongoTest extends MongoTestSupport {
+
+    @Test
+    void saveModel() {
+        Person model = new Person("one", 10);
+
+        Mongo<Person> mongo = createEmptyDB(Person.class);
+        mongo.update(model);
+
+        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
+        assert found.equals(model);
+    }
+
+    @Test
+    void saveMultipleModels() {
+        Person model1 = new Person("one", 10);
+        Person model2 = new Person("two", 20);
+        Person model3 = new Person("three", 30);
+        Person model4 = new Person("four", 40);
+        Person model5 = new Person("five", 50);
+
+        Mongo<Person> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+        mongo.update(model4);
+        mongo.update(model5);
+
+        Person found = mongo.findBy(model3.id).waitForTerminate().to().exact();
+        assert found.equals(model3);
+
+        found = mongo.findBy(model5.id).waitForTerminate().to().exact();
+        assert found.equals(model5);
+    }
+
+    /**
+     * 
+     */
+    private static class Person extends DerivableModel {
+
+        public String name;
+
+        public int age;
+
+        public boolean marked;
+
+        /**
+         * @param name
+         * @param age
+         */
+        Person(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        /**
+         * Get the name property of this {@link MongoTest.Person}.
+         * 
+         * @return The name property.
+         */
+        public final String getName() {
+            return name;
+        }
+
+        /**
+         * Set the name property of this {@link MongoTest.Person}.
+         * 
+         * @param name The name value to set.
+         */
+        public final void setName(String name) {
+            this.name = name;
+        }
+
+        /**
+         * Get the age property of this {@link MongoTest.Person}.
+         * 
+         * @return The age property.
+         */
+        public final int getAge() {
+            return age;
+        }
+
+        /**
+         * Set the age property of this {@link MongoTest.Person}.
+         * 
+         * @param age The age value to set.
+         */
+        public final void setAge(int age) {
+            this.age = age;
+        }
+
+        /**
+         * Get the marked property of this {@link MongoTest.Person}.
+         * 
+         * @return The marked property.
+         */
+        public final boolean isMarked() {
+            return marked;
+        }
+
+        /**
+         * Set the marked property of this {@link MongoTest.Person}.
+         * 
+         * @param marked The marked value to set.
+         */
+        public final void setMarked(boolean marked) {
+            this.marked = marked;
+        }
+    }
+}
