@@ -48,7 +48,8 @@ class ConstraintForString extends MongoConstraint<String, StringConstraint> impl
      */
     @Override
     public StringConstraint lessThan(int value) {
-        return regex(".{0," + (value - 1) + "}+");
+        filters.add(Filters.lt(propertyName, value));
+        return this;
     }
 
     /**

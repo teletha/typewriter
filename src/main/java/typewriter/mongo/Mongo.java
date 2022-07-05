@@ -40,7 +40,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     private static final Map<Class, Mongo> Cache = new ConcurrentHashMap();
 
     /** The singleton. */
-    private static final MongoClient Client = MongoClients.create(I.env("mongodb"));
+    private static final MongoClient Client = MongoClients.create(I.env("mongodb", "mongodb://localhost:27017"));
 
     /** The document model. */
     private final Model<M> model;
