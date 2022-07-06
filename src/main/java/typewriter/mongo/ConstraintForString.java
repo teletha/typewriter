@@ -11,6 +11,8 @@ package typewriter.mongo;
 
 import java.util.regex.Pattern;
 
+import org.bson.BsonDocument;
+
 import com.mongodb.client.model.Filters;
 
 import typewriter.api.Constraint;
@@ -48,7 +50,7 @@ class ConstraintForString extends MongoConstraint<String, StringConstraint> impl
      */
     @Override
     public StringConstraint lessThan(int value) {
-        filters.add(Filters.lt(propertyName, value));
+        filters.add(Filters.expr(BsonDocument.parse("{$lt: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
         return this;
     }
 
@@ -57,7 +59,7 @@ class ConstraintForString extends MongoConstraint<String, StringConstraint> impl
      */
     @Override
     public StringConstraint lessThanOrEqual(int value) {
-        filters.add(Filters.lte(propertyName, value));
+        filters.add(Filters.expr(BsonDocument.parse("{$lte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
         return this;
     }
 
@@ -66,7 +68,7 @@ class ConstraintForString extends MongoConstraint<String, StringConstraint> impl
      */
     @Override
     public StringConstraint greaterThan(int value) {
-        filters.add(Filters.gt(propertyName, value));
+        filters.add(Filters.expr(BsonDocument.parse("{$gt: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
         return this;
     }
 
@@ -75,7 +77,7 @@ class ConstraintForString extends MongoConstraint<String, StringConstraint> impl
      */
     @Override
     public StringConstraint greaterThanOrEqual(int value) {
-        filters.add(Filters.gte(propertyName, value));
+        filters.add(Filters.expr(BsonDocument.parse("{$gte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
         return this;
     }
 }

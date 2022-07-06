@@ -65,6 +65,55 @@ class StringConstraintTest extends MongoTestSupport {
         assert founds.get(1).equals(model2);
     }
 
+    @Test
+    void lessThanOrEqual() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        Mongo<Person> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.lessThanOrEqual(3)).waitForTerminate().toList();
+        assert founds.size() == 2;
+        assert founds.get(0).equals(model1);
+        assert founds.get(1).equals(model2);
+    }
+
+    @Test
+    void greaterThan() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        Mongo<Person> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.greaterThan(3)).waitForTerminate().toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model3);
+    }
+
+    @Test
+    void greaterThanOrEqual() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        Mongo<Person> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.greaterThanOrEqual(4)).waitForTerminate().toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model3);
+    }
+
     /**
      * 
      */
