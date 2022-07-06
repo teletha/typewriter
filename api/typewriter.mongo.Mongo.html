@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Typewriter API</title>
+		<base href="../"/>
+		<script async="true" src="highlight.js" type="module"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="J">
+		<header class="X">
+			<h1 class="N" date="2022-07-06" ver="0.1"><code>Typewriter</code></h1>
+			<nav class="W"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="b" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="Z">
+			<nav class="Y">
+				<div></div>
+			</nav>
+			<article class="i" id="Article">
+				<section class="c"><code class="L">typewriter.mongo</code>
+					<h2 class="Class R"><code class="T">Mongo</code><code class="g">&#60;<code>M</code>&#62;</code></h2>
+					<div class="e">
+						<ul class="C D">
+							<li><code>M</code><code class="extends"><code><a href="api/typewriter.IdentifiableModel.html">IdentifiableModel</a></code></code></li>
+						</ul>
+						<ul class="C E">
+							<li><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>kiss.Signal<code class="parameters"><code>M</code></code></code>, <code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code></code></code></li>
+							<li><code><a href="api/typewriter.api.Queryable.html">Queryable</a><code class="parameters"><code>M</code>, <code>kiss.Signal<code class="parameters"><code>M</code></code></code></code></code></li>
+						</ul>
+						<ul class="C F">
+							<li><code><a href="api/typewriter.api.Deletable.html">Deletable</a><code class="parameters"><code>M</code></code></code></li>
+							<li><code><a href="api/typewriter.api.Operatable.html">Operatable</a><code class="parameters"><code>M</code></code></code></li>
+							<li><code><a href="api/typewriter.api.Updatable.html">Updatable</a><code class="parameters"><code>M</code></code></code></li>
+						</ul>
+					</div>
+				</section>
+				<section class="c" id="count()">
+					<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="T">count</code><code class="g">()</code><i class="a"><code>long</code></i></h2>
+					<table class="k">
+						<tr class="U">
+							<td><code>long</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="c" id="findBy(long)">
+					<h2 class="V"><i class="PUBLIC"></i><code class="T">findBy</code><code class="g">(<code>long</code> <code class="parameterName">id</code>)</code><i class="a"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="k">
+						<tr class="M">
+							<td><code>long</code> <code>id</code></td>
+							<td></td>
+						</tr>
+						<tr class="U">
+							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Find model by id.</p>
+					</span></section>
+				<section class="c" id="findBy(typewriter.mongo.MongoQuery)">
+					<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="T">findBy</code><code class="g">(<code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">query</code>)</code><i class="a"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="k">
+						<tr class="M">
+							<td><code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code> <code>query</code></td>
+							<td></td>
+						</tr>
+						<tr class="U">
+							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="c" id="delete(long,typewriter.api.Specifier...)">
+					<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="T">delete</code><code class="g">(<code>long</code> <code class="parameterName">id</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="a"><code>void</code></i></h2>
+					<table class="k">
+						<tr class="M">
+							<td><code>long</code> <code>id</code></td>
+							<td></td>
+						</tr>
+						<tr class="M">
+							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="c" id="update(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="T">update</code><code class="g">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="a"><code>void</code></i></h2>
+					<table class="k">
+						<tr class="M">
+							<td><code>M</code> <code>model</code></td>
+							<td></td>
+						</tr>
+						<tr class="M">
+							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="c" id="watch()">
+					<h2 class="V"><i class="PUBLIC"></i><code class="T">watch</code><code class="g">()</code><i class="a"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="k">
+						<tr class="U">
+							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Watch the stream of property changed events.</p>
+					</span></section>
+				<section class="c" id="of(java.lang.Class)">
+					<h2 class="V"><i class="STATIC PUBLIC"></i><code class="T">of</code><code class="g">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="a"><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="k">
+						<tr class="S">
+							<td><code>M</code><code class="extends"><code><a href="api/typewriter.IdentifiableModel.html">IdentifiableModel</a></code></code></td>
+							<td></td>
+						</tr>
+						<tr class="M">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code>model</code></td>
+							<td><span><p>The model type.</p>
+								</span></td>
+						</tr>
+						<tr class="U">
+							<td><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Get the collection.</p>
+					</span></section>
+			</article>
+			<aside class="Q" id="SubNavi">
+				<div class="I">
+					<h5 class="P">Static Methods</h5>
+					<ul>
+						<li><i class="STATIC PUBLIC"></i><code><a href="api/typewriter.mongo.Mongo.html#of(java.lang.Class)">of</a></code><code class="g">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="H"><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></i></li>
+					</ul>
+					<h5 class="P">Methods</h5>
+					<ul>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.mongo.Mongo.html#count()">count</a></code><code class="g">()</code><i class="H"><code>long</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.mongo.Mongo.html#findBy(long)">findBy</a></code><code class="g">(<code>long</code> <code class="parameterName">id</code>)</code><i class="H"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.mongo.Mongo.html#findBy(typewriter.mongo.MongoQuery)">findBy</a></code><code class="g">(<code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">query</code>)</code><i class="H"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.mongo.Mongo.html#delete(long,typewriter.api.Specifier...)">delete</a></code><code class="g">(<code>long</code> <code class="parameterName">id</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="H"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.mongo.Mongo.html#update(java.lang.Object,typewriter.api.Specifier...)">update</a></code><code class="g">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="H"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.mongo.Mongo.html#watch()">watch</a></code><code class="g">()</code><i class="H"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>
