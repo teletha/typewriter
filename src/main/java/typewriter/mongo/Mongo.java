@@ -36,6 +36,12 @@ import typewriter.api.QueryExecutor;
 
 public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>> {
 
+    /** The primary key. */
+    private static final String PrimaryKey = "_id";
+
+    /** The local identical key. */
+    private static final String IdenticalKey = "id";
+
     /** The reusabel {@link Mongo} cache. */
     private static final Map<Class, Mongo> Cache = new ConcurrentHashMap();
 
@@ -77,7 +83,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     public Signal<M> findBy(int id) {
         return new Signal<>((observer, disposer) -> {
             try {
-                FindIterable<Document> founds = collection.find(Filters.eq("id", id));
+                FindIterable<Document> founds = collection.find(Filters.eq(PrimaryKey, id));
                 for (Document found : founds) {
                     if (!disposer.isDisposed()) {
                         observer.accept(decode(found));
@@ -134,7 +140,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             return;
         }
 
-        collection.deleteOne(Filters.eq("id", model.id));
+        collection.deleteOne(Filters.eq(PrimaryKey, model.id));
     }
 
     /**
@@ -149,7 +155,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
 
         ReplaceOptions o = new ReplaceOptions().upsert(true);
 
-        collection.replaceOne(Filters.eq("id", model.id), encode(model), o);
+        collection.replaceOne(Filters.eq(PrimaryKey, model.id), encode(model), o);
     }
 
     /**
@@ -162,7 +168,11 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
         Document doc = new Document();
 
         model.walk(object, (m, p, v) -> {
-            doc.put(p.name, v);
+            String name = p.name;
+            if (name.equals(IdenticalKey)) {
+                name = PrimaryKey;
+            }
+            doc.put(name, v);
         });
 
         return doc;
@@ -179,12 +189,13 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
 
         for (Entry<String, Object> entry : doc.entrySet()) {
             String key = entry.getKey();
-            if (key.equals("_id")) {
-                continue;
+            String localKey = key;
+            if (localKey.equals(PrimaryKey)) {
+                localKey = IdenticalKey;
             }
 
-            Property property = model.property(entry.getKey());
-            model.set(object, property, doc.get(property.name));
+            Property property = model.property(localKey);
+            model.set(object, property, doc.get(key));
         }
 
         return object;
