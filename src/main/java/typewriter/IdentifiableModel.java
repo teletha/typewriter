@@ -11,14 +11,14 @@ package typewriter;
 
 public abstract class IdentifiableModel {
 
-    public int id;
+    public long id;
 
     /**
      * Get the id property of this {@link IdentifiableModel}.
      * 
      * @return The id property.
      */
-    public int id() {
+    public long id() {
         return id;
     }
 
@@ -27,7 +27,7 @@ public abstract class IdentifiableModel {
      * 
      * @param id The id value to set.
      */
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

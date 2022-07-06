@@ -9,8 +9,6 @@
  */
 package typewriter.mongo;
 
-import java.beans.Introspector;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -40,19 +38,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      * @param specifier The property specifier.
      */
     protected MongoConstraint(Specifier specifier) {
-        Method method = specifier.method();
-        String name = method.getName();
-        if (method.getReturnType() == boolean.class) {
-            if (name.startsWith("is")) {
-                name = name.substring(2);
-            }
-        } else {
-            if (name.startsWith("get")) {
-                name = name.substring(3);
-            }
-        }
-
-        this.propertyName = Introspector.decapitalize(name);
+        this.propertyName = specifier.propertyName();
     }
 
     /**

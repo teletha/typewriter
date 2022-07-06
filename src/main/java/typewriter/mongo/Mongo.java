@@ -9,12 +9,15 @@
  */
 package typewriter.mongo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -24,6 +27,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
+import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import com.mongodb.client.model.changestream.FullDocument;
 
@@ -32,9 +37,14 @@ import kiss.Signal;
 import kiss.model.Model;
 import kiss.model.Property;
 import typewriter.IdentifiableModel;
+import typewriter.api.Deletable;
+import typewriter.api.Operatable;
 import typewriter.api.QueryExecutor;
+import typewriter.api.Specifier;
+import typewriter.api.Updatable;
 
-public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>> {
+public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>>
+        implements Operatable<M>, Updatable<M>, Deletable<M> {
 
     /** The primary key. */
     private static final String PrimaryKey = "_id";
@@ -75,15 +85,41 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long count() {
+        return collection.estimatedDocumentCount();
+    }
+
+    /**
      * Find model by id.
      * 
      * @param id
      * @return
      */
-    public Signal<M> findBy(int id) {
+    public Signal<M> findBy(long id) {
+        return findBy(Filters.eq(PrimaryKey, id));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<M> findBy(MongoQuery<M> query) {
+        return findBy(query.build());
+    }
+
+    /**
+     * Find by your query.
+     * 
+     * @param query
+     * @return
+     */
+    private Signal<M> findBy(Bson query) {
         return new Signal<>((observer, disposer) -> {
             try {
-                FindIterable<Document> founds = collection.find(Filters.eq(PrimaryKey, id));
+                FindIterable<Document> founds = collection.find(query);
                 for (Document found : founds) {
                     if (!disposer.isDisposed()) {
                         observer.accept(decode(found));
@@ -101,14 +137,68 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * {@inheritDoc}
      */
     @Override
-    public Signal<M> findBy(MongoQuery<M> query) {
+    public void delete(long id, Specifier<M, ?>... specifiers) {
+        if (model == null) {
+            return;
+        }
+
+        if (specifiers == null || specifiers.length == 0) {
+            // delete model
+            collection.deleteOne(identify(id));
+        } else {
+            // delete properties
+            List<Bson> operations = new ArrayList();
+            for (Specifier<M, ?> specifier : specifiers) {
+                if (specifier != null) {
+                    operations.add(Updates.unset(specifier.propertyName()));
+                }
+            }
+            collection.updateOne(identify(id), Updates.combine(operations));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(M model, Specifier<M, ?>... specifiers) {
+        if (model == null) {
+            return;
+        }
+
+        if (specifiers == null || specifiers.length == 0) {
+            // update model
+            collection.replaceOne(identify(model.id), encode(model), new ReplaceOptions().upsert(true));
+        } else {
+            // update properties
+            Model m = Model.of(model);
+            List<Bson> operations = new ArrayList();
+            for (Specifier<M, ?> specifier : specifiers) {
+                if (specifier != null) {
+                    String name = specifier.propertyName();
+                    Property property = m.property(name);
+
+                    operations.add(Updates.set(name, m.get(model, property)));
+                }
+            }
+            collection.updateOne(identify(model.id), Updates.combine(operations), new UpdateOptions().upsert(true));
+        }
+    }
+
+    /**
+     * Watch the stream of property changed events.
+     * 
+     * @return
+     */
+    public Signal<M> watch() {
         return new Signal<>((observer, disposer) -> {
             try {
-                FindIterable<Document> founds = collection.find(query.build());
-                for (Document found : founds) {
-                    if (!disposer.isDisposed()) {
-                        observer.accept(decode(found));
-                    }
+                MongoCursor<ChangeStreamDocument<Document>> iterator = collection.watch()
+                        .fullDocument(FullDocument.UPDATE_LOOKUP)
+                        .iterator();
+
+                while (iterator.hasNext() && !disposer.isDisposed()) {
+                    observer.accept(decode(iterator.next().getFullDocument()));
                 }
                 observer.complete();
             } catch (Throwable e) {
@@ -118,44 +208,14 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
         });
     }
 
-    public Signal<M> watch() {
-        return new Signal<>((observer, disposer) -> {
-            MongoCursor<ChangeStreamDocument<Document>> iterator = collection.watch().fullDocument(FullDocument.UPDATE_LOOKUP).iterator();
-            while (iterator.hasNext() && !disposer.isDisposed()) {
-                ChangeStreamDocument<Document> next = iterator.next();
-                observer.accept(decode(next.getFullDocument()));
-            }
-            observer.complete();
-            return disposer;
-        });
-    }
-
     /**
-     * Delete model.
+     * Create identical filter.
      * 
      * @param model
+     * @return
      */
-    public void delete(M model) {
-        if (model == null) {
-            return;
-        }
-
-        collection.deleteOne(Filters.eq(PrimaryKey, model.id));
-    }
-
-    /**
-     * Update model.
-     * 
-     * @param model
-     */
-    public void update(M model) {
-        if (model == null) {
-            return;
-        }
-
-        ReplaceOptions o = new ReplaceOptions().upsert(true);
-
-        collection.replaceOne(Filters.eq(PrimaryKey, model.id), encode(model), o);
+    private Bson identify(long id) {
+        return Filters.eq(PrimaryKey, id);
     }
 
     /**

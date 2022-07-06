@@ -9,6 +9,7 @@
  */
 package typewriter.api;
 
+import java.beans.Introspector;
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
@@ -20,14 +21,11 @@ import java.util.Date;
 import java.util.function.Function;
 
 import kiss.I;
-import typewriter.api.Constraint.NumericConstraint;
-import typewriter.api.Constraint.StringConstraint;
-import typewriter.api.Constraint.TypeConstraint;
 
 /**
  * Generic property specifier.
  */
-public interface Specifier<S, T, C extends Constraint<T, C>> extends Function<S, T>, Serializable {
+public interface Specifier<S, T> extends Function<S, T>, Serializable {
 
     /**
      * Get the implementation of this lambda.
@@ -51,56 +49,76 @@ public interface Specifier<S, T, C extends Constraint<T, C>> extends Function<S,
     }
 
     /**
-     * The specialized {@link Specifier}.
+     * Estimate the property name.
+     * 
+     * @return
      */
-    interface NumericSpecifier<S, N extends Number> extends Specifier<S, N, NumericConstraint<N>> {
+    default String propertyName() {
+        Method method = method();
+        String name = method.getName();
+        if (method.getReturnType() == boolean.class) {
+            if (name.startsWith("is")) {
+                name = name.substring(2);
+            }
+        } else {
+            if (name.startsWith("get")) {
+                name = name.substring(3);
+            }
+        }
+        return Introspector.decapitalize(name);
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface CharSpecifier<S> extends Specifier<S, Character, TypeConstraint<Character>> {
+    interface NumericSpecifier<S, N extends Number> extends Specifier<S, N> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface BooleanSpecifier<S> extends Specifier<S, Boolean, TypeConstraint<Boolean>> {
+    interface CharSpecifier<S> extends Specifier<S, Character> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface StringSpecifier<S> extends Specifier<S, String, StringConstraint> {
+    interface BooleanSpecifier<S> extends Specifier<S, Boolean> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface LocalDateSpecifier<S> extends Specifier<S, LocalDate, TypeConstraint<LocalDate>> {
+    interface StringSpecifier<S> extends Specifier<S, String> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface LocalTimeSpecifier<S> extends Specifier<S, LocalTime, TypeConstraint<LocalTime>> {
+    interface LocalDateSpecifier<S> extends Specifier<S, LocalDate> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface LocalDateTimeSpecifier<S> extends Specifier<S, LocalDateTime, TypeConstraint<LocalDateTime>> {
+    interface LocalTimeSpecifier<S> extends Specifier<S, LocalTime> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface ZonedDateTimeSpecifier<S> extends Specifier<S, ZonedDateTime, TypeConstraint<ZonedDateTime>> {
+    interface LocalDateTimeSpecifier<S> extends Specifier<S, LocalDateTime> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface DateSpecifier<S> extends Specifier<S, Date, TypeConstraint<Date>> {
+    interface ZonedDateTimeSpecifier<S> extends Specifier<S, ZonedDateTime> {
+    }
+
+    /**
+     * The specialized {@link Specifier}.
+     */
+    interface DateSpecifier<S> extends Specifier<S, Date> {
     }
 }

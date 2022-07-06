@@ -46,6 +46,22 @@ public class MongoTest extends MongoTestSupport {
         assert found.equals(model5);
     }
 
+    @Test
+    void updateSpecifedPropertyOnly() {
+        Person model = new Person("one", 10);
+
+        Mongo<Person> mongo = createEmptyDB(Person.class);
+        mongo.update(model);
+
+        model.age = 20;
+        model.name = "don't update";
+        mongo.update(model, Person::getAge);
+
+        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
+        assert found.age == 20;
+        assert found.name.equals("one");
+    }
+
     /**
      * 
      */
