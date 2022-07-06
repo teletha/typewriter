@@ -22,6 +22,9 @@ import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Queryable;
 import typewriter.api.Specifier;
+import typewriter.mongo.MongoConstraint.ForNumeric;
+import typewriter.mongo.MongoConstraint.ForString;
+import typewriter.mongo.MongoConstraint.GenericType;
 
 /**
  * {@link Queryable} for mongodb.
@@ -57,14 +60,14 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
      * {@inheritDoc}
      */
     @Override
-    protected <C extends Constraint<T, C>, T> C createConstraint(Class<C> type, Specifier specifier) {
-        if (type == NumericConstraint.class) {
-            return (C) new ConstraintForNumeric(specifier);
-        } else if (type == StringConstraint.class) {
-            return (C) new ConstraintForString(specifier);
+    protected <C extends Constraint<T, C>, T> C createConstraint(Class<C> constraintType, Specifier specifier) {
+        if (constraintType == NumericConstraint.class) {
+            return (C) new ForNumeric(specifier);
+        } else if (constraintType == StringConstraint.class) {
+            return (C) new ForString(specifier);
+        } else {
+            return (C) new GenericType(specifier);
         }
-
-        throw new Error("Unknown constraint [" + type + "]");
     }
 
     /**

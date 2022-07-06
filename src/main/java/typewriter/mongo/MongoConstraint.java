@@ -13,7 +13,9 @@ import java.beans.Introspector;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import org.bson.BsonDocument;
 import org.bson.conversions.Bson;
 
 import com.mongodb.client.model.Filters;
@@ -107,4 +109,121 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
         return (Self) this;
     }
 
+    /**
+     * The specialized {@link Constraint}.
+     */
+    static class GenericType<T> extends MongoConstraint<T, TypeConstraint<T>> implements TypeConstraint<T> {
+        GenericType(Specifier specifier) {
+            super(specifier);
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link Number}.
+     */
+    static class ForNumeric<V extends Number> extends MongoConstraint<V, NumericConstraint<V>> implements NumericConstraint<V> {
+
+        protected ForNumeric(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public NumericConstraint<V> lessThan(V value) {
+            filters.add(Filters.lt(propertyName, value));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public NumericConstraint<V> lessThanOrEqual(V value) {
+            filters.add(Filters.lte(propertyName, value));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public NumericConstraint<V> greaterThan(V value) {
+            filters.add(Filters.gt(propertyName, value));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public NumericConstraint<V> greaterThanOrEqual(V value) {
+            filters.add(Filters.gte(propertyName, value));
+            return this;
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link String}.
+     */
+    static class ForString extends MongoConstraint<String, StringConstraint> implements StringConstraint {
+        ForString(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint regex(String regex) {
+            filters.add(Filters.regex(propertyName, Pattern.compile(regex)));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint notEmpty() {
+            filters.add(Filters.not(Filters.eq(propertyName, "")));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint lessThan(int value) {
+            filters.add(Filters.expr(BsonDocument.parse("{$lt: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint lessThanOrEqual(int value) {
+            filters.add(Filters.expr(BsonDocument.parse("{$lte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint greaterThan(int value) {
+            filters.add(Filters.expr(BsonDocument.parse("{$gt: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint greaterThanOrEqual(int value) {
+            filters.add(Filters.expr(BsonDocument.parse("{$gte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
+            return this;
+        }
+    }
 }
