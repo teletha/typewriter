@@ -61,9 +61,9 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
      */
     @Override
     protected <C extends Constraint<T, C>, T> C createConstraint(Class<C> constraintType, Specifier specifier) {
-        if (constraintType == NumericConstraint.class) {
+        if (NumericConstraint.class.isAssignableFrom(constraintType)) {
             return (C) new ForNumeric(specifier);
-        } else if (constraintType == StringConstraint.class) {
+        } else if (StringConstraint.class.isAssignableFrom(constraintType)) {
             return (C) new ForString(specifier);
         } else {
             return (C) new GenericType(specifier);
