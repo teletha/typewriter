@@ -2,11 +2,18 @@ const root = {
 	"docs": [],
 	"modules": [],
 	"packages": [
-		"typewriter",
 		"typewriter.api",
+		"typewriter.api.model",
 		"typewriter.mongo"
 	],
 	"types": [
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "BackendedModel",
+			"packageName": "typewriter.api.model",
+			"type": "AbstractClass"
+		},
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
@@ -46,7 +53,7 @@ const root = {
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "IdentifiableModel",
-			"packageName": "typewriter",
+			"packageName": "typewriter.api.model",
 			"type": "AbstractClass"
 		},
 		{
@@ -55,6 +62,13 @@ const root = {
 			"name": "Mongo",
 			"packageName": "typewriter.mongo",
 			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "MongoModel",
+			"packageName": "typewriter.mongo",
+			"type": "AbstractClass"
 		},
 		{
 			"modifiers": {
@@ -87,9 +101,9 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "QueryableModel",
-			"packageName": "typewriter",
-			"type": "Class"
+			"name": "Restorable",
+			"packageName": "typewriter.api",
+			"type": "Functional"
 		},
 		{
 			"modifiers": {
