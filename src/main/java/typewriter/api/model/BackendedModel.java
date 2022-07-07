@@ -7,14 +7,25 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter;
+package typewriter.api.model;
 
-import typewriter.mongo.Mongo;
+import typewriter.api.Deletable;
+import typewriter.api.Restorable;
+import typewriter.api.Updatable;
 
-public class QueryableModel<M extends QueryableModel<M>> extends IdentifiableModel {
+public abstract class BackendedModel<M extends BackendedModel<M, B>, B extends Updatable & Deletable & Restorable>
+        extends IdentifiableModel {
 
-    /** Cache of DAO */
-    private Mongo<M> mongo;
+    /**
+     * Restore this model from the backend storage.
+     * 
+     * @return
+     */
+    public M restore() {
+        backend().restore(this);
+
+        return (M) this;
+    }
 
     /**
      * Save this model to the backend storage.
@@ -22,7 +33,7 @@ public class QueryableModel<M extends QueryableModel<M>> extends IdentifiableMod
      * @return
      */
     public M save() {
-        mongo().update((M) this);
+        backend().update(this);
 
         return (M) this;
     }
@@ -33,7 +44,7 @@ public class QueryableModel<M extends QueryableModel<M>> extends IdentifiableMod
      * @return
      */
     public M delete() {
-        mongo().delete((M) this);
+        backend().delete(this);
 
         return (M) this;
     }
@@ -43,10 +54,5 @@ public class QueryableModel<M extends QueryableModel<M>> extends IdentifiableMod
      * 
      * @return
      */
-    private synchronized Mongo<M> mongo() {
-        if (mongo == null) {
-            mongo = Mongo.of((Class<M>) getClass());
-        }
-        return mongo;
-    }
+    protected abstract B backend();
 }

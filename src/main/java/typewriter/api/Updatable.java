@@ -9,7 +9,9 @@
  */
 package typewriter.api;
 
-public interface Updatable<M> {
+import typewriter.api.model.IdentifiableModel;
+
+public interface Updatable<M extends IdentifiableModel> {
 
     /**
      * Update the specified model.

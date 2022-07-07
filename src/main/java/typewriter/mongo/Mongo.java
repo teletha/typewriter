@@ -42,15 +42,16 @@ import kiss.I;
 import kiss.Signal;
 import kiss.model.Model;
 import kiss.model.Property;
-import typewriter.IdentifiableModel;
 import typewriter.api.Deletable;
 import typewriter.api.Operatable;
 import typewriter.api.QueryExecutor;
+import typewriter.api.Restorable;
 import typewriter.api.Specifier;
 import typewriter.api.Updatable;
+import typewriter.api.model.IdentifiableModel;
 
 public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>>
-        implements Operatable<M>, Updatable<M>, Deletable<M> {
+        implements Operatable<M>, Updatable<M>, Deletable<M>, Restorable<M> {
 
     /** The primary key. */
     private static final String PrimaryKey = "_id";
@@ -156,6 +157,17 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             }
             return disposer;
         });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void restore(M model, Specifier<M, ?>... specifiers) {
+        Document doc = collection.find(identify(model)).first();
+        if (doc != null) {
+            decode(doc, model);
+        }
     }
 
     /**
@@ -270,8 +282,16 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * @return
      */
     private M decode(Document doc) {
-        M object = I.make(model.type);
+        return decode(doc, I.make(model.type));
+    }
 
+    /**
+     * Decode from {@link Document}.
+     * 
+     * @param doc
+     * @return
+     */
+    private M decode(Document doc, M object) {
         for (Entry<String, Object> entry : doc.entrySet()) {
             String key = entry.getKey();
             String localKey = key;

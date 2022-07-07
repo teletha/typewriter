@@ -7,7 +7,7 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter;
+package typewriter.api.model;
 
 public abstract class IdentifiableModel {
 
