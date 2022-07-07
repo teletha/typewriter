@@ -21,7 +21,7 @@ public abstract class DerivableModel extends IdentifiableModel {
     private static int counter = 1;
 
     public DerivableModel() {
-        this.id = counter++;
+        setId(counter++);
     }
 
     /**

@@ -33,7 +33,7 @@ class DeletableTest extends MongoTestSupport {
         mongo.update(model);
         mongo.delete(model, Person::getAge);
 
-        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
+        Person found = mongo.findBy(model.getId()).waitForTerminate().to().exact();
         assert found.age == 0;
         assert found.name.equals("one");
     }
@@ -46,7 +46,7 @@ class DeletableTest extends MongoTestSupport {
         mongo.update(model);
         mongo.delete(model, Person::getAge, Person::getName);
 
-        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
+        Person found = mongo.findBy(model.getId()).waitForTerminate().to().exact();
         assert found.age == 0;
         assert found.name.isEmpty();
     }

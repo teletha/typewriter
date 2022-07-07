@@ -215,7 +215,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * @return
      */
     private Bson identify(M model) {
-        return Filters.eq(PrimaryKey, model.id);
+        return Filters.eq(PrimaryKey, model.getId());
     }
 
     /**

@@ -20,7 +20,7 @@ public class MongoTest extends MongoTestSupport {
         Mongo<Person> mongo = createEmptyDB(Person.class);
         mongo.update(model);
 
-        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
+        Person found = mongo.findBy(model.getId()).waitForTerminate().to().exact();
         assert found.equals(model);
     }
 
@@ -39,10 +39,10 @@ public class MongoTest extends MongoTestSupport {
         mongo.update(model4);
         mongo.update(model5);
 
-        Person found = mongo.findBy(model3.id).waitForTerminate().to().exact();
+        Person found = mongo.findBy(model3.getId()).waitForTerminate().to().exact();
         assert found.equals(model3);
 
-        found = mongo.findBy(model5.id).waitForTerminate().to().exact();
+        found = mongo.findBy(model5.getId()).waitForTerminate().to().exact();
         assert found.equals(model5);
     }
 
@@ -57,7 +57,7 @@ public class MongoTest extends MongoTestSupport {
         model.name = "don't update";
         mongo.update(model, Person::getAge);
 
-        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
+        Person found = mongo.findBy(model.getId()).waitForTerminate().to().exact();
         assert found.age == 20;
         assert found.name.equals("one");
     }
