@@ -17,12 +17,23 @@ public class QueryableModel<M extends QueryableModel<M>> extends IdentifiableMod
     private Mongo<M> mongo;
 
     /**
-     * Save this model.
+     * Save this model to the backend storage.
      * 
      * @return
      */
     public M save() {
         mongo().update((M) this);
+
+        return (M) this;
+    }
+
+    /**
+     * Delete this model from the backend storage.
+     * 
+     * @return
+     */
+    public M delete() {
+        mongo().delete((M) this);
 
         return (M) this;
     }
