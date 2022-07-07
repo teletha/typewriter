@@ -137,14 +137,14 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * {@inheritDoc}
      */
     @Override
-    public void delete(long id, Specifier<M, ?>... specifiers) {
+    public void delete(M model, Specifier<M, ?>... specifiers) {
         if (model == null) {
             return;
         }
 
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            collection.deleteOne(identify(id));
+            collection.deleteOne(identify(model));
         } else {
             // delete properties
             List<Bson> operations = new ArrayList();
@@ -153,7 +153,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
                     operations.add(Updates.unset(specifier.propertyName()));
                 }
             }
-            collection.updateOne(identify(id), Updates.combine(operations));
+            collection.updateOne(identify(model), Updates.combine(operations));
         }
     }
 
@@ -168,7 +168,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
 
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            collection.replaceOne(identify(model.id), encode(model), new ReplaceOptions().upsert(true));
+            collection.replaceOne(identify(model), encode(model), new ReplaceOptions().upsert(true));
         } else {
             // update properties
             Model m = Model.of(model);
@@ -181,7 +181,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
                     operations.add(Updates.set(name, m.get(model, property)));
                 }
             }
-            collection.updateOne(identify(model.id), Updates.combine(operations), new UpdateOptions().upsert(true));
+            collection.updateOne(identify(model), Updates.combine(operations), new UpdateOptions().upsert(true));
         }
     }
 
@@ -214,8 +214,8 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * @param model
      * @return
      */
-    private Bson identify(long id) {
-        return Filters.eq(PrimaryKey, id);
+    private Bson identify(M model) {
+        return Filters.eq(PrimaryKey, model.id);
     }
 
     /**

@@ -38,36 +38,5 @@ public interface Deletable<M extends IdentifiableModel> {
      * @param model A target model.
      * @param specifiers A list of property {@link Specifier}.
      */
-    default void delete(M model, Specifier<M, ?>... specifiers) {
-        if (model != null) {
-            delete(model.id, specifiers);
-        }
-    }
-
-    /**
-     * Delete the specified model.
-     * 
-     * @param id An id of target model.
-     */
-    default void delete(long id) {
-        delete(id, (Specifier[]) null);
-    }
-
-    /**
-     * Delete the property of the given model.
-     * 
-     * @param id An id of target model.
-     * @param specifier A property {@link Specifier}.
-     */
-    default void delete(long id, Specifier<M, ?> specifier) {
-        delete(id, new Specifier[] {specifier});
-    }
-
-    /**
-     * Delete the properties of the given model.
-     * 
-     * @param id An id of target model.
-     * @param specifiers A list of property {@link Specifier}.
-     */
-    void delete(long id, Specifier<M, ?>... specifiers);
+    void delete(M model, Specifier<M, ?>... specifiers);
 }

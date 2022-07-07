@@ -26,18 +26,6 @@ class DeletableTest extends MongoTestSupport {
     }
 
     @Test
-    void deleteModelByID() {
-        Person model = new Person("one", 10);
-
-        Mongo<Person> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
-        assert mongo.count() == 1;
-
-        mongo.delete(model.id);
-        assert mongo.count() == 0;
-    }
-
-    @Test
     void deleteSpecifedProperty() {
         Person model = new Person("one", 10);
 
@@ -51,38 +39,12 @@ class DeletableTest extends MongoTestSupport {
     }
 
     @Test
-    void deleteSpecifedPropertyByID() {
-        Person model = new Person("one", 10);
-
-        Mongo<Person> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
-        mongo.delete(model.id, Person::getAge);
-
-        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
-        assert found.age == 0;
-        assert found.name.equals("one");
-    }
-
-    @Test
     void deleteSpecifedProperties() {
         Person model = new Person("one", 10);
 
         Mongo<Person> mongo = createEmptyDB(Person.class);
         mongo.update(model);
         mongo.delete(model, Person::getAge, Person::getName);
-
-        Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
-        assert found.age == 0;
-        assert found.name.isEmpty();
-    }
-
-    @Test
-    void deleteSpecifedPropertiesByID() {
-        Person model = new Person("one", 10);
-
-        Mongo<Person> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
-        mongo.delete(model.id, Person::getAge, Person::getName);
 
         Person found = mongo.findBy(model.id).waitForTerminate().to().exact();
         assert found.age == 0;
