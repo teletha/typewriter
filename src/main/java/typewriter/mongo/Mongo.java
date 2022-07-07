@@ -9,12 +9,18 @@
  */
 package typewriter.mongo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiFunction;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -51,6 +57,25 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
 
     /** The local identical key. */
     private static final String IdenticalKey = "id";
+
+    /** The decoder manager. */
+    private static final Map<Class, BiFunction<Document, String, ?>> decoders = new HashMap();
+
+    /** The default decorder. */
+    private static final BiFunction<Document, String, ?> defaultDecoder = Document::get;
+
+    // register built-in decoders
+    static {
+        decoders.put(LocalDate.class, (doc, key) -> {
+            return LocalDate.ofInstant(doc.getDate(key).toInstant(), ZoneId.systemDefault());
+        });
+        decoders.put(LocalTime.class, (doc, key) -> {
+            return LocalTime.ofInstant(doc.getDate(key).toInstant(), ZoneId.systemDefault());
+        });
+        decoders.put(LocalDateTime.class, (doc, key) -> {
+            return LocalDateTime.ofInstant(doc.getDate(key).toInstant(), ZoneId.systemDefault());
+        });
+    }
 
     /** The reusabel {@link Mongo} cache. */
     private static final Map<Class, Mongo> Cache = new ConcurrentHashMap();
@@ -255,7 +280,10 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             }
 
             Property property = model.property(localKey);
-            model.set(object, property, doc.get(key));
+            Class type = property.model.type;
+            Object value = decoders.getOrDefault(type, defaultDecoder).apply(doc, key);
+
+            model.set(object, property, value);
         }
 
         return object;
@@ -271,5 +299,4 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     public static <M extends IdentifiableModel> Mongo<M> of(Class<M> model) {
         return Cache.computeIfAbsent(model, key -> new Mongo(key));
     }
-
 }
