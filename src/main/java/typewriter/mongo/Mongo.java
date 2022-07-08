@@ -163,11 +163,19 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * {@inheritDoc}
      */
     @Override
-    public void restore(M model, Specifier<M, ?>... specifiers) {
-        Document doc = collection.find(identify(model)).first();
-        if (doc != null) {
-            decode(doc, model);
-        }
+    public Signal<M> restore(M model, Specifier<M, ?>... specifiers) {
+        return new Signal<M>((observer, disposer) -> {
+            try {
+                Document doc = collection.find(identify(model)).first();
+                if (doc != null) {
+                    observer.accept(decode(doc, model));
+                }
+                observer.complete();
+            } catch (Throwable e) {
+                observer.error(e);
+            }
+            return disposer;
+        });
     }
 
     /**

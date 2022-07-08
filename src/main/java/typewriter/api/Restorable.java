@@ -9,6 +9,7 @@
  */
 package typewriter.api;
 
+import kiss.Signal;
 import typewriter.api.model.IdentifiableModel;
 
 public interface Restorable<M extends IdentifiableModel> {
@@ -17,9 +18,10 @@ public interface Restorable<M extends IdentifiableModel> {
      * Restore the specified model.
      * 
      * @param model A target model.
+     * @return The stream for restored model.
      */
-    default void restore(M model) {
-        restore(model, (Specifier[]) null);
+    default Signal<M> restore(M model) {
+        return restore(model, (Specifier[]) null);
     }
 
     /**
@@ -27,9 +29,10 @@ public interface Restorable<M extends IdentifiableModel> {
      * 
      * @param model A target model.
      * @param specifier A property {@link Specifier}.
+     * @return The stream for restored model.
      */
-    default void restore(M model, Specifier<M, ?> specifier) {
-        restore(model, new Specifier[] {specifier});
+    default Signal<M> restore(M model, Specifier<M, ?> specifier) {
+        return restore(model, new Specifier[] {specifier});
     }
 
     /**
@@ -37,6 +40,7 @@ public interface Restorable<M extends IdentifiableModel> {
      * 
      * @param model A target model.
      * @param specifiers A list of property {@link Specifier}.
+     * @return The stream for restored model.
      */
-    void restore(M model, Specifier<M, ?>... specifiers);
+    Signal<M> restore(M model, Specifier<M, ?>... specifiers);
 }

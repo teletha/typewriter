@@ -11,7 +11,7 @@ package typewriter.mongo;
 
 import typewriter.api.model.BackendedModel;
 
-public abstract class MongoModel<Self extends MongoModel<Self>> extends BackendedModel<Self, Mongo> {
+public abstract class MongoModel<Self extends MongoModel<Self>> extends BackendedModel<Self, Mongo<Self>> {
 
     /**
      * {@inheritDoc}

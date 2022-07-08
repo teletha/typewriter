@@ -9,11 +9,13 @@
  */
 package typewriter.api.model;
 
+import java.util.function.Consumer;
+
 import typewriter.api.Deletable;
 import typewriter.api.Restorable;
 import typewriter.api.Updatable;
 
-public abstract class BackendedModel<M extends BackendedModel<M, B>, B extends Updatable & Deletable & Restorable>
+public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO extends Updatable<M> & Deletable<M> & Restorable<M>>
         extends IdentifiableModel {
 
     /**
@@ -22,8 +24,19 @@ public abstract class BackendedModel<M extends BackendedModel<M, B>, B extends U
      * @return
      */
     public M restore() {
-        backend().restore(this);
+        return restore(model -> {
+        });
+    }
 
+    /**
+     * Restore this model from the backend storage.
+     * 
+     * @return
+     */
+    public M restore(Consumer<M> model) {
+        if (model != null) {
+            backend().restore((M) this).to(model::accept);
+        }
         return (M) this;
     }
 
@@ -33,7 +46,7 @@ public abstract class BackendedModel<M extends BackendedModel<M, B>, B extends U
      * @return
      */
     public M save() {
-        backend().update(this);
+        backend().update((M) this);
 
         return (M) this;
     }
@@ -44,7 +57,7 @@ public abstract class BackendedModel<M extends BackendedModel<M, B>, B extends U
      * @return
      */
     public M delete() {
-        backend().delete(this);
+        backend().delete((M) this);
 
         return (M) this;
     }
@@ -54,5 +67,5 @@ public abstract class BackendedModel<M extends BackendedModel<M, B>, B extends U
      * 
      * @return
      */
-    protected abstract B backend();
+    protected abstract DAO backend();
 }
