@@ -24,7 +24,7 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     public M restore() {
-        return restore(null);
+        return restore((Consumer<M>) null);
     }
 
     /**
@@ -37,7 +37,8 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
             completion = m -> {
             };
         }
-        backend().restore((M) this).to(completion::accept);
+
+        backend().restore((M) this).or((M) this).to(completion::accept);
 
         return (M) this;
     }
