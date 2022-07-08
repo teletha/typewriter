@@ -46,6 +46,6 @@ public class MongoTestSupport {
      * @return
      */
     protected <M extends DerivableModel> Mongo<M> createEmptyDB(Class<M> type) {
-        return new Mongo<>(client, type);
+        return new Mongo<>(type, client);
     }
 }

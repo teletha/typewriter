@@ -97,14 +97,14 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * @param model
      */
     private Mongo(Class<M> model) {
-        this(null, model);
+        this(model, null);
     }
 
     /**
-     * @param client
      * @param model
+     * @param client
      */
-    Mongo(MongoClient client, Class<M> model) {
+    Mongo(Class<M> model, MongoClient client) {
         this.model = Model.of(model);
         this.db = Objects.requireNonNullElse(client, Client).getDatabase("master");
         this.collection = db.getCollection(model.getName().replace('$', '#'));
