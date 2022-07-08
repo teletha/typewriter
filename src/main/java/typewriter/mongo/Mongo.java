@@ -231,12 +231,12 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     }
 
     /**
-     * Watch the stream of property changed events.
+     * Watch the property modification.
      * 
      * @return
      */
     public Signal<M> watch() {
-        return new Signal<>((observer, disposer) -> {
+        return new Signal<M>((observer, disposer) -> {
             try {
                 MongoCursor<ChangeStreamDocument<Document>> iterator = collection.watch()
                         .fullDocument(FullDocument.UPDATE_LOOKUP)
@@ -250,7 +250,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
                 observer.error(e);
             }
             return disposer;
-        });
+        }).subscribeOn(I::schedule);
     }
 
     /**
