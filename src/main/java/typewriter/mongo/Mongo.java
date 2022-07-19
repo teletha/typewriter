@@ -277,6 +277,11 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             if (name.equals(IdenticalKey)) {
                 name = PrimaryKey;
             }
+
+            Class type = p.model.type;
+            if (type.isEnum()) {
+                v = I.transform(v, String.class);
+            }
             doc.put(name, v);
         });
 
@@ -309,7 +314,12 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
 
             Property property = model.property(localKey);
             Class type = property.model.type;
-            Object value = decoders.getOrDefault(type, defaultDecoder).apply(doc, key);
+            Object value;
+            if (type.isEnum()) {
+                value = I.transform(doc.getString(key), type);
+            } else {
+                value = decoders.getOrDefault(type, defaultDecoder).apply(doc, key);
+            }
 
             model.set(object, property, value);
         }
