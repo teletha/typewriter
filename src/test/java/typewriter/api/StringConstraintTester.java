@@ -1,0 +1,148 @@
+/*
+ * Copyright (C) 2022 Nameless Production Committee
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          http://opensource.org/licenses/mit-license.php
+ */
+package typewriter.api;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import kiss.Signal;
+
+public interface StringConstraintTester extends Testable {
+
+    @Test
+    default void is() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.is("one")).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model1);
+    }
+
+    @Test
+    default void isNot() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.isNot("one")).toList();
+        assert founds.size() == 2;
+        assert founds.get(0).equals(model2);
+        assert founds.get(1).equals(model3);
+    }
+
+    @Test
+    default void lessThan() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.lessThan(4)).toList();
+        assert founds.size() == 2;
+        assert founds.get(0).equals(model1);
+        assert founds.get(1).equals(model2);
+    }
+
+    @Test
+    default void lessThanOrEqual() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.lessThanOrEqual(3)).toList();
+        assert founds.size() == 2;
+        assert founds.get(0).equals(model1);
+        assert founds.get(1).equals(model2);
+    }
+
+    @Test
+    default void greaterThan() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.greaterThan(3)).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model3);
+    }
+
+    @Test
+    default void greaterThanOrEqual() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
+        mongo.update(model1);
+        mongo.update(model2);
+        mongo.update(model3);
+
+        List<Person> founds = mongo.findBy(Person::getName, c -> c.greaterThanOrEqual(4)).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model3);
+    }
+
+    /**
+     * 
+     */
+    class Person extends DerivableModel {
+
+        public String name;
+
+        /**
+         * Create empty model.
+         */
+        private Person() {
+        }
+
+        /**
+         * @param name
+         */
+        private Person(String name) {
+            this.name = name;
+        }
+
+        /**
+         * Get the name property of this {@link StringConstraintTester.Person}.
+         * 
+         * @return The name property.
+         */
+        public String getName() {
+            return name;
+        }
+    }
+}

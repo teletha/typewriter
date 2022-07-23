@@ -17,8 +17,12 @@ import com.mongodb.client.MongoClients;
 
 import de.bwaldvogel.mongo.MongoServer;
 import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
+import kiss.Signal;
+import typewriter.api.QueryExecutor;
+import typewriter.api.Testable;
+import typewriter.api.model.IdentifiableModel;
 
-public class MongoTestSupport {
+public class MongoTestSupport implements Testable {
 
     /** The mocked mongodb server. */
     private MongoServer server;
@@ -39,13 +43,10 @@ public class MongoTestSupport {
     }
 
     /**
-     * Create empty database.
-     * 
-     * @param <M>
-     * @param type
-     * @return
+     * {@inheritDoc}
      */
-    protected <M extends DerivableModel> Mongo<M> createEmptyDB(Class<M> type) {
+    @Override
+    public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
         return new Mongo<>(type, client);
     }
 }

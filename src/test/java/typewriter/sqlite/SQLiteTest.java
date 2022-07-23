@@ -7,9 +7,9 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.mongo;
+package typewriter.sqlite;
 
-import typewriter.api.StringConstraintTester;
+import typewriter.api.QueryExecutorTester;
 
-public class StringConstraintTest extends MongoTestSupport implements StringConstraintTester {
+public class SQLiteTest extends SQLiteTestSupport implements QueryExecutorTester {
 }

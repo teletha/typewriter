@@ -42,16 +42,11 @@ import kiss.I;
 import kiss.Signal;
 import kiss.model.Model;
 import kiss.model.Property;
-import typewriter.api.Deletable;
-import typewriter.api.Operatable;
 import typewriter.api.QueryExecutor;
-import typewriter.api.Restorable;
 import typewriter.api.Specifier;
-import typewriter.api.Updatable;
 import typewriter.api.model.IdentifiableModel;
 
-public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>>
-        implements Operatable<M>, Updatable<M>, Deletable<M>, Restorable<M> {
+public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>> {
 
     /** The primary key. */
     private static final String PrimaryKey = "_id";
@@ -124,6 +119,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * @param id
      * @return
      */
+    @Override
     public Signal<M> findBy(long id) {
         return findBy(Filters.eq(PrimaryKey, id));
     }
@@ -320,10 +316,8 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             } else {
                 value = decoders.getOrDefault(type, defaultDecoder).apply(doc, key);
             }
-
             model.set(object, property, value);
         }
-
         return object;
     }
 

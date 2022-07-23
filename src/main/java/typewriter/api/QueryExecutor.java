@@ -15,8 +15,10 @@ import java.util.function.UnaryOperator;
 
 import kiss.I;
 import kiss.model.Model;
+import typewriter.api.model.IdentifiableModel;
 
-public abstract class QueryExecutor<M, R, Q extends Queryable<M, Q>> extends Queryable<M, R> {
+public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Queryable<M, Q>> extends Queryable<M, R>
+        implements Operatable<M>, Updatable<M>, Deletable<M>, Restorable<M> {
 
     /**
      * Create {@link Queryable}.
@@ -38,6 +40,16 @@ public abstract class QueryExecutor<M, R, Q extends Queryable<M, Q>> extends Que
     @Override
     protected <C extends Constraint<T, C>, T> C createConstraint(Class<C> type, Specifier specifier) {
         return createQueryable().createConstraint(type, specifier);
+    }
+
+    /**
+     * Find model by id.
+     * 
+     * @param id An identifier of the target model.
+     * @return A reuslt stream.
+     */
+    public R findBy(long id) {
+        return findBy(M::getId, v -> v.is(id));
     }
 
     /**
