@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import typewriter.api.IntConstraintTester;
+import typewriter.api.IntConstraintTestSet;
 
-public class IntConstraintTest extends MongoTestSupport implements IntConstraintTester {
+public class IntConstraintTest extends MongoTestBase implements IntConstraintTestSet {
 }

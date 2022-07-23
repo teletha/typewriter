@@ -22,7 +22,7 @@ import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
 
-public class MongoTestSupport implements Testable {
+public class MongoTestBase implements Testable {
 
     /** The mocked mongodb server. */
     private MongoServer server;

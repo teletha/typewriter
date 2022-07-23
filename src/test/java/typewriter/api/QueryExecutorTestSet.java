@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
 
-public interface QueryExecutorTester extends Testable {
+public interface QueryExecutorTestSet extends Testable {
 
     @Test
     default void saveModel() {
@@ -91,7 +91,7 @@ public interface QueryExecutorTester extends Testable {
         }
 
         /**
-         * Get the name property of this {@link QueryExecutorTester.Person}.
+         * Get the name property of this {@link QueryExecutorTestSet.Person}.
          * 
          * @return The name property.
          */
@@ -100,7 +100,7 @@ public interface QueryExecutorTester extends Testable {
         }
 
         /**
-         * Set the name property of this {@link QueryExecutorTester.Person}.
+         * Set the name property of this {@link QueryExecutorTestSet.Person}.
          * 
          * @param name The name value to set.
          */
@@ -109,7 +109,7 @@ public interface QueryExecutorTester extends Testable {
         }
 
         /**
-         * Get the age property of this {@link QueryExecutorTester.Person}.
+         * Get the age property of this {@link QueryExecutorTestSet.Person}.
          * 
          * @return The age property.
          */
@@ -118,7 +118,7 @@ public interface QueryExecutorTester extends Testable {
         }
 
         /**
-         * Set the age property of this {@link QueryExecutorTester.Person}.
+         * Set the age property of this {@link QueryExecutorTestSet.Person}.
          * 
          * @param age The age value to set.
          */
@@ -127,7 +127,7 @@ public interface QueryExecutorTester extends Testable {
         }
 
         /**
-         * Get the marked property of this {@link QueryExecutorTester.Person}.
+         * Get the marked property of this {@link QueryExecutorTestSet.Person}.
          * 
          * @return The marked property.
          */
@@ -136,7 +136,7 @@ public interface QueryExecutorTester extends Testable {
         }
 
         /**
-         * Set the marked property of this {@link QueryExecutorTester.Person}.
+         * Set the marked property of this {@link QueryExecutorTestSet.Person}.
          * 
          * @param marked The marked value to set.
          */

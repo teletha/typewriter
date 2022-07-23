@@ -14,10 +14,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import kiss.I;
 import kiss.Signal;
@@ -41,6 +43,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
     /** The associated database. */
     private final Connection db;
 
+    /** CACHE */
     private final Statement statement;
 
     /**
@@ -112,14 +115,14 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
     public Signal<M> findBy(SQLiteQuery<M> query) {
         return new Signal<>((observer, disposer) -> {
             try {
-                List<Property> properties = this.model.properties();
-                ResultSet result = statement.executeQuery("select * from " + tableName + " " + query);
+                List<Property> properties = model.properties();
+                ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " " + query);
                 while (result.next()) {
-                    M model = I.make(this.model.type);
+                    M instance = I.make(this.model.type);
                     for (Property property : properties) {
-                        this.model.set(model, property, decode(property, result));
+                        this.model.set(instance, property, decode(property, result));
                     }
-                    observer.accept(model);
+                    observer.accept(instance);
                 }
                 observer.complete();
             } catch (Throwable e) {
@@ -155,16 +158,50 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * {@inheritDoc}
      */
     @Override
-    public Signal<M> restore(M model, Specifier<M, ?>... specifiers) {
-        throw new Error();
+    public Signal<M> restore(M instance, Specifier<M, ?>... specifiers) {
+        return new Signal<>((observer, disposer) -> {
+            try {
+                List<Property> properties = new ArrayList();
+                if (specifiers != null) {
+                    for (Specifier<M, ?> specifier : specifiers) {
+                        if (specifier != null) {
+                            properties.add(model.property(specifier.propertyName()));
+                        }
+                    }
+                }
+
+                if (properties.isEmpty()) {
+                    properties = model.properties();
+                }
+
+                StringBuilder builder = new StringBuilder().append("SELECT ")
+                        .append(properties.stream().map(p -> p.name).collect(Collectors.joining(",")))
+                        .append(" FROM ")
+                        .append(tableName)
+                        .append(" WHERE id=")
+                        .append(instance.getId());
+
+                ResultSet result = statement.executeQuery(builder.toString());
+                if (result.next()) {
+                    for (Property property : properties) {
+                        this.model.set(instance, property, decode(property, result));
+                    }
+                    observer.accept(instance);
+                }
+                observer.complete();
+            } catch (Throwable e) {
+                observer.error(e);
+            }
+            return disposer;
+        });
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void delete(M model, Specifier<M, ?>... specifiers) {
-        if (model == null) {
+    public void delete(M instance, Specifier<M, ?>... specifiers) {
+        if (instance == null) {
             return;
         }
 
@@ -172,7 +209,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
 
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            builder.append("DELETE FROM ").append(tableName).append(" WHERE id=").append(model.getId());
+            builder.append("DELETE FROM ").append(tableName).append(" WHERE id=").append(instance.getId());
         } else {
             // delete properties
             builder.append("UPDATE ").append(tableName).append(" SET ");
@@ -180,11 +217,11 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             for (Specifier<M, ?> specifier : specifiers) {
                 if (specifier != null) {
                     if (count++ != 0) builder.append(',');
-                    Property property = this.model.property(specifier.propertyName());
+                    Property property = model.property(specifier.propertyName());
                     builder.append(property.name).append("=NULL");
                 }
             }
-            builder.append(" WHERE id=").append(model.getId());
+            builder.append(" WHERE id=").append(instance.getId());
         }
 
         execute(builder);
@@ -194,8 +231,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * {@inheritDoc}
      */
     @Override
-    public void update(M model, Specifier<M, ?>... specifiers) {
-        if (model == null) {
+    public void update(M instance, Specifier<M, ?>... specifiers) {
+        if (instance == null) {
             return;
         }
 
@@ -205,11 +242,11 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             // update model
             builder.append("REPLACE INTO ").append(tableName).append(" VALUES(");
 
-            List<Property> properties = this.model.properties();
+            List<Property> properties = model.properties();
             for (int i = 0; i < properties.size(); i++) {
                 if (i != 0) builder.append(',');
                 Property property = properties.get(i);
-                builder.append(encode(property.model.type, this.model.get(model, property)));
+                builder.append(encode(property.model.type, model.get(instance, property)));
             }
             builder.append(")");
         } else {
@@ -219,11 +256,11 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             for (Specifier<M, ?> specifier : specifiers) {
                 if (specifier != null) {
                     if (count++ != 0) builder.append(',');
-                    Property property = this.model.property(specifier.propertyName());
-                    builder.append(property.name).append("=").append(encode(property.model.type, this.model.get(model, property)));
+                    Property property = model.property(specifier.propertyName());
+                    builder.append(property.name).append("=").append(encode(property.model.type, model.get(instance, property)));
                 }
             }
-            builder.append(" WHERE id=").append(model.getId());
+            builder.append(" WHERE id=").append(instance.getId());
         }
 
         execute(builder);

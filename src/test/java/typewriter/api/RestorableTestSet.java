@@ -13,44 +13,57 @@ import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
 
-public interface DeletableTester extends Testable {
+public interface RestorableTestSet extends Testable {
 
     @Test
-    default void deleteModel() {
+    default void restoreModel() {
         Person model = new Person("one", 10);
 
         QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
         mongo.update(model);
-        assert mongo.count() == 1;
 
-        mongo.delete(model);
-        assert mongo.count() == 0;
+        // change local model
+        model.age = 20;
+        model.name = "change";
+
+        // restore model from backend
+        mongo.restore(model).to();
+        assert model.age == 10;
+        assert model.name.equals("one");
     }
 
     @Test
-    default void deleteSpecifedProperty() {
+    default void restoreSpecifedProperty() {
         Person model = new Person("one", 10);
 
         QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
         mongo.update(model);
-        mongo.delete(model, Person::getAge);
 
-        Person found = mongo.findBy(model.getId()).to().exact();
-        assert found.age == 0;
-        assert found.name.equals("one");
+        // change local model
+        model.age = 20;
+        model.name = "change";
+
+        // restore model from backend
+        mongo.restore(model, Person::getName).to();
+        assert model.age == 20;
+        assert model.name.equals("one");
     }
 
     @Test
-    default void deleteSpecifedProperties() {
+    default void restoreSpecifedProperties() {
         Person model = new Person("one", 10);
 
         QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
         mongo.update(model);
-        mongo.delete(model, Person::getAge, Person::getName);
 
-        Person found = mongo.findBy(model.getId()).to().exact();
-        assert found.age == 0;
-        assert found.name == null;
+        // change local model
+        model.age = 20;
+        model.name = "change";
+
+        // restore model from backend
+        mongo.restore(model, Person::getName, Person::getAge).to();
+        assert model.age == 10;
+        assert model.name.equals("one");
     }
 
     /**
@@ -78,7 +91,7 @@ public interface DeletableTester extends Testable {
         }
 
         /**
-         * Get the name property of this {@link DeletableTester.Person}.
+         * Get the name property of this {@link RestorableTestSet.Person}.
          * 
          * @return The name property.
          */
@@ -87,7 +100,7 @@ public interface DeletableTester extends Testable {
         }
 
         /**
-         * Get the age property of this {@link DeletableTester.Person}.
+         * Get the age property of this {@link RestorableTestSet.Person}.
          * 
          * @return The age property.
          */

@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import typewriter.api.QueryExecutorTester;
+import typewriter.api.QueryExecutorTestSet;
 
-public class MongoTest extends MongoTestSupport implements QueryExecutorTester {
+public class MongoTest extends MongoTestBase implements QueryExecutorTestSet {
 }

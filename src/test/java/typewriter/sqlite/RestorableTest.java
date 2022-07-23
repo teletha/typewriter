@@ -7,9 +7,9 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.mongo;
+package typewriter.sqlite;
 
-import typewriter.api.DeletableTestSet;
+import typewriter.api.RestorableTestSet;
 
-public class DeletableTest extends MongoTestBase implements DeletableTestSet {
+public class RestorableTest extends SQLiteTestBase implements RestorableTestSet {
 }

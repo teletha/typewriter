@@ -32,6 +32,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
@@ -162,7 +163,17 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     public Signal<M> restore(M model, Specifier<M, ?>... specifiers) {
         return new Signal<M>((observer, disposer) -> {
             try {
-                Document doc = collection.find(identify(model)).first();
+                List<String> names = new ArrayList();
+                if (specifiers != null) {
+                    for (Specifier<M, ?> specifier : specifiers) {
+                        if (specifier != null) {
+                            names.add(specifier.propertyName());
+                        }
+                    }
+                }
+
+                Document doc = collection.find(identify(model)).projection(names.isEmpty() ? null : Projections.include(names)).first();
+
                 if (doc != null) {
                     observer.accept(decode(doc, model));
                 }

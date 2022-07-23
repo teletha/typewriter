@@ -9,7 +9,7 @@
  */
 package typewriter.sqlite;
 
-import typewriter.api.QueryExecutorTester;
+import typewriter.api.QueryExecutorTestSet;
 
-public class SQLiteTest extends SQLiteTestSupport implements QueryExecutorTester {
+public class SQLiteTest extends SQLiteTestBase implements QueryExecutorTestSet {
 }

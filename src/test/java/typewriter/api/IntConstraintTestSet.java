@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
 
-public interface IntConstraintTester extends Testable {
+public interface IntConstraintTestSet extends Testable {
 
     @Test
     default void is() {
@@ -136,7 +136,7 @@ public interface IntConstraintTester extends Testable {
         }
 
         /**
-         * Get the age property of this {@link IntConstraintTester.Person}.
+         * Get the age property of this {@link IntConstraintTestSet.Person}.
          * 
          * @return The age property.
          */

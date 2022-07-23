@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
 
-public interface StringConstraintTester extends Testable {
+public interface StringConstraintTestSet extends Testable {
 
     @Test
     default void is() {
@@ -137,7 +137,7 @@ public interface StringConstraintTester extends Testable {
         }
 
         /**
-         * Get the name property of this {@link StringConstraintTester.Person}.
+         * Get the name property of this {@link StringConstraintTestSet.Person}.
          * 
          * @return The name property.
          */

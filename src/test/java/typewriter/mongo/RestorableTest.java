@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import typewriter.api.DeletableTestSet;
+import typewriter.api.RestorableTestSet;
 
-public class DeletableTest extends MongoTestBase implements DeletableTestSet {
+public class RestorableTest extends MongoTestBase implements RestorableTestSet {
 }

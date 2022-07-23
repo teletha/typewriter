@@ -9,7 +9,7 @@
  */
 package typewriter.sqlite;
 
-import typewriter.api.DeletableTester;
+import typewriter.api.DeletableTestSet;
 
-public class DeletableTest extends SQLiteTestSupport implements DeletableTester {
+public class DeletableTest extends SQLiteTestBase implements DeletableTestSet {
 }

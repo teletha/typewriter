@@ -9,7 +9,7 @@
  */
 package typewriter.sqlite;
 
-import typewriter.api.IntConstraintTester;
+import typewriter.api.IntConstraintTestSet;
 
-public class IntConstraintTest extends SQLiteTestSupport implements IntConstraintTester {
+public class IntConstraintTest extends SQLiteTestBase implements IntConstraintTestSet {
 }
