@@ -9,12 +9,19 @@
  */
 package typewriter.sqlite;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import kiss.Signal;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
 
 public class SQLiteTestBase implements Testable {
+
+    @BeforeEach
+    void setup() {
+        SQLite.close();
+    }
 
     /**
      * {@inheritDoc}
