@@ -23,12 +23,12 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getAge, c -> c.is(10)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.is(10)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model1);
     }
@@ -39,12 +39,12 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getAge, c -> c.isNot(10)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isNot(10)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model2);
         assert founds.get(1).equals(model3);
@@ -56,12 +56,12 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getAge, c -> c.lessThan(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.lessThan(20)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model1);
     }
@@ -72,12 +72,12 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getAge, c -> c.lessThanOrEqual(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.lessThanOrEqual(20)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model1);
         assert founds.get(1).equals(model2);
@@ -89,12 +89,12 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getAge, c -> c.greaterThan(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.greaterThan(20)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model3);
     }
@@ -105,12 +105,12 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getAge, c -> c.greaterThanOrEqual(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.greaterThanOrEqual(20)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model2);
         assert founds.get(1).equals(model3);

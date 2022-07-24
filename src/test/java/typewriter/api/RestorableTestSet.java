@@ -19,15 +19,15 @@ public interface RestorableTestSet extends Testable {
     default void restoreModel() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
 
         // change local model
         model.age = 20;
         model.name = "change";
 
         // restore model from backend
-        mongo.restore(model).to();
+        dao.restore(model).to();
         assert model.age == 10;
         assert model.name.equals("one");
     }
@@ -36,15 +36,15 @@ public interface RestorableTestSet extends Testable {
     default void restoreSpecifedProperty() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
 
         // change local model
         model.age = 20;
         model.name = "change";
 
         // restore model from backend
-        mongo.restore(model, Person::getName).to();
+        dao.restore(model, Person::getName).to();
         assert model.age == 20;
         assert model.name.equals("one");
     }
@@ -53,15 +53,15 @@ public interface RestorableTestSet extends Testable {
     default void restoreSpecifedProperties() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
 
         // change local model
         model.age = 20;
         model.name = "change";
 
         // restore model from backend
-        mongo.restore(model, Person::getName, Person::getAge).to();
+        dao.restore(model, Person::getName, Person::getAge).to();
         assert model.age == 10;
         assert model.name.equals("one");
     }

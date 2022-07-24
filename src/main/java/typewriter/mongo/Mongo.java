@@ -41,6 +41,7 @@ import com.mongodb.client.model.changestream.FullDocument;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.WiseSupplier;
 import kiss.model.Model;
 import kiss.model.Property;
 import typewriter.api.QueryExecutor;
@@ -235,6 +236,14 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             }
             collection.updateOne(identify(model), Updates.combine(operations), new UpdateOptions().upsert(true));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <R> R transact(WiseSupplier<R> operation) {
+        throw new UnsupportedOperationException();
     }
 
     /**

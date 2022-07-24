@@ -18,7 +18,7 @@ import kiss.model.Model;
 import typewriter.api.model.IdentifiableModel;
 
 public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Queryable<M, Q>> extends Queryable<M, R>
-        implements Operatable<M>, Updatable<M>, Deletable<M>, Restorable<M> {
+        implements Operatable<M>, Updatable<M>, Deletable<M>, Restorable<M>, Transactional {
 
     /**
      * Create {@link Queryable}.

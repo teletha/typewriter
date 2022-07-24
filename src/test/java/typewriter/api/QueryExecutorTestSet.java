@@ -19,10 +19,10 @@ public interface QueryExecutorTestSet extends Testable {
     default void saveModel() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
 
-        Person found = mongo.findBy(model.getId()).to().exact();
+        Person found = dao.findBy(model.getId()).to().exact();
         assert found.equals(model);
     }
 
@@ -34,17 +34,17 @@ public interface QueryExecutorTestSet extends Testable {
         Person model4 = new Person("four", 40);
         Person model5 = new Person("five", 50);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
-        mongo.update(model4);
-        mongo.update(model5);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+        dao.update(model5);
 
-        Person found = mongo.findBy(model3.getId()).to().exact();
+        Person found = dao.findBy(model3.getId()).to().exact();
         assert found.equals(model3);
 
-        found = mongo.findBy(model5.getId()).to().exact();
+        found = dao.findBy(model5.getId()).to().exact();
         assert found.equals(model5);
     }
 
@@ -52,14 +52,14 @@ public interface QueryExecutorTestSet extends Testable {
     default void updateSpecifedPropertyOnly() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
 
         model.age = 20;
         model.name = "don't update";
-        mongo.update(model, Person::getAge);
+        dao.update(model, Person::getAge);
 
-        Person found = mongo.findBy(model.getId()).to().exact();
+        Person found = dao.findBy(model.getId()).to().exact();
         assert found.age == 20;
         assert found.name.equals("one");
     }

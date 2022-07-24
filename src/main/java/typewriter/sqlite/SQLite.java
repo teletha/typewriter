@@ -18,12 +18,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.WiseFunction;
+import kiss.WiseSupplier;
 import kiss.model.Model;
 import kiss.model.Property;
 import typewriter.api.QueryExecutor;
@@ -47,42 +50,80 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
     /** The reusable DB connection. */
     private final Connection connection;
 
-    /** The reusable DB query executor. */
-    private final Statement statement;
-
     /**
-     * @param model
+     * Hide constructor.
+     * 
+     * @param type A model type.
+     * @param url A database location.
      */
-    private SQLite(Class<M> model) {
-        this(model, "jdbc:sqlite::sample.db");
+    SQLite(Class<M> type, String url) {
+        url = Objects.requireNonNullElse(url, I.env("sqlite", "jdbc:sqlite::memory:"));
+
+        this.model = Model.of(type);
+        this.tableName = '"' + type.getName() + '"';
+        this.connection = ConnectionPool.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
+
+        // pragma
+        execute("PRAGMA journal_mode=wal");
+        execute("PRAGMA sync_mode=off");
+
+        // create table
+        execute("CREATE TABLE IF NOT EXISTS", tableName, definition(model.properties()));
+    }
+
+    private static <V> String definition(Iterable<Property> properties) {
+        return join("(", ",", ")", properties, property -> {
+            return property.name + " " + computeSQLType(property.model) + (property.name.equals("id") ? " primary key" : "");
+        });
+    }
+
+    private static <V> String values(Iterable<V> values, WiseFunction<V, String> converter) {
+        return join("(", ",", ")", values, converter);
+    }
+
+    private static <V> String join(String prefix, String separator, String suffix, Iterable<V> values, WiseFunction<V, String> converter) {
+        StringJoiner joiner = new StringJoiner(separator, prefix, suffix);
+        for (V value : values) {
+            joiner.add(converter.apply(value));
+        }
+        return joiner.toString();
     }
 
     /**
-     * @param model
-     * @param url
+     * Execute your query.
+     * 
+     * @param query
      */
-    SQLite(Class<M> model, String url) {
-        try {
-            this.model = Model.of(model);
-            this.tableName = '"' + model.getName() + '"';
-            this.connection = ConnectionPool.computeIfAbsent(url, key -> {
-                try {
-                    return DriverManager.getConnection(key);
-                } catch (SQLException e) {
-                    throw I.quiet(e);
-                }
-            });
-            this.statement = connection.createStatement();
+    private void execute(Object... query) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < query.length; i++) {
+            if (i != 0) builder.append(' ');
+            builder.append(query[i].toString());
+        }
 
-            StringJoiner types = new StringJoiner(",", "(", ")");
-            for (Property property : this.model.properties()) {
-                types.add(property.name + " " + computeSQLType(property.model) + (property.name.equals("id") ? " primary key" : ""));
-            }
-
-            // create table
-            statement.execute("CREATE TABLE IF NOT EXISTS " + tableName + types);
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(builder.toString());
         } catch (SQLException e) {
-            throw I.quiet(e);
+            throw I.quiet(new SQLException(builder.toString(), e));
+        }
+    }
+
+    /**
+     * Execute your query.
+     * 
+     * @param query
+     */
+    private ResultSet query(Object... query) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < query.length; i++) {
+            if (i != 0) builder.append(' ');
+            builder.append(query[i].toString());
+        }
+
+        try {
+            return connection.createStatement().executeQuery(builder.toString());
+        } catch (SQLException e) {
+            throw I.quiet(new SQLException(builder.toString(), e));
         }
     }
 
@@ -90,7 +131,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * @param model
      * @return
      */
-    private String computeSQLType(Model model) {
+    private static String computeSQLType(Model model) {
         if (model.type == int.class) {
             return "integer";
         } else if (model.type == long.class) {
@@ -110,7 +151,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
     @Override
     public long count() {
         try {
-            ResultSet result = statement.executeQuery("SELECT COUNT(*) N FROM " + tableName);
+            ResultSet result = query("SELECT COUNT(*) N FROM " + tableName);
             result.next();
             return result.getLong("N");
         } catch (SQLException e) {
@@ -126,7 +167,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         return new Signal<>((observer, disposer) -> {
             try {
                 List<Property> properties = model.properties();
-                ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " " + query);
+                ResultSet result = query("SELECT * FROM " + tableName + " " + query);
                 while (result.next()) {
                     M instance = I.make(this.model.type);
                     for (Property property : properties) {
@@ -169,7 +210,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
                         .append(" WHERE id=")
                         .append(instance.getId());
 
-                ResultSet result = statement.executeQuery(builder.toString());
+                ResultSet result = query(builder.toString());
                 if (result.next()) {
                     for (Property property : properties) {
                         this.model.set(instance, property, decode(property, result));
@@ -254,6 +295,33 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         execute(builder);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized <R> R transact(WiseSupplier<R> operation) {
+        try {
+            connection.setAutoCommit(false);
+
+            R result = operation.get();
+            connection.commit();
+            return result;
+        } catch (Throwable e) {
+            try {
+                connection.rollback();
+            } catch (Throwable x) {
+                throw I.quiet(x);
+            }
+            throw I.quiet(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (Throwable e) {
+                throw I.quiet(e);
+            }
+        }
+    }
+
     private String encode(Class type, Object value) {
         if (type == String.class) {
             return "'" + value + "'";
@@ -293,7 +361,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      */
     private void execute(CharSequence builder) {
         try {
-            statement.executeUpdate(builder.toString());
+            connection.createStatement().executeUpdate(builder.toString());
         } catch (SQLException e) {
             throw I.quiet(new SQLException(builder.toString(), e));
         }
@@ -307,7 +375,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * @return
      */
     public static <M extends IdentifiableModel> SQLite<M> of(Class<M> model) {
-        return Cache.computeIfAbsent(model, key -> new SQLite(key));
+        return Cache.computeIfAbsent(model, key -> new SQLite(key, null));
     }
 
     /**

@@ -19,23 +19,23 @@ public interface DeletableTestSet extends Testable {
     default void deleteModel() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
-        assert mongo.count() == 1;
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
+        assert dao.count() == 1;
 
-        mongo.delete(model);
-        assert mongo.count() == 0;
+        dao.delete(model);
+        assert dao.count() == 0;
     }
 
     @Test
     default void deleteSpecifedProperty() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
-        mongo.delete(model, Person::getAge);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
+        dao.delete(model, Person::getAge);
 
-        Person found = mongo.findBy(model.getId()).to().exact();
+        Person found = dao.findBy(model.getId()).to().exact();
         assert found.age == 0;
         assert found.name.equals("one");
     }
@@ -44,11 +44,11 @@ public interface DeletableTestSet extends Testable {
     default void deleteSpecifedProperties() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model);
-        mongo.delete(model, Person::getAge, Person::getName);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
+        dao.delete(model, Person::getAge, Person::getName);
 
-        Person found = mongo.findBy(model.getId()).to().exact();
+        Person found = dao.findBy(model.getId()).to().exact();
         assert found.age == 0;
         assert found.name == null;
     }

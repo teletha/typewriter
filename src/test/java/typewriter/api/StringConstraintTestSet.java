@@ -23,12 +23,12 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getName, c -> c.is("one")).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.is("one")).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model1);
     }
@@ -39,12 +39,12 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getName, c -> c.isNot("one")).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.isNot("one")).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model2);
         assert founds.get(1).equals(model3);
@@ -56,12 +56,12 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getName, c -> c.lessThan(4)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.lessThan(4)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model1);
         assert founds.get(1).equals(model2);
@@ -73,12 +73,12 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getName, c -> c.lessThanOrEqual(3)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.lessThanOrEqual(3)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model1);
         assert founds.get(1).equals(model2);
@@ -90,12 +90,12 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getName, c -> c.greaterThan(3)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.greaterThan(3)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model3);
     }
@@ -106,12 +106,12 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> mongo = createEmptyDB(Person.class);
-        mongo.update(model1);
-        mongo.update(model2);
-        mongo.update(model3);
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
 
-        List<Person> founds = mongo.findBy(Person::getName, c -> c.greaterThanOrEqual(4)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.greaterThanOrEqual(4)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model3);
     }
