@@ -9,6 +9,9 @@
  */
 package typewriter.sqlite;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import typewriter.api.Constraint;
 import typewriter.api.Specifier;
 
@@ -20,7 +23,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     /** The name of target property. */
     protected final String propertyName;
 
-    final StringBuilder expression = new StringBuilder();
+    final List<String> expression = new ArrayList();
 
     /**
      * Hide constructor.
@@ -36,7 +39,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self isNull() {
-        expression.append(propertyName).append(" IS NULL");
+        expression.add(propertyName + " IS NULL");
         return (Self) this;
     }
 
@@ -45,7 +48,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self notNull() {
-        expression.append(propertyName).append(" IS NOT NULL");
+        expression.add(propertyName + " IS NOT NULL");
         return (Self) this;
     }
 
@@ -54,7 +57,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self is(V value) {
-        expression.append(propertyName).append('=').append(value);
+        expression.add(propertyName + "=" + value);
         return (Self) this;
     }
 
@@ -63,7 +66,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self isNot(V value) {
-        expression.append(propertyName).append("!=").append(value);
+        expression.add(propertyName + "!=" + value);
         return (Self) this;
     }
 
@@ -106,7 +109,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public NumericConstraint<V> lessThan(V value) {
-            expression.append(propertyName).append(" < ").append(value);
+            expression.add(propertyName + "<" + value);
             return this;
         }
 
@@ -115,7 +118,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public NumericConstraint<V> lessThanOrEqual(V value) {
-            expression.append(propertyName).append(" <= ").append(value);
+            expression.add(propertyName + "<=" + value);
             return this;
         }
 
@@ -124,7 +127,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public NumericConstraint<V> greaterThan(V value) {
-            expression.append(propertyName).append(" > ").append(value);
+            expression.add(propertyName + ">" + value);
             return this;
         }
 
@@ -133,7 +136,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public NumericConstraint<V> greaterThanOrEqual(V value) {
-            expression.append(propertyName).append(" >= ").append(value);
+            expression.add(propertyName + ">=" + value);
             return this;
         }
     }
@@ -151,7 +154,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint is(String value) {
-            expression.append(propertyName).append("='").append(value).append("'");
+            expression.add(propertyName + "='" + value + "'");
             return this;
         }
 
@@ -160,7 +163,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint isNot(String value) {
-            expression.append(propertyName).append("!='").append(value).append("'");
+            expression.add(propertyName + "!='" + value + "'");
             return this;
         }
 
@@ -177,7 +180,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint notEmpty() {
-            expression.append(propertyName).append(" != ''");
+            expression.add(propertyName + "!=''");
             return this;
         }
 
@@ -186,7 +189,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint lessThan(int value) {
-            expression.append("LENGTH(").append(propertyName).append(") < ").append(value);
+            expression.add("LENGTH(" + propertyName + ")<" + value + "");
             return this;
         }
 
@@ -195,7 +198,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint lessThanOrEqual(int value) {
-            expression.append("LENGTH(").append(propertyName).append(") <= ").append(value);
+            expression.add("LENGTH(" + propertyName + ")<=" + value + "");
             return this;
         }
 
@@ -204,7 +207,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint greaterThan(int value) {
-            expression.append("LENGTH(").append(propertyName).append(") > ").append(value);
+            expression.add("LENGTH(" + propertyName + ")>" + value + "");
             return this;
         }
 
@@ -213,7 +216,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint greaterThanOrEqual(int value) {
-            expression.append("LENGTH(").append(propertyName).append(") >= ").append(value);
+            expression.add("LENGTH(" + propertyName + ")>=" + value + "");
             return this;
         }
     }

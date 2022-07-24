@@ -116,6 +116,22 @@ public interface IntConstraintTestSet extends Testable {
         assert founds.get(1).equals(model3);
     }
 
+    @Test
+    default void multiplseConditions() {
+        Person model1 = new Person(10);
+        Person model2 = new Person(20);
+        Person model3 = new Person(30);
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.greaterThanOrEqual(20).lessThan(30)).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model2);
+    }
+
     /**
      * 
      */

@@ -34,12 +34,6 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
     /** The all constraint set. */
     protected final List<MongoConstraint<?, ?>> constraints = new ArrayList();
 
-    /** The cache. */
-    protected Bson cache;
-
-    /** The cache state. */
-    protected boolean modified = true;
-
     /**
      * Hide constructor.
      */
@@ -52,7 +46,6 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
     @Override
     public MongoQuery<M> findBy(Constraint constraint) {
         constraints.add((MongoConstraint<?, ?>) constraint);
-        modified = true;
         return this;
     }
 
@@ -76,10 +69,6 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
      * @return
      */
     Bson build() {
-        if (modified) {
-            modified = false;
-            cache = Filters.and(I.signal(constraints).flatIterable(c -> c.filters).toList());
-        }
-        return cache;
+        return Filters.and(I.signal(constraints).flatIterable(c -> c.filters).toList());
     }
 }

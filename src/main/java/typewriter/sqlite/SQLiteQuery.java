@@ -67,7 +67,9 @@ public class SQLiteQuery<M extends IdentifiableModel> extends Queryable<M, SQLit
     public String toString() {
         StringJoiner builder = new StringJoiner(" AND ", " WHERE ", "");
         for (SQLiteConstraint<?, ?> constraint : constraints) {
-            builder.add(constraint.expression);
+            for (String e : constraint.expression) {
+                builder.add(e);
+            }
         }
         return builder.toString();
     }

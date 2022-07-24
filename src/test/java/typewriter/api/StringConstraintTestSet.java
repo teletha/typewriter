@@ -116,6 +116,24 @@ public interface StringConstraintTestSet extends Testable {
         assert founds.get(0).equals(model3);
     }
 
+    @Test
+    default void multipleConditions() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+        Person model4 = new Person("four");
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+
+        List<Person> founds = dao.findBy(Person::getName, c -> c.greaterThanOrEqual(4).lessThan(5)).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model4);
+    }
+
     /**
      * 
      */
