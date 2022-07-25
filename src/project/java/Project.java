@@ -8,7 +8,7 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-import static bee.api.License.MIT;
+import static bee.api.License.*;
 
 public class Project extends bee.api.Project {
     {
@@ -18,6 +18,7 @@ public class Project extends bee.api.Project {
 
         require("com.github.teletha", "sinobu");
         require("org.mongodb", "mongo-java-driver");
+        require("org.xerial", "sqlite-jdbc");
         require("com.github.teletha", "antibug").atTest();
         require("de.bwaldvogel", "mongo-java-server").atTest();
         require("org.apache.commons", "commons-lang3").atTest();
