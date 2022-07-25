@@ -143,7 +143,6 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     private Signal<M> findBy(Bson query) {
         return new Signal<>((observer, disposer) -> {
             try {
-                System.out.println(query);
                 FindIterable<Document> founds = collection.find(query);
                 for (Document found : founds) {
                     if (!disposer.isDisposed()) {
