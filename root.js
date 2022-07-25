@@ -4,7 +4,8 @@ const root = {
 	"packages": [
 		"typewriter.api",
 		"typewriter.api.model",
-		"typewriter.mongo"
+		"typewriter.mongo",
+		"typewriter.sqlite"
 	],
 	"types": [
 		{
@@ -108,6 +109,27 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "SQLite",
+			"packageName": "typewriter.sqlite",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "SQLiteModel",
+			"packageName": "typewriter.sqlite",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "SQLiteQuery",
+			"packageName": "typewriter.sqlite",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Specifier",
 			"packageName": "typewriter.api",
 			"type": "Functional"
@@ -172,6 +194,13 @@ const root = {
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Specifier.ZonedDateTimeSpecifier",
+			"packageName": "typewriter.api",
+			"type": "Functional"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Transactional",
 			"packageName": "typewriter.api",
 			"type": "Functional"
 		},

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Typewriter API</title>
+		<base href="../"/>
+		<script async="true" src="highlight.js" type="module"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="M">
+		<header class="S">
+			<h1 class="K" date="2022-07-25" ver="0.1"><code>Typewriter</code></h1>
+			<nav class="J"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="P" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="L">
+			<nav class="e">
+				<div></div>
+			</nav>
+			<article class="I" id="Article">
+				<section class="O"><code class="c">typewriter.sqlite</code>
+					<h2 class="Class b"><code class="W">SQLite</code><code class="h">&#60;<code>M</code>&#62;</code></h2>
+					<div class="f">
+						<ul class="C D">
+							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></li>
+						</ul>
+						<ul class="C E">
+							<li><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>kiss.Signal<code class="parameters"><code>M</code></code></code>, <code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code></code></code></li>
+							<li><code><a href="api/typewriter.api.Queryable.html">Queryable</a><code class="parameters"><code>M</code>, <code>kiss.Signal<code class="parameters"><code>M</code></code></code></code></code></li>
+						</ul>
+						<ul class="C F">
+							<li><code><a href="api/typewriter.api.Deletable.html">Deletable</a><code class="parameters"><code>M</code></code></code></li>
+							<li><code><a href="api/typewriter.api.Operatable.html">Operatable</a><code class="parameters"><code>M</code></code></code></li>
+							<li><code><a href="api/typewriter.api.Restorable.html">Restorable</a><code class="parameters"><code>M</code></code></code></li>
+							<li><code><a href="api/typewriter.api.Transactional.html">Transactional</a></code></li>
+							<li><code><a href="api/typewriter.api.Updatable.html">Updatable</a><code class="parameters"><code>M</code></code></code></li>
+						</ul>
+					</div>
+				</section>
+				<section class="O" id="count()">
+					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">count</code><code class="h">()</code><i class="U"><code>long</code></i></h2>
+					<table class="d">
+						<tr class="R">
+							<td><code>long</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="O" id="findBy(typewriter.sqlite.SQLiteQuery)">
+					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">findBy</code><code class="h">(<code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">query</code>)</code><i class="U"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="d">
+						<tr class="X">
+							<td><code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code> <code>query</code></td>
+							<td></td>
+						</tr>
+						<tr class="R">
+							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="O" id="restore(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">restore</code><code class="h">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="U"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="d">
+						<tr class="X">
+							<td><code>M</code> <code>instance</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+						<tr class="R">
+							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="O" id="delete(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">delete</code><code class="h">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="U"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="X">
+							<td><code>M</code> <code>instance</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="O" id="update(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">update</code><code class="h">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="U"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="X">
+							<td><code>M</code> <code>instance</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="O" id="transact(kiss.WiseSupplier)">
+					<h2 class="Z"><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code class="W">transact</code><code class="h">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="U"><code>R</code></i></h2>
+					<table class="d">
+						<tr class="g">
+							<td><code>R</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code>operation</code></td>
+							<td></td>
+						</tr>
+						<tr class="R">
+							<td><code>R</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="O" id="of(java.lang.Class)">
+					<h2 class="Z"><i class="STATIC PUBLIC"></i><code class="W">of</code><code class="h">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="U"><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="d">
+						<tr class="g">
+							<td><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code>model</code></td>
+							<td><span><p>The model type.</p>
+								</span></td>
+						</tr>
+						<tr class="R">
+							<td><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Get the collection.</p>
+					</span></section>
+				<section class="O" id="close()">
+					<h2 class="Z"><i class="STATIC PUBLIC"></i><code class="W">close</code><code class="h">()</code><i class="U"><code>void</code></i></h2><span class="B"><p>Close all related system resources.</p>
+					</span></section>
+			</article>
+			<aside class="i" id="SubNavi">
+				<div class="k">
+					<h5 class="H">Static Methods</h5>
+					<ul>
+						<li><i class="STATIC PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#of(java.lang.Class)">of</a></code><code class="h">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="l"><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="STATIC PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#close()">close</a></code><code class="h">()</code><i class="l"><code>void</code></i></li>
+					</ul>
+					<h5 class="H">Methods</h5>
+					<ul>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#count()">count</a></code><code class="h">()</code><i class="l"><code>long</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#findBy(typewriter.sqlite.SQLiteQuery)">findBy</a></code><code class="h">(<code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">query</code>)</code><i class="l"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#restore(java.lang.Object,typewriter.api.Specifier...)">restore</a></code><code class="h">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="l"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#delete(java.lang.Object,typewriter.api.Specifier...)">delete</a></code><code class="h">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="l"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#update(java.lang.Object,typewriter.api.Specifier...)">update</a></code><code class="h">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="l"><code>void</code></i></li>
+						<li><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.sqlite.SQLite.html#transact(kiss.WiseSupplier)">transact</a></code><code class="h">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="l"><code>R</code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>

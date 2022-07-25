@@ -33,28 +33,28 @@
 				<div></div>
 			</nav>
 			<article class="I" id="Article">
-				<section class="O"><code class="c">typewriter.mongo</code>
-					<h2 class="Class b"><code class="W">MongoQuery</code><code class="h">&#60;<code>M</code>&#62;</code></h2>
+				<section class="O"><code class="c">typewriter.sqlite</code>
+					<h2 class="Class b"><code class="W">SQLiteQuery</code><code class="h">&#60;<code>M</code>&#62;</code></h2>
 					<div class="f">
 						<ul class="C D">
-							<li><code>M</code></li>
+							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></li>
 						</ul>
 						<ul class="C E">
-							<li><code><a href="api/typewriter.api.Queryable.html">Queryable</a><code class="parameters"><code>M</code>, <code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code></code></code></li>
+							<li><code><a href="api/typewriter.api.Queryable.html">Queryable</a><code class="parameters"><code>M</code>, <code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code></code></code></li>
 						</ul>
 					</div><span class="B"><code><a href="api/typewriter.api.Queryable.html">Queryable</a></code> for mongodb.</span></section>
 				<section class="O" id="constraints">
-					<h2 class="Z"><i class="FINAL"><i class="PROTECTED"></i></i><code class="W">constraints</code><i class="U"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/typewriter.mongo.MongoConstraint.html">MongoConstraint</a><code class="parameters"><code>?</code>, <code>?</code></code></code></code></code></i></h2><span class="B"><p>The all constraint set.</p>
+					<h2 class="Z"><i class="FINAL"><i class="PROTECTED"></i></i><code class="W">constraints</code><i class="U"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/typewriter.sqlite.SQLiteConstraint.html">SQLiteConstraint</a><code class="parameters"><code>?</code>, <code>?</code></code></code></code></code></i></h2><span class="B"><p>The all constraint set.</p>
 					</span></section>
 				<section class="O" id="findBy(typewriter.api.Constraint)">
-					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">findBy</code><code class="h">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="U"><code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code></i></h2>
+					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">findBy</code><code class="h">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="U"><code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code></i></h2>
 					<table class="d">
 						<tr class="X">
 							<td><code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code>constraint</code></td>
 							<td></td>
 						</tr>
 						<tr class="R">
-							<td><code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code></td>
+							<td><code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code></td>
 							<td></td>
 						</tr>
 					</table>
@@ -84,17 +84,27 @@
 						</tr>
 					</table>
 				</section>
+				<section class="O" id="toString()">
+					<h2 class="Z"><i class="OVERRIDE PUBLIC"></i><code class="W">toString</code><code class="h">()</code><i class="U"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="d">
+						<tr class="R">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
 			</article>
 			<aside class="i" id="SubNavi">
 				<div class="k">
 					<h5 class="H">Fields</h5>
 					<ul>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.mongo.MongoQuery.html#constraints">constraints</a></code><i class="l"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/typewriter.mongo.MongoConstraint.html">MongoConstraint</a><code class="parameters"><code>?</code>, <code>?</code></code></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.sqlite.SQLiteQuery.html#constraints">constraints</a></code><i class="l"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/typewriter.sqlite.SQLiteConstraint.html">SQLiteConstraint</a><code class="parameters"><code>?</code>, <code>?</code></code></code></code></code></i></li>
 					</ul>
 					<h5 class="H">Methods</h5>
 					<ul>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.mongo.MongoQuery.html#findBy(typewriter.api.Constraint)">findBy</a></code><code class="h">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="l"><code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a><code class="parameters"><code>M</code></code></code></i></li>
-						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/typewriter.mongo.MongoQuery.html#createConstraint(java.lang.Class,typewriter.api.Specifier)">createConstraint</a></code><code class="h">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>C</code></code></code> <code class="parameterName">constraintType</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code class="parameterName">specifier</code>)</code><i class="l"><code>C</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLiteQuery.html#findBy(typewriter.api.Constraint)">findBy</a></code><code class="h">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="l"><code><a href="api/typewriter.sqlite.SQLiteQuery.html">SQLiteQuery</a><code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/typewriter.sqlite.SQLiteQuery.html#createConstraint(java.lang.Class,typewriter.api.Specifier)">createConstraint</a></code><code class="h">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>C</code></code></code> <code class="parameterName">constraintType</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code class="parameterName">specifier</code>)</code><i class="l"><code>C</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLiteQuery.html#toString()">toString</a></code><code class="h">()</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 					</ul>
 				</div>
 			</aside>
