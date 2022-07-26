@@ -21,7 +21,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.sqlite.Function;
 
 import kiss.I;
 import kiss.Signal;
@@ -35,11 +38,25 @@ import typewriter.api.model.IdentifiableModel;
 
 public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, SQLiteQuery<M>> {
 
+    /** The compiled regular expression manager. */
+    private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
+
+    /** Support REGEXP function. */
+    private static final Function REGEXP_FUNCTION = new Function() {
+        @Override
+        protected void xFunc() throws SQLException {
+            String value = Objects.requireNonNullElse(value_text(1), "");
+            Pattern pattern = REGEX.computeIfAbsent(value_text(0), Pattern::compile);
+
+            result(pattern.matcher(value).find() ? 1 : 0);
+        }
+    };
+
     /** The connection pool. */
-    private static final Map<String, Connection> ConnectionPool = new ConcurrentHashMap();
+    private static final Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap();
 
     /** The reusabel {@link SQLite} cache. */
-    private static final Map<Class, SQLite> Cache = new ConcurrentHashMap();
+    private static final Map<Class, SQLite> CACHE = new ConcurrentHashMap();
 
     /** The document model. */
     private final Model<M> model;
@@ -61,14 +78,22 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
 
         this.model = Model.of(type);
         this.tableName = '"' + type.getName() + '"';
-        this.connection = ConnectionPool.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
+        this.connection = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
 
-        // pragma
-        execute("PRAGMA journal_mode=wal");
-        execute("PRAGMA sync_mode=off");
+        try {
+            // pragma
+            execute("PRAGMA journal_mode=wal");
+            execute("PRAGMA sync_mode=off");
 
-        // create table
-        execute("CREATE TABLE IF NOT EXISTS", tableName, definition(model.properties()));
+            // register extra functions
+            Function.create(connection, "REGEXP", REGEXP_FUNCTION);
+
+            // create table
+            execute("CREATE TABLE IF NOT EXISTS", tableName, definition(model.properties()));
+        } catch (SQLException e) {
+            throw I.quiet(e);
+        }
+
     }
 
     private static <V> String definition(Iterable<Property> properties) {
@@ -375,17 +400,20 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * @return
      */
     public static <M extends IdentifiableModel> SQLite<M> of(Class<M> model) {
-        return Cache.computeIfAbsent(model, key -> new SQLite(key, null));
+        return CACHE.computeIfAbsent(model, key -> new SQLite(key, null));
     }
 
     /**
      * Close all related system resources.
      */
     public static void close() {
-        Iterator<Connection> iterator = ConnectionPool.values().iterator();
+        Iterator<Connection> iterator = CONNECTION_POOL.values().iterator();
         while (iterator.hasNext()) {
             I.quiet(iterator.next());
             iterator.remove();
         }
+
+        REGEX.clear();
+        CACHE.clear();
     }
 }

@@ -172,7 +172,8 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint regex(String regex) {
-            throw new Error();
+            expression.add(propertyName + " REGEXP '" + regex + "'");
+            return this;
         }
 
         /**
