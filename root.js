@@ -60,7 +60,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Constraint.TemporalAccessorConstraint",
+			"name": "Constraint.TemporalConstraint",
 			"packageName": "typewriter.api",
 			"type": "Interface"
 		},
