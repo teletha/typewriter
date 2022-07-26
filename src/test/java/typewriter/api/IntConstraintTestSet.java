@@ -61,7 +61,7 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.lessThan(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isLessThan(20)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model1);
     }
@@ -77,7 +77,7 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.lessThanOrEqual(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isLessThanOrEqual(20)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model1);
         assert founds.get(1).equals(model2);
@@ -94,7 +94,7 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.greaterThan(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isGreaterThan(20)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model3);
     }
@@ -110,7 +110,7 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.greaterThanOrEqual(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isGreaterThanOrEqual(20)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model2);
         assert founds.get(1).equals(model3);
@@ -127,7 +127,7 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.greaterThanOrEqual(20).lessThan(30)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isGreaterThanOrEqual(20).isLessThan(30)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model2);
     }

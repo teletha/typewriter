@@ -47,7 +47,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
      * {@inheritDoc}
      */
     @Override
-    public Self notNull() {
+    public Self isNotNull() {
         expression.add(propertyName + " IS NOT NULL");
         return (Self) this;
     }
@@ -108,7 +108,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> lessThan(V value) {
+        public NumericConstraint<V> isLessThan(V value) {
             expression.add(propertyName + "<" + value);
             return this;
         }
@@ -117,7 +117,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> lessThanOrEqual(V value) {
+        public NumericConstraint<V> isLessThanOrEqual(V value) {
             expression.add(propertyName + "<=" + value);
             return this;
         }
@@ -126,7 +126,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> greaterThan(V value) {
+        public NumericConstraint<V> isGreaterThan(V value) {
             expression.add(propertyName + ">" + value);
             return this;
         }
@@ -135,7 +135,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> greaterThanOrEqual(V value) {
+        public NumericConstraint<V> isGreaterThanOrEqual(V value) {
             expression.add(propertyName + ">=" + value);
             return this;
         }
@@ -198,7 +198,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint lessThan(int value) {
+        public StringConstraint isLessThan(int value) {
             expression.add("LENGTH(" + propertyName + ")<" + value + "");
             return this;
         }
@@ -207,7 +207,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint lessThanOrEqual(int value) {
+        public StringConstraint isLessThanOrEqual(int value) {
             expression.add("LENGTH(" + propertyName + ")<=" + value + "");
             return this;
         }
@@ -216,7 +216,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint greaterThan(int value) {
+        public StringConstraint isGreaterThan(int value) {
             expression.add("LENGTH(" + propertyName + ")>" + value + "");
             return this;
         }
@@ -225,7 +225,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint greaterThanOrEqual(int value) {
+        public StringConstraint isGreaterThanOrEqual(int value) {
             expression.add("LENGTH(" + propertyName + ")>=" + value + "");
             return this;
         }

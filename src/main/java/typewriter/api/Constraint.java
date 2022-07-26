@@ -23,7 +23,7 @@ public interface Constraint<V, Self> {
      * 
      * @return Chainable API.
      */
-    Self notNull();
+    Self isNotNull();
 
     /**
      * Describes conditions for the specified property.
@@ -74,7 +74,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        NumericConstraint<V> lessThan(V value);
+        NumericConstraint<V> isLessThan(V value);
 
         /**
          * Describes conditions for the specified property.
@@ -82,7 +82,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        NumericConstraint<V> lessThanOrEqual(V value);
+        NumericConstraint<V> isLessThanOrEqual(V value);
 
         /**
          * Describes conditions for the specified property.
@@ -90,7 +90,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        NumericConstraint<V> greaterThan(V value);
+        NumericConstraint<V> isGreaterThan(V value);
 
         /**
          * Describes conditions for the specified property.
@@ -98,7 +98,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        NumericConstraint<V> greaterThanOrEqual(V value);
+        NumericConstraint<V> isGreaterThanOrEqual(V value);
     }
 
     /**
@@ -134,7 +134,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        StringConstraint lessThan(int value);
+        StringConstraint isLessThan(int value);
 
         /**
          * Describes conditions for the specified property.
@@ -142,7 +142,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        StringConstraint lessThanOrEqual(int value);
+        StringConstraint isLessThanOrEqual(int value);
 
         /**
          * Describes conditions for the specified property.
@@ -150,7 +150,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        StringConstraint greaterThan(int value);
+        StringConstraint isGreaterThan(int value);
 
         /**
          * Describes conditions for the specified property.
@@ -158,6 +158,6 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        StringConstraint greaterThanOrEqual(int value);
+        StringConstraint isGreaterThanOrEqual(int value);
     }
 }

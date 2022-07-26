@@ -54,7 +54,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      * {@inheritDoc}
      */
     @Override
-    public Self notNull() {
+    public Self isNotNull() {
         filters.add(Filters.exists(propertyName));
         return (Self) this;
     }
@@ -117,7 +117,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> lessThan(V value) {
+        public NumericConstraint<V> isLessThan(V value) {
             filters.add(Filters.lt(propertyName, value));
             return this;
         }
@@ -126,7 +126,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> lessThanOrEqual(V value) {
+        public NumericConstraint<V> isLessThanOrEqual(V value) {
             filters.add(Filters.lte(propertyName, value));
             return this;
         }
@@ -135,7 +135,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> greaterThan(V value) {
+        public NumericConstraint<V> isGreaterThan(V value) {
             filters.add(Filters.gt(propertyName, value));
             return this;
         }
@@ -144,7 +144,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> greaterThanOrEqual(V value) {
+        public NumericConstraint<V> isGreaterThanOrEqual(V value) {
             filters.add(Filters.gte(propertyName, value));
             return this;
         }
@@ -189,7 +189,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint lessThan(int value) {
+        public StringConstraint isLessThan(int value) {
             filters.add(Filters.expr(BsonDocument.parse("{$lt: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
             return this;
         }
@@ -198,7 +198,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint lessThanOrEqual(int value) {
+        public StringConstraint isLessThanOrEqual(int value) {
             filters.add(Filters.expr(BsonDocument.parse("{$lte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
             return this;
         }
@@ -207,7 +207,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint greaterThan(int value) {
+        public StringConstraint isGreaterThan(int value) {
             filters.add(Filters.expr(BsonDocument.parse("{$gt: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
             return this;
         }
@@ -216,7 +216,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint greaterThanOrEqual(int value) {
+        public StringConstraint isGreaterThanOrEqual(int value) {
             filters.add(Filters.expr(BsonDocument.parse("{$gte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
             return this;
         }
