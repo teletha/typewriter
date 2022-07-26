@@ -180,9 +180,9 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return "bit";
         } else if (model.type == String.class) {
             return "string";
-        } else if (model.type == Date.class || model.type == LocalDate.class) {
+        } else if (model.type == Date.class) {
             return "datetime";
-        } else if (model.type == LocalDateTime.class) {
+        } else if (model.type == LocalDateTime.class || model.type == LocalDate.class) {
             return "integer";
         } else {
             throw new Error(model.type.getName());
@@ -374,7 +374,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         } else if (type == Date.class) {
             return "DATETIME('" + DATE_FORMATTER.format((Date) value) + "')";
         } else if (type == LocalDate.class) {
-            return "DATETIME('" + DATE_TIME_FORMATTER.format(((LocalDate) value).atStartOfDay().atOffset(ZoneOffset.UTC)) + "')";
+            return String.valueOf(((LocalDate) value).toEpochDay());
         } else if (type == LocalDateTime.class) {
             return String.valueOf(((LocalDateTime) value).toInstant(ZoneOffset.UTC).toEpochMilli());
         } else {
@@ -402,7 +402,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         } else if (type == Date.class) {
             return result.getDate(name);
         } else if (type == LocalDate.class) {
-            return result.getDate(name).toLocalDate();
+            return LocalDate.ofEpochDay(result.getLong(name));
         } else if (type == LocalDateTime.class) {
             Instant instant = Instant.ofEpochMilli(result.getLong(name));
             return instant.atOffset(ZoneOffset.UTC).toLocalDateTime();

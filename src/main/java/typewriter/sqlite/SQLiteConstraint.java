@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 import typewriter.api.Constraint;
-import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Specifier;
 
 /**
@@ -410,7 +409,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         protected String build(String operator, LocalDate date) {
-            return propertyName + operator + "'" + SQLite.DATE_TIME_FORMATTER.format(date.atStartOfDay().atOffset(ZoneOffset.UTC)) + "'";
+            return propertyName + operator + date.toEpochDay();
         }
     }
 
