@@ -186,6 +186,30 @@ public interface Constraint<V, Self> {
          * @param day A conditional value
          * @return Chainable API.
          */
+        default DateConstraint is(int year, int month, int day) {
+            return is(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default DateConstraint isNot(int year, int month, int day) {
+            return isNot(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
         default DateConstraint isBefore(int year, int month, int day) {
             return isBefore(parse(year, month, day));
         }

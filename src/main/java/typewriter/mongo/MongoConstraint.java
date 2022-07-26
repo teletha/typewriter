@@ -66,7 +66,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self is(V value) {
-        filters.add(Filters.eq(propertyName, value));
+        filters.add(Filters.eq(propertyName, Objects.requireNonNull(value)));
         return (Self) this;
     }
 
@@ -75,7 +75,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self isNot(V value) {
-        filters.add(Filters.ne(propertyName, value));
+        filters.add(Filters.ne(propertyName, Objects.requireNonNull(value)));
         return (Self) this;
     }
 

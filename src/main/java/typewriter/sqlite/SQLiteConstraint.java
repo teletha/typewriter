@@ -9,8 +9,6 @@
  */
 package typewriter.sqlite;
 
-import static typewriter.sqlite.SQLite.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -256,8 +254,26 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
+        public DateConstraint is(Date date) {
+            expression.add(build("=", date));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isNot(Date date) {
+            expression.add(build("!=", date));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         public DateConstraint isBefore(Date date) {
-            expression.add(propertyName + "<'" + DATE_FORMATTER.format(date) + "'");
+            expression.add(build("<", date));
             return this;
         }
 
@@ -266,7 +282,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public DateConstraint isBeforeOrSame(Date date) {
-            expression.add(propertyName + "<='" + DATE_FORMATTER.format(date) + "'");
+            expression.add(build("<=", date));
             return this;
         }
 
@@ -275,7 +291,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public DateConstraint isAfter(Date date) {
-            expression.add(propertyName + ">'" + DATE_FORMATTER.format(date) + "'");
+            expression.add(build(">", date));
             return this;
         }
 
@@ -284,8 +300,19 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public DateConstraint isAfterOrSame(Date date) {
-            expression.add(propertyName + ">='" + DATE_FORMATTER.format(date) + "'");
+            expression.add(build(">=", date));
             return this;
+        }
+
+        /**
+         * Build datetime comparing operation.
+         * 
+         * @param operator
+         * @param date
+         * @return
+         */
+        private String build(String operator, Date date) {
+            return propertyName + operator + "'" + SQLite.DATE_FORMATTER.format(date) + "'";
         }
     }
 }

@@ -25,6 +25,100 @@ import kiss.Signal;
 public interface DateConstraintTestSet extends Testable {
 
     @Test
+    default void is() {
+        Person model1 = new Person("Ema", 2011, 6, 23);
+        Person model2 = new Person("Diana", 2004, 11, 25);
+        Person model3 = new Person("Sera", 1995, 2, 1);
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.is(2004, 11, 25)).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model2);
+    }
+
+    @Test
+    default void isInvalidInput() {
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+
+        assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.is(-10, 33, 1098)).toList());
+    }
+
+    @Test
+    default void isNot() {
+        Person model1 = new Person("Ema", 2011, 6, 23);
+        Person model2 = new Person("Diana", 2004, 11, 25);
+        Person model3 = new Person("Sera", 1995, 2, 1);
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.isNot(2004, 11, 25)).toList();
+        assert founds.size() == 2;
+        assert founds.get(0).equals(model1);
+        assert founds.get(1).equals(model3);
+    }
+
+    @Test
+    default void isNotInvalidInput() {
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+
+        assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.isNot(-10, 33, 1098)).toList());
+    }
+
+    @Test
+    default void isDate() {
+        Person model1 = new Person("Ema", 2011, 6, 23);
+        Person model2 = new Person("Diana", 2004, 11, 25);
+        Person model3 = new Person("Sera", 1995, 2, 1);
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.is(date(2004, 11, 25))).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model2);
+    }
+
+    @Test
+    default void isNullDate() {
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+
+        assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.is(null)).toList());
+    }
+
+    @Test
+    default void isNotDate() {
+        Person model1 = new Person("Ema", 2011, 6, 23);
+        Person model2 = new Person("Diana", 2004, 11, 25);
+        Person model3 = new Person("Sera", 1995, 2, 1);
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.isNot(date(2004, 11, 25))).toList();
+        assert founds.size() == 2;
+        assert founds.get(0).equals(model1);
+        assert founds.get(1).equals(model3);
+    }
+
+    @Test
+    default void isNotNullDate() {
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+
+        assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.isNot(null)).toList());
+    }
+
+    @Test
     default void isBefore() {
         Person model1 = new Person("Ema", 2011, 6, 23);
         Person model2 = new Person("Diana", 2004, 11, 25);
