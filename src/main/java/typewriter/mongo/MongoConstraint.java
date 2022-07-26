@@ -237,56 +237,9 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link Date}.
-     */
-    static class ForDate extends MongoConstraint<Date, DateConstraint> implements DateConstraint {
-
-        protected ForDate(Specifier specifier) {
-            super(specifier);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isBefore(Date date) {
-            filters.add(Filters.lt(propertyName, Objects.requireNonNull(date)));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isBeforeOrSame(Date date) {
-            filters.add(Filters.lte(propertyName, Objects.requireNonNull(date)));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isAfter(Date date) {
-            filters.add(Filters.gt(propertyName, Objects.requireNonNull(date)));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isAfterOrSame(Date date) {
-            filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
-            return this;
-        }
-    }
-
-    /**
      * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    static abstract class ForTermporal<T extends TemporalAccessor, Self extends TemporalConstraint<T, Self>>
-            extends MongoConstraint<T, Self>
+    static abstract class ForTermporal<T, Self extends TemporalConstraint<T, Self>> extends MongoConstraint<T, Self>
             implements TemporalConstraint<T, Self> {
 
         protected ForTermporal(Specifier specifier) {
@@ -327,6 +280,15 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
         public Self isAfterOrSame(T date) {
             filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
             return (Self) this;
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link Date}.
+     */
+    static class ForDate extends ForTermporal<Date, DateConstraint> implements DateConstraint {
+        ForDate(Specifier specifier) {
+            super(specifier);
         }
     }
 
