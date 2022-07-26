@@ -8,10 +8,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="f">
-		<header class="X">
-			<h1 class="j" date="2022-07-26" ver="0.1"><code>Typewriter</code></h1>
-			<nav class="b"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="N">
+		<header class="K">
+			<h1 class="L" date="2022-07-26" ver="0.1"><code>Typewriter</code></h1>
+			<nav class="k"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -20,7 +20,7 @@
 					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="Z" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="R" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -28,108 +28,123 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="R">
-			<nav class="I">
+		<main class="T">
+			<nav class="e">
 				<div></div>
 			</nav>
-			<article class="g" id="Article">
-				<section class="P"><code class="k">typewriter.api</code>
-					<h2 class="Interface S"><code class="K">Constraint.StringConstraint</code></h2>
-					<div class="h">
+			<article class="l" id="Article">
+				<section class="H"><code class="O">typewriter.api</code>
+					<h2 class="Interface b"><code class="U">Constraint.StringConstraint</code></h2>
+					<div class="g">
 						<ul class="C F">
 							<li><code><a href="api/typewriter.api.Constraint.html">Constraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></code></code></li>
 						</ul>
 					</div><span class="B"><p>The specialized <code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> for <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>.</p>
 					</span></section>
-				<section class="P" id="regex(java.lang.String)">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="K">regex</code><code class="M">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="c"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
-					<table class="d">
-						<tr class="N">
+				<section class="H" id="contains(java.lang.String)">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">contains</code><code class="X">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">value</code>)</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="j">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>value</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="a">
+							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="H" id="regex(java.lang.String)">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">regex</code><code class="X">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="j">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>regex</code></td>
 							<td><span><p>A conditional value.</p>
 								</span></td>
 						</tr>
-						<tr class="Q">
+						<tr class="a">
 							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
 							<td><span><p>Chainable API.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Describes conditions for the specified property.</p>
 					</span></section>
-				<section class="P" id="isEmpty()">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="K">isEmpty</code><code class="M">()</code><i class="c"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
-					<table class="d">
-						<tr class="Q">
+				<section class="H" id="isEmpty()">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isEmpty</code><code class="X">()</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="a">
 							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
 							<td><span><p>Chainable API.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Describes conditions for the specified property.</p>
 					</span></section>
-				<section class="P" id="isNotEmpty()">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="K">isNotEmpty</code><code class="M">()</code><i class="c"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
-					<table class="d">
-						<tr class="Q">
+				<section class="H" id="isNotEmpty()">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isNotEmpty</code><code class="X">()</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="a">
 							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
 							<td><span><p>Chainable API.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Describes conditions for the specified property.</p>
 					</span></section>
-				<section class="P" id="isLessThan(int)">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="K">isLessThan</code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="c"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
-					<table class="d">
-						<tr class="N">
+				<section class="H" id="isLessThan(int)">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isLessThan</code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="j">
 							<td><code>int</code> <code>value</code></td>
 							<td><span><p>A conditional value.</p>
 								</span></td>
 						</tr>
-						<tr class="Q">
+						<tr class="a">
 							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
 							<td><span><p>Chainable API.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Describes conditions for the specified property.</p>
 					</span></section>
-				<section class="P" id="isLessThanOrEqual(int)">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="K">isLessThanOrEqual</code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="c"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
-					<table class="d">
-						<tr class="N">
+				<section class="H" id="isLessThanOrEqual(int)">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isLessThanOrEqual</code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="j">
 							<td><code>int</code> <code>value</code></td>
 							<td><span><p>A conditional value.</p>
 								</span></td>
 						</tr>
-						<tr class="Q">
+						<tr class="a">
 							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
 							<td><span><p>Chainable API.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Describes conditions for the specified property.</p>
 					</span></section>
-				<section class="P" id="isGreaterThan(int)">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="K">isGreaterThan</code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="c"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
-					<table class="d">
-						<tr class="N">
+				<section class="H" id="isGreaterThan(int)">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isGreaterThan</code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="j">
 							<td><code>int</code> <code>value</code></td>
 							<td><span><p>A conditional value.</p>
 								</span></td>
 						</tr>
-						<tr class="Q">
+						<tr class="a">
 							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
 							<td><span><p>Chainable API.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Describes conditions for the specified property.</p>
 					</span></section>
-				<section class="P" id="isGreaterThanOrEqual(int)">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="K">isGreaterThanOrEqual</code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="c"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
-					<table class="d">
-						<tr class="N">
+				<section class="H" id="isGreaterThanOrEqual(int)">
+					<h2 class="I"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isGreaterThanOrEqual</code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="h"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></h2>
+					<table class="S">
+						<tr class="j">
 							<td><code>int</code> <code>value</code></td>
 							<td><span><p>A conditional value.</p>
 								</span></td>
 						</tr>
-						<tr class="Q">
+						<tr class="a">
 							<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></td>
 							<td><span><p>Chainable API.</p>
 								</span></td>
@@ -137,17 +152,18 @@
 					</table><span class="B"><p>Describes conditions for the specified property.</p>
 					</span></section>
 			</article>
-			<aside class="i" id="SubNavi">
-				<div class="e">
-					<h5 class="H">Methods</h5>
+			<aside class="M" id="SubNavi">
+				<div class="i">
+					<h5 class="P">Methods</h5>
 					<ul>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#regex(java.lang.String)">regex</a></code><code class="M">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="l"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isEmpty()">isEmpty</a></code><code class="M">()</code><i class="l"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isNotEmpty()">isNotEmpty</a></code><code class="M">()</code><i class="l"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isLessThan(int)">isLessThan</a></code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="l"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isLessThanOrEqual(int)">isLessThanOrEqual</a></code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="l"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isGreaterThan(int)">isGreaterThan</a></code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="l"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isGreaterThanOrEqual(int)">isGreaterThanOrEqual</a></code><code class="M">(<code>int</code> <code class="parameterName">value</code>)</code><i class="l"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#contains(java.lang.String)">contains</a></code><code class="X">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">value</code>)</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#regex(java.lang.String)">regex</a></code><code class="X">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isEmpty()">isEmpty</a></code><code class="X">()</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isNotEmpty()">isNotEmpty</a></code><code class="X">()</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isLessThan(int)">isLessThan</a></code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isLessThanOrEqual(int)">isLessThanOrEqual</a></code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isGreaterThan(int)">isGreaterThan</a></code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.StringConstraint.html#isGreaterThanOrEqual(int)">isGreaterThanOrEqual</a></code><code class="X">(<code>int</code> <code class="parameterName">value</code>)</code><i class="Y"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></i></li>
 					</ul>
 				</div>
 			</aside>
