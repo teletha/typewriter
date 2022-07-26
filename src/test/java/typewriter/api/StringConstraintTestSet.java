@@ -51,6 +51,44 @@ public interface StringConstraintTestSet extends Testable {
     }
 
     @Test
+    default void isEmpty() {
+        Person model1 = new Person("");
+        Person model2 = new Person(" ");
+        Person model3 = new Person("\t");
+        Person model4 = new Person(" not empty");
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+
+        List<Person> founds = dao.findBy(Person::getName, c -> c.isEmpty()).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model1);
+    }
+
+    @Test
+    default void isNotEmpty() {
+        Person model1 = new Person("");
+        Person model2 = new Person(" ");
+        Person model3 = new Person("\t");
+        Person model4 = new Person(" not empty");
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+
+        List<Person> founds = dao.findBy(Person::getName, c -> c.isNotEmpty()).toList();
+        assert founds.size() == 3;
+        assert founds.get(0).equals(model2);
+        assert founds.get(1).equals(model3);
+        assert founds.get(2).equals(model4);
+    }
+
+    @Test
     default void lessThan() {
         Person model1 = new Person("one");
         Person model2 = new Person("two");

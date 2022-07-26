@@ -171,8 +171,8 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint regex(String regex) {
-            expression.add(propertyName + " REGEXP '" + regex + "'");
+        public StringConstraint isEmpty() {
+            expression.add(propertyName + "=''");
             return this;
         }
 
@@ -180,8 +180,17 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint notEmpty() {
+        public StringConstraint isNotEmpty() {
             expression.add(propertyName + "!=''");
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint regex(String regex) {
+            expression.add(propertyName + " REGEXP '" + regex + "'");
             return this;
         }
 

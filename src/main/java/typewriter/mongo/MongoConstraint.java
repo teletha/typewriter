@@ -162,8 +162,8 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint regex(String regex) {
-            filters.add(Filters.regex(propertyName, Pattern.compile(regex)));
+        public StringConstraint isEmpty() {
+            filters.add(Filters.eq(propertyName, ""));
             return this;
         }
 
@@ -171,8 +171,17 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint notEmpty() {
+        public StringConstraint isNotEmpty() {
             filters.add(Filters.not(Filters.eq(propertyName, "")));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public StringConstraint regex(String regex) {
+            filters.add(Filters.regex(propertyName, Pattern.compile(regex)));
             return this;
         }
 

@@ -119,7 +119,14 @@ public interface Constraint<V, Self> {
          * 
          * @return Chainable API.
          */
-        StringConstraint notEmpty();
+        StringConstraint isEmpty();
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @return Chainable API.
+         */
+        StringConstraint isNotEmpty();
 
         /**
          * Describes conditions for the specified property.
