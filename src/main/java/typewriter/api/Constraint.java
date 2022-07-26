@@ -176,132 +176,9 @@ public interface Constraint<V, Self> {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link Date}.
-     */
-    interface DateConstraint extends Constraint<Date, DateConstraint> {
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param year A conditional value.
-         * @param month A conditional value
-         * @param day A conditional value
-         * @return Chainable API.
-         */
-        default DateConstraint is(int year, int month, int day) {
-            return is(parse(year, month, day));
-        }
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param year A conditional value.
-         * @param month A conditional value
-         * @param day A conditional value
-         * @return Chainable API.
-         */
-        default DateConstraint isNot(int year, int month, int day) {
-            return isNot(parse(year, month, day));
-        }
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param year A conditional value.
-         * @param month A conditional value
-         * @param day A conditional value
-         * @return Chainable API.
-         */
-        default DateConstraint isBefore(int year, int month, int day) {
-            return isBefore(parse(year, month, day));
-        }
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param date A conditional value.
-         * @return Chainable API.
-         */
-        DateConstraint isBefore(Date date);
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param year A conditional value.
-         * @param month A conditional value
-         * @param day A conditional value
-         * @return Chainable API.
-         */
-        default DateConstraint isBeforeOrSame(int year, int month, int day) {
-            return isBeforeOrSame(parse(year, month, day));
-        }
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param date A conditional value.
-         * @return Chainable API.
-         */
-        DateConstraint isBeforeOrSame(Date date);
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param year A conditional value.
-         * @param month A conditional value
-         * @param day A conditional value
-         * @return Chainable API.
-         */
-        default DateConstraint isAfter(int year, int month, int day) {
-            return isAfter(parse(year, month, day));
-        }
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param date A conditional value.
-         * @return Chainable API.
-         */
-        DateConstraint isAfter(Date date);
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param year A conditional value.
-         * @param month A conditional value
-         * @param day A conditional value
-         * @return Chainable API.
-         */
-        default DateConstraint isAfterOrSame(int year, int month, int day) {
-            return isAfterOrSame(parse(year, month, day));
-        }
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param date A conditional value.
-         * @return Chainable API.
-         */
-        DateConstraint isAfterOrSame(Date date);
-
-        /**
-         * Converter.
-         * 
-         * @param year
-         * @param month
-         * @param day
-         * @return
-         */
-        private Date parse(int year, int month, int day) {
-            return Date.from(LocalDateTime.of(year, month, day, 0, 0, 0, 0).toInstant(ZoneOffset.UTC));
-        }
-    }
-
-    /**
      * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    interface TemporalAccessorConstraint<T extends TemporalAccessor, Self extends TemporalAccessorConstraint<T, Self>>
-            extends Constraint<T, Self> {
+    interface TemporalAccessorConstraint<T, Self extends TemporalAccessorConstraint<T, Self>> extends Constraint<T, Self> {
 
         /**
          * Describes conditions for the specified property.
@@ -416,6 +293,20 @@ public interface Constraint<V, Self> {
          * @return
          */
         T assembleTemporalAccessor(int year, int month, int day);
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link Date}.
+     */
+    interface DateConstraint extends TemporalAccessorConstraint<Date, DateConstraint> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default Date assembleTemporalAccessor(int year, int month, int day) {
+            return Date.from(LocalDateTime.of(year, month, day, 0, 0, 0, 0).toInstant(ZoneOffset.UTC));
+        }
     }
 
     /**

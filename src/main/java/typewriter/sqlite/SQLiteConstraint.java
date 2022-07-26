@@ -246,85 +246,9 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link Date}.
-     */
-    static class ForDate extends SQLiteConstraint<Date, DateConstraint> implements DateConstraint {
-
-        protected ForDate(Specifier specifier) {
-            super(specifier);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint is(Date date) {
-            expression.add(build("=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isNot(Date date) {
-            expression.add(build("!=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isBefore(Date date) {
-            expression.add(build("<", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isBeforeOrSame(Date date) {
-            expression.add(build("<=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isAfter(Date date) {
-            expression.add(build(">", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DateConstraint isAfterOrSame(Date date) {
-            expression.add(build(">=", date));
-            return this;
-        }
-
-        /**
-         * Build datetime comparing operation.
-         * 
-         * @param operator
-         * @param date
-         * @return
-         */
-        private String build(String operator, Date date) {
-            return propertyName + operator + "'" + SQLite.DATE_FORMATTER.format(date) + "'";
-        }
-    }
-
-    /**
      * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    static abstract class ForTermporal<T extends TemporalAccessor, Self extends TemporalAccessorConstraint<T, Self>>
-            extends SQLiteConstraint<T, Self>
+    static abstract class ForTermporal<T, Self extends TemporalAccessorConstraint<T, Self>> extends SQLiteConstraint<T, Self>
             implements TemporalAccessorConstraint<T, Self> {
 
         protected ForTermporal(Specifier specifier) {
@@ -393,6 +317,24 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * @return
          */
         protected abstract String build(String operator, T date);
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link Date}.
+     */
+    static class ForDate extends ForTermporal<Date, DateConstraint> implements DateConstraint {
+
+        protected ForDate(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected String build(String operator, Date date) {
+            return propertyName + operator + date.getTime();
+        }
     }
 
     /**
