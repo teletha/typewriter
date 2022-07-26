@@ -189,6 +189,15 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
+        public StringConstraint contains(String value) {
+            expression.add(propertyName + " LIKE '%" + value + "%'");
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         public StringConstraint regex(String regex) {
             expression.add(propertyName + " REGEXP '" + regex + "'");
             return this;

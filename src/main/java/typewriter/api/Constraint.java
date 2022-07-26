@@ -109,6 +109,14 @@ public interface Constraint<V, Self> {
         /**
          * Describes conditions for the specified property.
          * 
+         * @param value A conditional value.
+         * @return Chainable API.
+         */
+        StringConstraint contains(String value);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
          * @param regex A conditional value.
          * @return Chainable API.
          */

@@ -180,6 +180,14 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
+        public StringConstraint contains(String value) {
+            return regex(".*" + value + ".*");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         public StringConstraint regex(String regex) {
             filters.add(Filters.regex(propertyName, Pattern.compile(regex)));
             return this;

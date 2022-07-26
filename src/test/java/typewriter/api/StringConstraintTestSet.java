@@ -155,6 +155,23 @@ public interface StringConstraintTestSet extends Testable {
     }
 
     @Test
+    default void contains() {
+        Person model1 = new Person("one");
+        Person model2 = new Person("two");
+        Person model3 = new Person("three");
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+
+        List<Person> founds = dao.findBy(Person::getName, c -> c.contains("t")).toList();
+        assert founds.size() == 2;
+        assert founds.get(0).equals(model2);
+        assert founds.get(1).equals(model3);
+    }
+
+    @Test
     default void regex() {
         Person model1 = new Person("one");
         Person model2 = new Person("two");
