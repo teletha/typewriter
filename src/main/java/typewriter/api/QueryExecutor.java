@@ -53,6 +53,14 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
      * {@inheritDoc}
      */
     @Override
+    public R findBy(Constraint constraint) {
+        return findBy(createQueryable().findBy(constraint));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public <N extends Number> R findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
         return findBy(createQueryable().findBy(specifier, constraint));
     }
@@ -121,14 +129,6 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
      */
     public R findBy(long id) {
         return findBy(M::getId, v -> v.is(id));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public R findBy(Constraint constraint) {
-        return findBy(createQueryable().findBy(constraint));
     }
 
     /**
