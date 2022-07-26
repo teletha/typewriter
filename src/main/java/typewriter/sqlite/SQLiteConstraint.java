@@ -248,8 +248,8 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    static abstract class ForTermporal<T, Self extends TemporalAccessorConstraint<T, Self>> extends SQLiteConstraint<T, Self>
-            implements TemporalAccessorConstraint<T, Self> {
+    static abstract class ForTermporal<T, Self extends TemporalConstraint<T, Self>> extends SQLiteConstraint<T, Self>
+            implements TemporalConstraint<T, Self> {
 
         protected ForTermporal(Specifier specifier) {
             super(specifier);

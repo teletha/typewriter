@@ -284,9 +284,9 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    static abstract class ForTermporal<T extends TemporalAccessor, Self extends TemporalAccessorConstraint<T, Self>>
+    static abstract class ForTermporal<T extends TemporalAccessor, Self extends TemporalConstraint<T, Self>>
             extends MongoConstraint<T, Self>
-            implements TemporalAccessorConstraint<T, Self> {
+            implements TemporalConstraint<T, Self> {
 
         protected ForTermporal(Specifier specifier) {
             super(specifier);
