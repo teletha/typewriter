@@ -12,6 +12,7 @@ package typewriter.mongo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.UnaryOperator;
 
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
@@ -27,8 +28,16 @@ import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
+import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Queryable;
-import typewriter.api.Specifier;
+import typewriter.api.Specifier.BooleanSpecifier;
+import typewriter.api.Specifier.CharSpecifier;
+import typewriter.api.Specifier.DateSpecifier;
+import typewriter.api.Specifier.LocalDateSpecifier;
+import typewriter.api.Specifier.LocalDateTimeSpecifier;
+import typewriter.api.Specifier.LocalTimeSpecifier;
+import typewriter.api.Specifier.NumericSpecifier;
+import typewriter.api.Specifier.StringSpecifier;
 import typewriter.mongo.MongoConstraint.ForDate;
 import typewriter.mongo.MongoConstraint.ForLocalDate;
 import typewriter.mongo.MongoConstraint.ForLocalDateTime;
@@ -40,7 +49,7 @@ import typewriter.mongo.MongoConstraint.GenericType;
 /**
  * {@link Queryable} for mongodb.
  */
-public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
+public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
 
     /** The all constraint set. */
     protected final List<MongoConstraint<?, ?>> constraints = new ArrayList();
@@ -64,22 +73,64 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
      * {@inheritDoc}
      */
     @Override
-    protected <C extends Constraint<T, C>, T> C createConstraint(Class<C> constraintType, Specifier specifier) {
-        if (NumericConstraint.class == constraintType) {
-            return (C) new ForNumeric(specifier);
-        } else if (StringConstraint.class == constraintType) {
-            return (C) new ForString(specifier);
-        } else if (DateConstraint.class == constraintType) {
-            return (C) new ForDate(specifier);
-        } else if (LocalDateConstraint.class == constraintType) {
-            return (C) new ForLocalDate(specifier);
-        } else if (LocalTimeConstraint.class == constraintType) {
-            return (C) new ForLocalTime(specifier);
-        } else if (LocalDateTimeConstraint.class == constraintType) {
-            return (C) new ForLocalDateTime(specifier);
-        } else {
-            return (C) new GenericType(specifier);
-        }
+    public <N extends Number> MongoQuery<M> findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
+        return findBy(constraint.apply(new ForNumeric(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(CharSpecifier<M> specifier, UnaryOperator<TypeConstraint<Character>> constraint) {
+        return findBy(constraint.apply(new GenericType(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(BooleanSpecifier<M> specifier, UnaryOperator<TypeConstraint<Boolean>> constraint) {
+        return findBy(constraint.apply(new GenericType(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint) {
+        return findBy(constraint.apply(new ForString(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint) {
+        return findBy(constraint.apply(new ForDate(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(LocalDateSpecifier<M> specifier, UnaryOperator<LocalDateConstraint> constraint) {
+        return findBy(constraint.apply(new ForLocalDate(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(LocalTimeSpecifier<M> specifier, UnaryOperator<LocalTimeConstraint> constraint) {
+        return findBy(constraint.apply(new ForLocalTime(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
+        return findBy(constraint.apply(new ForLocalDateTime(specifier)));
     }
 
     /**

@@ -27,9 +27,7 @@ import typewriter.api.Specifier.LocalTimeSpecifier;
 import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 
-public abstract class Queryable<M, R> {
-
-    protected abstract <C extends Constraint<T, C>, T> C createConstraint(Class<C> type, Specifier specifier);
+public interface Queryable<M, R> {
 
     /**
      * Specify search conditions for the specified property.
@@ -37,18 +35,7 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public abstract R findBy(Constraint constraint);
-
-    /**
-     * Specify search conditions for the specified property.
-     * 
-     * @param specifier Specify the target property type-safely.
-     * @param constraint Describes conditions for the target property.
-     * @return Chainable API.
-     */
-    public <N extends Number> R findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
-        return findBy(constraint.apply(createConstraint(NumericConstraint.class, specifier)));
-    }
+    R findBy(Constraint constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -57,9 +44,7 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public R findBy(CharSpecifier<M> specifier, UnaryOperator<TypeConstraint<Character>> constraint) {
-        return findBy(constraint.apply(createConstraint(TypeConstraint.class, specifier)));
-    }
+    <N extends Number> R findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -68,9 +53,7 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public R findBy(BooleanSpecifier<M> specifier, UnaryOperator<TypeConstraint<Boolean>> constraint) {
-        return findBy(constraint.apply(createConstraint(TypeConstraint.class, specifier)));
-    }
+    R findBy(CharSpecifier<M> specifier, UnaryOperator<TypeConstraint<Character>> constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -79,9 +62,7 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public R findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint) {
-        return findBy(constraint.apply(createConstraint(StringConstraint.class, specifier)));
-    }
+    R findBy(BooleanSpecifier<M> specifier, UnaryOperator<TypeConstraint<Boolean>> constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -90,9 +71,7 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public R findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint) {
-        return findBy(constraint.apply(createConstraint(DateConstraint.class, specifier)));
-    }
+    R findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -101,9 +80,7 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public R findBy(LocalDateSpecifier<M> specifier, UnaryOperator<LocalDateConstraint> constraint) {
-        return findBy(constraint.apply(createConstraint(LocalDateConstraint.class, specifier)));
-    }
+    R findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -112,9 +89,7 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public R findBy(LocalTimeSpecifier<M> specifier, UnaryOperator<LocalTimeConstraint> constraint) {
-        return findBy(constraint.apply(createConstraint(LocalTimeConstraint.class, specifier)));
-    }
+    R findBy(LocalDateSpecifier<M> specifier, UnaryOperator<LocalDateConstraint> constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -123,7 +98,14 @@ public abstract class Queryable<M, R> {
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.
      */
-    public R findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
-        return findBy(constraint.apply(createConstraint(LocalDateTimeConstraint.class, specifier)));
-    }
+    R findBy(LocalTimeSpecifier<M> specifier, UnaryOperator<LocalTimeConstraint> constraint);
+
+    /**
+     * Specify search conditions for the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param constraint Describes conditions for the target property.
+     * @return Chainable API.
+     */
+    R findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint);
 }

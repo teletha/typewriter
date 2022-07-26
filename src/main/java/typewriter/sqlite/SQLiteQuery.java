@@ -12,6 +12,7 @@ package typewriter.sqlite;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.function.UnaryOperator;
 
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
@@ -20,8 +21,16 @@ import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
+import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Queryable;
-import typewriter.api.Specifier;
+import typewriter.api.Specifier.BooleanSpecifier;
+import typewriter.api.Specifier.CharSpecifier;
+import typewriter.api.Specifier.DateSpecifier;
+import typewriter.api.Specifier.LocalDateSpecifier;
+import typewriter.api.Specifier.LocalDateTimeSpecifier;
+import typewriter.api.Specifier.LocalTimeSpecifier;
+import typewriter.api.Specifier.NumericSpecifier;
+import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.sqlite.SQLiteConstraint.ForDate;
 import typewriter.sqlite.SQLiteConstraint.ForLocalDate;
@@ -34,7 +43,7 @@ import typewriter.sqlite.SQLiteConstraint.GenericType;
 /**
  * {@link Queryable} for mongodb.
  */
-public class SQLiteQuery<M extends IdentifiableModel> extends Queryable<M, SQLiteQuery<M>> {
+public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQLiteQuery<M>> {
 
     /** The all constraint set. */
     protected final List<SQLiteConstraint<?, ?>> constraints = new ArrayList();
@@ -58,22 +67,64 @@ public class SQLiteQuery<M extends IdentifiableModel> extends Queryable<M, SQLit
      * {@inheritDoc}
      */
     @Override
-    protected <C extends Constraint<T, C>, T> C createConstraint(Class<C> constraintType, Specifier specifier) {
-        if (NumericConstraint.class == constraintType) {
-            return (C) new ForNumeric(specifier);
-        } else if (StringConstraint.class == constraintType) {
-            return (C) new ForString(specifier);
-        } else if (DateConstraint.class == constraintType) {
-            return (C) new ForDate(specifier);
-        } else if (LocalDateConstraint.class == constraintType) {
-            return (C) new ForLocalDate(specifier);
-        } else if (LocalDateTimeConstraint.class == constraintType) {
-            return (C) new ForLocalDateTime(specifier);
-        } else if (LocalTimeConstraint.class == constraintType) {
-            return (C) new ForLocalTime(specifier);
-        } else {
-            return (C) new GenericType(specifier);
-        }
+    public <N extends Number> SQLiteQuery<M> findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
+        return findBy(constraint.apply(new ForNumeric(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(CharSpecifier<M> specifier, UnaryOperator<TypeConstraint<Character>> constraint) {
+        return findBy(constraint.apply(new GenericType(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(BooleanSpecifier<M> specifier, UnaryOperator<TypeConstraint<Boolean>> constraint) {
+        return findBy(constraint.apply(new GenericType(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint) {
+        return findBy(constraint.apply(new ForString(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint) {
+        return findBy(constraint.apply(new ForDate(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(LocalDateSpecifier<M> specifier, UnaryOperator<LocalDateConstraint> constraint) {
+        return findBy(constraint.apply(new ForLocalDate(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(LocalTimeSpecifier<M> specifier, UnaryOperator<LocalTimeConstraint> constraint) {
+        return findBy(constraint.apply(new ForLocalTime(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
+        return findBy(constraint.apply(new ForLocalDateTime(specifier)));
     }
 
     /**
