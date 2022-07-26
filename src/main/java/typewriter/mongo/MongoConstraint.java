@@ -9,6 +9,7 @@
  */
 package typewriter.mongo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -273,6 +274,52 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public DateConstraint isAfterOrSame(Date date) {
+            filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
+            return this;
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link LocalDate}.
+     */
+    static class ForLocalDate extends MongoConstraint<LocalDate, LocalDateConstraint> implements LocalDateConstraint {
+
+        protected ForLocalDate(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isBefore(LocalDate date) {
+            filters.add(Filters.lt(propertyName, Objects.requireNonNull(date)));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isBeforeOrSame(LocalDate date) {
+            filters.add(Filters.lte(propertyName, Objects.requireNonNull(date)));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isAfter(LocalDate date) {
+            filters.add(Filters.gt(propertyName, Objects.requireNonNull(date)));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isAfterOrSame(LocalDate date) {
             filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
             return this;
         }

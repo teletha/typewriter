@@ -9,6 +9,7 @@
  */
 package typewriter.api;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -295,4 +296,125 @@ public interface Constraint<V, Self> {
         }
     }
 
+    /**
+     * The specialized {@link Constraint} for {@link LocalDate}.
+     */
+    interface LocalDateConstraint extends Constraint<LocalDate, LocalDateConstraint> {
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default LocalDateConstraint is(int year, int month, int day) {
+            return is(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default LocalDateConstraint isNot(int year, int month, int day) {
+            return isNot(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default LocalDateConstraint isBefore(int year, int month, int day) {
+            return isBefore(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param date A conditional value.
+         * @return Chainable API.
+         */
+        LocalDateConstraint isBefore(LocalDate date);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default LocalDateConstraint isBeforeOrSame(int year, int month, int day) {
+            return isBeforeOrSame(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param date A conditional value.
+         * @return Chainable API.
+         */
+        LocalDateConstraint isBeforeOrSame(LocalDate date);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default LocalDateConstraint isAfter(int year, int month, int day) {
+            return isAfter(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param date A conditional value.
+         * @return Chainable API.
+         */
+        LocalDateConstraint isAfter(LocalDate date);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default LocalDateConstraint isAfterOrSame(int year, int month, int day) {
+            return isAfterOrSame(parse(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param date A conditional value.
+         * @return Chainable API.
+         */
+        LocalDateConstraint isAfterOrSame(LocalDate date);
+
+        /**
+         * Converter.
+         * 
+         * @param year
+         * @param month
+         * @param day
+         * @return
+         */
+        private LocalDate parse(int year, int month, int day) {
+            return LocalDate.of(year, month, day);
+        }
+    }
 }

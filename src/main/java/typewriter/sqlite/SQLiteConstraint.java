@@ -9,6 +9,8 @@
  */
 package typewriter.sqlite;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -313,6 +315,81 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         private String build(String operator, Date date) {
             return propertyName + operator + "'" + SQLite.DATE_FORMATTER.format(date) + "'";
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link LocalDate}.
+     */
+    static class ForLocalDate extends SQLiteConstraint<LocalDate, LocalDateConstraint> implements LocalDateConstraint {
+
+        protected ForLocalDate(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint is(LocalDate date) {
+            expression.add(build("=", date));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isNot(LocalDate date) {
+            expression.add(build("!=", date));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isBefore(LocalDate date) {
+            expression.add(build("<", date));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isBeforeOrSame(LocalDate date) {
+            expression.add(build("<=", date));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isAfter(LocalDate date) {
+            expression.add(build(">", date));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LocalDateConstraint isAfterOrSame(LocalDate date) {
+            expression.add(build(">=", date));
+            return this;
+        }
+
+        /**
+         * Build datetime comparing operation.
+         * 
+         * @param operator
+         * @param date
+         * @return
+         */
+        private String build(String operator, LocalDate date) {
+            return propertyName + operator + "'" + SQLite.DATE_TIME_FORMATTER.format(date.atStartOfDay().atOffset(ZoneOffset.UTC)) + "'";
         }
     }
 }
