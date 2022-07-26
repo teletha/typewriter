@@ -65,17 +65,17 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
      */
     @Override
     protected <C extends Constraint<T, C>, T> C createConstraint(Class<C> constraintType, Specifier specifier) {
-        if (NumericConstraint.class.isAssignableFrom(constraintType)) {
+        if (NumericConstraint.class == constraintType) {
             return (C) new ForNumeric(specifier);
-        } else if (StringConstraint.class.isAssignableFrom(constraintType)) {
+        } else if (StringConstraint.class == constraintType) {
             return (C) new ForString(specifier);
-        } else if (DateConstraint.class.isAssignableFrom(constraintType)) {
+        } else if (DateConstraint.class == constraintType) {
             return (C) new ForDate(specifier);
-        } else if (LocalDateConstraint.class.isAssignableFrom(constraintType)) {
+        } else if (LocalDateConstraint.class == constraintType) {
             return (C) new ForLocalDate(specifier);
-        } else if (LocalTimeConstraint.class.isAssignableFrom(constraintType)) {
+        } else if (LocalTimeConstraint.class == constraintType) {
             return (C) new ForLocalTime(specifier);
-        } else if (LocalDateTimeConstraint.class.isAssignableFrom(constraintType)) {
+        } else if (LocalDateTimeConstraint.class == constraintType) {
             return (C) new ForLocalDateTime(specifier);
         } else {
             return (C) new GenericType(specifier);
