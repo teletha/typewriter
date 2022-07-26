@@ -23,12 +23,14 @@ import kiss.I;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
+import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Queryable;
 import typewriter.api.Specifier;
 import typewriter.mongo.MongoConstraint.ForDate;
 import typewriter.mongo.MongoConstraint.ForLocalDate;
+import typewriter.mongo.MongoConstraint.ForLocalDateTime;
 import typewriter.mongo.MongoConstraint.ForNumeric;
 import typewriter.mongo.MongoConstraint.ForString;
 import typewriter.mongo.MongoConstraint.GenericType;
@@ -69,6 +71,8 @@ public class MongoQuery<M> extends Queryable<M, MongoQuery<M>> {
             return (C) new ForDate(specifier);
         } else if (LocalDateConstraint.class.isAssignableFrom(constraintType)) {
             return (C) new ForLocalDate(specifier);
+        } else if (LocalDateTimeConstraint.class.isAssignableFrom(constraintType)) {
+            return (C) new ForLocalDateTime(specifier);
         } else {
             return (C) new GenericType(specifier);
         }

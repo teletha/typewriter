@@ -16,6 +16,7 @@ import java.util.StringJoiner;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
+import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Queryable;
@@ -23,6 +24,7 @@ import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.sqlite.SQLiteConstraint.ForDate;
 import typewriter.sqlite.SQLiteConstraint.ForLocalDate;
+import typewriter.sqlite.SQLiteConstraint.ForLocalDateTime;
 import typewriter.sqlite.SQLiteConstraint.ForNumeric;
 import typewriter.sqlite.SQLiteConstraint.ForString;
 import typewriter.sqlite.SQLiteConstraint.GenericType;
@@ -63,6 +65,8 @@ public class SQLiteQuery<M extends IdentifiableModel> extends Queryable<M, SQLit
             return (C) new ForDate(specifier);
         } else if (LocalDateConstraint.class.isAssignableFrom(constraintType)) {
             return (C) new ForLocalDate(specifier);
+        } else if (LocalDateTimeConstraint.class.isAssignableFrom(constraintType)) {
+            return (C) new ForLocalDateTime(specifier);
         } else {
             return (C) new GenericType(specifier);
         }

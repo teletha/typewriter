@@ -12,6 +12,7 @@ package typewriter.api;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
 public interface Constraint<V, Self> {
@@ -297,9 +298,10 @@ public interface Constraint<V, Self> {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link LocalDate}.
+     * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    interface LocalDateConstraint extends Constraint<LocalDate, LocalDateConstraint> {
+    interface TemporalAccessorConstraint<T extends TemporalAccessor, Self extends TemporalAccessorConstraint<T, Self>>
+            extends Constraint<T, Self> {
 
         /**
          * Describes conditions for the specified property.
@@ -309,8 +311,8 @@ public interface Constraint<V, Self> {
          * @param day A conditional value
          * @return Chainable API.
          */
-        default LocalDateConstraint is(int year, int month, int day) {
-            return is(parse(year, month, day));
+        default Self is(int year, int month, int day) {
+            return is(assembleTemporalAccessor(year, month, day));
         }
 
         /**
@@ -321,8 +323,8 @@ public interface Constraint<V, Self> {
          * @param day A conditional value
          * @return Chainable API.
          */
-        default LocalDateConstraint isNot(int year, int month, int day) {
-            return isNot(parse(year, month, day));
+        default Self isNot(int year, int month, int day) {
+            return isNot(assembleTemporalAccessor(year, month, day));
         }
 
         /**
@@ -333,28 +335,8 @@ public interface Constraint<V, Self> {
          * @param day A conditional value
          * @return Chainable API.
          */
-        default LocalDateConstraint isBefore(int year, int month, int day) {
-            return isBefore(parse(year, month, day));
-        }
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param date A conditional value.
-         * @return Chainable API.
-         */
-        LocalDateConstraint isBefore(LocalDate date);
-
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param year A conditional value.
-         * @param month A conditional value
-         * @param day A conditional value
-         * @return Chainable API.
-         */
-        default LocalDateConstraint isBeforeOrSame(int year, int month, int day) {
-            return isBeforeOrSame(parse(year, month, day));
+        default Self isBefore(int year, int month, int day) {
+            return isBefore(assembleTemporalAccessor(year, month, day));
         }
 
         /**
@@ -363,7 +345,7 @@ public interface Constraint<V, Self> {
          * @param date A conditional value.
          * @return Chainable API.
          */
-        LocalDateConstraint isBeforeOrSame(LocalDate date);
+        Self isBefore(T date);
 
         /**
          * Describes conditions for the specified property.
@@ -373,8 +355,8 @@ public interface Constraint<V, Self> {
          * @param day A conditional value
          * @return Chainable API.
          */
-        default LocalDateConstraint isAfter(int year, int month, int day) {
-            return isAfter(parse(year, month, day));
+        default Self isBeforeOrSame(int year, int month, int day) {
+            return isBeforeOrSame(assembleTemporalAccessor(year, month, day));
         }
 
         /**
@@ -383,7 +365,7 @@ public interface Constraint<V, Self> {
          * @param date A conditional value.
          * @return Chainable API.
          */
-        LocalDateConstraint isAfter(LocalDate date);
+        Self isBeforeOrSame(T date);
 
         /**
          * Describes conditions for the specified property.
@@ -393,8 +375,8 @@ public interface Constraint<V, Self> {
          * @param day A conditional value
          * @return Chainable API.
          */
-        default LocalDateConstraint isAfterOrSame(int year, int month, int day) {
-            return isAfterOrSame(parse(year, month, day));
+        default Self isAfter(int year, int month, int day) {
+            return isAfter(assembleTemporalAccessor(year, month, day));
         }
 
         /**
@@ -403,7 +385,27 @@ public interface Constraint<V, Self> {
          * @param date A conditional value.
          * @return Chainable API.
          */
-        LocalDateConstraint isAfterOrSame(LocalDate date);
+        Self isAfter(T date);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param year A conditional value.
+         * @param month A conditional value
+         * @param day A conditional value
+         * @return Chainable API.
+         */
+        default Self isAfterOrSame(int year, int month, int day) {
+            return isAfterOrSame(assembleTemporalAccessor(year, month, day));
+        }
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param date A conditional value.
+         * @return Chainable API.
+         */
+        Self isAfterOrSame(T date);
 
         /**
          * Converter.
@@ -413,8 +415,34 @@ public interface Constraint<V, Self> {
          * @param day
          * @return
          */
-        private LocalDate parse(int year, int month, int day) {
+        T assembleTemporalAccessor(int year, int month, int day);
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link LocalDate}.
+     */
+    interface LocalDateConstraint extends TemporalAccessorConstraint<LocalDate, LocalDateConstraint> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalDate assembleTemporalAccessor(int year, int month, int day) {
             return LocalDate.of(year, month, day);
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link LocalDateTime}.
+     */
+    interface LocalDateTimeConstraint extends TemporalAccessorConstraint<LocalDateTime, LocalDateTimeConstraint> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalDateTime assembleTemporalAccessor(int year, int month, int day) {
+            return LocalDateTime.of(year, month, day, 0, 0, 0, 0);
         }
     }
 }

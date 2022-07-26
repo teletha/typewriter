@@ -16,7 +16,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
     static final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     /** The java.time date formatter. */
-    static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+    static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss").withZone(ZoneId.of("UTC"));
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
@@ -179,6 +182,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return "string";
         } else if (model.type == Date.class || model.type == LocalDate.class) {
             return "datetime";
+        } else if (model.type == LocalDateTime.class) {
+            return "integer";
         } else {
             throw new Error(model.type.getName());
         }
@@ -370,6 +375,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return "DATETIME('" + DATE_FORMATTER.format((Date) value) + "')";
         } else if (type == LocalDate.class) {
             return "DATETIME('" + DATE_TIME_FORMATTER.format(((LocalDate) value).atStartOfDay().atOffset(ZoneOffset.UTC)) + "')";
+        } else if (type == LocalDateTime.class) {
+            return String.valueOf(((LocalDateTime) value).toInstant(ZoneOffset.UTC).toEpochMilli());
         } else {
             return value.toString();
         }
@@ -396,6 +403,9 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return result.getDate(name);
         } else if (type == LocalDate.class) {
             return result.getDate(name).toLocalDate();
+        } else if (type == LocalDateTime.class) {
+            Instant instant = Instant.ofEpochMilli(result.getLong(name));
+            return instant.atOffset(ZoneOffset.UTC).toLocalDateTime();
         } else {
             throw new Error();
         }

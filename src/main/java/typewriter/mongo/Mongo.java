@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,13 +66,13 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     // register built-in decoders
     static {
         decoders.put(LocalDate.class, (doc, key) -> {
-            return LocalDate.ofInstant(doc.getDate(key).toInstant(), ZoneId.systemDefault());
+            return LocalDate.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
         });
         decoders.put(LocalTime.class, (doc, key) -> {
             return LocalTime.ofInstant(doc.getDate(key).toInstant(), ZoneId.systemDefault());
         });
         decoders.put(LocalDateTime.class, (doc, key) -> {
-            return LocalDateTime.ofInstant(doc.getDate(key).toInstant(), ZoneId.systemDefault());
+            return LocalDateTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
         });
     }
 
