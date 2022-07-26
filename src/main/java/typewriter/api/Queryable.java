@@ -11,11 +11,13 @@ package typewriter.api;
 
 import java.util.function.UnaryOperator;
 
+import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
+import typewriter.api.Specifier.DateSpecifier;
 import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 
@@ -73,5 +75,16 @@ public abstract class Queryable<M, R> {
      */
     public R findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint) {
         return findBy(constraint.apply(createConstraint(StringConstraint.class, specifier)));
+    }
+
+    /**
+     * Specify search conditions for the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param constraint Describes conditions for the target property.
+     * @return Chainable API.
+     */
+    public R findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint) {
+        return findBy(constraint.apply(createConstraint(DateConstraint.class, specifier)));
     }
 }

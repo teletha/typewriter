@@ -14,7 +14,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +40,9 @@ import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 
 public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, SQLiteQuery<M>> {
+
+    /** The java.util.date formatter. */
+    static final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
@@ -165,6 +171,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return "bit";
         } else if (model.type == String.class) {
             return "string";
+        } else if (model.type == Date.class) {
+            return "datetime";
         } else {
             throw new Error(model.type.getName());
         }
@@ -352,6 +360,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return "'" + value + "'";
         } else if (type == boolean.class || type == Boolean.class) {
             return value == Boolean.TRUE ? "1" : "0";
+        } else if (type == Date.class) {
+            return "DATETIME('" + DATE_FORMATTER.format((Date) value) + "')";
         } else {
             return value.toString();
         }
@@ -374,6 +384,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return result.getBoolean(name);
         } else if (type == String.class) {
             return result.getString(name);
+        } else if (type == Date.class) {
+            return result.getDate(name);
         } else {
             throw new Error();
         }

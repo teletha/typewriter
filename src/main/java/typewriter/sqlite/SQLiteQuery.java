@@ -14,11 +14,13 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import typewriter.api.Constraint;
+import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Queryable;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.sqlite.SQLiteConstraint.ForDate;
 import typewriter.sqlite.SQLiteConstraint.ForNumeric;
 import typewriter.sqlite.SQLiteConstraint.ForString;
 import typewriter.sqlite.SQLiteConstraint.GenericType;
@@ -55,6 +57,8 @@ public class SQLiteQuery<M extends IdentifiableModel> extends Queryable<M, SQLit
             return (C) new ForNumeric(specifier);
         } else if (StringConstraint.class.isAssignableFrom(constraintType)) {
             return (C) new ForString(specifier);
+        } else if (DateConstraint.class.isAssignableFrom(constraintType)) {
+            return (C) new ForDate(specifier);
         } else {
             return (C) new GenericType(specifier);
         }

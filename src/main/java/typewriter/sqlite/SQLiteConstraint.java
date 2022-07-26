@@ -9,7 +9,10 @@
  */
 package typewriter.sqlite;
 
+import static typewriter.sqlite.SQLite.*;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import typewriter.api.Constraint;
@@ -236,6 +239,52 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
         @Override
         public StringConstraint isGreaterThanOrEqual(int value) {
             expression.add("LENGTH(" + propertyName + ")>=" + value + "");
+            return this;
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link Date}.
+     */
+    static class ForDate extends SQLiteConstraint<Date, DateConstraint> implements DateConstraint {
+
+        protected ForDate(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isBefore(Date date) {
+            expression.add(propertyName + "<'" + DATE_FORMATTER.format(date) + "'");
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isBeforeOrSame(Date date) {
+            expression.add(propertyName + "<='" + DATE_FORMATTER.format(date) + "'");
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isAfter(Date date) {
+            expression.add(propertyName + ">'" + DATE_FORMATTER.format(date) + "'");
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isAfterOrSame(Date date) {
+            expression.add(propertyName + ">='" + DATE_FORMATTER.format(date) + "'");
             return this;
         }
     }

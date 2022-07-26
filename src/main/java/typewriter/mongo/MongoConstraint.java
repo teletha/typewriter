@@ -10,7 +10,9 @@
 package typewriter.mongo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.bson.BsonDocument;
@@ -226,6 +228,52 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
         @Override
         public StringConstraint isGreaterThanOrEqual(int value) {
             filters.add(Filters.expr(BsonDocument.parse("{$gte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
+            return this;
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link Date}.
+     */
+    static class ForDate extends MongoConstraint<Date, DateConstraint> implements DateConstraint {
+
+        protected ForDate(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isBefore(Date date) {
+            filters.add(Filters.lt(propertyName, Objects.requireNonNull(date)));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isBeforeOrSame(Date date) {
+            filters.add(Filters.lte(propertyName, Objects.requireNonNull(date)));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isAfter(Date date) {
+            filters.add(Filters.gt(propertyName, Objects.requireNonNull(date)));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DateConstraint isAfterOrSame(Date date) {
+            filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
             return this;
         }
     }
