@@ -12,11 +12,13 @@ package typewriter.sqlite;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import typewriter.api.Constraint;
+import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Specifier;
 
 /**
@@ -320,9 +322,84 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     }
 
     /**
+     * The specialized {@link Constraint} for {@link TemporalAccessor}.
+     */
+    static abstract class ForTermporal<T extends TemporalAccessor, Self extends TemporalAccessorConstraint<T, Self>>
+            extends SQLiteConstraint<T, Self>
+            implements TemporalAccessorConstraint<T, Self> {
+
+        protected ForTermporal(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Self is(T date) {
+            expression.add(build("=", date));
+            return (Self) this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Self isNot(T date) {
+            expression.add(build("!=", date));
+            return (Self) this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Self isBefore(T date) {
+            expression.add(build("<", date));
+            return (Self) this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Self isBeforeOrSame(T date) {
+            expression.add(build("<=", date));
+            return (Self) this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Self isAfter(T date) {
+            expression.add(build(">", date));
+            return (Self) this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Self isAfterOrSame(T date) {
+            expression.add(build(">=", date));
+            return (Self) this;
+        }
+
+        /**
+         * Build datetime comparing operation.
+         * 
+         * @param operator
+         * @param date
+         * @return
+         */
+        protected abstract String build(String operator, T date);
+    }
+
+    /**
      * The specialized {@link Constraint} for {@link LocalDate}.
      */
-    static class ForLocalDate extends SQLiteConstraint<LocalDate, LocalDateConstraint> implements LocalDateConstraint {
+    static class ForLocalDate extends ForTermporal<LocalDate, LocalDateConstraint> implements LocalDateConstraint {
 
         protected ForLocalDate(Specifier specifier) {
             super(specifier);
@@ -332,72 +409,15 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public LocalDateConstraint is(LocalDate date) {
-            expression.add(build("=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateConstraint isNot(LocalDate date) {
-            expression.add(build("!=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateConstraint isBefore(LocalDate date) {
-            expression.add(build("<", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateConstraint isBeforeOrSame(LocalDate date) {
-            expression.add(build("<=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateConstraint isAfter(LocalDate date) {
-            expression.add(build(">", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateConstraint isAfterOrSame(LocalDate date) {
-            expression.add(build(">=", date));
-            return this;
-        }
-
-        /**
-         * Build datetime comparing operation.
-         * 
-         * @param operator
-         * @param date
-         * @return
-         */
-        private String build(String operator, LocalDate date) {
+        protected String build(String operator, LocalDate date) {
             return propertyName + operator + "'" + SQLite.DATE_TIME_FORMATTER.format(date.atStartOfDay().atOffset(ZoneOffset.UTC)) + "'";
         }
     }
 
     /**
-     * The specialized {@link Constraint} for {@link LocalDate}.
+     * The specialized {@link Constraint} for {@link LocalDateTime}.
      */
-    static class ForLocalDateTime extends SQLiteConstraint<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
+    static class ForLocalDateTime extends ForTermporal<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
 
         protected ForLocalDateTime(Specifier specifier) {
             super(specifier);
@@ -407,64 +427,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public LocalDateTimeConstraint is(LocalDateTime date) {
-            expression.add(build("=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isNot(LocalDateTime date) {
-            expression.add(build("!=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isBefore(LocalDateTime date) {
-            expression.add(build("<", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isBeforeOrSame(LocalDateTime date) {
-            expression.add(build("<=", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isAfter(LocalDateTime date) {
-            expression.add(build(">", date));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isAfterOrSame(LocalDateTime date) {
-            expression.add(build(">=", date));
-            return this;
-        }
-
-        /**
-         * Build datetime comparing operation.
-         * 
-         * @param operator
-         * @param date
-         * @return
-         */
-        private String build(String operator, LocalDateTime date) {
+        protected String build(String operator, LocalDateTime date) {
             return propertyName + operator + date.toInstant(ZoneOffset.UTC).toEpochMilli();
         }
     }

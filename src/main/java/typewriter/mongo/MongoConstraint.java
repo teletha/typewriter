@@ -11,6 +11,7 @@ package typewriter.mongo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -281,11 +282,13 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link LocalDate}.
+     * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    static class ForLocalDate extends MongoConstraint<LocalDate, LocalDateConstraint> implements LocalDateConstraint {
+    static abstract class ForTermporal<T extends TemporalAccessor, Self extends TemporalAccessorConstraint<T, Self>>
+            extends MongoConstraint<T, Self>
+            implements TemporalAccessorConstraint<T, Self> {
 
-        protected ForLocalDate(Specifier specifier) {
+        protected ForTermporal(Specifier specifier) {
             super(specifier);
         }
 
@@ -293,82 +296,54 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public LocalDateConstraint isBefore(LocalDate date) {
+        public Self isBefore(T date) {
             filters.add(Filters.lt(propertyName, Objects.requireNonNull(date)));
-            return this;
+            return (Self) this;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public LocalDateConstraint isBeforeOrSame(LocalDate date) {
+        public Self isBeforeOrSame(T date) {
             filters.add(Filters.lte(propertyName, Objects.requireNonNull(date)));
-            return this;
+            return (Self) this;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public LocalDateConstraint isAfter(LocalDate date) {
+        public Self isAfter(T date) {
             filters.add(Filters.gt(propertyName, Objects.requireNonNull(date)));
-            return this;
+            return (Self) this;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public LocalDateConstraint isAfterOrSame(LocalDate date) {
+        public Self isAfterOrSame(T date) {
             filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
-            return this;
+            return (Self) this;
         }
     }
 
     /**
      * The specialized {@link Constraint} for {@link LocalDate}.
      */
-    static class ForLocalDateTime extends MongoConstraint<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
-
-        protected ForLocalDateTime(Specifier specifier) {
+    static class ForLocalDate extends ForTermporal<LocalDate, LocalDateConstraint> implements LocalDateConstraint {
+        ForLocalDate(Specifier specifier) {
             super(specifier);
         }
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isBefore(LocalDateTime date) {
-            filters.add(Filters.lt(propertyName, Objects.requireNonNull(date)));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isBeforeOrSame(LocalDateTime date) {
-            filters.add(Filters.lte(propertyName, Objects.requireNonNull(date)));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isAfter(LocalDateTime date) {
-            filters.add(Filters.gt(propertyName, Objects.requireNonNull(date)));
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public LocalDateTimeConstraint isAfterOrSame(LocalDateTime date) {
-            filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
-            return this;
+    /**
+     * The specialized {@link Constraint} for {@link LocalDateTime}.
+     */
+    static class ForLocalDateTime extends ForTermporal<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
+        ForLocalDateTime(Specifier specifier) {
+            super(specifier);
         }
     }
 }
