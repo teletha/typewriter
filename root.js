@@ -46,6 +46,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Constraint.LocalTimeConstraint",
+			"packageName": "typewriter.api",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Constraint.NumericConstraint",
 			"packageName": "typewriter.api",
 			"type": "Interface"
