@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Typewriter API</title>
+		<base href="../"/>
+		<script async="true" src="highlight.js" type="module"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="K">
+		<header class="Y">
+			<h1 class="d" date="2022-07-26" ver="0.1"><code>Typewriter</code></h1>
+			<nav class="Q"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="P" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="N">
+			<nav class="U">
+				<div></div>
+			</nav>
+			<article class="j" id="Article">
+				<section class="l"><code class="T">typewriter.api</code>
+					<h2 class="Interface h"><code class="b">Constraint.TemporalAccessorConstraint</code><code class="c">&#60;<code>T</code>, <code>Self</code>&#62;</code></h2>
+					<div class="W">
+						<ul class="C D">
+							<li><code>T</code></li>
+							<li><code>Self</code><code class="extends"><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html">TemporalAccessorConstraint</a><code class="parameters"><code>T</code>, <code>Self</code></code></code></code></li>
+						</ul>
+						<ul class="C F">
+							<li><code><a href="api/typewriter.api.Constraint.html">Constraint</a><code class="parameters"><code>T</code>, <code>Self</code></code></code></li>
+						</ul>
+						<ul class="C G">
+							<li><code><a href="api/typewriter.api.Constraint.DateConstraint.html">DateConstraint</a></code></li>
+							<li><code><a href="api/typewriter.api.Constraint.LocalDateConstraint.html">LocalDateConstraint</a></code></li>
+							<li><code><a href="api/typewriter.api.Constraint.LocalDateTimeConstraint.html">LocalDateTimeConstraint</a></code></li>
+						</ul>
+					</div><span class="B"><p>The specialized <code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> for <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/temporal/TemporalAccessor.html">TemporalAccessor</a></code>.</p>
+					</span></section>
+				<section class="l" id="is(int,int,int)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">is</code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>int</code> <code>year</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>month</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>day</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isNot(int,int,int)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">isNot</code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>int</code> <code>year</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>month</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>day</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isBefore(int,int,int)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">isBefore</code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>int</code> <code>year</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>month</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>day</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isBefore(java.lang.Object)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isBefore</code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>T</code> <code>date</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isBeforeOrSame(int,int,int)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">isBeforeOrSame</code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>int</code> <code>year</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>month</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>day</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isBeforeOrSame(java.lang.Object)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isBeforeOrSame</code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>T</code> <code>date</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isAfter(int,int,int)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">isAfter</code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>int</code> <code>year</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>month</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>day</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isAfter(java.lang.Object)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isAfter</code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>T</code> <code>date</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isAfterOrSame(int,int,int)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">isAfterOrSame</code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>int</code> <code>year</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>month</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>day</code></td>
+							<td><span><p>A conditional value</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="isAfterOrSame(java.lang.Object)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isAfterOrSame</code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="X"><code>Self</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>T</code> <code>date</code></td>
+							<td><span><p>A conditional value.</p>
+								</span></td>
+						</tr>
+						<tr class="k">
+							<td><code>Self</code></td>
+							<td><span><p>Chainable API.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Describes conditions for the specified property.</p>
+					</span></section>
+				<section class="l" id="assembleTemporalAccessor(int,int,int)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">assembleTemporalAccessor</code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="X"><code>T</code></i></h2>
+					<table class="J">
+						<tr class="O">
+							<td><code>int</code> <code>year</code></td>
+							<td></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>month</code></td>
+							<td></td>
+						</tr>
+						<tr class="O">
+							<td><code>int</code> <code>day</code></td>
+							<td></td>
+						</tr>
+						<tr class="k">
+							<td><code>T</code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Converter.</p>
+					</span></section>
+			</article>
+			<aside class="g" id="SubNavi">
+				<div class="Z">
+					<h5 class="i">Methods</h5>
+					<ul>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#is(int,int,int)">is</a></code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isNot(int,int,int)">isNot</a></code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isBefore(int,int,int)">isBefore</a></code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isBefore(java.lang.Object)">isBefore</a></code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isBeforeOrSame(int,int,int)">isBeforeOrSame</a></code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isBeforeOrSame(java.lang.Object)">isBeforeOrSame</a></code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isAfter(int,int,int)">isAfter</a></code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isAfter(java.lang.Object)">isAfter</a></code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isAfterOrSame(int,int,int)">isAfterOrSame</a></code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#isAfterOrSame(java.lang.Object)">isAfterOrSame</a></code><code class="c">(<code>T</code> <code class="parameterName">date</code>)</code><i class="f"><code>Self</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.TemporalAccessorConstraint.html#assembleTemporalAccessor(int,int,int)">assembleTemporalAccessor</a></code><code class="c">(<code>int</code> <code class="parameterName">year</code>, <code>int</code> <code class="parameterName">month</code>, <code>int</code> <code class="parameterName">day</code>)</code><i class="f"><code>T</code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>
