@@ -29,6 +29,7 @@ import typewriter.api.Constraint.LocalTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
+import typewriter.api.Constraint.ZonedDateTimeConstraint;
 import typewriter.api.Queryable;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
@@ -38,12 +39,14 @@ import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
 import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
+import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.mongo.MongoConstraint.ForDate;
 import typewriter.mongo.MongoConstraint.ForLocalDate;
 import typewriter.mongo.MongoConstraint.ForLocalDateTime;
 import typewriter.mongo.MongoConstraint.ForLocalTime;
 import typewriter.mongo.MongoConstraint.ForNumeric;
 import typewriter.mongo.MongoConstraint.ForString;
+import typewriter.mongo.MongoConstraint.ForZonedDateTime;
 import typewriter.mongo.MongoConstraint.GenericType;
 
 /**
@@ -131,6 +134,14 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     @Override
     public MongoQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForLocalDateTime(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
+        return findBy(constraint.apply(new ForZonedDateTime(specifier)));
     }
 
     /**

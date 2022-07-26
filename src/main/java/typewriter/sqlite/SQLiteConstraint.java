@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
@@ -357,6 +358,24 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     }
 
     /**
+     * The specialized {@link Constraint} for {@link LocalTime}.
+     */
+    static class ForLocalTime extends ForTermporal<LocalTime, LocalTimeConstraint> implements LocalTimeConstraint {
+
+        protected ForLocalTime(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected String build(String operator, LocalTime date) {
+            return propertyName + operator + date.toNanoOfDay();
+        }
+    }
+
+    /**
      * The specialized {@link Constraint} for {@link LocalDateTime}.
      */
     static class ForLocalDateTime extends ForTermporal<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
@@ -375,11 +394,11 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link LocalTime}.
+     * The specialized {@link Constraint} for {@link ZonedDateTime}.
      */
-    static class ForLocalTime extends ForTermporal<LocalTime, LocalTimeConstraint> implements LocalTimeConstraint {
+    static class ForZonedDateTime extends ForTermporal<ZonedDateTime, ZonedDateTimeConstraint> implements ZonedDateTimeConstraint {
 
-        protected ForLocalTime(Specifier specifier) {
+        protected ForZonedDateTime(Specifier specifier) {
             super(specifier);
         }
 
@@ -387,8 +406,9 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        protected String build(String operator, LocalTime date) {
-            return propertyName + operator + date.toNanoOfDay();
+        protected String build(String operator, ZonedDateTime date) {
+            return propertyName + operator + date.toInstant().toEpochMilli();
         }
     }
+
 }

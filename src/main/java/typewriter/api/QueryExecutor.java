@@ -22,6 +22,7 @@ import typewriter.api.Constraint.LocalTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
+import typewriter.api.Constraint.ZonedDateTimeConstraint;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
 import typewriter.api.Specifier.DateSpecifier;
@@ -30,6 +31,7 @@ import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
 import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
+import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.api.model.IdentifiableModel;
 
 public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Queryable<M, Q>>
@@ -118,6 +120,14 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
      */
     @Override
     public R findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
+        return findBy(createQueryable().findBy(specifier, constraint));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public R findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
         return findBy(createQueryable().findBy(specifier, constraint));
     }
 

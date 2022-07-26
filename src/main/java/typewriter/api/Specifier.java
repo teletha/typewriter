@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.function.Function;
@@ -95,6 +96,12 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
     /**
      * The specialized {@link Specifier}.
      */
+    interface DateSpecifier<S> extends Specifier<S, Date> {
+    }
+
+    /**
+     * The specialized {@link Specifier}.
+     */
     interface LocalDateSpecifier<S> extends Specifier<S, LocalDate> {
     }
 
@@ -113,12 +120,12 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
     /**
      * The specialized {@link Specifier}.
      */
-    interface ZonedDateTimeSpecifier<S> extends Specifier<S, ZonedDateTime> {
+    interface OffsetDateTimeSpecifier<S> extends Specifier<S, OffsetDateTime> {
     }
 
     /**
      * The specialized {@link Specifier}.
      */
-    interface DateSpecifier<S> extends Specifier<S, Date> {
+    interface ZonedDateTimeSpecifier<S> extends Specifier<S, ZonedDateTime> {
     }
 }

@@ -12,6 +12,7 @@ package typewriter.mongo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
@@ -315,6 +316,15 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForLocalDateTime extends ForTermporal<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
         ForLocalDateTime(Specifier specifier) {
+            super(specifier);
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link ZonedDateTime}.
+     */
+    static class ForZonedDateTime extends ForTermporal<ZonedDateTime, ZonedDateTimeConstraint> implements ZonedDateTimeConstraint {
+        ForZonedDateTime(Specifier specifier) {
             super(specifier);
         }
     }

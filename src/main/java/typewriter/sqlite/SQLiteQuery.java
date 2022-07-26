@@ -22,6 +22,7 @@ import typewriter.api.Constraint.LocalTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
+import typewriter.api.Constraint.ZonedDateTimeConstraint;
 import typewriter.api.Queryable;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
@@ -31,6 +32,7 @@ import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
 import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
+import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.sqlite.SQLiteConstraint.ForDate;
 import typewriter.sqlite.SQLiteConstraint.ForLocalDate;
@@ -38,6 +40,7 @@ import typewriter.sqlite.SQLiteConstraint.ForLocalDateTime;
 import typewriter.sqlite.SQLiteConstraint.ForLocalTime;
 import typewriter.sqlite.SQLiteConstraint.ForNumeric;
 import typewriter.sqlite.SQLiteConstraint.ForString;
+import typewriter.sqlite.SQLiteConstraint.ForZonedDateTime;
 import typewriter.sqlite.SQLiteConstraint.GenericType;
 
 /**
@@ -125,6 +128,14 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
     @Override
     public SQLiteQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForLocalDateTime(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SQLiteQuery<M> findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
+        return findBy(constraint.apply(new ForZonedDateTime(specifier)));
     }
 
     /**

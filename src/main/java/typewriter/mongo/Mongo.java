@@ -9,10 +9,13 @@
  */
 package typewriter.mongo;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +25,17 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
+import org.bson.BsonReader;
+import org.bson.BsonWriter;
 import org.bson.Document;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.EncoderContext;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.conversions.Bson;
 
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -40,7 +51,9 @@ import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import com.mongodb.client.model.changestream.FullDocument;
 
 import kiss.I;
+import kiss.Managed;
 import kiss.Signal;
+import kiss.Singleton;
 import kiss.WiseSupplier;
 import kiss.model.Model;
 import kiss.model.Property;
@@ -49,6 +62,9 @@ import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 
 public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>> {
+
+    private static final CodecRegistry CODEC_REGISTRY = CodecRegistries
+            .fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromCodecs(I.make(ZonedDateTimeCodec.class)));
 
     /** The primary key. */
     private static final String PrimaryKey = "_id";
@@ -73,6 +89,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
         decoders.put(LocalDateTime.class, (doc, key) -> {
             return LocalDateTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
         });
+        decoders.put(ZonedDateTime.class, I.make(ZonedDateTimeCodec.class));
     }
 
     /** The reusabel {@link Mongo} cache. */
@@ -103,7 +120,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      */
     Mongo(Class<M> model, MongoClient client) {
         this.model = Model.of(model);
-        this.db = Objects.requireNonNullElse(client, Client).getDatabase("master");
+        this.db = Objects.requireNonNullElse(client, Client).getDatabase("master").withCodecRegistry(CODEC_REGISTRY);
         this.collection = db.getCollection(model.getName().replace('$', '#'));
     }
 
@@ -350,5 +367,50 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      */
     public static <M extends IdentifiableModel> Mongo<M> of(Class<M> model) {
         return Cache.computeIfAbsent(model, key -> new Mongo(key));
+    }
+
+    /**
+     * Built-in codec.
+     */
+    @Managed(Singleton.class)
+    private static class ZonedDateTimeCodec implements Codec<ZonedDateTime>, BiFunction<Document, String, ZonedDateTime> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ZonedDateTime decode(BsonReader reader, DecoderContext decoderContext) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void encode(BsonWriter writer, ZonedDateTime value, EncoderContext encoderContext) {
+            writer.writeStartDocument();
+            writer.writeDateTime("milli", value.toInstant().toEpochMilli());
+            writer.writeString("id", value.getZone().getId());
+            writer.writeEndDocument();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ZonedDateTime apply(Document doc, String key) {
+            Document mix = doc.get(key, Document.class);
+            Instant date = mix.getDate("milli").toInstant();
+            ZoneId id = ZoneId.of(mix.getString("id"));
+            return ZonedDateTime.ofInstant(date, id);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Class<ZonedDateTime> getEncoderClass() {
+            return ZonedDateTime.class;
+        }
     }
 }
