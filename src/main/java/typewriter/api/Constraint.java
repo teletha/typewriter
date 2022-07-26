@@ -11,6 +11,7 @@ package typewriter.api;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 
@@ -188,7 +189,7 @@ public interface Constraint<V, Self> {
          * @return Chainable API.
          */
         default Self is(int year, int month, int day) {
-            return is(assembleTemporalValue(year, month, day));
+            return is(assembleTemporalValue(year, month, day, 0, 0, 0, 0));
         }
 
         /**
@@ -200,7 +201,7 @@ public interface Constraint<V, Self> {
          * @return Chainable API.
          */
         default Self isNot(int year, int month, int day) {
-            return isNot(assembleTemporalValue(year, month, day));
+            return isNot(assembleTemporalValue(year, month, day, 0, 0, 0, 0));
         }
 
         /**
@@ -212,7 +213,7 @@ public interface Constraint<V, Self> {
          * @return Chainable API.
          */
         default Self isBefore(int year, int month, int day) {
-            return isBefore(assembleTemporalValue(year, month, day));
+            return isBefore(assembleTemporalValue(year, month, day, 0, 0, 0, 0));
         }
 
         /**
@@ -232,7 +233,7 @@ public interface Constraint<V, Self> {
          * @return Chainable API.
          */
         default Self isBeforeOrSame(int year, int month, int day) {
-            return isBeforeOrSame(assembleTemporalValue(year, month, day));
+            return isBeforeOrSame(assembleTemporalValue(year, month, day, 0, 0, 0, 0));
         }
 
         /**
@@ -252,7 +253,7 @@ public interface Constraint<V, Self> {
          * @return Chainable API.
          */
         default Self isAfter(int year, int month, int day) {
-            return isAfter(assembleTemporalValue(year, month, day));
+            return isAfter(assembleTemporalValue(year, month, day, 0, 0, 0, 0));
         }
 
         /**
@@ -272,7 +273,7 @@ public interface Constraint<V, Self> {
          * @return Chainable API.
          */
         default Self isAfterOrSame(int year, int month, int day) {
-            return isAfterOrSame(assembleTemporalValue(year, month, day));
+            return isAfterOrSame(assembleTemporalValue(year, month, day, 0, 0, 0, 0));
         }
 
         /**
@@ -284,14 +285,18 @@ public interface Constraint<V, Self> {
         Self isAfterOrSame(T date);
 
         /**
-         * Converter.
+         * This is internal API. Don't call in client.
          * 
          * @param year
          * @param month
          * @param day
+         * @param hour
+         * @param minute
+         * @param second
+         * @param milli
          * @return
          */
-        T assembleTemporalValue(int year, int month, int day);
+        T assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli);
     }
 
     /**
@@ -303,8 +308,8 @@ public interface Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        default Date assembleTemporalValue(int year, int month, int day) {
-            return Date.from(LocalDateTime.of(year, month, day, 0, 0, 0, 0).toInstant(ZoneOffset.UTC));
+        default Date assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli) {
+            return Date.from(LocalDateTime.of(year, month, day, hour, minute, second, milli).toInstant(ZoneOffset.UTC));
         }
     }
 
@@ -317,8 +322,70 @@ public interface Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        default LocalDate assembleTemporalValue(int year, int month, int day) {
+        default LocalDate assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli) {
             return LocalDate.of(year, month, day);
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link LocalTime}.
+     */
+    interface LocalTimeConstraint extends TemporalConstraint<LocalTime, LocalTimeConstraint> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalTimeConstraint is(int hour, int minute, int second) {
+            return is(assembleTemporalValue(0, 0, 0, hour, minute, second, 0));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalTimeConstraint isNot(int hour, int minute, int second) {
+            return isNot(assembleTemporalValue(0, 0, 0, hour, minute, second, 0));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalTimeConstraint isBefore(int hour, int minute, int second) {
+            return isBefore(assembleTemporalValue(0, 0, 0, hour, minute, second, 0));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalTimeConstraint isBeforeOrSame(int hour, int minute, int second) {
+            return isBeforeOrSame(assembleTemporalValue(0, 0, 0, hour, minute, second, 0));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalTimeConstraint isAfter(int hour, int minute, int second) {
+            return isAfter(assembleTemporalValue(0, 0, 0, hour, minute, second, 0));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalTimeConstraint isAfterOrSame(int hour, int minute, int second) {
+            return isAfterOrSame(assembleTemporalValue(0, 0, 0, hour, minute, second, 0));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default LocalTime assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli) {
+            return LocalTime.of(hour, minute, second, milli * 1000000);
         }
     }
 
@@ -331,8 +398,8 @@ public interface Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        default LocalDateTime assembleTemporalValue(int year, int month, int day) {
-            return LocalDateTime.of(year, month, day, 0, 0, 0, 0);
+        default LocalDateTime assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli) {
+            return LocalDateTime.of(year, month, day, hour, minute, second, milli);
         }
     }
 }

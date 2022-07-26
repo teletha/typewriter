@@ -12,7 +12,6 @@ package typewriter.mongo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +68,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             return LocalDate.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
         });
         decoders.put(LocalTime.class, (doc, key) -> {
-            return LocalTime.ofInstant(doc.getDate(key).toInstant(), ZoneId.systemDefault());
+            return LocalTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
         });
         decoders.put(LocalDateTime.class, (doc, key) -> {
             return LocalDateTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);

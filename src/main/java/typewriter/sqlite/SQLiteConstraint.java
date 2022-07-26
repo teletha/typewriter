@@ -11,6 +11,7 @@ package typewriter.sqlite;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
@@ -370,6 +371,24 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
         @Override
         protected String build(String operator, LocalDateTime date) {
             return propertyName + operator + date.toInstant(ZoneOffset.UTC).toEpochMilli();
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link LocalTime}.
+     */
+    static class ForLocalTime extends ForTermporal<LocalTime, LocalTimeConstraint> implements LocalTimeConstraint {
+
+        protected ForLocalTime(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected String build(String operator, LocalTime date) {
+            return propertyName + operator + date.toNanoOfDay();
         }
     }
 }
