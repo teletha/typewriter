@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -181,7 +182,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return "bit";
         } else if (model.type == String.class) {
             return "string";
-        } else if (model.type == LocalDateTime.class || model.type == LocalDate.class || model.type == LocalTime.class || model.type == Date.class) {
+        } else if (model.type == LocalDateTime.class || model.type == LocalDate.class || model.type == LocalTime.class || model.type == Date.class || model.type == ZonedDateTime.class) {
             return "integer";
         } else {
             throw new Error(model.type.getName());
@@ -378,6 +379,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return String.valueOf(((LocalDateTime) value).toInstant(ZoneOffset.UTC).toEpochMilli());
         } else if (type == LocalTime.class) {
             return String.valueOf(((LocalTime) value).toNanoOfDay());
+        } else if (type == ZonedDateTime.class) {
+            return String.valueOf(((ZonedDateTime) value).toInstant().toEpochMilli());
         } else {
             return value.toString();
         }
@@ -409,6 +412,9 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return instant.atOffset(ZoneOffset.UTC).toLocalDateTime();
         } else if (type == LocalTime.class) {
             return LocalTime.ofNanoOfDay(result.getLong(name));
+        } else if (type == ZonedDateTime.class) {
+            Instant instant = Instant.ofEpochMilli(result.getLong(name));
+            return instant.atZone(ZoneId.of("UTC"));
         } else {
             throw new Error();
         }

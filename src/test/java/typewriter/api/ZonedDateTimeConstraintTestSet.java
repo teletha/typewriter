@@ -12,7 +12,7 @@ package typewriter.api;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.DateTimeException;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -304,6 +304,24 @@ public interface ZonedDateTimeConstraintTestSet extends Testable {
         assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.isAfterOrSame(null)).toList());
     }
 
+    @Test
+    default void isTimeZone() {
+        Person model1 = new Person("Ema", 2011, 6, 23, "UTC");
+        Person model2 = new Person("絵麻", 2011, 6, 23, "Asia/Tokyo");
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.is(2011, 6, 23).isZone("UTC")).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model1);
+
+        founds = dao.findBy(Person::getBirthday, day -> day.is(2011, 6, 23).isZone("Asia/Tokyo")).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model2);
+    }
+
     /**
      * Date converter.
      * 
@@ -313,7 +331,19 @@ public interface ZonedDateTimeConstraintTestSet extends Testable {
      * @return
      */
     private ZonedDateTime date(int year, int month, int day) {
-        return ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ZoneOffset.UTC);
+        return date(year, month, day, "UTC");
+    }
+
+    /**
+     * Date converter.
+     * 
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
+    private ZonedDateTime date(int year, int month, int day, String zone) {
+        return ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ZoneId.of(zone));
     }
 
     /**
@@ -331,11 +361,13 @@ public interface ZonedDateTimeConstraintTestSet extends Testable {
         private Person() {
         }
 
-        /**
-         */
         private Person(String name, int year, int month, int day) {
+            this(name, year, month, day, "UTC");
+        }
+
+        private Person(String name, int year, int month, int day, String zone) {
             this.name = name;
-            this.birthday = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ZoneOffset.UTC);
+            this.birthday = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ZoneId.of(zone));
         }
 
         /**

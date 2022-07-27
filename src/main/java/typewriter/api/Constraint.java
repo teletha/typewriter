@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -410,12 +411,33 @@ public interface Constraint<V, Self> {
      */
     interface ZonedDateTimeConstraint extends TemporalConstraint<ZonedDateTime, ZonedDateTimeConstraint> {
 
+        /** Default zone */
+        ZoneId UTC = ZoneId.of("UTC");
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param id A conditional value.
+         * @return Chainable API.
+         */
+       default ZonedDateTimeConstraint isZone(String id) {
+           return isZone(ZoneId.of(id));
+       }
+        
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param id A conditional value.
+         * @return Chainable API.
+         */
+        ZonedDateTimeConstraint isZone(ZoneId id);
+
         /**
          * {@inheritDoc}
          */
         @Override
         default ZonedDateTime assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli) {
-            return ZonedDateTime.of(year, month, day, hour, minute, second, milli, ZoneOffset.UTC);
+            return ZonedDateTime.of(year, month, day, hour, minute, second, milli, UTC);
         }
     }
 }
