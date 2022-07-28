@@ -81,6 +81,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Constraint.ZonedDateTimeConstraint",
+			"packageName": "typewriter.api",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Deletable",
 			"packageName": "typewriter.api",
 			"type": "Functional"
@@ -151,6 +158,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "SQLiteCodec",
+			"packageName": "typewriter.sqlite",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "SQLiteModel",
 			"packageName": "typewriter.sqlite",
 			"type": "AbstractClass"
@@ -215,6 +229,13 @@ const root = {
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Specifier.NumericSpecifier",
+			"packageName": "typewriter.api",
+			"type": "Functional"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Specifier.OffsetDateTimeSpecifier",
 			"packageName": "typewriter.api",
 			"type": "Functional"
 		},
