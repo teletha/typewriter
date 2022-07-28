@@ -4,6 +4,7 @@ const root = {
 	"packages": [
 		"typewriter.api",
 		"typewriter.api.model",
+		"typewriter.jdbc",
 		"typewriter.mongo",
 		"typewriter.sqlite"
 	],
@@ -102,6 +103,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "JDBCTypeCodec",
+			"packageName": "typewriter.jdbc",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Mongo",
 			"packageName": "typewriter.mongo",
 			"type": "Class"
@@ -151,16 +159,16 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "SQLite",
-			"packageName": "typewriter.sqlite",
+			"name": "SQLTemplate",
+			"packageName": "typewriter.jdbc",
 			"type": "Class"
 		},
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "SQLiteCodec",
+			"name": "SQLite",
 			"packageName": "typewriter.sqlite",
-			"type": "AbstractClass"
+			"type": "Class"
 		},
 		{
 			"modifiers": {
