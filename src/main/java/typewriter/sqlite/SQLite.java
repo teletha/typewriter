@@ -219,7 +219,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             execute("DELETE FROM", tableName, WHERE(instance));
         } else {
             // delete properties
-            execute("UPDATE", tableName, SET(model, specifiers, p -> "NULL"), WHERE(instance));
+            execute("UPDATE", tableName, SETNULL(model, specifiers), WHERE(instance));
         }
     }
 
@@ -237,7 +237,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             execute("REPLACE INTO", tableName, VALUES(model, instance));
         } else {
             // update properties
-            execute("UPDATE", tableName, SET2(model, specifiers, instance), WHERE(instance));
+            execute("UPDATE", tableName, SET(model, specifiers, instance), WHERE(instance));
         }
     }
 
