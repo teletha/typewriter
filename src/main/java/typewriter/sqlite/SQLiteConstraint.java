@@ -407,7 +407,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         protected String build(String operator, ZonedDateTime date) {
-            return propertyName + operator + date.toInstant().toEpochMilli();
+            return propertyName + "_DATE" + operator + date.toInstant().toEpochMilli();
         }
     }
 }
