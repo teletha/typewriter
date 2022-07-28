@@ -9,11 +9,12 @@
  */
 package typewriter.sqlite;
 
+import static typewriter.jdbc.SQLTemplate.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,15 +26,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.sqlite.Function;
 
@@ -46,6 +43,7 @@ import kiss.model.Property;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.jdbc.JDBCTypeCodec;
 
 public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, SQLiteQuery<M>> {
 
@@ -99,98 +97,38 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
 
         try {
             // pragma
-            execute("PRAGMA journal_mode=wal");
-            execute("PRAGMA sync_mode=off");
+            executeU("PRAGMA journal_mode=wal");
+            executeU("PRAGMA sync_mode=off");
 
             // register extra functions
             Function.create(connection, "REGEXP", REGEXP_FUNCTION);
 
             // create table
-            StringJoiner defs = new StringJoiner(",");
-            for (Property property : model.properties()) {
-                SQLiteCodec codec = SQLiteCodec.by(property.model.type);
-                if (codec.types.length == 0) {
-                    defs.add(property.name + " " + computeSQLType(property.model.type));
-                } else {
-                    for (int i = 0; i < codec.types.length; i++) {
-                        defs.add(property.name + codec.names[i] + " " + computeSQLType(codec.types[i]));
-                    }
-                }
-            }
-            execute("CREATE TABLE IF NOT EXISTS", tableName, "(", defs, ", PRIMARY KEY(id))");
+            executeU("CREATE TABLE IF NOT EXISTS", tableName, tableDefinition(model, this::computeSQLType));
         } catch (SQLException e) {
             throw I.quiet(e);
         }
-
-    }
-
-    private static <V> String values(Iterable<V> values, WiseFunction<V, String> converter) {
-        return join("(", ",", ")", values, converter);
-    }
-
-    private static <V> String join(String prefix, String separator, String suffix, Iterable<V> values, WiseFunction<V, String> converter) {
-        StringJoiner joiner = new StringJoiner(separator, prefix, suffix);
-        for (V value : values) {
-            joiner.add(converter.apply(value));
-        }
-        return joiner.toString();
     }
 
     /**
-     * Execute your query.
+     * Define JAVA-SQL type mapping.
      * 
-     * @param query
-     */
-    private void execute(Object... query) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < query.length; i++) {
-            if (i != 0) builder.append(' ');
-            builder.append(query[i].toString());
-        }
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(builder.toString());
-        } catch (SQLException e) {
-            throw I.quiet(new SQLException(builder.toString(), e));
-        }
-    }
-
-    /**
-     * Execute your query.
-     * 
-     * @param query
-     */
-    private ResultSet query(Object... query) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < query.length; i++) {
-            if (i != 0) builder.append(' ');
-            builder.append(query[i].toString());
-        }
-
-        try {
-            return connection.createStatement().executeQuery(builder.toString());
-        } catch (SQLException e) {
-            throw I.quiet(new SQLException(builder.toString(), e));
-        }
-    }
-
-    /**
-     * @param model
+     * @param type
      * @return
      */
-    private static String computeSQLType(Class model) {
-        if (model == int.class) {
+    private String computeSQLType(Class type) {
+        if (type == int.class) {
             return "integer";
-        } else if (model == long.class) {
+        } else if (type == long.class) {
             return "bigint";
-        } else if (model == boolean.class) {
+        } else if (type == boolean.class) {
             return "bit";
-        } else if (model == String.class) {
+        } else if (type == String.class) {
             return "string";
-        } else if (model == LocalDateTime.class || model == LocalDate.class || model == LocalTime.class || model == Date.class || model == ZonedDateTime.class) {
+        } else if (type == LocalDateTime.class || type == LocalDate.class || type == LocalTime.class || type == Date.class || type == ZonedDateTime.class) {
             return "integer";
         } else {
-            throw new Error(model.getName());
+            throw new Error(type.getName());
         }
     }
 
@@ -200,7 +138,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
     @Override
     public long count() {
         try {
-            ResultSet result = query("SELECT COUNT(*) N FROM " + tableName);
+            ResultSet result = executeQuery("SELECT COUNT(*) N FROM", tableName);
             result.next();
             return result.getLong("N");
         } catch (SQLException e) {
@@ -216,11 +154,11 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         return new Signal<>((observer, disposer) -> {
             try {
                 List<Property> properties = model.properties();
-                ResultSet result = query("SELECT * FROM " + tableName + " " + query);
+                ResultSet result = executeQuery("SELECT * FROM", tableName, query);
                 while (result.next()) {
                     M instance = I.make(this.model.type);
                     for (Property property : properties) {
-                        this.model.set(instance, property, SQLiteCodec.decode(property, result));
+                        this.model.set(instance, property, JDBCTypeCodec.decode(property, result));
                     }
                     observer.accept(instance);
                 }
@@ -252,17 +190,10 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
                     properties = model.properties();
                 }
 
-                StringBuilder builder = new StringBuilder().append("SELECT ")
-                        .append(properties.stream().map(p -> p.name).collect(Collectors.joining(",")))
-                        .append(" FROM ")
-                        .append(tableName)
-                        .append(" WHERE id=")
-                        .append(instance.getId());
-
-                ResultSet result = query(builder.toString());
+                ResultSet result = executeQuery("SELECT", column(properties), "FROM", tableName, WHERE(instance));
                 if (result.next()) {
                     for (Property property : properties) {
-                        this.model.set(instance, property, SQLiteCodec.decode(property, result));
+                        this.model.set(instance, property, JDBCTypeCodec.decode(property, result));
                     }
                     observer.accept(instance);
                 }
@@ -283,26 +214,13 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return;
         }
 
-        StringBuilder builder = new StringBuilder();
-
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            builder.append("DELETE FROM ").append(tableName).append(" WHERE id=").append(instance.getId());
+            executeU("DELETE FROM", tableName, WHERE(instance));
         } else {
             // delete properties
-            builder.append("UPDATE ").append(tableName).append(" SET ");
-            int count = 0;
-            for (Specifier<M, ?> specifier : specifiers) {
-                if (specifier != null) {
-                    if (count++ != 0) builder.append(',');
-                    Property property = model.property(specifier.propertyName());
-                    builder.append(property.name).append("=NULL");
-                }
-            }
-            builder.append(" WHERE id=").append(instance.getId());
+            executeU("UPDATE", tableName, SET(model, specifiers, p -> "NULL"), WHERE(instance));
         }
-
-        execute(builder);
     }
 
     /**
@@ -314,50 +232,13 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             return;
         }
 
-        StringBuilder builder = new StringBuilder();
-
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            builder.append("REPLACE INTO ").append(tableName).append(" VALUES(");
-
-            List<Property> properties = model.properties();
-            for (int i = 0; i < properties.size(); i++) {
-                if (i != 0) builder.append(',');
-                Property property = properties.get(i);
-
-                Map<String, Object> result = new LinkedHashMap();
-                SQLiteCodec codec = SQLiteCodec.by(property.model.type);
-                codec.encode(result, property.name, model.get(instance, property));
-
-                StringJoiner joiner = new StringJoiner(",");
-                for (Entry<String, Object> entry : result.entrySet()) {
-                    joiner.add(I.transform(entry.getValue(), String.class));
-                }
-                builder.append(joiner);
-            }
-            builder.append(")");
+            executeU("REPLACE INTO", tableName, VALUES(model, instance));
         } else {
             // update properties
-            builder.append("UPDATE ").append(tableName).append(" SET ");
-            int count = 0;
-            for (Specifier<M, ?> specifier : specifiers) {
-                if (specifier != null) {
-                    if (count++ != 0) builder.append(',');
-                    Property property = model.property(specifier.propertyName());
-
-                    Map<String, Object> result = new LinkedHashMap();
-                    SQLiteCodec codec = SQLiteCodec.by(property.model.type);
-                    codec.encode(result, property.name, model.get(instance, property));
-
-                    for (Entry<String, Object> entry : result.entrySet()) {
-                        builder.append(entry.getKey() + " = " + entry.getValue());
-                    }
-                }
-            }
-            builder.append(" WHERE id=").append(instance.getId());
+            executeU("UPDATE", tableName, SET2(model, specifiers, instance), WHERE(instance));
         }
-
-        execute(builder);
     }
 
     /**
@@ -395,6 +276,42 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
     private void execute(CharSequence builder) {
         try {
             connection.createStatement().executeUpdate(builder.toString());
+        } catch (SQLException e) {
+            throw I.quiet(new SQLException(builder.toString(), e));
+        }
+    }
+
+    /**
+     * Execute query.
+     * 
+     * @param builder
+     */
+    private void executeU(Object... objects) {
+        StringBuilder builder = new StringBuilder();
+        for (Object object : objects) {
+            builder.append(object).append(' ');
+        }
+
+        try {
+            connection.createStatement().executeUpdate(builder.toString());
+        } catch (SQLException e) {
+            throw I.quiet(new SQLException(builder.toString(), e));
+        }
+    }
+
+    /**
+     * Execute query.
+     * 
+     * @param builder
+     */
+    private ResultSet executeQuery(Object... objects) {
+        StringBuilder builder = new StringBuilder();
+        for (Object object : objects) {
+            builder.append(object).append(' ');
+        }
+
+        try {
+            return connection.createStatement().executeQuery(builder.toString());
         } catch (SQLException e) {
             throw I.quiet(new SQLException(builder.toString(), e));
         }
