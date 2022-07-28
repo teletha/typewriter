@@ -103,6 +103,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "JDBC",
+			"packageName": "typewriter.jdbc",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "JDBCTypeCodec",
 			"packageName": "typewriter.jdbc",
 			"type": "AbstractClass"

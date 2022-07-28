@@ -8,10 +8,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="X">
-		<header class="j">
-			<h1 class="k" date="2022-07-28" ver="0.1"><code>Typewriter</code></h1>
-			<nav class="O"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="W">
+		<header class="J">
+			<h1 class="H" date="2022-07-28" ver="0.1"><code>Typewriter</code></h1>
+			<nav class="g"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -20,7 +20,7 @@
 					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="l" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="Y" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -28,44 +28,45 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="V">
-			<nav class="L">
+		<main class="c">
+			<nav class="X">
 				<div></div>
 			</nav>
-			<article class="Y" id="Article">
-				<section class="K"><code class="J">typewriter.api</code>
-					<h2 class="Functional a"><code class="H">Transactional</code></h2>
-					<div class="W">
+			<article class="I" id="Article">
+				<section class="e"><code class="h">typewriter.api</code>
+					<h2 class="Functional b"><code class="R">Transactional</code></h2>
+					<div class="K">
 						<ul class="C G">
+							<li><code><a href="api/typewriter.jdbc.JDBC.html">JDBC</a><code class="parameters"><code>M</code>, <code>Q</code></code></code></li>
 							<li><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></li>
 							<li><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>R</code>, <code>Q</code></code></code></li>
 							<li><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></li>
 						</ul>
 					</div>
 				</section>
-				<section class="K" id="transact(kiss.WiseRunnable)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="H">transact</code><code class="e">(<code>kiss.WiseRunnable</code> <code class="parameterName">operation</code>)</code><i class="Z"><code>void</code></i></h2>
-					<table class="Q">
-						<tr class="c">
+				<section class="e" id="transact(kiss.WiseRunnable)">
+					<h2 class="a"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="R">transact</code><code class="f">(<code>kiss.WiseRunnable</code> <code class="parameterName">operation</code>)</code><i class="V"><code>void</code></i></h2>
+					<table class="U">
+						<tr class="S">
 							<td><code>kiss.WiseRunnable</code> <code>operation</code></td>
 							<td><span><p>Your operation.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Do your transaction.</p>
 					</span></section>
-				<section class="K" id="transact(kiss.WiseSupplier)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="H">transact</code><code class="e">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="Z"><code>R</code></i></h2>
-					<table class="Q">
-						<tr class="b">
+				<section class="e" id="transact(kiss.WiseSupplier)">
+					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="R">transact</code><code class="f">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="V"><code>R</code></i></h2>
+					<table class="U">
+						<tr class="d">
 							<td><code>R</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="S">
 							<td><code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code>operation</code></td>
 							<td><span><p>Your operation.</p>
 								</span></td>
 						</tr>
-						<tr class="U">
+						<tr class="P">
 							<td><code>R</code></td>
 							<td><span><p>A result of operation.</p>
 								</span></td>
@@ -73,12 +74,12 @@
 					</table><span class="B"><p>Do your transaction.</p>
 					</span></section>
 			</article>
-			<aside class="f" id="SubNavi">
-				<div class="T">
-					<h5 class="h">Methods</h5>
+			<aside class="Z" id="SubNavi">
+				<div class="N">
+					<h5 class="M">Methods</h5>
 					<ul>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Transactional.html#transact(kiss.WiseRunnable)">transact</a></code><code class="e">(<code>kiss.WiseRunnable</code> <code class="parameterName">operation</code>)</code><i class="R"><code>void</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Transactional.html#transact(kiss.WiseSupplier)">transact</a></code><code class="e">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="R"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Transactional.html#transact(kiss.WiseRunnable)">transact</a></code><code class="f">(<code>kiss.WiseRunnable</code> <code class="parameterName">operation</code>)</code><i class="L"><code>void</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Transactional.html#transact(kiss.WiseSupplier)">transact</a></code><code class="f">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="L"><code>R</code></i></li>
 					</ul>
 				</div>
 			</aside>
