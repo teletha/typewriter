@@ -9,8 +9,6 @@
  */
 package typewriter.sqlite;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,19 +16,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
@@ -108,17 +106,22 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             Function.create(connection, "REGEXP", REGEXP_FUNCTION);
 
             // create table
-            execute("CREATE TABLE IF NOT EXISTS", tableName, definition(model.properties()));
+            StringJoiner defs = new StringJoiner(",");
+            for (Property property : model.properties()) {
+                SQLiteCodec codec = SQLiteCodec.by(property.model.type);
+                if (codec.types.length == 0) {
+                    defs.add(property.name + " " + computeSQLType(property.model.type));
+                } else {
+                    for (int i = 0; i < codec.types.length; i++) {
+                        defs.add(property.name + codec.names[i] + " " + computeSQLType(codec.types[i]));
+                    }
+                }
+            }
+            execute("CREATE TABLE IF NOT EXISTS", tableName, "(", defs, ", PRIMARY KEY(id))");
         } catch (SQLException e) {
             throw I.quiet(e);
         }
 
-    }
-
-    private static <V> String definition(Iterable<Property> properties) {
-        return join("(", ",", ")", properties, property -> {
-            return property.name + " " + computeSQLType(property.model) + (property.name.equals("id") ? " primary key" : "");
-        });
     }
 
     private static <V> String values(Iterable<V> values, WiseFunction<V, String> converter) {
@@ -175,19 +178,19 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * @param model
      * @return
      */
-    private static String computeSQLType(Model model) {
-        if (model.type == int.class) {
+    private static String computeSQLType(Class model) {
+        if (model == int.class) {
             return "integer";
-        } else if (model.type == long.class) {
+        } else if (model == long.class) {
             return "bigint";
-        } else if (model.type == boolean.class) {
+        } else if (model == boolean.class) {
             return "bit";
-        } else if (model.type == String.class) {
+        } else if (model == String.class) {
             return "string";
-        } else if (model.type == LocalDateTime.class || model.type == LocalDate.class || model.type == LocalTime.class || model.type == Date.class || model.type == ZonedDateTime.class) {
+        } else if (model == LocalDateTime.class || model == LocalDate.class || model == LocalTime.class || model == Date.class || model == ZonedDateTime.class) {
             return "integer";
         } else {
-            throw new Error(model.type.getName());
+            throw new Error(model.getName());
         }
     }
 
@@ -217,7 +220,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
                 while (result.next()) {
                     M instance = I.make(this.model.type);
                     for (Property property : properties) {
-                        this.model.set(instance, property, decode(property, result));
+                        this.model.set(instance, property, SQLiteCodec.decode(property, result));
                     }
                     observer.accept(instance);
                 }
@@ -259,7 +262,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
                 ResultSet result = query(builder.toString());
                 if (result.next()) {
                     for (Property property : properties) {
-                        this.model.set(instance, property, decode(property, result));
+                        this.model.set(instance, property, SQLiteCodec.decode(property, result));
                     }
                     observer.accept(instance);
                 }
@@ -321,7 +324,16 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             for (int i = 0; i < properties.size(); i++) {
                 if (i != 0) builder.append(',');
                 Property property = properties.get(i);
-                builder.append(encode(property.model.type, model.get(instance, property)));
+
+                Map<String, Object> result = new LinkedHashMap();
+                SQLiteCodec codec = SQLiteCodec.by(property.model.type);
+                codec.encode(result, property.name, model.get(instance, property));
+
+                StringJoiner joiner = new StringJoiner(",");
+                for (Entry<String, Object> entry : result.entrySet()) {
+                    joiner.add(I.transform(entry.getValue(), String.class));
+                }
+                builder.append(joiner);
             }
             builder.append(")");
         } else {
@@ -332,7 +344,14 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
                 if (specifier != null) {
                     if (count++ != 0) builder.append(',');
                     Property property = model.property(specifier.propertyName());
-                    builder.append(property.name).append("=").append(encode(property.model.type, model.get(instance, property)));
+
+                    Map<String, Object> result = new LinkedHashMap();
+                    SQLiteCodec codec = SQLiteCodec.by(property.model.type);
+                    codec.encode(result, property.name, model.get(instance, property));
+
+                    for (Entry<String, Object> entry : result.entrySet()) {
+                        builder.append(entry.getKey() + " = " + entry.getValue());
+                    }
                 }
             }
             builder.append(" WHERE id=").append(instance.getId());
@@ -365,61 +384,6 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
             } catch (Throwable e) {
                 throw I.quiet(e);
             }
-        }
-    }
-
-    private String encode(Class type, Object value) {
-        if (type == String.class) {
-            return "'" + value + "'";
-        } else if (type == boolean.class || type == Boolean.class) {
-            return value == Boolean.TRUE ? "1" : "0";
-        } else if (type == Date.class) {
-            return String.valueOf(((Date) value).getTime());
-        } else if (type == LocalDate.class) {
-            return String.valueOf(((LocalDate) value).toEpochDay());
-        } else if (type == LocalDateTime.class) {
-            return String.valueOf(((LocalDateTime) value).toInstant(ZoneOffset.UTC).toEpochMilli());
-        } else if (type == LocalTime.class) {
-            return String.valueOf(((LocalTime) value).toNanoOfDay());
-        } else if (type == ZonedDateTime.class) {
-            return String.valueOf(((ZonedDateTime) value).withZoneSameInstant(UTC).toInstant().toEpochMilli());
-        } else {
-            return value.toString();
-        }
-    }
-
-    /**
-     * @param property
-     * @param result
-     * @return
-     */
-    private Object decode(Property property, ResultSet result) throws SQLException {
-        String name = property.name;
-        Class type = property.model.type;
-
-        if (type == int.class) {
-            return result.getInt(name);
-        } else if (type == long.class) {
-            return result.getLong(name);
-        } else if (type == boolean.class) {
-            return result.getBoolean(name);
-        } else if (type == String.class) {
-            return result.getString(name);
-        } else if (type == Date.class) {
-            return new Date(result.getLong(name));
-        } else if (type == LocalDate.class) {
-            return LocalDate.ofEpochDay(result.getLong(name));
-        } else if (type == LocalDateTime.class) {
-            Instant instant = Instant.ofEpochMilli(result.getLong(name));
-            return instant.atOffset(ZoneOffset.UTC).toLocalDateTime();
-        } else if (type == LocalTime.class) {
-            return LocalTime.ofNanoOfDay(result.getLong(name));
-        } else if (type == ZonedDateTime.class) {
-            Instant date = Instant.ofEpochMilli(result.getLong(name + "_DATE"));
-            ZoneId zone = ZoneId.of(result.getString(name + "_ZONE"));
-            return ZonedDateTime.ofInstant(date, zone);
-        } else {
-            throw new Error();
         }
     }
 
