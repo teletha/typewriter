@@ -9,6 +9,8 @@
  */
 package typewriter.sqlite;
 
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -380,7 +382,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         } else if (type == LocalTime.class) {
             return String.valueOf(((LocalTime) value).toNanoOfDay());
         } else if (type == ZonedDateTime.class) {
-            return String.valueOf(((ZonedDateTime) value).toInstant().toEpochMilli());
+            return String.valueOf(((ZonedDateTime) value).withZoneSameInstant(UTC).toInstant().toEpochMilli());
         } else {
             return value.toString();
         }
@@ -413,8 +415,9 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         } else if (type == LocalTime.class) {
             return LocalTime.ofNanoOfDay(result.getLong(name));
         } else if (type == ZonedDateTime.class) {
-            Instant instant = Instant.ofEpochMilli(result.getLong(name));
-            return instant.atZone(ZoneId.of("UTC"));
+            Instant date = Instant.ofEpochMilli(result.getLong(name + "_DATE"));
+            ZoneId zone = ZoneId.of(result.getString(name + "_ZONE"));
+            return ZonedDateTime.ofInstant(date, zone);
         } else {
             throw new Error();
         }

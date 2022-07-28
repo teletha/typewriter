@@ -9,6 +9,8 @@
  */
 package typewriter.mongo;
 
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -160,9 +162,6 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     private Signal<M> findBy(Bson query) {
         return new Signal<>((observer, disposer) -> {
             try {
-                for (Document document : collection.find()) {
-
-                }
                 FindIterable<Document> founds = collection.find(query);
                 for (Document found : founds) {
                     if (!disposer.isDisposed()) {
@@ -392,8 +391,8 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
         @Override
         public void encode(BsonWriter writer, ZonedDateTime value, EncoderContext encoderContext) {
             writer.writeStartDocument();
-            writer.writeDateTime("milli", value.toInstant().toEpochMilli());
-            writer.writeString("id", value.getZone().getId());
+            writer.writeDateTime("date", value.withZoneSameInstant(UTC).toInstant().toEpochMilli());
+            writer.writeString("zone", value.getZone().getId());
             writer.writeEndDocument();
         }
 
@@ -402,10 +401,10 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
          */
         @Override
         public ZonedDateTime apply(Document doc, String key) {
-            Document mix = doc.get(key, Document.class);
-            Instant date = mix.getDate("milli").toInstant();
-            ZoneId id = ZoneId.of(mix.getString("id"));
-            return ZonedDateTime.ofInstant(date, id);
+            Document sub = doc.get(key, Document.class);
+            Instant date = sub.getDate("date").toInstant();
+            ZoneId zone = ZoneId.of(sub.getString("zone"));
+            return ZonedDateTime.ofInstant(date, UTC).withZoneSameInstant(zone);
         }
 
         /**

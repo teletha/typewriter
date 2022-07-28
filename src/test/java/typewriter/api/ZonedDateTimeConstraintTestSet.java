@@ -9,7 +9,7 @@
  */
 package typewriter.api;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.DateTimeException;
 import java.time.ZoneId;
@@ -305,7 +305,7 @@ public interface ZonedDateTimeConstraintTestSet extends Testable {
     }
 
     @Test
-    default void isTimeZone() {
+    default void isDifferentTimeZone() {
         Person model1 = new Person("Ema", 2011, 6, 23, "UTC");
         Person model2 = new Person("絵麻", 2011, 6, 23, "Asia/Tokyo");
 
@@ -313,13 +313,41 @@ public interface ZonedDateTimeConstraintTestSet extends Testable {
         dao.update(model1);
         dao.update(model2);
 
-        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.is(2011, 6, 23).isZone("UTC")).toList();
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.is(date(2011, 6, 23, "UTC"))).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model1);
 
-        founds = dao.findBy(Person::getBirthday, day -> day.is(2011, 6, 23).isZone("Asia/Tokyo")).toList();
+        founds = dao.findBy(Person::getBirthday, day -> day.is(date(2011, 6, 23, "Asia/Tokyo"))).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model2);
+    }
+
+    @Test
+    default void isBeforeDifferentTimeZone() {
+        Person model1 = new Person("Ema", 2011, 6, 23, "UTC");
+        Person model2 = new Person("絵麻", 2011, 6, 23, "Asia/Tokyo");
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.isBefore(date(2011, 6, 23, "UTC"))).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model2);
+    }
+
+    @Test
+    default void isAfterDifferentTimeZone() {
+        Person model1 = new Person("Ema", 2011, 6, 23, "UTC");
+        Person model2 = new Person("絵麻", 2011, 6, 23, "Asia/Tokyo");
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+
+        List<Person> founds = dao.findBy(Person::getBirthday, day -> day.isAfter(date(2011, 6, 23, "Asia/Tokyo"))).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model1);
     }
 
     /**

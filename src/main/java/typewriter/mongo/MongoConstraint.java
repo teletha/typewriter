@@ -9,10 +9,11 @@
  */
 package typewriter.mongo;
 
+import static java.util.Objects.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import typewriter.api.Specifier;
 abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
 
     /** The name of target property. */
-    protected final String propertyName;
+    protected String propertyName;
 
     /** All filters. */
     protected final List<Bson> filters = new ArrayList();
@@ -72,7 +73,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self is(V value) {
-        filters.add(Filters.eq(propertyName, Objects.requireNonNull(value)));
+        filters.add(Filters.eq(propertyName, validate(value)));
         return (Self) this;
     }
 
@@ -81,7 +82,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      */
     @Override
     public Self isNot(V value) {
-        filters.add(Filters.ne(propertyName, Objects.requireNonNull(value)));
+        filters.add(Filters.ne(propertyName, validate(value)));
         return (Self) this;
     }
 
@@ -101,6 +102,16 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
     public Self oneOf(Iterable<V> values) {
         filters.add(Filters.in(propertyName, values));
         return (Self) this;
+    }
+
+    /**
+     * Validate and convert the value.
+     * 
+     * @param value
+     * @return
+     */
+    protected Object validate(V value) {
+        return Objects.requireNonNull(value);
     }
 
     /**
@@ -253,7 +264,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public Self isBefore(T date) {
-            filters.add(Filters.lt(propertyName, Objects.requireNonNull(date)));
+            filters.add(Filters.lt(propertyName, validate(date)));
             return (Self) this;
         }
 
@@ -262,7 +273,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public Self isBeforeOrSame(T date) {
-            filters.add(Filters.lte(propertyName, Objects.requireNonNull(date)));
+            filters.add(Filters.lte(propertyName, validate(date)));
             return (Self) this;
         }
 
@@ -271,7 +282,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public Self isAfter(T date) {
-            filters.add(Filters.gt(propertyName, Objects.requireNonNull(date)));
+            filters.add(Filters.gt(propertyName, validate(date)));
             return (Self) this;
         }
 
@@ -280,7 +291,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public Self isAfterOrSame(T date) {
-            filters.add(Filters.gte(propertyName, Objects.requireNonNull(date)));
+            filters.add(Filters.gte(propertyName, validate(date)));
             return (Self) this;
         }
     }
@@ -327,15 +338,16 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
     static class ForZonedDateTime extends ForTermporal<ZonedDateTime, ZonedDateTimeConstraint> implements ZonedDateTimeConstraint {
         ForZonedDateTime(Specifier specifier) {
             super(specifier);
+
+            propertyName = propertyName + ".date";
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public ZonedDateTimeConstraint isZone(ZoneId id) {
-            filters.add(Filters.eq(propertyName + ".id", Objects.requireNonNull(id).getId()));
-            return this;
+        protected Object validate(ZonedDateTime value) {
+            return requireNonNull(value).withZoneSameInstant(UTC).toLocalDateTime();
         }
     }
 }

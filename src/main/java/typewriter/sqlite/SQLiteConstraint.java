@@ -12,7 +12,6 @@ package typewriter.sqlite;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
@@ -410,15 +409,5 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
         protected String build(String operator, ZonedDateTime date) {
             return propertyName + operator + date.toInstant().toEpochMilli();
         }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ZonedDateTimeConstraint isZone(ZoneId id) {
-            expression.add(propertyName + "_ZONEID='" + id + "'");
-            return this;
-        }
     }
-
 }

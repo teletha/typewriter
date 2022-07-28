@@ -415,24 +415,6 @@ public interface Constraint<V, Self> {
         ZoneId UTC = ZoneId.of("UTC");
 
         /**
-         * Describes conditions for the specified property.
-         * 
-         * @param id A conditional value.
-         * @return Chainable API.
-         */
-       default ZonedDateTimeConstraint isZone(String id) {
-           return isZone(ZoneId.of(id));
-       }
-        
-        /**
-         * Describes conditions for the specified property.
-         * 
-         * @param id A conditional value.
-         * @return Chainable API.
-         */
-        ZonedDateTimeConstraint isZone(ZoneId id);
-
-        /**
          * {@inheritDoc}
          */
         @Override
