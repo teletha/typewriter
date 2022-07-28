@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Typewriter API</title>
+		<base href="../"/>
+		<script async="true" src="highlight.js" type="module"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="S">
+		<header class="K">
+			<h1 class="Q" date="2022-07-28" ver="0.1"><code>Typewriter</code></h1>
+			<nav class="a"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="N" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="W">
+			<nav class="i">
+				<div></div>
+			</nav>
+			<article class="h" id="Article">
+				<section class="M B">
+					<h1>Changelog</h1>
+					<h2>1.0.0 (2022-07-28)</h2>
+					<h3>Features</h3>
+					<ul>
+
+						<li>Add BackendedModel. (<a href="https://www.github.com/teletha/typewriter/commit/1c3765bd33d020969dde41d98267a5c9aebf3cd3">1c3765b</a>)</li>
+
+						<li>Add QueryableModel and special decoder for mongo. (<a href="https://www.github.com/teletha/typewriter/commit/5f413958cef1bc270b5e1ae63a955d1c3c15cce1">5f41395</a>)</li>
+
+						<li>Add QueryableModel#delete. (<a href="https://www.github.com/teletha/typewriter/commit/10e2823e7b1b28c70d75b73abc52ee2462074cfa">10e2823</a>)</li>
+
+						<li>DateConstraint supports #is and #isNot. (<a href="https://www.github.com/teletha/typewriter/commit/61e8368799a0e571a7524ce9c1e00f7f1878926f">61e8368</a>)</li>
+
+						<li>IdentifiableModel hides its ID. (<a href="https://www.github.com/teletha/typewriter/commit/aca3fb256fdca48e435df850dbad74aea9e63ac4">aca3fb2</a>)</li>
+
+						<li>Mongo supports StringConstraint. (<a href="https://www.github.com/teletha/typewriter/commit/112a4ec7289700de50ee8522a6c1a6b3bd71a617">112a4ec</a>)</li>
+
+						<li>Provide the extensible value codec on sqlite. (<a href="https://www.github.com/teletha/typewriter/commit/21a94e9cea34e1d081133bc6186f056ec382806b">21a94e9</a>)</li>
+
+						<li>Provide Updatable, Deletable and Operatable. (<a href="https://www.github.com/teletha/typewriter/commit/6f34dacb7e1db3548d895888d51df96870706e91">6f34dac</a>)</li>
+
+						<li>Queryable is interface now. (<a href="https://www.github.com/teletha/typewriter/commit/a625c28e112f22ed290043acd2e3d89125ca4443">a625c28</a>)</li>
+
+						<li>Restorable can accept the callbak. (<a href="https://www.github.com/teletha/typewriter/commit/d9c5dd6916a0b9c08625011c2f3e058184212176">d9c5dd6</a>)</li>
+
+						<li>SQLite can pool its connection. (<a href="https://www.github.com/teletha/typewriter/commit/2cff3df64649015327bfa1edf632d93c0c04afcd">2cff3df</a>)</li>
+
+						<li>StringConstraint supports #contains. (<a href="https://www.github.com/teletha/typewriter/commit/31e6aba69130ccc4e05b07b2b71d793e9cf80ba2">31e6aba</a>)</li>
+
+						<li>StringConstraint supports regular expression. (<a href="https://www.github.com/teletha/typewriter/commit/d4aa7ed01f4e9c02f85aed622ae958098e6b4897">d4aa7ed</a>)</li>
+
+						<li>StringConstraints support #isEmpty and #isNotEmpty. (<a href="https://www.github.com/teletha/typewriter/commit/d2c97c3a14f22b91b00ef3ae56f571c358d04345">d2c97c3</a>)</li>
+
+						<li>Support java.util.Date constraint. (<a href="https://www.github.com/teletha/typewriter/commit/c5166a8de25c336888c7e17ca611510058deefe9">c5166a8</a>)</li>
+
+						<li>Support LocalDate constriant. (<a href="https://www.github.com/teletha/typewriter/commit/c88c9859caaba5912134e2de51f033683bda804d">c88c985</a>)</li>
+
+						<li>Support LocalDateTime constraint. (<a href="https://www.github.com/teletha/typewriter/commit/bc3bd82663849dd05094b4d08872432201a6583a">bc3bd82</a>)</li>
+
+						<li>Support LocalTime constraint. (<a href="https://www.github.com/teletha/typewriter/commit/b1718a5da6297dffc9d218a52a38a2a6f81c69e9">b1718a5</a>)</li>
+
+						<li>Support Restorable interface. (<a href="https://www.github.com/teletha/typewriter/commit/d637e2a0a34fd18177610230b6261582bb97a5bd">d637e2a</a>)</li>
+
+						<li>Support SQLite. (<a href="https://www.github.com/teletha/typewriter/commit/11294d43bfd2e98861273e4872118ec7b2b88256">11294d4</a>)</li>
+
+						<li>Support transaction. (<a href="https://www.github.com/teletha/typewriter/commit/2614cd7615db26002031b055785cf50ad4f54b45">2614cd7</a>)</li>
+
+						<li>Support ZonedDateTime constraint on mongdb. (<a href="https://www.github.com/teletha/typewriter/commit/3a2db78f815db4bee50122dd5293061587355ba4">3a2db78</a>)</li>
+
+						<li>Support ZonedDateTime constraint on mongodb. (<a href="https://www.github.com/teletha/typewriter/commit/eb6be7d68d42d080f3c2be6b4992353649bdb4a5">eb6be7d</a>)</li>
+
+						<li>Support ZonedDateTime constraint on sqlite. (<a href="https://www.github.com/teletha/typewriter/commit/5ec6d6af8d7aee3a979bd2ad4d74e1862c0b168a">5ec6d6a</a>)</li>
+
+						<li>Use custom id. (<a href="https://www.github.com/teletha/typewriter/commit/4b5d20afcb4f904d771073601fac7c4493876227">4b5d20a</a>)</li>
+</ul>
+					<h3>Bug Fixes</h3>
+					<ul>
+
+						<li>Mongo AND filter is broken. (<a href="https://www.github.com/teletha/typewriter/commit/ad6f48e40287515e2f095fca7e530ccabab904e6">ad6f48e</a>)</li>
+
+						<li>Optimize Date on sqlite. (<a href="https://www.github.com/teletha/typewriter/commit/38fe6f3eb033607cb74f88eb878ad350ad5004be">38fe6f3</a>)</li>
+
+						<li>Optimize localdate on sqlite. (<a href="https://www.github.com/teletha/typewriter/commit/7a394c13e31dca67b7584d44ca8e37e6da863c7d">7a394c1</a>)</li>
+
+						<li>Rename constrains methods. (<a href="https://www.github.com/teletha/typewriter/commit/883a57d341ad7dda70c524ddcfca8d6b895849b6">883a57d</a>)</li>
+</ul>
+				</section>
+			</article>
+			<aside class="d" id="SubNavi">
+				<div class="e"></div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>
