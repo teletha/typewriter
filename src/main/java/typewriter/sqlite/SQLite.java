@@ -12,17 +12,12 @@ package typewriter.sqlite;
 import static typewriter.jdbc.SQLTemplate.*;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -36,22 +31,14 @@ import org.sqlite.Function;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.WiseFunction;
 import kiss.WiseSupplier;
-import kiss.model.Model;
 import kiss.model.Property;
-import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.jdbc.JDBC;
 import typewriter.jdbc.JDBCTypeCodec;
 
-public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, SQLiteQuery<M>> {
-
-    /** The java.util date formatter. */
-    static final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
-    /** The java.time date formatter. */
-    static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss").withZone(ZoneId.of("UTC"));
+public class SQLite<M extends IdentifiableModel> extends JDBC<M, SQLiteQuery<M>> {
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
@@ -67,20 +54,8 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
         }
     };
 
-    /** The connection pool. */
-    private static final Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap();
-
     /** The reusabel {@link SQLite} cache. */
     private static final Map<Class, SQLite> CACHE = new ConcurrentHashMap();
-
-    /** The document model. */
-    private final Model<M> model;
-
-    /** The table name. */
-    private final String tableName;
-
-    /** The reusable DB connection. */
-    private final Connection connection;
 
     /**
      * Hide constructor.
@@ -89,11 +64,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * @param url A database location.
      */
     SQLite(Class<M> type, String url) {
-        url = Objects.requireNonNullElse(url, I.env("sqlite", "jdbc:sqlite::memory:"));
-
-        this.model = Model.of(type);
-        this.tableName = '"' + type.getName() + '"';
-        this.connection = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
+        super(type, Objects.requireNonNullElse(url, I.env("sqlite", "jdbc:sqlite::memory:")));
 
         try {
             // pragma
