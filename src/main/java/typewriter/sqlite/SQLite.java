@@ -97,14 +97,14 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
 
         try {
             // pragma
-            executeU("PRAGMA journal_mode=wal");
-            executeU("PRAGMA sync_mode=off");
+            execute("PRAGMA journal_mode=wal");
+            execute("PRAGMA sync_mode=off");
 
             // register extra functions
             Function.create(connection, "REGEXP", REGEXP_FUNCTION);
 
             // create table
-            executeU("CREATE TABLE IF NOT EXISTS", tableName, tableDefinition(model, this::computeSQLType));
+            execute("CREATE TABLE IF NOT EXISTS", tableName, tableDefinition(model, this::computeSQLType));
         } catch (SQLException e) {
             throw I.quiet(e);
         }
@@ -216,10 +216,10 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
 
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            executeU("DELETE FROM", tableName, WHERE(instance));
+            execute("DELETE FROM", tableName, WHERE(instance));
         } else {
             // delete properties
-            executeU("UPDATE", tableName, SET(model, specifiers, p -> "NULL"), WHERE(instance));
+            execute("UPDATE", tableName, SET(model, specifiers, p -> "NULL"), WHERE(instance));
         }
     }
 
@@ -234,10 +234,10 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
 
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            executeU("REPLACE INTO", tableName, VALUES(model, instance));
+            execute("REPLACE INTO", tableName, VALUES(model, instance));
         } else {
             // update properties
-            executeU("UPDATE", tableName, SET2(model, specifiers, instance), WHERE(instance));
+            execute("UPDATE", tableName, SET2(model, specifiers, instance), WHERE(instance));
         }
     }
 
@@ -273,20 +273,7 @@ public class SQLite<M extends IdentifiableModel> extends QueryExecutor<M, Signal
      * 
      * @param builder
      */
-    private void execute(CharSequence builder) {
-        try {
-            connection.createStatement().executeUpdate(builder.toString());
-        } catch (SQLException e) {
-            throw I.quiet(new SQLException(builder.toString(), e));
-        }
-    }
-
-    /**
-     * Execute query.
-     * 
-     * @param builder
-     */
-    private void executeU(Object... objects) {
+    private void execute(Object... objects) {
         StringBuilder builder = new StringBuilder();
         for (Object object : objects) {
             builder.append(object).append(' ');
