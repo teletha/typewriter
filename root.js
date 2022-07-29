@@ -4,6 +4,7 @@ const root = {
 	"packages": [
 		"typewriter.api",
 		"typewriter.api.model",
+		"typewriter.h2",
 		"typewriter.mongo",
 		"typewriter.rdb",
 		"typewriter.sqlite"
@@ -96,6 +97,20 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "H2",
+			"packageName": "typewriter.h2",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "H2Model",
+			"packageName": "typewriter.h2",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "IdentifiableModel",
 			"packageName": "typewriter.api.model",
 			"type": "AbstractClass"
@@ -152,6 +167,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "RDBQuery",
+			"packageName": "typewriter.rdb",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "RDBTypeCodec",
 			"packageName": "typewriter.rdb",
 			"type": "AbstractClass"
@@ -183,13 +205,6 @@ const root = {
 			"name": "SQLiteModel",
 			"packageName": "typewriter.sqlite",
 			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "SQLiteQuery",
-			"packageName": "typewriter.sqlite",
-			"type": "Class"
 		},
 		{
 			"modifiers": {

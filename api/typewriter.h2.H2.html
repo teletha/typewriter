@@ -33,8 +33,8 @@
 				<div></div>
 			</nav>
 			<article class="X" id="Article">
-				<section class="d"><code class="R">typewriter.sqlite</code>
-					<h2 class="Class I"><code class="a">SQLite</code><code class="b">&#60;<code>M</code>&#62;</code></h2>
+				<section class="d"><code class="R">typewriter.h2</code>
+					<h2 class="Class I"><code class="a">H2</code><code class="b">&#60;<code>M</code>&#62;</code></h2>
 					<div class="U">
 						<ul class="C D">
 							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></li>
@@ -53,8 +53,8 @@
 						</ul>
 					</div>
 				</section>
-				<section class="d" id="SQLite(java.lang.Class,java.lang.String)">
-					<h2 class="i"><i class="PROTECTED"></i><code class="a">SQLite</code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code></h2>
+				<section class="d" id="H2(java.lang.Class,java.lang.String)">
+					<h2 class="i"><i class="PROTECTED"></i><code class="a">H2</code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code></h2>
 					<table class="T">
 						<tr class="P">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code>type</code></td>
@@ -68,6 +68,19 @@
 						</tr>
 					</table><span class="B"><p>Hide constructor.</p>
 					</span></section>
+				<section class="d" id="update(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="i"><i class="OVERRIDE PUBLIC"></i><code class="a">update</code><code class="b">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="J"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="P">
+							<td><code>M</code> <code>instance</code></td>
+							<td></td>
+						</tr>
+						<tr class="P">
+							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
 				<section class="d" id="computeSQLType(java.lang.Class)">
 					<h2 class="i"><i class="OVERRIDE PROTECTED"></i><code class="a">computeSQLType</code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
 					<table class="T">
@@ -82,7 +95,7 @@
 					</table><span class="B"><p>Define JAVA-SQL type mapping.</p>
 					</span></section>
 				<section class="d" id="of(java.lang.Class)">
-					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="a">of</code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="J"><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></i></h2>
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="a">of</code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="J"><code><a href="api/typewriter.h2.H2.html">H2</a><code class="parameters"><code>M</code></code></code></i></h2>
 					<table class="T">
 						<tr class="K">
 							<td><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></td>
@@ -94,7 +107,7 @@
 								</span></td>
 						</tr>
 						<tr class="O">
-							<td><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></td>
+							<td><code><a href="api/typewriter.h2.H2.html">H2</a><code class="parameters"><code>M</code></code></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Get the collection.</p>
@@ -107,16 +120,17 @@
 				<div class="h">
 					<h5 class="L">Constructors</h5>
 					<ul>
-						<li><i class="PROTECTED"></i><code><a href="api/typewriter.sqlite.SQLite.html#SQLite(java.lang.Class,java.lang.String)">SQLite</a></code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code></li>
+						<li><i class="PROTECTED"></i><code><a href="api/typewriter.h2.H2.html#H2(java.lang.Class,java.lang.String)">H2</a></code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code></li>
 					</ul>
 					<h5 class="L">Static Methods</h5>
 					<ul>
-						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#of(java.lang.Class)">of</a></code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="Q"><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></i></li>
-						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#close()">close</a></code><code class="b">()</code><i class="Q"><code>void</code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.h2.H2.html#of(java.lang.Class)">of</a></code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="Q"><code><a href="api/typewriter.h2.H2.html">H2</a><code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.h2.H2.html#close()">close</a></code><code class="b">()</code><i class="Q"><code>void</code></i></li>
 					</ul>
 					<h5 class="L">Methods</h5>
 					<ul>
-						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/typewriter.sqlite.SQLite.html#computeSQLType(java.lang.Class)">computeSQLType</a></code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.h2.H2.html#update(java.lang.Object,typewriter.api.Specifier...)">update</a></code><code class="b">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="Q"><code>void</code></i></li>
+						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/typewriter.h2.H2.html#computeSQLType(java.lang.Class)">computeSQLType</a></code><code class="b">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 					</ul>
 				</div>
 			</aside>
