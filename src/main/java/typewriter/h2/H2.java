@@ -7,12 +7,11 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.sqlite;
+package typewriter.h2;
 
 import static typewriter.rdb.SQLTemplate.*;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,32 +19,15 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Pattern;
-
-import org.sqlite.Function;
 
 import kiss.I;
+import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.rdb.RDB;
 import typewriter.rdb.RDBQuery;
 
-public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
-
-    /** The compiled regular expression manager. */
-    private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
-
-    /** Support REGEXP function. */
-    private static final Function REGEXP_FUNCTION = new Function() {
-        @Override
-        protected void xFunc() throws SQLException {
-            String value = Objects.requireNonNullElse(value_text(1), "");
-            Pattern pattern = REGEX.computeIfAbsent(value_text(0), Pattern::compile);
-
-            result(pattern.matcher(value).find() ? 1 : 0);
-        }
-    };
+public class H2<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
 
     /**
      * Hide constructor.
@@ -53,21 +35,28 @@ public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
      * @param type A model type.
      * @param url A database location.
      */
-    protected SQLite(Class<M> type, String url) {
-        super(type, url, "sqlite", "jdbc:sqlite::memory:");
+    protected H2(Class<M> type, String url) {
+        super(type, url, "h2", "jdbc:h2:mem:temporary");
 
-        try {
-            // pragma
-            execute("PRAGMA journal_mode=wal");
-            execute("PRAGMA sync_mode=off");
+        // create table
+        execute("CREATE TABLE IF NOT EXISTS", tableName, tableDefinition(model, this));
+    }
 
-            // register extra functions
-            Function.create(connection, "REGEXP", REGEXP_FUNCTION);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(M instance, Specifier<M, ?>... specifiers) {
+        if (instance == null) {
+            return;
+        }
 
-            // create table
-            execute("CREATE TABLE IF NOT EXISTS", tableName, tableDefinition(model, this));
-        } catch (SQLException e) {
-            throw I.quiet(e);
+        if (specifiers == null || specifiers.length == 0) {
+            // update model
+            execute("MERGE INTO", tableName, VALUES(model, instance));
+        } else {
+            // update properties
+            execute("UPDATE", tableName, SET(model, specifiers, instance), WHERE(instance));
         }
     }
 
@@ -80,22 +69,30 @@ public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
     @Override
     protected String computeSQLType(Class type) {
         if (type == int.class) {
-            return "integer";
+            return "int";
         } else if (type == long.class) {
             return "bigint";
+        } else if (type == float.class) {
+            return "real";
+        } else if (type == double.class) {
+            return "double";
         } else if (type == boolean.class) {
-            return "bit";
+            return "boolean";
         } else if (type == String.class) {
-            return "string";
+            return "varchar";
         } else if (type == LocalDateTime.class || type == LocalDate.class || type == LocalTime.class || type == Date.class || type == ZonedDateTime.class) {
-            return "integer";
+            return "bigint";
+        } else if (type == byte.class) {
+            return "tinyint";
+        } else if (type == short.class) {
+            return "smallint";
         } else {
             throw new Error(type.getName());
         }
     }
 
-    /** The reusabel {@link SQLite} cache. */
-    private static final Map<Class, SQLite> CACHE = new ConcurrentHashMap();
+    /** The reusabel {@link H2} cache. */
+    private static final Map<Class, H2> CACHE = new ConcurrentHashMap();
 
     /**
      * Get the collection.
@@ -104,8 +101,8 @@ public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
      * @param model The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> SQLite<M> of(Class<M> model) {
-        return CACHE.computeIfAbsent(model, key -> new SQLite(key, null));
+    public static <M extends IdentifiableModel> H2<M> of(Class<M> model) {
+        return CACHE.computeIfAbsent(model, key -> new H2(key, null));
     }
 
     /**
@@ -118,7 +115,6 @@ public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
             iterator.remove();
         }
 
-        REGEX.clear();
         CACHE.clear();
     }
 }

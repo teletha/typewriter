@@ -9,18 +9,32 @@
  */
 package typewriter.rdb;
 
+import static typewriter.rdb.SQLTemplate.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+import kiss.I;
 import kiss.Signal;
 import kiss.WiseFunction;
+import kiss.WiseSupplier;
 import kiss.model.Model;
+import kiss.model.Property;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Queryable;
+import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 
+/**
+ * Data Access Object for RDBMS.
+ */
 public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>> extends QueryExecutor<M, Signal<M>, Q> {
 
     /** The connection pool. */
@@ -36,13 +50,206 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
     protected final Connection connection;
 
     /**
-     * @param type
-     * @param url
+     * Data Access Object.
+     * 
+     * @param type A target model.
+     * @param url A user specified backend address.
+     * @param defaultKey An environment variable name for this backend type.
+     * @param defaultURL A default backend address.
      */
-    public RDB(Class<M> type, String url) {
+    protected RDB(Class<M> type, String url, String defaultKey, String defaultURL) {
+        url = Objects.requireNonNullElse(url, I.env(defaultKey, defaultURL));
+
         this.model = Model.of(type);
         this.tableName = '"' + type.getName() + '"';
         this.connection = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long count() {
+        try {
+            ResultSet result = query("SELECT COUNT(*) N FROM", tableName);
+            result.next();
+            return result.getLong("N");
+        } catch (SQLException e) {
+            throw I.quiet(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<M> findBy(Q query) {
+        return new Signal<>((observer, disposer) -> {
+            try {
+                ResultSet result = query("SELECT * FROM", tableName, query);
+                while (!disposer.isDisposed() && result.next()) {
+                    observer.accept(decode(result));
+                }
+                observer.complete();
+            } catch (Throwable e) {
+                observer.error(e);
+            }
+            return disposer;
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<M> restore(M instance, Specifier<M, ?>... specifiers) {
+        return new Signal<>((observer, disposer) -> {
+            try {
+                List<Property> properties = new ArrayList();
+                if (specifiers != null) {
+                    for (Specifier<M, ?> specifier : specifiers) {
+                        if (specifier != null) {
+                            properties.add(model.property(specifier.propertyName()));
+                        }
+                    }
+                }
+
+                if (properties.isEmpty()) {
+                    properties = model.properties();
+                }
+
+                ResultSet result = query("SELECT", column(properties), "FROM", tableName, WHERE(instance));
+                if (result.next()) {
+                    observer.accept(decode(model, properties, instance, result));
+                }
+                observer.complete();
+            } catch (Throwable e) {
+                observer.error(e);
+            }
+            return disposer;
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(M instance, Specifier<M, ?>... specifiers) {
+        if (instance == null) {
+            return;
+        }
+
+        if (specifiers == null || specifiers.length == 0) {
+            // delete model
+            execute("DELETE FROM", tableName, WHERE(instance));
+        } else {
+            // delete properties
+            execute("UPDATE", tableName, SETNULL(model, specifiers), WHERE(instance));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(M instance, Specifier<M, ?>... specifiers) {
+        if (instance == null) {
+            return;
+        }
+
+        if (specifiers == null || specifiers.length == 0) {
+            // update model
+            execute("REPLACE INTO", tableName, VALUES(model, instance));
+        } else {
+            // update properties
+            execute("UPDATE", tableName, SET(model, specifiers, instance), WHERE(instance));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized <R> R transact(WiseSupplier<R> operation) {
+        try {
+            connection.setAutoCommit(false);
+
+            R result = operation.get();
+            connection.commit();
+            return result;
+        } catch (Throwable e) {
+            try {
+                connection.rollback();
+            } catch (Throwable x) {
+                throw I.quiet(x);
+            }
+            throw I.quiet(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (Throwable e) {
+                throw I.quiet(e);
+            }
+        }
+    }
+
+    protected final M decode(ResultSet result) {
+        return decode(model, model.properties(), I.make(model.type), result);
+    }
+
+    protected final <V> V decode(Model model, List<Property> properties, V instance, ResultSet result) {
+        try {
+            for (Property property : properties) {
+                RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
+                model.set(instance, property, codec.decode(result, property.name));
+            }
+            return instance;
+        } catch (SQLException e) {
+            throw I.quiet(e);
+        }
+    }
+
+    /**
+     * Execute query.
+     * 
+     * @param statements
+     */
+    protected final void execute(Object... statements) {
+        StringBuilder builder = new StringBuilder();
+        for (Object statement : statements) {
+            builder.append(statement).append(' ');
+        }
+
+        try {
+            connection.createStatement().executeUpdate(builder.toString());
+        } catch (SQLException e) {
+            throw I.quiet(new SQLException(builder.toString(), e));
+        }
+    }
+
+    /**
+     * Execute query.
+     * 
+     * @param statements
+     */
+    protected final ResultSet query(Object... statements) {
+        StringBuilder builder = new StringBuilder();
+        for (Object statement : statements) {
+            builder.append(statement).append(' ');
+        }
+
+        try {
+            return connection.createStatement().executeQuery(builder.toString());
+        } catch (SQLException e) {
+            throw I.quiet(new SQLException(builder.toString(), e));
+        }
+    }
+
+    /**
+     * Define JAVA-SQL type mapping.
+     * 
+     * @param type
+     * @return
+     */
+    protected abstract String computeSQLType(Class type);
 }

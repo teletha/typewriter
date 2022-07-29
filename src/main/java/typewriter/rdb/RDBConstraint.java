@@ -7,7 +7,7 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.sqlite;
+package typewriter.rdb;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +25,7 @@ import typewriter.api.Specifier;
 /**
  * {@link Constraint} for mongdb.
  */
-abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
+abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
 
     /** The name of target property. */
     protected final String propertyName;
@@ -37,7 +37,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
      * 
      * @param specifier The property specifier.
      */
-    protected SQLiteConstraint(Specifier specifier) {
+    protected RDBConstraint(Specifier specifier) {
         this.propertyName = specifier.propertyName();
     }
 
@@ -96,7 +96,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint}.
      */
-    static class GenericType<T> extends SQLiteConstraint<T, TypeConstraint<T>> implements TypeConstraint<T> {
+    static class GenericType<T> extends RDBConstraint<T, TypeConstraint<T>> implements TypeConstraint<T> {
         GenericType(Specifier specifier) {
             super(specifier);
         }
@@ -105,7 +105,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link Number}.
      */
-    static class ForNumeric<V extends Number> extends SQLiteConstraint<V, NumericConstraint<V>> implements NumericConstraint<V> {
+    static class ForNumeric<V extends Number> extends RDBConstraint<V, NumericConstraint<V>> implements NumericConstraint<V> {
 
         protected ForNumeric(Specifier specifier) {
             super(specifier);
@@ -151,7 +151,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link String}.
      */
-    static class ForString extends SQLiteConstraint<String, StringConstraint> implements StringConstraint {
+    static class ForString extends RDBConstraint<String, StringConstraint> implements StringConstraint {
         ForString(Specifier specifier) {
             super(specifier);
         }
@@ -250,7 +250,7 @@ abstract class SQLiteConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link TemporalAccessor}.
      */
-    static abstract class ForTermporal<T, Self extends TemporalConstraint<T, Self>> extends SQLiteConstraint<T, Self>
+    static abstract class ForTermporal<T, Self extends TemporalConstraint<T, Self>> extends RDBConstraint<T, Self>
             implements TemporalConstraint<T, Self> {
 
         protected ForTermporal(Specifier specifier) {

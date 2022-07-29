@@ -7,7 +7,7 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.sqlite;
+package typewriter.rdb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,35 +34,35 @@ import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.api.model.IdentifiableModel;
-import typewriter.sqlite.SQLiteConstraint.ForDate;
-import typewriter.sqlite.SQLiteConstraint.ForLocalDate;
-import typewriter.sqlite.SQLiteConstraint.ForLocalDateTime;
-import typewriter.sqlite.SQLiteConstraint.ForLocalTime;
-import typewriter.sqlite.SQLiteConstraint.ForNumeric;
-import typewriter.sqlite.SQLiteConstraint.ForString;
-import typewriter.sqlite.SQLiteConstraint.ForZonedDateTime;
-import typewriter.sqlite.SQLiteConstraint.GenericType;
+import typewriter.rdb.RDBConstraint.ForDate;
+import typewriter.rdb.RDBConstraint.ForLocalDate;
+import typewriter.rdb.RDBConstraint.ForLocalDateTime;
+import typewriter.rdb.RDBConstraint.ForLocalTime;
+import typewriter.rdb.RDBConstraint.ForNumeric;
+import typewriter.rdb.RDBConstraint.ForString;
+import typewriter.rdb.RDBConstraint.ForZonedDateTime;
+import typewriter.rdb.RDBConstraint.GenericType;
 
 /**
  * {@link Queryable} for mongodb.
  */
-public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQLiteQuery<M>> {
+public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQuery<M>> {
 
     /** The all constraint set. */
-    protected final List<SQLiteConstraint<?, ?>> constraints = new ArrayList();
+    protected final List<RDBConstraint<?, ?>> constraints = new ArrayList();
 
     /**
      * Hide constructor.
      */
-    private SQLiteQuery() {
+    private RDBQuery() {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(Constraint constraint) {
-        constraints.add((SQLiteConstraint<?, ?>) constraint);
+    public RDBQuery<M> findBy(Constraint constraint) {
+        constraints.add((RDBConstraint<?, ?>) constraint);
         return this;
     }
 
@@ -70,7 +70,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> SQLiteQuery<M> findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
+    public <N extends Number> RDBQuery<M> findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
         return findBy(constraint.apply(new ForNumeric(specifier)));
     }
 
@@ -78,7 +78,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(CharSpecifier<M> specifier, UnaryOperator<TypeConstraint<Character>> constraint) {
+    public RDBQuery<M> findBy(CharSpecifier<M> specifier, UnaryOperator<TypeConstraint<Character>> constraint) {
         return findBy(constraint.apply(new GenericType(specifier)));
     }
 
@@ -86,7 +86,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(BooleanSpecifier<M> specifier, UnaryOperator<TypeConstraint<Boolean>> constraint) {
+    public RDBQuery<M> findBy(BooleanSpecifier<M> specifier, UnaryOperator<TypeConstraint<Boolean>> constraint) {
         return findBy(constraint.apply(new GenericType(specifier)));
     }
 
@@ -94,7 +94,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint) {
+    public RDBQuery<M> findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint) {
         return findBy(constraint.apply(new ForString(specifier)));
     }
 
@@ -102,7 +102,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint) {
+    public RDBQuery<M> findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint) {
         return findBy(constraint.apply(new ForDate(specifier)));
     }
 
@@ -110,7 +110,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(LocalDateSpecifier<M> specifier, UnaryOperator<LocalDateConstraint> constraint) {
+    public RDBQuery<M> findBy(LocalDateSpecifier<M> specifier, UnaryOperator<LocalDateConstraint> constraint) {
         return findBy(constraint.apply(new ForLocalDate(specifier)));
     }
 
@@ -118,7 +118,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(LocalTimeSpecifier<M> specifier, UnaryOperator<LocalTimeConstraint> constraint) {
+    public RDBQuery<M> findBy(LocalTimeSpecifier<M> specifier, UnaryOperator<LocalTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForLocalTime(specifier)));
     }
 
@@ -126,7 +126,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
+    public RDBQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForLocalDateTime(specifier)));
     }
 
@@ -134,7 +134,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
      * {@inheritDoc}
      */
     @Override
-    public SQLiteQuery<M> findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
+    public RDBQuery<M> findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForZonedDateTime(specifier)));
     }
 
@@ -144,7 +144,7 @@ public class SQLiteQuery<M extends IdentifiableModel> implements Queryable<M, SQ
     @Override
     public String toString() {
         StringJoiner builder = new StringJoiner(" AND ", " WHERE ", "");
-        for (SQLiteConstraint<?, ?> constraint : constraints) {
+        for (RDBConstraint<?, ?> constraint : constraints) {
             for (String e : constraint.expression) {
                 builder.add(e);
             }

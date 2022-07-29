@@ -9,7 +9,7 @@
  */
 package typewriter.rdb;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -24,7 +24,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,18 +93,6 @@ public abstract class RDBTypeCodec<T> implements Extensible {
             return codec;
         }
         throw new Error(RDBTypeCodec.class.getSimpleName() + " for " + type.getName() + " is not found.");
-    }
-
-    /**
-     * Helper method to encode by property.
-     * 
-     * @param property A target property.
-     * @return A decoded value.
-     */
-    public static Map<String, Object> encode(Property property, Object value) {
-        Map<String, Object> result = new LinkedHashMap();
-        by(property.model.type).encode(result, property.name, value);
-        return result;
     }
 
     /**

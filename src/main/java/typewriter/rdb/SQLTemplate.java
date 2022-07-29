@@ -10,10 +10,10 @@
 package typewriter.rdb;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Function;
 
 import kiss.I;
 import kiss.model.Model;
@@ -30,10 +30,10 @@ public class SQLTemplate {
      * Helper to write table definition
      * 
      * @param model
-     * @param mapper
+     * @param dao
      * @return
      */
-    public static CharSequence tableDefinition(Model<?> model, Function<Class, String> mapper) {
+    public static CharSequence tableDefinition(Model<?> model, RDB dao) {
         StringBuilder builder = new StringBuilder();
         builder.append('(');
         for (Property property : model.properties()) {
@@ -42,7 +42,7 @@ public class SQLTemplate {
                 Class columnType = codec.types.get(i);
                 String columnName = codec.names.get(i);
 
-                builder.append(property.name).append(columnName).append(' ').append(mapper.apply(columnType)).append(',');
+                builder.append(property.name).append(columnName).append(' ').append(dao.computeSQLType(columnType)).append(',');
             }
         }
         builder.append("PRIMARY KEY(id))");
@@ -114,7 +114,6 @@ public class SQLTemplate {
         Map<String, Object> result = new HashMap();
         for (Property property : properties(model, specifiers)) {
             RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
-
             codec.encode(result, property.name, model.get(instance, property));
         }
 
@@ -144,17 +143,16 @@ public class SQLTemplate {
      * @param model
      * @return
      */
-    public static CharSequence VALUES(Model model, Object instance) {
+    public static <V> CharSequence VALUES(Model<V> model, V instance) {
+        Map<String, Object> result = new LinkedHashMap();
+        for (Property property : model.properties()) {
+            RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
+            codec.encode(result, property.name, model.get(instance, property));
+        }
+
         StringBuilder builder = new StringBuilder("VALUES(");
-
-        List<Property> properties = model.properties();
-        for (int i = 0; i < properties.size(); i++) {
-            Property property = properties.get(i);
-            Map<String, Object> result = RDBTypeCodec.encode(property, model.get(instance, property));
-
-            for (Entry<String, Object> entry : result.entrySet()) {
-                builder.append(I.transform(entry.getValue(), String.class)).append(",");
-            }
+        for (Entry<String, Object> entry : result.entrySet()) {
+            builder.append(I.transform(entry.getValue(), String.class)).append(",");
         }
 
         // remove tail comma
