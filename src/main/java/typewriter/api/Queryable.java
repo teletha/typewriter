@@ -128,4 +128,6 @@ public interface Queryable<M, R> {
      * @return Chainable API.
      */
     R findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint);
+
+    R limit(long size);
 }

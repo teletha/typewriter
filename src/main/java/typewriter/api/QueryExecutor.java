@@ -132,6 +132,14 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public R limit(long size) {
+        return findBy(createQueryable().limit(size));
+    }
+
+    /**
      * Find model by id.
      * 
      * @param id An identifier of the target model.

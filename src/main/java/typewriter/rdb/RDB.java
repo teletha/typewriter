@@ -87,10 +87,19 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
      * {@inheritDoc}
      */
     @Override
+    public Signal<M> limit(long size) {
+        return super.limit(size);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Signal<M> findBy(Q query) {
         return new Signal<>((observer, disposer) -> {
             try {
                 ResultSet result = query("SELECT * FROM", tableName, query);
+
                 while (!disposer.isDisposed() && result.next()) {
                     observer.accept(decode(result));
                 }
