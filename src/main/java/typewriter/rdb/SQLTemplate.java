@@ -7,7 +7,7 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.jdbc;
+package typewriter.rdb;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +37,7 @@ public class SQLTemplate {
         StringBuilder builder = new StringBuilder();
         builder.append('(');
         for (Property property : model.properties()) {
-            JDBCTypeCodec<?> codec = JDBCTypeCodec.by(property.model.type);
+            RDBTypeCodec<?> codec = RDBTypeCodec.by(property.model.type);
             for (int i = 0; i < codec.types.size(); i++) {
                 Class columnType = codec.types.get(i);
                 String columnName = codec.names.get(i);
@@ -60,7 +60,7 @@ public class SQLTemplate {
         StringBuilder builder = new StringBuilder();
 
         for (Property property : properties) {
-            JDBCTypeCodec<?> codec = JDBCTypeCodec.by(property.model.type);
+            RDBTypeCodec<?> codec = RDBTypeCodec.by(property.model.type);
             for (int j = 0; j < codec.types.size(); j++) {
                 builder.append(property.name).append(codec.names.get(j)).append(',');
             }
@@ -95,7 +95,7 @@ public class SQLTemplate {
         StringBuilder builder = new StringBuilder("SET ");
 
         for (Property property : properties(model, specifiers)) {
-            JDBCTypeCodec codec = JDBCTypeCodec.by(property.model.type);
+            RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
 
             for (int i = 0; i < codec.types.size(); i++) {
                 builder.append(property.name).append(codec.names.get(i)).append("=NULL,");
@@ -113,7 +113,7 @@ public class SQLTemplate {
     public static CharSequence SET(Model model, Specifier[] specifiers, Object instance) {
         Map<String, Object> result = new HashMap();
         for (Property property : properties(model, specifiers)) {
-            JDBCTypeCodec codec = JDBCTypeCodec.by(property.model.type);
+            RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
 
             codec.encode(result, property.name, model.get(instance, property));
         }
@@ -150,7 +150,7 @@ public class SQLTemplate {
         List<Property> properties = model.properties();
         for (int i = 0; i < properties.size(); i++) {
             Property property = properties.get(i);
-            Map<String, Object> result = JDBCTypeCodec.encode(property, model.get(instance, property));
+            Map<String, Object> result = RDBTypeCodec.encode(property, model.get(instance, property));
 
             for (Entry<String, Object> entry : result.entrySet()) {
                 builder.append(I.transform(entry.getValue(), String.class)).append(",");

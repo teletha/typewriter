@@ -9,7 +9,7 @@
  */
 package typewriter.sqlite;
 
-import static typewriter.jdbc.SQLTemplate.*;
+import static typewriter.rdb.SQLTemplate.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -35,10 +35,10 @@ import kiss.WiseSupplier;
 import kiss.model.Property;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
-import typewriter.jdbc.JDBC;
-import typewriter.jdbc.JDBCTypeCodec;
+import typewriter.rdb.RDB;
+import typewriter.rdb.RDBTypeCodec;
 
-public class SQLite<M extends IdentifiableModel> extends JDBC<M, SQLiteQuery<M>> {
+public class SQLite<M extends IdentifiableModel> extends RDB<M, SQLiteQuery<M>> {
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
@@ -129,7 +129,7 @@ public class SQLite<M extends IdentifiableModel> extends JDBC<M, SQLiteQuery<M>>
                 while (result.next()) {
                     M instance = I.make(this.model.type);
                     for (Property property : properties) {
-                        this.model.set(instance, property, JDBCTypeCodec.decode(property, result));
+                        this.model.set(instance, property, RDBTypeCodec.decode(property, result));
                     }
                     observer.accept(instance);
                 }
@@ -164,7 +164,7 @@ public class SQLite<M extends IdentifiableModel> extends JDBC<M, SQLiteQuery<M>>
                 ResultSet result = executeQuery("SELECT", column(properties), "FROM", tableName, WHERE(instance));
                 if (result.next()) {
                     for (Property property : properties) {
-                        this.model.set(instance, property, JDBCTypeCodec.decode(property, result));
+                        this.model.set(instance, property, RDBTypeCodec.decode(property, result));
                     }
                     observer.accept(instance);
                 }

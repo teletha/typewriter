@@ -7,7 +7,7 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.jdbc;
+package typewriter.rdb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,7 +21,7 @@ import typewriter.api.QueryExecutor;
 import typewriter.api.Queryable;
 import typewriter.api.model.IdentifiableModel;
 
-public abstract class JDBC<M extends IdentifiableModel, Q extends Queryable<M, Q>> extends QueryExecutor<M, Signal<M>, Q> {
+public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>> extends QueryExecutor<M, Signal<M>, Q> {
 
     /** The connection pool. */
     protected static final Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap();
@@ -39,7 +39,7 @@ public abstract class JDBC<M extends IdentifiableModel, Q extends Queryable<M, Q
      * @param type
      * @param url
      */
-    public JDBC(Class<M> type, String url) {
+    public RDB(Class<M> type, String url) {
         this.model = Model.of(type);
         this.tableName = '"' + type.getName() + '"';
         this.connection = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
