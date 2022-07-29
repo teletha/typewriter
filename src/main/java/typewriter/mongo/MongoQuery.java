@@ -17,8 +17,12 @@ import java.util.function.UnaryOperator;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.BsonValue;
+import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.conversions.Bson;
+
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 
 import kiss.I;
 import typewriter.api.Constraint;
@@ -57,10 +61,13 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     /** The all constraint set. */
     protected final List<MongoConstraint<?, ?>> constraints = new ArrayList();
 
+    /** The limit size. */
+    private int limit;
+
     /**
      * Hide constructor.
      */
-    private MongoQuery() {
+    MongoQuery() {
     }
 
     /**
@@ -147,12 +154,28 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     }
 
     /**
-     * Build the actual query.
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> limit(long size) {
+        if (0 < size) {
+            this.limit = (int) size;
+        }
+        return this;
+    }
+
+    /**
+     * Build query.
      * 
+     * @param collection
      * @return
      */
-    Bson build() {
-        return new AndFilter(I.signal(constraints).flatIterable(c -> c.filters).toList());
+    FindIterable<Document> buildQuery(MongoCollection collection) {
+        FindIterable finder = collection.find();
+        finder = finder.filter(new AndFilter(I.signal(constraints).flatIterable(c -> c.filters).toList()));
+        if (0 < limit) finder = finder.limit(limit);
+
+        return finder;
     }
 
     /**

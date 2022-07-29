@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.bson.BsonReader;
 import org.bson.BsonWriter;
@@ -142,7 +143,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      */
     @Override
     public Signal<M> findBy(long id) {
-        return findBy(Filters.eq(PrimaryKey, id));
+        return find(c -> c.find(Filters.eq(PrimaryKey, id)));
     }
 
     /**
@@ -150,7 +151,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      */
     @Override
     public Signal<M> findBy(MongoQuery<M> query) {
-        return findBy(query.build());
+        return find(query::buildQuery);
     }
 
     /**
@@ -159,10 +160,10 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * @param query
      * @return
      */
-    private Signal<M> findBy(Bson query) {
+    private Signal<M> find(Function<MongoCollection, FindIterable<Document>> process) {
         return new Signal<>((observer, disposer) -> {
             try {
-                FindIterable<Document> founds = collection.find(query);
+                FindIterable<Document> founds = process.apply(collection);
                 for (Document found : founds) {
                     if (!disposer.isDisposed()) {
                         observer.accept(decode(found));

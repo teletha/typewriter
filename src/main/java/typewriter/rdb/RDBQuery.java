@@ -51,7 +51,8 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     /** The all constraint set. */
     protected final List<RDBConstraint<?, ?>> constraints = new ArrayList();
 
-    private long limit;
+    /** The limit size. */
+    private long limit = -1;
 
     /**
      * Hide constructor.
@@ -158,19 +159,18 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public String toString() {
-        if (constraints.isEmpty()) {
-            return "";
-        }
-
         StringBuilder builder = new StringBuilder();
-        StringJoiner joiner = new StringJoiner(" AND ", " WHERE ", "");
-        for (RDBConstraint<?, ?> constraint : constraints) {
-            for (String e : constraint.expression) {
-                joiner.add(e);
+
+        if (!constraints.isEmpty()) {
+            StringJoiner joiner = new StringJoiner(" AND ", " WHERE ", "");
+            for (RDBConstraint<?, ?> constraint : constraints) {
+                for (String e : constraint.expression) {
+                    joiner.add(e);
+                }
             }
+            builder.append(joiner);
         }
 
-        builder.append(joiner);
         if (0 < limit) {
             builder.append(" LIMIT ").append(limit);
         }
