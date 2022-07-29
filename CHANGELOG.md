@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/teletha/typewriter/compare/v1.0.0...v1.1.0) (2022-07-29)
+
+
+### Features
+
+* Provide JDBC based backended abstraction. ([7227353](https://www.github.com/teletha/typewriter/commit/7227353554914262c61560de949ce39f72d4e0da))
+* Support H2 RDBMS. ([d774545](https://www.github.com/teletha/typewriter/commit/d77454539764210328c631ec18b53911365dba49))
+
 ## 1.0.0 (2022-07-28)
 
 
