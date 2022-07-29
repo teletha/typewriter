@@ -167,16 +167,16 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "RDBQuery",
+			"name": "RDBCodec",
 			"packageName": "typewriter.rdb",
-			"type": "Class"
+			"type": "AbstractClass"
 		},
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "RDBTypeCodec",
+			"name": "RDBQuery",
 			"packageName": "typewriter.rdb",
-			"type": "AbstractClass"
+			"type": "Class"
 		},
 		{
 			"modifiers": {
