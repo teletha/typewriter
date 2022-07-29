@@ -4,8 +4,8 @@ const root = {
 	"packages": [
 		"typewriter.api",
 		"typewriter.api.model",
-		"typewriter.jdbc",
 		"typewriter.mongo",
+		"typewriter.rdb",
 		"typewriter.sqlite"
 	],
 	"types": [
@@ -103,20 +103,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "JDBC",
-			"packageName": "typewriter.jdbc",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "JDBCTypeCodec",
-			"packageName": "typewriter.jdbc",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Mongo",
 			"packageName": "typewriter.mongo",
 			"type": "Class"
@@ -159,6 +145,20 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "RDB",
+			"packageName": "typewriter.rdb",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "RDBTypeCodec",
+			"packageName": "typewriter.rdb",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Restorable",
 			"packageName": "typewriter.api",
 			"type": "Functional"
@@ -167,7 +167,7 @@ const root = {
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "SQLTemplate",
-			"packageName": "typewriter.jdbc",
+			"packageName": "typewriter.rdb",
 			"type": "Class"
 		},
 		{

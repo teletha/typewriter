@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Typewriter API</title>
+		<base href="../"/>
+		<script async="true" src="highlight.js" type="module"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="U">
+		<header class="N">
+			<h1 class="Q" date="2022-07-29" ver="0.1"><code>Typewriter</code></h1>
+			<nav class="h"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="I" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="Y">
+			<nav class="b">
+				<div></div>
+			</nav>
+			<article class="W" id="Article">
+				<section class="T"><code class="k">typewriter.rdb</code>
+					<h2 class="Class M"><code class="J">SQLTemplate</code></h2>
+					<div class="P"></div><span class="B"><p>Help to writing Common SQL statement.</p>
+					</span></section>
+				<section class="T" id="SQLTemplate()">
+					<h2 class="i"><i class="PUBLIC"></i><code class="J">SQLTemplate</code><code class="R">()</code></h2>
+				</section>
+				<section class="T" id="tableDefinition(kiss.model.Model,java.util.function.Function)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="J">tableDefinition</code><code class="R">(<code>kiss.model.Model<code class="parameters"><code>?</code></code></code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">mapper</code>)</code><i class="c"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
+					<table class="L">
+						<tr class="H">
+							<td><code>kiss.model.Model<code class="parameters"><code>?</code></code></code> <code>model</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>mapper</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Helper to write table definition</p>
+					</span></section>
+				<section class="T" id="column(java.util.List)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="J">column</code><code class="R">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code class="parameterName">properties</code>)</code><i class="c"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
+					<table class="L">
+						<tr class="H">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code>properties</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Helper to write name of columns.</p>
+					</span></section>
+				<section class="T" id="SETNULL(kiss.model.Model,typewriter.api.Specifier[])">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="J">SETNULL</code><code class="R">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code array="fix"><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code class="parameterName">specifiers</code>)</code><i class="c"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
+					<table class="L">
+						<tr class="H">
+							<td><code>kiss.model.Model</code> <code>model</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code array="fix"><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Helper to write delete columns.</p>
+					</span></section>
+				<section class="T" id="SET(kiss.model.Model,typewriter.api.Specifier[],java.lang.Object)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="J">SET</code><code class="R">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code array="fix"><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code class="parameterName">specifiers</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">instance</code>)</code><i class="c"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
+					<table class="L">
+						<tr class="H">
+							<td><code>kiss.model.Model</code> <code>model</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code array="fix"><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code>specifiers</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>instance</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Helper to write set columns.</p>
+					</span></section>
+				<section class="T" id="WHERE(typewriter.api.model.IdentifiableModel)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="J">WHERE</code><code class="R">(<code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code> <code class="parameterName">model</code>)</code><i class="c"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
+					<table class="L">
+						<tr class="H">
+							<td><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code> <code>model</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Helper to write WHERE statement.</p>
+					</span></section>
+				<section class="T" id="VALUES(kiss.model.Model,java.lang.Object)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="J">VALUES</code><code class="R">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">instance</code>)</code><i class="c"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
+					<table class="L">
+						<tr class="H">
+							<td><code>kiss.model.Model</code> <code>model</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>instance</code></td>
+							<td></td>
+						</tr>
+						<tr class="X">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Helper to write VALUES statement.</p>
+					</span></section>
+			</article>
+			<aside class="K" id="SubNavi">
+				<div class="Z">
+					<h5 class="d">Constructors</h5>
+					<ul>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.SQLTemplate.html#SQLTemplate()">SQLTemplate</a></code><code class="R">()</code></li>
+					</ul>
+					<h5 class="d">Static Methods</h5>
+					<ul>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.SQLTemplate.html#tableDefinition(kiss.model.Model,java.util.function.Function)">tableDefinition</a></code><code class="R">(<code>kiss.model.Model<code class="parameters"><code>?</code></code></code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">mapper</code>)</code><i class="f"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.SQLTemplate.html#column(java.util.List)">column</a></code><code class="R">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code class="parameterName">properties</code>)</code><i class="f"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.SQLTemplate.html#SETNULL(kiss.model.Model,typewriter.api.Specifier[])">SETNULL</a></code><code class="R">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code array="fix"><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code class="parameterName">specifiers</code>)</code><i class="f"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.SQLTemplate.html#SET(kiss.model.Model,typewriter.api.Specifier[],java.lang.Object)">SET</a></code><code class="R">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code array="fix"><a href="api/typewriter.api.Specifier.html">Specifier</a></code> <code class="parameterName">specifiers</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">instance</code>)</code><i class="f"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.SQLTemplate.html#WHERE(typewriter.api.model.IdentifiableModel)">WHERE</a></code><code class="R">(<code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code> <code class="parameterName">model</code>)</code><i class="f"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.SQLTemplate.html#VALUES(kiss.model.Model,java.lang.Object)">VALUES</a></code><code class="R">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">instance</code>)</code><i class="f"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>
