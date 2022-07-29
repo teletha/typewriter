@@ -9,6 +9,8 @@
  */
 package typewriter.api;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
@@ -62,6 +64,25 @@ public interface QueryExecutorTestSet extends Testable {
         Person found = dao.findBy(model.getId()).to().exact();
         assert found.age == 20;
         assert found.name.equals("one");
+    }
+
+    @Test
+    default void findAll() {
+        Person model1 = new Person("one", 10);
+        Person model2 = new Person("two", 20);
+        Person model3 = new Person("three", 30);
+        Person model4 = new Person("four", 40);
+        Person model5 = new Person("five", 50);
+
+        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+        dao.update(model5);
+
+        List<Person> found = dao.findAll().toList();
+        assert found.size() == 5;
     }
 
     /**

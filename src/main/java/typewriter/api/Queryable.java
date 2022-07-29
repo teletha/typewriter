@@ -32,6 +32,15 @@ import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 public interface Queryable<M, R> {
 
     /**
+     * Collect all items without any conditions.
+     * 
+     * @return
+     */
+    default R findAll() {
+        return findBy(null);
+    }
+
+    /**
      * Specify search conditions for the specified property.
      * 
      * @param constraint Describes conditions for the target property.

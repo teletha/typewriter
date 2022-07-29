@@ -221,7 +221,9 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
     protected final void execute(Object... statements) {
         StringBuilder builder = new StringBuilder();
         for (Object statement : statements) {
-            builder.append(statement).append(' ');
+            if (statement != null) {
+                builder.append(statement).append(' ');
+            }
         }
 
         try {
@@ -239,7 +241,9 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
     protected final ResultSet query(Object... statements) {
         StringBuilder builder = new StringBuilder();
         for (Object statement : statements) {
-            builder.append(statement).append(' ');
+            if (statement != null) {
+                builder.append(statement).append(' ');
+            }
         }
 
         try {

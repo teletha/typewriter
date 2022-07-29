@@ -68,7 +68,9 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
      */
     @Override
     public MongoQuery<M> findBy(Constraint constraint) {
-        constraints.add((MongoConstraint<?, ?>) constraint);
+        if (constraint != null) {
+            constraints.add((MongoConstraint<?, ?>) constraint);
+        }
         return this;
     }
 

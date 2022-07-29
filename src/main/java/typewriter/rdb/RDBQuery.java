@@ -62,7 +62,9 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(Constraint constraint) {
-        constraints.add((RDBConstraint<?, ?>) constraint);
+        if (constraint != null) {
+            constraints.add((RDBConstraint<?, ?>) constraint);
+        }
         return this;
     }
 
@@ -143,6 +145,10 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public String toString() {
+        if (constraints.isEmpty()) {
+            return "";
+        }
+
         StringJoiner builder = new StringJoiner(" AND ", " WHERE ", "");
         for (RDBConstraint<?, ?> constraint : constraints) {
             for (String e : constraint.expression) {

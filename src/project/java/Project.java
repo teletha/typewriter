@@ -12,15 +12,14 @@ import static bee.api.License.*;
 
 public class Project extends bee.api.Project {
     {
-        product("com.github.teletha", "typewriter", "0.1");
+        product("com.github.teletha", "typewriter", ref("version.txt"));
         license(MIT);
         versionControlSystem("https://github.com/teletha/typewriter");
 
         require("com.github.teletha", "sinobu");
-        require("org.mongodb", "mongo-java-driver");
-        require("io.github.cbartosiak", "bson-codecs-jsr310");
-        require("org.xerial", "sqlite-jdbc");
-        require("com.h2database", "h2");
+        require("org.mongodb", "mongo-java-driver").atProvided();
+        require("org.xerial", "sqlite-jdbc").atProvided();
+        require("com.h2database", "h2").atProvided();
         require("com.github.teletha", "antibug").atTest();
         require("de.bwaldvogel", "mongo-java-server").atTest();
         require("org.apache.commons", "commons-lang3").atTest();
