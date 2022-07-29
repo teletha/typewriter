@@ -9,15 +9,9 @@
  */
 package typewriter.sqlite;
 
-import static typewriter.rdb.SQLTemplate.*;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +26,20 @@ import typewriter.rdb.RDB;
 import typewriter.rdb.RDBQuery;
 
 public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
+
+    /** The JAVA-SQL type mapping. */
+    private static final Map<Class, String> TYPES = new HashMap();
+
+    static {
+        TYPES.put(int.class, "integer");
+        TYPES.put(long.class, "integer");
+        TYPES.put(float.class, "real");
+        TYPES.put(double.class, "real");
+        TYPES.put(short.class, "integer");
+        TYPES.put(byte.class, "integer");
+        TYPES.put(boolean.class, "bit");
+        TYPES.put(String.class, "text");
+    }
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
@@ -54,7 +62,7 @@ public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
      * @param url A database location.
      */
     protected SQLite(Class<M> type, String url) {
-        super(type, url, "sqlite", "jdbc:sqlite::memory:");
+        super(type, url, "jdbc:sqlite::memory:", TYPES);
 
         try {
             // pragma
@@ -65,32 +73,9 @@ public class SQLite<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
             Function.create(connection, "REGEXP", REGEXP_FUNCTION);
 
             // create table
-            execute("CREATE TABLE IF NOT EXISTS", tableName, tableDefinition(model, this));
+            execute("CREATE TABLE IF NOT EXISTS", tableName, defineColumns());
         } catch (SQLException e) {
             throw I.quiet(e);
-        }
-    }
-
-    /**
-     * Define JAVA-SQL type mapping.
-     * 
-     * @param type
-     * @return
-     */
-    @Override
-    protected String computeSQLType(Class type) {
-        if (type == int.class) {
-            return "integer";
-        } else if (type == long.class) {
-            return "bigint";
-        } else if (type == boolean.class) {
-            return "bit";
-        } else if (type == String.class) {
-            return "string";
-        } else if (type == LocalDateTime.class || type == LocalDate.class || type == LocalTime.class || type == Date.class || type == ZonedDateTime.class) {
-            return "integer";
-        } else {
-            throw new Error(type.getName());
         }
     }
 

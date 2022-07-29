@@ -49,20 +49,24 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
     /** The reusable DB connection. */
     protected final Connection connection;
 
+    /** The JAVA-SQL type mapper. */
+    private final Map<Class, String> typeMapper;
+
     /**
      * Data Access Object.
      * 
      * @param type A target model.
      * @param url A user specified backend address.
-     * @param defaultKey An environment variable name for this backend type.
      * @param defaultURL A default backend address.
+     * @param typeMapper Type mappings between JAVA and SQL.
      */
-    protected RDB(Class<M> type, String url, String defaultKey, String defaultURL) {
-        url = Objects.requireNonNullElse(url, I.env(defaultKey, defaultURL));
+    protected RDB(Class<M> type, String url, String defaultURL, Map<Class, String> typeMapper) {
+        url = Objects.requireNonNullElse(url, I.env("typewriter." + getClass().getSimpleName().toLowerCase(), defaultURL));
 
         this.model = Model.of(type);
         this.tableName = '"' + type.getName() + '"';
         this.connection = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
+        this.typeMapper = typeMapper;
     }
 
     /**
@@ -200,7 +204,7 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
     protected final <V> V decode(Model model, List<Property> properties, V instance, ResultSet result) {
         try {
             for (Property property : properties) {
-                RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
+                RDBCodec codec = RDBCodec.by(property.model.type);
                 model.set(instance, property, codec.decode(result, property.name));
             }
             return instance;
@@ -246,10 +250,44 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
     }
 
     /**
-     * Define JAVA-SQL type mapping.
+     * Helper to write column definitions.
      * 
-     * @param type
      * @return
      */
-    protected abstract String computeSQLType(Class type);
+    protected CharSequence defineColumns() {
+        StringBuilder builder = new StringBuilder();
+        builder.append('(');
+        for (Property property : model.properties()) {
+            RDBCodec<?> codec = RDBCodec.by(property.model.type);
+            for (int i = 0; i < codec.types.size(); i++) {
+                Class columnType = codec.types.get(i);
+                String columnName = codec.names.get(i);
+
+                String type = typeMapper.get(columnType);
+                if (type == null) throw error("SQL type is not found for [", columnType, "]");
+
+                builder.append(property.name).append(columnName).append(' ').append(type).append(',');
+            }
+        }
+        builder.append("PRIMARY KEY(id))");
+
+        return builder;
+    }
+
+    /**
+     * Build error.
+     * 
+     * @param messages
+     * @return
+     */
+    private Error error(Object... messages) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName()).append(" : ");
+
+        for (Object message : messages) {
+            builder.append(message);
+        }
+
+        return new Error(builder.toString());
+    }
 }

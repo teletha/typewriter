@@ -12,11 +12,7 @@ package typewriter.h2;
 import static typewriter.rdb.SQLTemplate.*;
 
 import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +25,20 @@ import typewriter.rdb.RDBQuery;
 
 public class H2<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
 
+    /** The JAVA-SQL type mapping. */
+    private static final Map<Class, String> TYPES = new HashMap();
+
+    static {
+        TYPES.put(int.class, "int");
+        TYPES.put(long.class, "bigint");
+        TYPES.put(float.class, "real");
+        TYPES.put(double.class, "double");
+        TYPES.put(short.class, "tinyint");
+        TYPES.put(byte.class, "smallint");
+        TYPES.put(boolean.class, "boolean");
+        TYPES.put(String.class, "varchar");
+    }
+
     /**
      * Hide constructor.
      * 
@@ -36,10 +46,10 @@ public class H2<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
      * @param url A database location.
      */
     protected H2(Class<M> type, String url) {
-        super(type, url, "h2", "jdbc:h2:mem:temporary");
+        super(type, url, "jdbc:h2:mem:temporary", TYPES);
 
         // create table
-        execute("CREATE TABLE IF NOT EXISTS", tableName, tableDefinition(model, this));
+        execute("CREATE TABLE IF NOT EXISTS", tableName, defineColumns());
     }
 
     /**
@@ -57,37 +67,6 @@ public class H2<M extends IdentifiableModel> extends RDB<M, RDBQuery<M>> {
         } else {
             // update properties
             execute("UPDATE", tableName, SET(model, specifiers, instance), WHERE(instance));
-        }
-    }
-
-    /**
-     * Define JAVA-SQL type mapping.
-     * 
-     * @param type
-     * @return
-     */
-    @Override
-    protected String computeSQLType(Class type) {
-        if (type == int.class) {
-            return "int";
-        } else if (type == long.class) {
-            return "bigint";
-        } else if (type == float.class) {
-            return "real";
-        } else if (type == double.class) {
-            return "double";
-        } else if (type == boolean.class) {
-            return "boolean";
-        } else if (type == String.class) {
-            return "varchar";
-        } else if (type == LocalDateTime.class || type == LocalDate.class || type == LocalTime.class || type == Date.class || type == ZonedDateTime.class) {
-            return "bigint";
-        } else if (type == byte.class) {
-            return "tinyint";
-        } else if (type == short.class) {
-            return "smallint";
-        } else {
-            throw new Error(type.getName());
         }
     }
 

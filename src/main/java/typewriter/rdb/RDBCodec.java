@@ -35,13 +35,13 @@ import kiss.WiseBiFunction;
 import kiss.model.Property;
 
 @Managed(Singleton.class)
-public abstract class RDBTypeCodec<T> implements Extensible {
+public abstract class RDBCodec<T> implements Extensible {
 
     /** Built-in codecs. */
-    private static final Map<Class, RDBTypeCodec> BULTINS = new HashMap();
+    private static final Map<Class, RDBCodec> BULTINS = new HashMap();
 
     static {
-        I.load(RDBTypeCodec.class);
+        I.load(RDBCodec.class);
 
         register(int.class, ResultSet::getInt);
         register(long.class, ResultSet::getLong);
@@ -76,23 +76,23 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     }
 
     /**
-     * Find {@link RDBTypeCodec} by type.
+     * Find {@link RDBCodec} by type.
      * 
      * @param <T>
      * @param type
      * @return
      */
-    public static <T> RDBTypeCodec<T> by(Class<T> type) {
-        RDBTypeCodec<T> codec = BULTINS.get(type);
+    public static <T> RDBCodec<T> by(Class<T> type) {
+        RDBCodec<T> codec = BULTINS.get(type);
         if (codec != null) {
             return codec;
         }
 
-        codec = I.find(RDBTypeCodec.class, type);
+        codec = I.find(RDBCodec.class, type);
         if (codec != null) {
             return codec;
         }
-        throw new Error(RDBTypeCodec.class.getSimpleName() + " for " + type.getName() + " is not found.");
+        throw new Error(RDBCodec.class.getSimpleName() + " for " + type.getName() + " is not found.");
     }
 
     /**
@@ -113,12 +113,12 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /** The associated names. */
     final List<String> names;
 
-    protected RDBTypeCodec(Class type1) {
+    protected RDBCodec(Class type1) {
         this.types = List.of(type1);
         this.names = List.of("");
     }
 
-    protected RDBTypeCodec(Class type1, String name1, Class type2, String name2) {
+    protected RDBCodec(Class type1, String name1, Class type2, String name2) {
         this.types = List.of(type1, type2);
         this.names = List.of(name1, name2);
     }
@@ -130,7 +130,7 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /**
      * Generic codec.
      */
-    static class GenericCodec<T> extends RDBTypeCodec<T> {
+    static class GenericCodec<T> extends RDBCodec<T> {
 
         /** The actual date decoder. */
         private final WiseBiFunction<ResultSet, String, T> decoder;
@@ -165,7 +165,7 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /**
      * Built-in codec.
      */
-    static class StringCodec extends RDBTypeCodec<String> {
+    static class StringCodec extends RDBCodec<String> {
 
         /**
          * 
@@ -196,13 +196,13 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /**
      * Built-in codec.
      */
-    static class DateCodec extends RDBTypeCodec<Date> {
+    static class DateCodec extends RDBCodec<Date> {
 
         /**
          * 
          */
         private DateCodec() {
-            super(Date.class);
+            super(long.class);
         }
 
         /**
@@ -227,13 +227,13 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /**
      * Built-in codec.
      */
-    static class LocalDateCodec extends RDBTypeCodec<LocalDate> {
+    static class LocalDateCodec extends RDBCodec<LocalDate> {
 
         /**
          * 
          */
         private LocalDateCodec() {
-            super(LocalDate.class);
+            super(long.class);
         }
 
         /**
@@ -258,13 +258,13 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /**
      * Built-in codec.
      */
-    static class LocalTimeCodec extends RDBTypeCodec<LocalTime> {
+    static class LocalTimeCodec extends RDBCodec<LocalTime> {
 
         /**
          * 
          */
         private LocalTimeCodec() {
-            super(LocalTime.class);
+            super(long.class);
         }
 
         /**
@@ -289,13 +289,13 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /**
      * Built-in codec.
      */
-    static class LocalDateTimeCodec extends RDBTypeCodec<LocalDateTime> {
+    static class LocalDateTimeCodec extends RDBCodec<LocalDateTime> {
 
         /**
          * 
          */
         LocalDateTimeCodec() {
-            super(LocalDateTime.class);
+            super(long.class);
         }
 
         /**
@@ -321,7 +321,7 @@ public abstract class RDBTypeCodec<T> implements Extensible {
     /**
      * Built-in codec.
      */
-    static class ZonedDateTimeCodec extends RDBTypeCodec<ZonedDateTime> {
+    static class ZonedDateTimeCodec extends RDBCodec<ZonedDateTime> {
 
         ZonedDateTimeCodec() {
             super(long.class, "DATE", String.class, "ZONE");

@@ -27,30 +27,6 @@ import typewriter.api.model.IdentifiableModel;
 public class SQLTemplate {
 
     /**
-     * Helper to write table definition
-     * 
-     * @param model
-     * @param dao
-     * @return
-     */
-    public static CharSequence tableDefinition(Model<?> model, RDB dao) {
-        StringBuilder builder = new StringBuilder();
-        builder.append('(');
-        for (Property property : model.properties()) {
-            RDBTypeCodec<?> codec = RDBTypeCodec.by(property.model.type);
-            for (int i = 0; i < codec.types.size(); i++) {
-                Class columnType = codec.types.get(i);
-                String columnName = codec.names.get(i);
-
-                builder.append(property.name).append(columnName).append(' ').append(dao.computeSQLType(columnType)).append(',');
-            }
-        }
-        builder.append("PRIMARY KEY(id))");
-
-        return builder;
-    }
-
-    /**
      * Helper to write name of columns.
      * 
      * @param properties
@@ -60,7 +36,7 @@ public class SQLTemplate {
         StringBuilder builder = new StringBuilder();
 
         for (Property property : properties) {
-            RDBTypeCodec<?> codec = RDBTypeCodec.by(property.model.type);
+            RDBCodec<?> codec = RDBCodec.by(property.model.type);
             for (int j = 0; j < codec.types.size(); j++) {
                 builder.append(property.name).append(codec.names.get(j)).append(',');
             }
@@ -95,7 +71,7 @@ public class SQLTemplate {
         StringBuilder builder = new StringBuilder("SET ");
 
         for (Property property : properties(model, specifiers)) {
-            RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
+            RDBCodec codec = RDBCodec.by(property.model.type);
 
             for (int i = 0; i < codec.types.size(); i++) {
                 builder.append(property.name).append(codec.names.get(i)).append("=NULL,");
@@ -113,7 +89,7 @@ public class SQLTemplate {
     public static CharSequence SET(Model model, Specifier[] specifiers, Object instance) {
         Map<String, Object> result = new HashMap();
         for (Property property : properties(model, specifiers)) {
-            RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
+            RDBCodec codec = RDBCodec.by(property.model.type);
             codec.encode(result, property.name, model.get(instance, property));
         }
 
@@ -146,7 +122,7 @@ public class SQLTemplate {
     public static <V> CharSequence VALUES(Model<V> model, V instance) {
         Map<String, Object> result = new LinkedHashMap();
         for (Property property : model.properties()) {
-            RDBTypeCodec codec = RDBTypeCodec.by(property.model.type);
+            RDBCodec codec = RDBCodec.by(property.model.type);
             codec.encode(result, property.name, model.get(instance, property));
         }
 
