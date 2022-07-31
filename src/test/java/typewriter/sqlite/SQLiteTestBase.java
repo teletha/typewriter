@@ -21,7 +21,7 @@ public class SQLiteTestBase implements Testable {
 
     @BeforeEach
     void setup() {
-        RDB.close();
+        RDB.close(RDB.SQLite);
     }
 
     /**
@@ -29,6 +29,6 @@ public class SQLiteTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
-        return new RDB<M>(type, "jdbc:sqlite::memory:", SQLite.SINGLETON);
+        return new RDB<M>(type, "jdbc:sqlite::memory:", RDB.SQLite);
     }
 }

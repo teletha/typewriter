@@ -23,9 +23,6 @@ import typewriter.rdb.Dialect;
 
 public class SQLite extends Dialect {
 
-    /** SINGLETON */
-    public static final SQLite SINGLETON = new SQLite();
-
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
 
@@ -35,7 +32,7 @@ public class SQLite extends Dialect {
         protected void xFunc() throws SQLException {
             String value = Objects.requireNonNullElse(value_text(1), "");
             Pattern pattern = REGEX.computeIfAbsent(value_text(0), Pattern::compile);
-    
+
             result(pattern.matcher(value).find() ? 1 : 0);
         }
     };
@@ -52,6 +49,12 @@ public class SQLite extends Dialect {
         TYPES.put(byte.class, "integer");
         TYPES.put(boolean.class, "bit");
         TYPES.put(String.class, "text");
+    }
+
+    /**
+     * Hide constructor.
+     */
+    private SQLite() {
     }
 
     /**

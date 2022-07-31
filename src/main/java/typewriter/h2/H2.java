@@ -16,9 +16,6 @@ import typewriter.rdb.Dialect;
 
 public class H2 extends Dialect {
 
-    /** Singleton */
-    public static final Dialect SINGLETON = new H2();
-
     /** The JAVA-SQL type mapping. */
     private static final Map<Class, String> TYPES = new HashMap();
 
@@ -31,6 +28,12 @@ public class H2 extends Dialect {
         TYPES.put(byte.class, "smallint");
         TYPES.put(boolean.class, "boolean");
         TYPES.put(String.class, "varchar");
+    }
+
+    /**
+     * Hide constructor.
+     */
+    private H2() {
     }
 
     /**

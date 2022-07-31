@@ -31,6 +31,7 @@ import kiss.model.Property;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.h2.H2;
 import typewriter.sqlite.SQLite;
 
 /**
@@ -38,9 +39,14 @@ import typewriter.sqlite.SQLite;
  */
 public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, RDBQuery<M>> {
 
-    public static final Dialect H2 = I.make(typewriter.h2.H2.class);
+    /** The supported RDBMS. */
+    public static final Dialect H2 = I.make(H2.class);
 
+    /** The supported RDBMS. */
     public static final Dialect SQLite = I.make(SQLite.class);
+
+    /** The reusable DAO cache. */
+    private static final Map<Dialect, Map<Class, RDB>> DAO = Map.of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap());
 
     /** The connection pool. */
     protected static final Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap();
@@ -277,9 +283,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         }
     }
 
-    /** The reusabel {@link RDB} cache. */
-    private static final Map<Dialect, Map<Class, RDB>> CACHE = Map.of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap());
-
     /**
      * Get the collection.
      * 
@@ -288,19 +291,19 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @return
      */
     public static <M extends IdentifiableModel> RDB<M> of(Class<M> model, Dialect dialect) {
-        return CACHE.get(dialect).computeIfAbsent(model, key -> new RDB(model, null, dialect));
+        return DAO.get(dialect).computeIfAbsent(model, key -> new RDB(model, null, dialect));
     }
 
     /**
      * Close all related system resources.
      */
-    public static void close() {
+    public static void close(Dialect dialect) {
         Iterator<Connection> iterator = CONNECTION_POOL.values().iterator();
         while (iterator.hasNext()) {
             I.quiet(iterator.next());
             iterator.remove();
         }
 
-        CACHE.values().forEach(Map<Class, RDB>::clear);
+        DAO.get(dialect).clear();
     }
 }
