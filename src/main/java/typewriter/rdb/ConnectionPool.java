@@ -183,11 +183,6 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          */
         private Proxy() throws SQLException {
             this.delegation = DriverManager.getConnection(url);
-
-            WiseConsumer<Connection> builder = RDB.CREATING_CONNECTION_HOOK.get(kind);
-            if (builder != null) {
-                builder.accept(delegation);
-            }
         }
 
         /**

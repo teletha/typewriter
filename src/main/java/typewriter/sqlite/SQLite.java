@@ -21,10 +21,10 @@ import org.sqlite.Function;
 
 import typewriter.rdb.Dialect;
 
-public class SQLiteDialect extends Dialect {
+public class SQLite extends Dialect {
 
     /** SINGLETON */
-    public static final SQLiteDialect SINGLETON = new SQLiteDialect();
+    public static final SQLite SINGLETON = new SQLite();
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();

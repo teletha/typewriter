@@ -29,6 +29,6 @@ public class H2TestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
-        return new RDB<>(type, "jdbc:h2:mem:test", H2Dialect.SINGLETON);
+        return new RDB<>(type, "jdbc:h2:mem:test", H2.SINGLETON);
     }
 }

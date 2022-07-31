@@ -11,9 +11,12 @@ package typewriter.rdb;
 
 import java.sql.Connection;
 
+import kiss.Managed;
+import kiss.Singleton;
 import kiss.model.Model;
 import kiss.model.Property;
 
+@Managed(Singleton.class)
 public abstract class Dialect {
 
     /**

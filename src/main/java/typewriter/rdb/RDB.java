@@ -16,7 +16,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.WiseConsumer;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import kiss.model.Model;
@@ -33,14 +31,16 @@ import kiss.model.Property;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.sqlite.SQLite;
 
 /**
  * Data Access Object for RDBMS.
  */
 public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, RDBQuery<M>> {
 
-    /** The interceptors. */
-    protected static final Map<String, WiseConsumer<Connection>> CREATING_CONNECTION_HOOK = new HashMap();
+    public static final Dialect H2 = I.make(typewriter.h2.H2.class);
+
+    public static final Dialect SQLite = I.make(SQLite.class);
 
     /** The connection pool. */
     protected static final Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap();
@@ -278,7 +278,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     }
 
     /** The reusabel {@link RDB} cache. */
-    private static final Map<Class, RDB> CACHE = new ConcurrentHashMap();
+    private static final Map<Dialect, Map<Class, RDB>> CACHE = Map.of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap());
 
     /**
      * Get the collection.
@@ -287,8 +287,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param model The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> model) {
-        return CACHE.computeIfAbsent(model, key -> new RDB(key, null, null));
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> model, Dialect dialect) {
+        return CACHE.get(dialect).computeIfAbsent(model, key -> new RDB(model, null, dialect));
     }
 
     /**
@@ -301,6 +301,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
             iterator.remove();
         }
 
-        CACHE.clear();
+        CACHE.values().forEach(Map<Class, RDB>::clear);
     }
 }
