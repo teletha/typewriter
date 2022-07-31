@@ -12,6 +12,7 @@ package typewriter.sqlite;
 import org.junit.jupiter.api.BeforeEach;
 
 import kiss.Signal;
+import kiss.model.Model;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
@@ -29,6 +30,6 @@ public class SQLiteTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
-        return new RDB<M>(type, "jdbc:sqlite::memory:", RDB.SQLite);
+        return new RDB<M>(Model.of(type), RDB.SQLite, "jdbc:sqlite::memory:");
     }
 }

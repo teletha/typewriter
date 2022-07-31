@@ -48,7 +48,7 @@ public class H2 extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public String defaultLocation() {
+    protected String defaultLocation() {
         return "jdbc:h2:mem:temporary";
     }
 

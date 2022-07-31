@@ -12,6 +12,7 @@ package typewriter.h2;
 import org.junit.jupiter.api.BeforeEach;
 
 import kiss.Signal;
+import kiss.model.Model;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
@@ -29,6 +30,6 @@ public class H2TestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
-        return new RDB<>(type, "jdbc:h2:mem:test", RDB.H2);
+        return new RDB<>(Model.of(type), RDB.H2, "jdbc:h2:mem:test");
     }
 }

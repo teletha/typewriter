@@ -61,7 +61,7 @@ public class SQLite extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public String defaultLocation() {
+    protected String defaultLocation() {
         return "jdbc:sqlite::memory:";
     }
 
@@ -77,12 +77,16 @@ public class SQLite extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public void initializeConnection(Connection connection) throws Exception {
+    public Connection createConnection(String url) throws Exception {
+        Connection connection = super.createConnection(url);
+
         // pragma
         connection.createStatement().executeUpdate("PRAGMA journal_mode=wal");
         connection.createStatement().executeUpdate("PRAGMA sync_mode=off");
 
         // register extra functions
         Function.create(connection, "REGEXP", REGEXP_FUNCTION);
+
+        return connection;
     }
 }

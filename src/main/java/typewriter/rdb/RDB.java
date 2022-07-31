@@ -12,14 +12,12 @@ package typewriter.rdb;
 import static typewriter.rdb.SQLTemplate.*;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import kiss.I;
@@ -57,36 +55,41 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     /** The table name. */
     protected final String tableName;
 
-    /** The connection provider. */
-    protected final WiseSupplier<Connection> connectionProvider;
-
     /** The associated {@link Dialect}. */
     protected final Dialect dialect;
+
+    /** The connection provider. */
+    protected final WiseSupplier<Connection> connectionProvider;
 
     /**
      * Data Access Object.
      * 
-     * @param type A target model.
-     * @param url A user specified backend address.
+     * @param model A target model.
      * @param dialect
+     * @param url A user specified backend address.
      */
-    public RDB(Class<M> type, String url, Dialect dialect) {
-        url = Objects.requireNonNullElse(url, I.env("typewriter." + getClass().getSimpleName().toLowerCase(), dialect.defaultLocation()));
-
-        this.model = Model.of(type);
-        this.tableName = '"' + type.getName() + '"';
-
-        Connection c = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
-        try {
-            dialect.initializeConnection(c);
-        } catch (Exception e) {
-            throw I.quiet(e);
-        }
-        this.connectionProvider = () -> c;
-        this.dialect = dialect;
+    public RDB(Model<M> model, Dialect dialect, String url) {
+        this(model, dialect, () -> {
+            return CONNECTION_POOL
+                    .computeIfAbsent(dialect.configureLocation(url), (WiseFunction<String, Connection>) dialect::createConnection);
+        });
 
         // create table
         execute(dialect.createTable(tableName, model));
+    }
+
+    /**
+     * Data Access Object.
+     * 
+     * @param model A target model.
+     * @param dialect A dialect of RDBMS.
+     * @param connectionProvider A user specified backend address.
+     */
+    public RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> connectionProvider) {
+        this.model = model;
+        this.tableName = '"' + model.type.getName() + '"';
+        this.dialect = dialect;
+        this.connectionProvider = connectionProvider;
     }
 
     /**
@@ -287,11 +290,11 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * Get the collection.
      * 
      * @param <M>
-     * @param model The model type.
+     * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> model, Dialect dialect) {
-        return DAO.get(dialect).computeIfAbsent(model, key -> new RDB(model, null, dialect));
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect) {
+        return DAO.get(dialect).computeIfAbsent(type, key -> new RDB(Model.of(type), dialect, (String) null));
     }
 
     /**

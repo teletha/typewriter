@@ -10,7 +10,9 @@
 package typewriter.rdb;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 
+import kiss.I;
 import kiss.Managed;
 import kiss.Singleton;
 import kiss.model.Model;
@@ -28,20 +30,34 @@ public abstract class Dialect {
     public abstract String types(Class type);
 
     /**
+     * Define the user-defined database location.
+     * 
+     * @param userLocation A user specified location.
+     * @return A detected database location.
+     */
+    public final String configureLocation(String userLocation) {
+        if (userLocation == null || userLocation.isBlank()) {
+            return I.env("typewriter." + getClass().getSimpleName().toLowerCase(), defaultLocation());
+        } else {
+            return userLocation;
+        }
+    }
+
+    /**
      * Define the default database location.
      * 
      * @return
      */
-    public abstract String defaultLocation();
+    protected abstract String defaultLocation();
 
     /**
-     * Initialize the new {@link Connection}.
+     * Create new {@link Connection}.
      * 
-     * @param connection A new created connection.
-     * @throws Exception
+     * @param url A database URL.
+     * @return
      */
-    public void initializeConnection(Connection connection) throws Exception {
-        // do nothing
+    public Connection createConnection(String url) throws Exception {
+        return DriverManager.getConnection(url);
     }
 
     /**
