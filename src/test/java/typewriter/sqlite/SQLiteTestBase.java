@@ -30,6 +30,6 @@ public class SQLiteTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(Model.of(type), RDB.SQLite, "jdbc:sqlite::memory:");
+        return (Q) new RDB(Model.of(type), RDB.SQLite, "jdbc:sqlite:" + createTemporaryFile());
     }
 }

@@ -30,7 +30,7 @@ public class H2TestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(Model.of(type), RDB.H2, "jdbc:h2:mem:test");
+        return (Q) new RDB(Model.of(type), RDB.H2, "jdbc:h2:" + createTemporaryFile());
     }
 
 }

@@ -9,6 +9,11 @@
  */
 package typewriter.api;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import kiss.I;
 import kiss.Signal;
 import typewriter.api.model.IdentifiableModel;
 
@@ -22,4 +27,19 @@ public interface Testable {
      * @return
      */
     <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type);
+
+    /**
+     * Create a temporary file.
+     * 
+     * @return
+     */
+    default Path createTemporaryFile() {
+        try {
+            Path file = Files.createTempFile("typewriter", "db");
+            file.toFile().deleteOnExit();
+            return file;
+        } catch (IOException e) {
+            throw I.quiet(e);
+        }
+    }
 }
