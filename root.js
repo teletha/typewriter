@@ -111,7 +111,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "H2Dialect",
+			"name": "H2",
 			"packageName": "typewriter.h2",
 			"type": "Class"
 		},
@@ -209,7 +209,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "SQLiteDialect",
+			"name": "SQLite",
 			"packageName": "typewriter.sqlite",
 			"type": "Class"
 		},
