@@ -16,6 +16,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,19 +25,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.WiseConsumer;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import kiss.model.Model;
 import kiss.model.Property;
 import typewriter.api.QueryExecutor;
-import typewriter.api.Queryable;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 
 /**
  * Data Access Object for RDBMS.
  */
-public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>> extends QueryExecutor<M, Signal<M>, Q> {
+public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, RDBQuery<M>> {
+
+    /** The interceptors. */
+    protected static final Map<String, WiseConsumer<Connection>> CREATING_CONNECTION_HOOK = new HashMap();
 
     /** The connection pool. */
     protected static final Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap();
@@ -46,27 +51,36 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
     /** The table name. */
     protected final String tableName;
 
-    /** The reusable DB connection. */
-    protected final Connection connection;
+    /** The connection provider. */
+    protected final WiseSupplier<Connection> connectionProvider;
 
-    /** The JAVA-SQL type mapper. */
-    private final Map<Class, String> typeMapper;
+    /** The associated {@link Dialect}. */
+    protected final Dialect dialect;
 
     /**
      * Data Access Object.
      * 
      * @param type A target model.
      * @param url A user specified backend address.
-     * @param defaultURL A default backend address.
-     * @param typeMapper Type mappings between JAVA and SQL.
+     * @param dialect
      */
-    protected RDB(Class<M> type, String url, String defaultURL, Map<Class, String> typeMapper) {
-        url = Objects.requireNonNullElse(url, I.env("typewriter." + getClass().getSimpleName().toLowerCase(), defaultURL));
+    public RDB(Class<M> type, String url, Dialect dialect) {
+        url = Objects.requireNonNullElse(url, I.env("typewriter." + getClass().getSimpleName().toLowerCase(), dialect.defaultLocation()));
 
         this.model = Model.of(type);
         this.tableName = '"' + type.getName() + '"';
-        this.connection = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
-        this.typeMapper = typeMapper;
+
+        Connection c = CONNECTION_POOL.computeIfAbsent(url, (WiseFunction<String, Connection>) DriverManager::getConnection);
+        try {
+            dialect.initializeConnection(c);
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
+        this.connectionProvider = () -> c;
+        this.dialect = dialect;
+
+        // create table
+        execute(dialect.createTable(tableName, model));
     }
 
     /**
@@ -95,7 +109,7 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
      * {@inheritDoc}
      */
     @Override
-    public Signal<M> findBy(Q query) {
+    public Signal<M> findBy(RDBQuery<M> query) {
         return new Signal<>((observer, disposer) -> {
             try {
                 ResultSet result = query("SELECT * FROM", tableName, query);
@@ -157,7 +171,7 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
             execute("DELETE FROM", tableName, WHERE(instance));
         } else {
             // delete properties
-            execute("UPDATE", tableName, SETNULL(model, specifiers), WHERE(instance));
+            execute(dialect.commandUpdate(), tableName, SETNULL(model, specifiers), WHERE(instance));
         }
     }
 
@@ -172,10 +186,10 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
 
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            execute("REPLACE INTO", tableName, VALUES(model, instance));
+            execute(dialect.commandReplace(), tableName, VALUES(model, instance));
         } else {
             // update properties
-            execute("UPDATE", tableName, SET(model, specifiers, instance), WHERE(instance));
+            execute(dialect.commandUpdate(), tableName, SET(model, specifiers, instance), WHERE(instance));
         }
     }
 
@@ -184,6 +198,7 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
      */
     @Override
     public synchronized <R> R transact(WiseSupplier<R> operation) {
+        Connection connection = connectionProvider.get();
         try {
             connection.setAutoCommit(false);
 
@@ -236,7 +251,7 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
         }
 
         try {
-            connection.createStatement().executeUpdate(builder.toString());
+            connectionProvider.get().createStatement().executeUpdate(builder.toString());
         } catch (SQLException e) {
             throw I.quiet(new SQLException(builder.toString(), e));
         }
@@ -256,51 +271,36 @@ public abstract class RDB<M extends IdentifiableModel, Q extends Queryable<M, Q>
         }
 
         try {
-            return connection.createStatement().executeQuery(builder.toString());
+            return connectionProvider.get().createStatement().executeQuery(builder.toString());
         } catch (SQLException e) {
             throw I.quiet(new SQLException(builder.toString(), e));
         }
     }
 
+    /** The reusabel {@link RDB} cache. */
+    private static final Map<Class, RDB> CACHE = new ConcurrentHashMap();
+
     /**
-     * Helper to write column definitions.
+     * Get the collection.
      * 
+     * @param <M>
+     * @param model The model type.
      * @return
      */
-    protected CharSequence defineColumns() {
-        StringBuilder builder = new StringBuilder();
-        builder.append('(');
-        for (Property property : model.properties()) {
-            RDBCodec<?> codec = RDBCodec.by(property.model.type);
-            for (int i = 0; i < codec.types.size(); i++) {
-                Class columnType = codec.types.get(i);
-                String columnName = codec.names.get(i);
-
-                String type = typeMapper.get(columnType);
-                if (type == null) throw error("SQL type is not found for [", columnType, "]");
-
-                builder.append(property.name).append(columnName).append(' ').append(type).append(',');
-            }
-        }
-        builder.append("PRIMARY KEY(id))");
-
-        return builder;
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> model) {
+        return CACHE.computeIfAbsent(model, key -> new RDB(key, null, null));
     }
 
     /**
-     * Build error.
-     * 
-     * @param messages
-     * @return
+     * Close all related system resources.
      */
-    private Error error(Object... messages) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(getClass().getSimpleName()).append(" : ");
-
-        for (Object message : messages) {
-            builder.append(message);
+    public static void close() {
+        Iterator<Connection> iterator = CONNECTION_POOL.values().iterator();
+        while (iterator.hasNext()) {
+            I.quiet(iterator.next());
+            iterator.remove();
         }
 
-        return new Error(builder.toString());
+        CACHE.clear();
     }
 }

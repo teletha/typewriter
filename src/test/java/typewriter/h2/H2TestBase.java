@@ -15,12 +15,13 @@ import kiss.Signal;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.rdb.RDB;
 
 public class H2TestBase implements Testable {
 
     @BeforeEach
     void setup() {
-        H2.close();
+        RDB.close();
     }
 
     /**
@@ -28,6 +29,6 @@ public class H2TestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
-        return new H2<>(type, "jdbc:h2:mem:test");
+        return new RDB<>(type, "jdbc:h2:mem:test", H2Dialect.SINGLETON);
     }
 }

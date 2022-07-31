@@ -10,14 +10,15 @@
 package typewriter.sqlite;
 
 import typewriter.api.model.BackendedModel;
+import typewriter.rdb.RDB;
 
-public abstract class SQLiteModel<Self extends SQLiteModel<Self>> extends BackendedModel<Self, SQLite<Self>> {
+public abstract class SQLiteModel<Self extends SQLiteModel<Self>> extends BackendedModel<Self, RDB<Self>> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected SQLite backend() {
-        return SQLite.of(getClass());
+    protected RDB<Self> backend() {
+        return RDB.of((Class<Self>) getClass());
     }
 }

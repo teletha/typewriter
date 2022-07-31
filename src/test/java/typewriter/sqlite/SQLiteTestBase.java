@@ -15,12 +15,13 @@ import kiss.Signal;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.rdb.RDB;
 
 public class SQLiteTestBase implements Testable {
 
     @BeforeEach
     void setup() {
-        SQLite.close();
+        RDB.close();
     }
 
     /**
@@ -28,6 +29,6 @@ public class SQLiteTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
-        return new SQLite<>(type, "jdbc:sqlite::memory:");
+        return new RDB<M>(type, "jdbc:sqlite::memory:", SQLiteDialect.SINGLETON);
     }
 }

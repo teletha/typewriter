@@ -38,9 +38,10 @@ import java.util.concurrent.TimeUnit;
 
 import kiss.I;
 import kiss.WiseConsumer;
+import kiss.WiseSupplier;
 import typewriter.api.QueryExecutor;
 
-public class ConnectionPool {
+public class ConnectionPool implements WiseSupplier<Connection> {
 
     /** The connnection pool manager. */
     private static final Map<String, ConnectionPool> CACHE = new ConcurrentHashMap();
@@ -61,10 +62,10 @@ public class ConnectionPool {
     private final long timeout;
 
     /** The actual connection pool. */
-    private final ArrayBlockingQueue<PooledConnection> idle;
+    private final ArrayBlockingQueue<Proxy> idle;
 
     /** The actual connection pool. */
-    private final Set<PooledConnection> busy;
+    private final Set<Proxy> busy;
 
     /**
      * 
@@ -95,16 +96,15 @@ public class ConnectionPool {
      * Get the idled connection.
      * 
      * @return
-     * @throws InterruptedException
-     * @throws SQLException
      */
-    public Connection retrieve() throws InterruptedException, SQLException {
-        PooledConnection connection = idle.poll();
+    @Override
+    public Connection call() throws Exception {
+        Proxy connection = idle.poll();
         if (connection == null) {
             if (max <= busy.size()) {
                 connection = idle.poll(timeout, TimeUnit.MILLISECONDS);
             } else {
-                connection = new PooledConnection();
+                connection = new Proxy();
             }
         }
 
@@ -145,7 +145,7 @@ public class ConnectionPool {
                 iterator.remove();
 
                 ConnectionPool pool = entry.getValue();
-                for (PooledConnection connection : pool.idle) {
+                for (Proxy connection : pool.idle) {
                     try {
                         connection.delegation.close();
                     } catch (SQLException e) {
@@ -154,7 +154,7 @@ public class ConnectionPool {
                 }
                 pool.idle.clear();
 
-                for (PooledConnection connection : pool.busy) {
+                for (Proxy connection : pool.busy) {
                     try {
                         connection.delegation.close();
                     } catch (SQLException e) {
@@ -169,7 +169,7 @@ public class ConnectionPool {
     /**
      * Connection delegator.
      */
-    private class PooledConnection implements Connection {
+    private class Proxy implements Connection {
 
         /** The backend. */
         private final Connection delegation;
@@ -181,10 +181,10 @@ public class ConnectionPool {
          * @param delegation
          * @throws SQLException
          */
-        private PooledConnection() throws SQLException {
+        private Proxy() throws SQLException {
             this.delegation = DriverManager.getConnection(url);
 
-            WiseConsumer<Connection> builder = RDB.ConnectionBuildingHook.get(kind);
+            WiseConsumer<Connection> builder = RDB.CREATING_CONNECTION_HOOK.get(kind);
             if (builder != null) {
                 builder.accept(delegation);
             }

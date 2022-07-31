@@ -10,14 +10,15 @@
 package typewriter.h2;
 
 import typewriter.api.model.BackendedModel;
+import typewriter.rdb.RDB;
 
-public abstract class H2Model<Self extends H2Model<Self>> extends BackendedModel<Self, H2<Self>> {
+public abstract class H2Model<Self extends H2Model<Self>> extends BackendedModel<Self, RDB<Self>> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected H2 backend() {
-        return H2.of(getClass());
+    protected RDB<Self> backend() {
+        return RDB.of((Class<Self>) getClass());
     }
 }
