@@ -9,7 +9,7 @@
  */
 package typewriter.api;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.DateTimeException;
 import java.time.LocalTime;
@@ -27,7 +27,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -39,7 +39,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isInvalidInput() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Event::getStart, day -> day.is(-10, 33, 1098)).toList());
     }
@@ -50,7 +50,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -63,7 +63,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isNotInvalidInput() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Event::getStart, day -> day.isNot(-10, 33, 1098)).toList());
     }
@@ -74,7 +74,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -86,7 +86,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isNullDate() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Event::getStart, day -> day.is(null)).toList());
     }
@@ -97,7 +97,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -110,7 +110,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isNotNullDate() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Event::getStart, day -> day.isNot(null)).toList());
     }
@@ -121,7 +121,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -133,7 +133,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeInvalidInput() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Event::getStart, day -> day.isBefore(-10, 33, 1098)).toList());
     }
@@ -144,7 +144,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -156,7 +156,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeNullDate() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Event::getStart, day -> day.isBefore(null)).toList());
     }
@@ -167,7 +167,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -180,7 +180,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeOrSameInvalidInput() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Event::getStart, day -> day.isBeforeOrSame(-10, 33, 1098)).toList());
     }
@@ -191,7 +191,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -204,7 +204,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeOrSameNullDate() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Event::getStart, day -> day.isBeforeOrSame(null)).toList());
     }
@@ -215,7 +215,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -227,7 +227,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isAfterInvalidInput() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Event::getStart, day -> day.isAfter(-10, 33, 1098)).toList());
     }
@@ -238,7 +238,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -250,7 +250,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isAfterNullDate() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Event::getStart, day -> day.isAfter(null)).toList());
     }
@@ -261,7 +261,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -274,7 +274,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isAfterOrSameInvalidInput() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Event::getStart, day -> day.isAfterOrSame(-10, 33, 1098)).toList());
     }
@@ -285,7 +285,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
         Event model2 = new Event("Second", 13, 30);
         Event model3 = new Event("Third", 15, 45);
 
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -298,7 +298,7 @@ public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
     default void isAfterOrSameNullDate() {
-        QueryExecutor<Event, Signal<Event>, ?> dao = createEmptyDB(Event.class);
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Event::getStart, day -> day.isAfterOrSame(null)).toList());
     }

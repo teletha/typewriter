@@ -30,7 +30,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -42,7 +42,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isInvalidInput() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.is(-10, 33, 1098)).toList());
     }
@@ -53,7 +53,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -66,7 +66,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isNotInvalidInput() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.isNot(-10, 33, 1098)).toList());
     }
@@ -77,7 +77,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -89,7 +89,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isNullDate() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.is(null)).toList());
     }
@@ -100,7 +100,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -113,7 +113,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isNotNullDate() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.isNot(null)).toList());
     }
@@ -124,7 +124,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -136,7 +136,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeInvalidInput() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.isBefore(-10, 33, 1098)).toList());
     }
@@ -147,7 +147,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -159,7 +159,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeNullDate() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.isBefore(null)).toList());
     }
@@ -170,7 +170,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -183,7 +183,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeOrSameInvalidInput() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.isBeforeOrSame(-10, 33, 1098)).toList());
     }
@@ -194,7 +194,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -207,7 +207,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isBeforeOrSameNullDate() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.isBeforeOrSame(null)).toList());
     }
@@ -218,7 +218,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -230,7 +230,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isAfterInvalidInput() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.isAfter(-10, 33, 1098)).toList());
     }
@@ -241,7 +241,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -253,7 +253,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isAfterNullDate() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.isAfter(null)).toList());
     }
@@ -264,7 +264,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -277,7 +277,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isAfterOrSameInvalidInput() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(DateTimeException.class, () -> dao.findBy(Person::getBirthday, day -> day.isAfterOrSame(-10, 33, 1098)).toList());
     }
@@ -288,7 +288,7 @@ public interface DateConstraintTestSet extends Testable {
         Person model2 = new Person("Diana", 2004, 11, 25);
         Person model3 = new Person("Sera", 1995, 2, 1);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -301,7 +301,7 @@ public interface DateConstraintTestSet extends Testable {
 
     @Test
     default void isAfterOrSameNullDate() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
         assertThrows(NullPointerException.class, () -> dao.findBy(Person::getBirthday, day -> day.isAfterOrSame(null)).toList());
     }

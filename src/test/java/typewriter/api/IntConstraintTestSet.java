@@ -23,7 +23,7 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -39,7 +39,7 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -56,7 +56,7 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -72,7 +72,7 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -89,7 +89,7 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -105,7 +105,7 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -122,7 +122,7 @@ public interface IntConstraintTestSet extends Testable {
         Person model2 = new Person(20);
         Person model3 = new Person(30);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);

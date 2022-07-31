@@ -19,7 +19,7 @@ public interface DeletableTestSet extends Testable {
     default void deleteModel() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
         assert dao.count() == 1;
 
@@ -31,7 +31,7 @@ public interface DeletableTestSet extends Testable {
     default void deleteSpecifedProperty() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
         dao.delete(model, Person::getAge);
 
@@ -44,7 +44,7 @@ public interface DeletableTestSet extends Testable {
     default void deleteSpecifedProperties() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
         dao.delete(model, Person::getAge, Person::getName);
 

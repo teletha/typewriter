@@ -21,7 +21,7 @@ public interface QueryExecutorTestSet extends Testable {
     default void saveModel() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
 
         Person found = dao.findBy(model.getId()).to().exact();
@@ -36,7 +36,7 @@ public interface QueryExecutorTestSet extends Testable {
         Person model4 = new Person("four", 40);
         Person model5 = new Person("five", 50);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -54,7 +54,7 @@ public interface QueryExecutorTestSet extends Testable {
     default void updateSpecifedPropertyOnly() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
 
         model.age = 20;
@@ -74,7 +74,7 @@ public interface QueryExecutorTestSet extends Testable {
         Person model4 = new Person("four", 40);
         Person model5 = new Person("five", 50);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -93,7 +93,7 @@ public interface QueryExecutorTestSet extends Testable {
         Person model4 = new Person("four", 40);
         Person model5 = new Person("five", 50);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);

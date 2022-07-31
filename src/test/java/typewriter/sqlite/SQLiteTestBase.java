@@ -29,7 +29,7 @@ public class SQLiteTestBase implements Testable {
      * {@inheritDoc}
      */
     @Override
-    public <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type) {
-        return new RDB<M>(Model.of(type), RDB.SQLite, "jdbc:sqlite::memory:");
+    public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
+        return (Q) new RDB(Model.of(type), RDB.SQLite, "jdbc:sqlite::memory:");
     }
 }

@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -57,14 +57,14 @@ import kiss.I;
 import kiss.Managed;
 import kiss.Signal;
 import kiss.Singleton;
-import kiss.WiseSupplier;
+import kiss.WiseFunction;
 import kiss.model.Model;
 import kiss.model.Property;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 
-public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>> {
+public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>, Mongo<M>> {
 
     private static final CodecRegistry CODEC_REGISTRY = CodecRegistries
             .fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromCodecs(I.make(ZonedDateTimeCodec.class)));
@@ -262,7 +262,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * {@inheritDoc}
      */
     @Override
-    public <R> R transact(WiseSupplier<R> operation) {
+    public <R> R transact(WiseFunction<Mongo<M>, R> operation) {
         throw new UnsupportedOperationException();
     }
 

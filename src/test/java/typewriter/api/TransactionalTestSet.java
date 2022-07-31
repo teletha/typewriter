@@ -17,11 +17,11 @@ public interface TransactionalTestSet extends Testable {
 
     @Test
     default void transaction() {
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
 
-        dao.transact(() -> {
+        dao.transact(on -> {
             for (int i = 0; i < 100; i++) {
-                dao.update(new Person("No" + i, i));
+                on.update(new Person("No" + i, i));
             }
         });
         assert dao.count() == 100;

@@ -21,5 +21,5 @@ public interface Testable {
      * @param type
      * @return
      */
-    <M extends IdentifiableModel> QueryExecutor<M, Signal<M>, ?> createEmptyDB(Class<M> type);
+    <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type);
 }

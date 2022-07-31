@@ -23,7 +23,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -39,7 +39,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -57,7 +57,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model3 = new Person("\t");
         Person model4 = new Person(" not empty");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -75,7 +75,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model3 = new Person("\t");
         Person model4 = new Person(" not empty");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -94,7 +94,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -111,7 +111,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -128,7 +128,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -144,7 +144,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -160,7 +160,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -177,7 +177,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model2 = new Person("two");
         Person model3 = new Person("three");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -199,7 +199,7 @@ public interface StringConstraintTestSet extends Testable {
         Person model3 = new Person("three");
         Person model4 = new Person("four");
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);

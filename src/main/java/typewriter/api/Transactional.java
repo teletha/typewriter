@@ -9,18 +9,18 @@
  */
 package typewriter.api;
 
-import kiss.WiseRunnable;
-import kiss.WiseSupplier;
+import kiss.WiseConsumer;
+import kiss.WiseFunction;
 
-public interface Transactional {
+public interface Transactional<Self extends Transactional<Self>> {
 
     /**
      * Do your transaction.
      * 
      * @param operation Your operation.
      */
-    default void transact(WiseRunnable operation) {
-        transact((WiseSupplier) operation::invoke);
+    default void transact(WiseConsumer<Self> operation) {
+        transact((WiseFunction) operation::invoke);
     }
 
     /**
@@ -30,5 +30,5 @@ public interface Transactional {
      * @param operation Your operation.
      * @return A result of operation.
      */
-    <R> R transact(WiseSupplier<R> operation);
+    <R> R transact(WiseFunction<Self, R> operation);
 }

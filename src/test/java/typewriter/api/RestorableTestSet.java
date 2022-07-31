@@ -19,7 +19,7 @@ public interface RestorableTestSet extends Testable {
     default void restoreModel() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
 
         // change local model
@@ -36,7 +36,7 @@ public interface RestorableTestSet extends Testable {
     default void restoreSpecifedProperty() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
 
         // change local model
@@ -53,7 +53,7 @@ public interface RestorableTestSet extends Testable {
     default void restoreSpecifedProperties() {
         Person model = new Person("one", 10);
 
-        QueryExecutor<Person, Signal<Person>, ?> dao = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model);
 
         // change local model

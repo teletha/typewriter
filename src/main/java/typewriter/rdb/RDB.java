@@ -35,7 +35,7 @@ import typewriter.sqlite.SQLite;
 /**
  * Data Access Object for RDBMS.
  */
-public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, RDBQuery<M>> {
+public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, RDBQuery<M>, RDB<M>> {
 
     /** The supported RDBMS. */
     public static final Dialect H2 = I.make(H2.class);
@@ -206,12 +206,12 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * {@inheritDoc}
      */
     @Override
-    public synchronized <R> R transact(WiseSupplier<R> operation) {
+    public synchronized <R> R transact(WiseFunction<RDB<M>, R> operation) {
         Connection connection = connectionProvider.get();
         try {
             connection.setAutoCommit(false);
 
-            R result = operation.get();
+            R result = operation.apply(this);
             connection.commit();
             return result;
         } catch (Throwable e) {
