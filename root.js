@@ -20,6 +20,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "ConnectionPool",
+			"packageName": "typewriter.rdb",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Constraint",
 			"packageName": "typewriter.api",
 			"type": "Interface"
@@ -97,7 +104,14 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "H2",
+			"name": "Dialect",
+			"packageName": "typewriter.rdb",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "H2Dialect",
 			"packageName": "typewriter.h2",
 			"type": "Class"
 		},
@@ -162,7 +176,7 @@ const root = {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "RDB",
 			"packageName": "typewriter.rdb",
-			"type": "AbstractClass"
+			"type": "Class"
 		},
 		{
 			"modifiers": {
@@ -195,7 +209,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "SQLite",
+			"name": "SQLiteDialect",
 			"packageName": "typewriter.sqlite",
 			"type": "Class"
 		},

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Typewriter API</title>
+		<base href="../"/>
+		<script async="true" src="highlight.js" type="module"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="R">
+		<header class="b">
+			<h1 class="k" date="2022-07-31" ver="1.1.0"><code>Typewriter</code></h1>
+			<nav class="Z"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="c" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="d">
+			<nav class="i">
+				<div></div>
+			</nav>
+			<article class="f" id="Article">
+				<section class="L"><code class="j">typewriter.rdb</code>
+					<h2 class="Class U"><code class="h">ConnectionPool</code></h2>
+					<div class="M">
+						<ul class="C F">
+							<li><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Callable.html">Callable</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></li>
+							<li><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></li>
+							<li><code>kiss.Wise</code></li>
+							<li><code>kiss.WiseSupplier<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></li>
+						</ul>
+					</div>
+				</section>
+				<section class="L" id="call()">
+					<h2 class="a"><i class="OVERRIDE PUBLIC"></i><code class="h">call</code><code class="J">()</code><i class="T"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></h2>
+					<table class="X">
+						<tr class="I">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></td>
+							<td></td>
+						</tr>
+						<tr class="K">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Exception.html">Exception</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Get the idled connection.</p>
+					</span></section>
+				<section class="L" id="by(java.lang.String)">
+					<h2 class="a"><i class="PUBLIC STATIC"></i><code class="h">by</code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code><i class="T"><code><a href="api/typewriter.rdb.ConnectionPool.html">ConnectionPool</a></code></i></h2>
+					<table class="X">
+						<tr class="Q">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>url</code></td>
+							<td></td>
+						</tr>
+						<tr class="I">
+							<td><code><a href="api/typewriter.rdb.ConnectionPool.html">ConnectionPool</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Get the connection pool for the specified URL.</p>
+					</span></section>
+				<section class="L" id="init(java.lang.Class,kiss.WiseConsumer)">
+					<h2 class="a"><i class="PUBLIC STATIC"></i><code class="h">init</code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a></code></code></code></code> <code class="parameterName">kind</code>, <code>kiss.WiseConsumer<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code> <code class="parameterName">initialization</code>)</code><i class="T"><code>void</code></i></h2>
+					<table class="X">
+						<tr class="Q">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a></code></code></code></code> <code>kind</code></td>
+							<td></td>
+						</tr>
+						<tr class="Q">
+							<td><code>kiss.WiseConsumer<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code> <code>initialization</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="L" id="clear(java.lang.String)">
+					<h2 class="a"><i class="PUBLIC STATIC"></i><code class="h">clear</code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">kind</code>)</code><i class="T"><code>void</code></i></h2>
+					<table class="X">
+						<tr class="Q">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>kind</code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Release all resources for the specified backend.</p>
+					</span></section>
+			</article>
+			<aside class="H" id="SubNavi">
+				<div class="P">
+					<h5 class="e">Static Methods</h5>
+					<ul>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.ConnectionPool.html#by(java.lang.String)">by</a></code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code><i class="S"><code><a href="api/typewriter.rdb.ConnectionPool.html">ConnectionPool</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.ConnectionPool.html#init(java.lang.Class,kiss.WiseConsumer)">init</a></code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a></code></code></code></code> <code class="parameterName">kind</code>, <code>kiss.WiseConsumer<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code> <code class="parameterName">initialization</code>)</code><i class="S"><code>void</code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.ConnectionPool.html#clear(java.lang.String)">clear</a></code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">kind</code>)</code><i class="S"><code>void</code></i></li>
+					</ul>
+					<h5 class="e">Methods</h5>
+					<ul>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.ConnectionPool.html#call()">call</a></code><code class="J">()</code><i class="S"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>

@@ -8,10 +8,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="U">
-		<header class="S">
-			<h1 class="Y" date="2022-07-29" ver="1.1.0"><code>Typewriter</code></h1>
-			<nav class="M"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="R">
+		<header class="b">
+			<h1 class="k" date="2022-07-31" ver="1.1.0"><code>Typewriter</code></h1>
+			<nav class="Z"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com//teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -20,7 +20,7 @@
 					</svg>Activity</a><a href="https://github.com//teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="K" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="c" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -28,20 +28,19 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="W">
-			<nav class="I">
+		<main class="d">
+			<nav class="i">
 				<div></div>
 			</nav>
-			<article class="X" id="Article">
-				<section class="J"><code class="b">typewriter.rdb</code>
-					<h2 class="AbstractClass a"><code class="i">RDB</code><code class="d">&#60;<code>M</code>, <code>Q</code>&#62;</code></h2>
-					<div class="j">
+			<article class="f" id="Article">
+				<section class="L"><code class="j">typewriter.rdb</code>
+					<h2 class="Class U"><code class="h">RDB</code><code class="J">&#60;<code>M</code>&#62;</code></h2>
+					<div class="M">
 						<ul class="C D">
 							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></li>
-							<li><code>Q</code><code class="extends"><code><a href="api/typewriter.api.Queryable.html">Queryable</a><code class="parameters"><code>M</code>, <code>Q</code></code></code></code></li>
 						</ul>
 						<ul class="C E">
-							<li><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>kiss.Signal<code class="parameters"><code>M</code></code></code>, <code>Q</code></code></code></li>
+							<li><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>kiss.Signal<code class="parameters"><code>M</code></code></code>, <code><a href="api/typewriter.rdb.RDBQuery.html">RDBQuery</a><code class="parameters"><code>M</code></code></code></code></code></li>
 						</ul>
 						<ul class="C F">
 							<li><code><a href="api/typewriter.api.Deletable.html">Deletable</a><code class="parameters"><code>M</code></code></code></li>
@@ -51,248 +50,262 @@
 							<li><code><a href="api/typewriter.api.Transactional.html">Transactional</a></code></li>
 							<li><code><a href="api/typewriter.api.Updatable.html">Updatable</a><code class="parameters"><code>M</code></code></code></li>
 						</ul>
-						<ul class="C G">
-							<li><code><a href="api/typewriter.h2.H2.html">H2</a><code class="parameters"><code>M</code></code></code></li>
-							<li><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a><code class="parameters"><code>M</code></code></code></li>
-						</ul>
 					</div><span class="B"><p>Data Access Object for RDBMS.</p>
 					</span></section>
-				<section class="J" id="CONNECTION_POOL">
-					<h2 class="L"><i class="FINAL"><i class="STATIC PROTECTED"></i></i><code class="i">CONNECTION_POOL</code><i class="T"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></i></h2><span class="B"><p>The connection pool.</p>
+				<section class="L" id="CREATING_CONNECTION_HOOK">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED STATIC"></i></i><code class="h">CREATING_CONNECTION_HOOK</code><i class="T"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code>kiss.WiseConsumer<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></code></code></i></h2><span class="B"><p>The interceptors.</p>
 					</span></section>
-				<section class="J" id="model">
-					<h2 class="L"><i class="FINAL"><i class="PROTECTED"></i></i><code class="i">model</code><i class="T"><code class="return">kiss.model.Model<code class="parameters"><code>M</code></code></code></i></h2><span class="B"><p>The document model.</p>
+				<section class="L" id="CONNECTION_POOL">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED STATIC"></i></i><code class="h">CONNECTION_POOL</code><i class="T"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></i></h2><span class="B"><p>The connection pool.</p>
 					</span></section>
-				<section class="J" id="tableName">
-					<h2 class="L"><i class="FINAL"><i class="PROTECTED"></i></i><code class="i">tableName</code><i class="T"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></h2><span class="B"><p>The table name.</p>
+				<section class="L" id="model">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">model</code><i class="T"><code class="return">kiss.model.Model<code class="parameters"><code>M</code></code></code></i></h2><span class="B"><p>The document model.</p>
 					</span></section>
-				<section class="J" id="connection">
-					<h2 class="L"><i class="FINAL"><i class="PROTECTED"></i></i><code class="i">connection</code><i class="T"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></h2><span class="B"><p>The reusable DB connection.</p>
+				<section class="L" id="tableName">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">tableName</code><i class="T"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></h2><span class="B"><p>The table name.</p>
 					</span></section>
-				<section class="J" id="RDB(java.lang.Class,java.lang.String,java.lang.String,java.util.Map)">
-					<h2 class="L"><i class="PROTECTED"></i><code class="i">RDB</code><code class="d">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">defaultURL</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">typeMapper</code>)</code></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="connectionProvider">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">connectionProvider</code><i class="T"><code class="return">kiss.WiseSupplier<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></i></h2><span class="B"><p>The connection provider.</p>
+					</span></section>
+				<section class="L" id="dialect">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">dialect</code><i class="T"><code class="return"><a href="api/typewriter.rdb.Dialect.html">Dialect</a></code></i></h2><span class="B"><p>The associated <code><a href="api/typewriter.rdb.Dialect.html">Dialect</a></code>.</p>
+					</span></section>
+				<section class="L" id="RDB(java.lang.Class,java.lang.String,typewriter.rdb.Dialect)">
+					<h2 class="a"><i class="PUBLIC"></i><code class="h">RDB</code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="api/typewriter.rdb.Dialect.html">Dialect</a></code> <code class="parameterName">dialect</code>)</code></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code>type</code></td>
 							<td><span><p>A target model.</p>
 								</span></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>url</code></td>
 							<td><span><p>A user specified backend address.</p>
 								</span></td>
 						</tr>
-						<tr class="N">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>defaultURL</code></td>
-							<td><span><p>A default backend address.</p>
-								</span></td>
-						</tr>
-						<tr class="N">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>typeMapper</code></td>
-							<td><span><p>Type mappings between JAVA and SQL.</p>
-								</span></td>
+						<tr class="Q">
+							<td><code><a href="api/typewriter.rdb.Dialect.html">Dialect</a></code> <code>dialect</code></td>
+							<td></td>
 						</tr>
 					</table><span class="B"><p>Data Access Object.</p>
 					</span></section>
-				<section class="J" id="count()">
-					<h2 class="L"><i class="OVERRIDE PUBLIC"></i><code class="i">count</code><code class="d">()</code><i class="T"><code>long</code></i></h2>
-					<table class="h">
-						<tr class="c">
+				<section class="L" id="count()">
+					<h2 class="a"><i class="OVERRIDE PUBLIC"></i><code class="h">count</code><code class="J">()</code><i class="T"><code>long</code></i></h2>
+					<table class="X">
+						<tr class="I">
 							<td><code>long</code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="limit(long)">
-					<h2 class="L"><i class="OVERRIDE PUBLIC"></i><code class="i">limit</code><code class="d">(<code>long</code> <code class="parameterName">size</code>)</code><i class="T"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="limit(long)">
+					<h2 class="a"><i class="OVERRIDE PUBLIC"></i><code class="h">limit</code><code class="J">(<code>long</code> <code class="parameterName">size</code>)</code><i class="T"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code>long</code> <code>size</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="I">
 							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="findBy(java.lang.Object)">
-					<h2 class="L"><i class="OVERRIDE PUBLIC"></i><code class="i">findBy</code><code class="d">(<code>Q</code> <code class="parameterName">query</code>)</code><i class="T"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
-					<table class="h">
-						<tr class="N">
-							<td><code>Q</code> <code>query</code></td>
+				<section class="L" id="findBy(typewriter.rdb.RDBQuery)">
+					<h2 class="a"><i class="OVERRIDE PUBLIC"></i><code class="h">findBy</code><code class="J">(<code><a href="api/typewriter.rdb.RDBQuery.html">RDBQuery</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">query</code>)</code><i class="T"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="X">
+						<tr class="Q">
+							<td><code><a href="api/typewriter.rdb.RDBQuery.html">RDBQuery</a><code class="parameters"><code>M</code></code></code> <code>query</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="I">
 							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="restore(java.lang.Object,typewriter.api.Specifier...)">
-					<h2 class="L"><i class="OVERRIDE PUBLIC"></i><code class="i">restore</code><code class="d">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="T"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="restore(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="a"><i class="OVERRIDE PUBLIC"></i><code class="h">restore</code><code class="J">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="T"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code>M</code> <code>instance</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="I">
 							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="delete(java.lang.Object,typewriter.api.Specifier...)">
-					<h2 class="L"><i class="OVERRIDE PUBLIC"></i><code class="i">delete</code><code class="d">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="T"><code>void</code></i></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="delete(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="a"><i class="OVERRIDE PUBLIC"></i><code class="h">delete</code><code class="J">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="T"><code>void</code></i></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code>M</code> <code>instance</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="update(java.lang.Object,typewriter.api.Specifier...)">
-					<h2 class="L"><i class="OVERRIDE PUBLIC"></i><code class="i">update</code><code class="d">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="T"><code>void</code></i></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="update(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="a"><i class="OVERRIDE PUBLIC"></i><code class="h">update</code><code class="J">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="T"><code>void</code></i></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code>M</code> <code>instance</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="transact(kiss.WiseSupplier)">
-					<h2 class="L"><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code class="i">transact</code><code class="d">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="T"><code>R</code></i></h2>
-					<table class="h">
-						<tr class="e">
+				<section class="L" id="transact(kiss.WiseSupplier)">
+					<h2 class="a"><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code class="h">transact</code><code class="J">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="T"><code>R</code></i></h2>
+					<table class="X">
+						<tr class="l">
 							<td><code>R</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code>operation</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="I">
 							<td><code>R</code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="decode(java.sql.ResultSet)">
-					<h2 class="L"><i class="FINAL"><i class="PROTECTED"></i></i><code class="i">decode</code><code class="d">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="T"><code>M</code></i></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="decode(java.sql.ResultSet)">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">decode</code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="T"><code>M</code></i></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code>result</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="I">
 							<td><code>M</code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="decode(kiss.model.Model,java.util.List,java.lang.Object,java.sql.ResultSet)">
-					<h2 class="L"><i class="FINAL"><i class="PROTECTED"></i></i><code class="i">decode</code><code class="d">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code class="parameterName">properties</code>, <code>V</code> <code class="parameterName">instance</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="T"><code>V</code></i></h2>
-					<table class="h">
-						<tr class="e">
+				<section class="L" id="decode(kiss.model.Model,java.util.List,java.lang.Object,java.sql.ResultSet)">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">decode</code><code class="J">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code class="parameterName">properties</code>, <code>V</code> <code class="parameterName">instance</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="T"><code>V</code></i></h2>
+					<table class="X">
+						<tr class="l">
 							<td><code>V</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code>kiss.model.Model</code> <code>model</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code>properties</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code>V</code> <code>instance</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="Q">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code>result</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="I">
 							<td><code>V</code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="J" id="execute(java.lang.Object...)">
-					<h2 class="L"><i class="FINAL"><i class="PROTECTED"></i></i><code class="i">execute</code><code class="d">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="T"><code>void</code></i></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="execute(java.lang.Object...)">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">execute</code><code class="J">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="T"><code>void</code></i></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>statements</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Execute query.</p>
 					</span></section>
-				<section class="J" id="query(java.lang.Object...)">
-					<h2 class="L"><i class="FINAL"><i class="PROTECTED"></i></i><code class="i">query</code><code class="d">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="T"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code></i></h2>
-					<table class="h">
-						<tr class="N">
+				<section class="L" id="query(java.lang.Object...)">
+					<h2 class="a"><i class="FINAL"><i class="PROTECTED"></i></i><code class="h">query</code><code class="J">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="T"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code></i></h2>
+					<table class="X">
+						<tr class="Q">
 							<td><code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>statements</code></td>
 							<td></td>
 						</tr>
-						<tr class="c">
+						<tr class="I">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Execute query.</p>
 					</span></section>
-				<section class="J" id="defineColumns()">
-					<h2 class="L"><i class="PROTECTED"></i><code class="i">defineColumns</code><code class="d">()</code><i class="T"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
-					<table class="h">
-						<tr class="c">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
+				<section class="L" id="of(java.lang.Class)">
+					<h2 class="a"><i class="PUBLIC STATIC"></i><code class="h">of</code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="T"><code><a href="api/typewriter.rdb.RDB.html">RDB</a><code class="parameters"><code>M</code></code></code></i></h2>
+					<table class="X">
+						<tr class="l">
+							<td><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></td>
 							<td></td>
 						</tr>
-					</table><span class="B"><p>Helper to write column definitions.</p>
+						<tr class="Q">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code>model</code></td>
+							<td><span><p>The model type.</p>
+								</span></td>
+						</tr>
+						<tr class="I">
+							<td><code><a href="api/typewriter.rdb.RDB.html">RDB</a><code class="parameters"><code>M</code></code></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Get the collection.</p>
+					</span></section>
+				<section class="L" id="close()">
+					<h2 class="a"><i class="PUBLIC STATIC"></i><code class="h">close</code><code class="J">()</code><i class="T"><code>void</code></i></h2><span class="B"><p>Close all related system resources.</p>
 					</span></section>
 			</article>
-			<aside class="P" id="SubNavi">
-				<div class="k">
-					<h5 class="H">Constructors</h5>
+			<aside class="H" id="SubNavi">
+				<div class="P">
+					<h5 class="e">Constructors</h5>
 					<ul>
-						<li><i class="PROTECTED"></i><code><a href="api/typewriter.rdb.RDB.html#RDB(java.lang.Class,java.lang.String,java.lang.String,java.util.Map)">RDB</a></code><code class="d">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">defaultURL</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">typeMapper</code>)</code></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#RDB(java.lang.Class,java.lang.String,typewriter.rdb.Dialect)">RDB</a></code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="api/typewriter.rdb.Dialect.html">Dialect</a></code> <code class="parameterName">dialect</code>)</code></li>
 					</ul>
-					<h5 class="H">Static Fields</h5>
+					<h5 class="e">Static Fields</h5>
 					<ul>
-						<li><i class="FINAL"><i class="STATIC PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#CONNECTION_POOL">CONNECTION_POOL</a></code><i class="V"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED STATIC"></i></i><code><a href="api/typewriter.rdb.RDB.html#CREATING_CONNECTION_HOOK">CREATING_CONNECTION_HOOK</a></code><i class="S"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code>kiss.WiseConsumer<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED STATIC"></i></i><code><a href="api/typewriter.rdb.RDB.html#CONNECTION_POOL">CONNECTION_POOL</a></code><i class="S"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></i></li>
 					</ul>
-					<h5 class="H">Fields</h5>
+					<h5 class="e">Fields</h5>
 					<ul>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#model">model</a></code><i class="V"><code class="return">kiss.model.Model<code class="parameters"><code>M</code></code></code></i></li>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#tableName">tableName</a></code><i class="V"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#connection">connection</a></code><i class="V"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#model">model</a></code><i class="S"><code class="return">kiss.model.Model<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#tableName">tableName</a></code><i class="S"><code class="return"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#connectionProvider">connectionProvider</a></code><i class="S"><code class="return">kiss.WiseSupplier<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#dialect">dialect</a></code><i class="S"><code class="return"><a href="api/typewriter.rdb.Dialect.html">Dialect</a></code></i></li>
 					</ul>
-					<h5 class="H">Methods</h5>
+					<h5 class="e">Static Methods</h5>
 					<ul>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#count()">count</a></code><code class="d">()</code><i class="V"><code>long</code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#limit(long)">limit</a></code><code class="d">(<code>long</code> <code class="parameterName">size</code>)</code><i class="V"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#findBy(java.lang.Object)">findBy</a></code><code class="d">(<code>Q</code> <code class="parameterName">query</code>)</code><i class="V"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#restore(java.lang.Object,typewriter.api.Specifier...)">restore</a></code><code class="d">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="V"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#delete(java.lang.Object,typewriter.api.Specifier...)">delete</a></code><code class="d">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="V"><code>void</code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#update(java.lang.Object,typewriter.api.Specifier...)">update</a></code><code class="d">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="V"><code>void</code></i></li>
-						<li><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.rdb.RDB.html#transact(kiss.WiseSupplier)">transact</a></code><code class="d">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="V"><code>R</code></i></li>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#decode(java.sql.ResultSet)">decode</a></code><code class="d">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="V"><code>M</code></i></li>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#decode(kiss.model.Model,java.util.List,java.lang.Object,java.sql.ResultSet)">decode</a></code><code class="d">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code class="parameterName">properties</code>, <code>V</code> <code class="parameterName">instance</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="V"><code>V</code></i></li>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#execute(java.lang.Object...)">execute</a></code><code class="d">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="V"><code>void</code></i></li>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#query(java.lang.Object...)">query</a></code><code class="d">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code></i></li>
-						<li><i class="PROTECTED"></i><code><a href="api/typewriter.rdb.RDB.html#defineColumns()">defineColumns</a></code><code class="d">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.RDB.html#of(java.lang.Class)">of</a></code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">model</code>)</code><i class="S"><code><a href="api/typewriter.rdb.RDB.html">RDB</a><code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/typewriter.rdb.RDB.html#close()">close</a></code><code class="J">()</code><i class="S"><code>void</code></i></li>
+					</ul>
+					<h5 class="e">Methods</h5>
+					<ul>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#count()">count</a></code><code class="J">()</code><i class="S"><code>long</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#limit(long)">limit</a></code><code class="J">(<code>long</code> <code class="parameterName">size</code>)</code><i class="S"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#findBy(typewriter.rdb.RDBQuery)">findBy</a></code><code class="J">(<code><a href="api/typewriter.rdb.RDBQuery.html">RDBQuery</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">query</code>)</code><i class="S"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#restore(java.lang.Object,typewriter.api.Specifier...)">restore</a></code><code class="J">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="S"><code>kiss.Signal<code class="parameters"><code>M</code></code></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#delete(java.lang.Object,typewriter.api.Specifier...)">delete</a></code><code class="J">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="S"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.rdb.RDB.html#update(java.lang.Object,typewriter.api.Specifier...)">update</a></code><code class="J">(<code>M</code> <code class="parameterName">instance</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="S"><code>void</code></i></li>
+						<li><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.rdb.RDB.html#transact(kiss.WiseSupplier)">transact</a></code><code class="J">(<code>kiss.WiseSupplier<code class="parameters"><code>R</code></code></code> <code class="parameterName">operation</code>)</code><i class="S"><code>R</code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#decode(java.sql.ResultSet)">decode</a></code><code class="J">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="S"><code>M</code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#decode(kiss.model.Model,java.util.List,java.lang.Object,java.sql.ResultSet)">decode</a></code><code class="J">(<code>kiss.model.Model</code> <code class="parameterName">model</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.model.Property</code></code></code> <code class="parameterName">properties</code>, <code>V</code> <code class="parameterName">instance</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code> <code class="parameterName">result</code>)</code><i class="S"><code>V</code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#execute(java.lang.Object...)">execute</a></code><code class="J">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="S"><code>void</code></i></li>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.RDB.html#query(java.lang.Object...)">query</a></code><code class="J">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">statements</code>)</code><i class="S"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/ResultSet.html">ResultSet</a></code></i></li>
 					</ul>
 				</div>
 			</aside>
