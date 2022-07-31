@@ -15,7 +15,6 @@ import java.sql.CallableStatement;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.NClob;
 import java.sql.PreparedStatement;
 import java.sql.SQLClientInfoException;
@@ -37,9 +36,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import kiss.I;
-import kiss.WiseConsumer;
 import kiss.WiseSupplier;
-import typewriter.api.QueryExecutor;
 
 public class ConnectionPool implements WiseSupplier<Connection> {
 
@@ -49,8 +46,8 @@ public class ConnectionPool implements WiseSupplier<Connection> {
     /** The address. */
     private final String url;
 
-    /** The database kind. */
-    private final String kind;
+    /** The dialect. */
+    private final Dialect dialect;
 
     /** The max size of pooled connections. */
     private final int max;
@@ -72,12 +69,28 @@ public class ConnectionPool implements WiseSupplier<Connection> {
      */
     private ConnectionPool(String url) {
         this.url = url;
-        this.kind = url.substring(5, url.indexOf(':', 5));
+        this.dialect = detectDialect(url.substring(5, url.indexOf(':', 5)));
         this.max = config("typewriter.connection.maxsize", 8);
         this.min = config("typewriter.connection.minsize", 2);
         this.timeout = config("typewriter.connection.timeout", 1000 * 10L);
         this.idle = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
+    }
+
+    /**
+     * Detect {@link Dialect}.
+     * 
+     * @param kind
+     * @return
+     */
+    private Dialect detectDialect(String kind) {
+        if (RDB.H2.kind.equals(kind)) {
+            return RDB.H2;
+        } else if (RDB.SQLite.kind.equals(kind)) {
+            return RDB.SQLite;
+        } else {
+            throw new Error("Unknown dialect [" + kind + "]");
+        }
     }
 
     /**
@@ -89,7 +102,7 @@ public class ConnectionPool implements WiseSupplier<Connection> {
      * @return
      */
     private <V> V config(String key, V defaultValue) {
-        return I.env(key + "." + url, I.env(key + "." + kind, I.env(key, defaultValue)));
+        return I.env(key + "." + url, I.env(key + "." + dialect.kind, I.env(key, defaultValue)));
     }
 
     /**
@@ -126,10 +139,6 @@ public class ConnectionPool implements WiseSupplier<Connection> {
             throw new Error("Invalid JDBC URL [" + url + "]");
         }
         return CACHE.computeIfAbsent(url, key -> new ConnectionPool(key));
-    }
-
-    public static void init(Class<? extends QueryExecutor> kind, WiseConsumer<Connection> initialization) {
-
     }
 
     /**
@@ -181,8 +190,8 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          * @param delegation
          * @throws SQLException
          */
-        private Proxy() throws SQLException {
-            this.delegation = DriverManager.getConnection(url);
+        private Proxy() throws Exception {
+            this.delegation = dialect.createConnection(url);
         }
 
         /**

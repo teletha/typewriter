@@ -21,6 +21,16 @@ import kiss.model.Property;
 @Managed(Singleton.class)
 public abstract class Dialect {
 
+    /** The kind of RDMS. */
+    public final String kind;
+
+    /**
+     * Hide constructor.
+     */
+    protected Dialect() {
+        this.kind = getClass().getSimpleName().toLowerCase();
+    }
+
     /**
      * Define the type mapping between Java and SQL.
      * 

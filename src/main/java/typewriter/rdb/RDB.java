@@ -211,7 +211,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         try {
             connection.setAutoCommit(false);
 
-            R result = operation.apply(this);
+            R result = operation.apply(new RDB<>(model, dialect, () -> connection));
             connection.commit();
             return result;
         } catch (Throwable e) {
