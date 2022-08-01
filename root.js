@@ -20,13 +20,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "ConnectionPool",
-			"packageName": "typewriter.rdb",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Constraint",
 			"packageName": "typewriter.api",
 			"type": "Interface"
