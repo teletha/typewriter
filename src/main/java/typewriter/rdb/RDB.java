@@ -15,7 +15,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,9 +45,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     /** The reusable DAO cache. */
     private static final Map<Dialect, Map<Class, RDB>> DAO = Map.of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap());
 
-    /** The connection pool. */
-    protected static final Map<String, Connection> CONNECTION_POOL = new ConcurrentHashMap();
-
     /** The document model. */
     protected final Model<M> model;
 
@@ -59,7 +55,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     protected final Dialect dialect;
 
     /** The connection provider. */
-    protected final WiseSupplier<Connection> connectionProvider;
+    protected final WiseSupplier<Connection> provider;
 
     /**
      * Data Access Object.
@@ -69,13 +65,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param url A user specified backend address.
      */
     public RDB(Model<M> model, Dialect dialect, String url) {
-        this(model, dialect, () -> {
-            return CONNECTION_POOL
-                    .computeIfAbsent(dialect.configureLocation(url), (WiseFunction<String, Connection>) dialect::createConnection);
-        });
-
-        // create table
-        execute(dialect.createTable(tableName, model));
+        this(model, dialect, ConnectionPool.by(url), true);
     }
 
     /**
@@ -83,13 +73,18 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * 
      * @param model A target model.
      * @param dialect A dialect of RDBMS.
-     * @param connectionProvider A user specified backend address.
+     * @param provider A user specified backend connection.
+     * @param createTable Should I create table?
      */
-    public RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> connectionProvider) {
+    private RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> provider, boolean createTable) {
         this.model = model;
         this.tableName = '"' + model.type.getName() + '"';
         this.dialect = dialect;
-        this.connectionProvider = connectionProvider;
+        this.provider = provider;
+
+        if (createTable) {
+            execute(dialect.createTable(tableName, model));
+        }
     }
 
     /**
@@ -97,13 +92,10 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public long count() {
-        try {
-            ResultSet result = query("SELECT COUNT(*) N FROM", tableName);
+        return execute("SELECT COUNT(*) N FROM " + tableName, result -> {
             result.next();
             return result.getLong("N");
-        } catch (SQLException e) {
-            throw I.quiet(e);
-        }
+        });
     }
 
     /**
@@ -120,8 +112,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
         return new Signal<>((observer, disposer) -> {
-            try {
-                ResultSet result = query("SELECT * FROM", tableName, query);
+            try (Connection connection = provider.get()) {
+                ResultSet result = connection.createStatement().executeQuery("SELECT * FROM " + tableName + query);
 
                 while (!disposer.isDisposed() && result.next()) {
                     observer.accept(decode(result));
@@ -140,7 +132,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     @Override
     public Signal<M> restore(M instance, Specifier<M, ?>... specifiers) {
         return new Signal<>((observer, disposer) -> {
-            try {
+            try (Connection connection = provider.get()) {
                 List<Property> properties = new ArrayList();
                 if (specifiers != null) {
                     for (Specifier<M, ?> specifier : specifiers) {
@@ -154,7 +146,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
                     properties = model.properties();
                 }
 
-                ResultSet result = query("SELECT", column(properties), "FROM", tableName, WHERE(instance));
+                ResultSet result = connection.createStatement()
+                        .executeQuery("SELECT " + column(properties) + " FROM " + tableName + " " + WHERE(instance));
                 if (result.next()) {
                     observer.accept(decode(model, properties, instance, result));
                 }
@@ -207,11 +200,11 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public synchronized <R> R transact(WiseFunction<RDB<M>, R> operation) {
-        Connection connection = connectionProvider.get();
+        Connection connection = provider.get();
         try {
             connection.setAutoCommit(false);
 
-            R result = operation.apply(new RDB<>(model, dialect, () -> connection));
+            R result = operation.apply(new RDB<>(model, dialect, () -> connection, false));
             connection.commit();
             return result;
         } catch (Throwable e) {
@@ -259,8 +252,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
             }
         }
 
-        try {
-            connectionProvider.get().createStatement().executeUpdate(builder.toString());
+        try (Connection connection = provider.get()) {
+            connection.createStatement().executeUpdate(builder.toString());
         } catch (SQLException e) {
             throw I.quiet(new SQLException(builder.toString(), e));
         }
@@ -269,20 +262,14 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     /**
      * Execute query.
      * 
-     * @param statements
+     * @param query
+     * @param result
      */
-    protected final ResultSet query(Object... statements) {
-        StringBuilder builder = new StringBuilder();
-        for (Object statement : statements) {
-            if (statement != null) {
-                builder.append(statement).append(' ');
-            }
-        }
-
-        try {
-            return connectionProvider.get().createStatement().executeQuery(builder.toString());
+    protected final <R> R execute(String query, WiseFunction<ResultSet, R> result) {
+        try (Connection connection = provider.get()) {
+            return result.apply(connection.createStatement().executeQuery(query));
         } catch (SQLException e) {
-            throw I.quiet(new SQLException(builder.toString(), e));
+            throw I.quiet(new SQLException(query, e));
         }
     }
 
@@ -298,15 +285,29 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     }
 
     /**
-     * Close all related system resources.
+     * Release all system resources related to RDB.
      */
-    public static void close(Dialect dialect) {
-        Iterator<Connection> iterator = CONNECTION_POOL.values().iterator();
-        while (iterator.hasNext()) {
-            I.quiet(iterator.next());
-            iterator.remove();
-        }
+    public static void release() {
+        ConnectionPool.release();
+        DAO.clear();
+    }
 
-        DAO.get(dialect).clear();
+    /**
+     * Release all system resources related to the specified RDB.
+     */
+    public static void release(Dialect dialect) {
+        if (dialect != null) {
+            ConnectionPool.release(dialect);
+            DAO.remove(dialect);
+        }
+    }
+
+    /**
+     * Release all system resources related to the specified URL.
+     */
+    public static void release(String url) {
+        if (url != null && url.startsWith("jdbc:")) {
+            ConnectionPool.release(url);
+        }
     }
 }

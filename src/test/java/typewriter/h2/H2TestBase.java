@@ -9,7 +9,7 @@
  */
 package typewriter.h2;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 
 import kiss.Signal;
 import kiss.model.Model;
@@ -20,9 +20,12 @@ import typewriter.rdb.RDB;
 
 public class H2TestBase implements Testable {
 
-    @BeforeEach
-    void setup() {
-        RDB.close(RDB.H2);
+    /** The temporary database address. */
+    private final String db = "jdbc:h2:" + createTemporaryFile();
+
+    @AfterEach
+    void release() {
+        RDB.release(db);
     }
 
     /**
@@ -30,7 +33,7 @@ public class H2TestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(Model.of(type), RDB.H2, "jdbc:h2:" + createTemporaryFile());
+        return (Q) new RDB(Model.of(type), RDB.H2, db);
     }
 
 }

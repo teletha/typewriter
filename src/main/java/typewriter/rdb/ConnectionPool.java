@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 import kiss.I;
 import kiss.WiseSupplier;
 
-public class ConnectionPool implements WiseSupplier<Connection> {
+class ConnectionPool implements WiseSupplier<Connection> {
 
     /** The address. */
     private final String url;
@@ -58,45 +58,22 @@ public class ConnectionPool implements WiseSupplier<Connection> {
     private final long timeout;
 
     /** The actual connection pool. */
-    private final ArrayBlockingQueue<Proxy> idle;
+    private final ArrayBlockingQueue<ManagedConnection> idle;
 
     /** The actual connection pool. */
-    private final Set<Proxy> busy;
+    private final Set<ManagedConnection> busy;
 
     /**
      * 
      */
     private ConnectionPool(String url) {
         this.url = url;
-        this.dialect = detectDialect(url.substring(5, url.indexOf(':', 5)));
+        this.dialect = detectDialect(url);
         this.max = config("typewriter.connection.maxsize", 8);
         this.min = config("typewriter.connection.minsize", 2);
         this.timeout = config("typewriter.connection.timeout", 1000 * 10L);
         this.idle = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
-    }
-
-    /**
-     * Get the idled connection.
-     * 
-     * @return
-     */
-    @Override
-    public Connection call() throws Exception {
-        Proxy connection = idle.poll();
-        if (connection == null) {
-            if (max <= busy.size()) {
-                connection = idle.poll(timeout, TimeUnit.MILLISECONDS);
-            } else {
-                connection = new Proxy();
-            }
-        }
-
-        connection.processing = true;
-        busy.add(connection);
-
-        System.out.println("Retrive " + connection);
-        return connection;
     }
 
     /**
@@ -114,10 +91,12 @@ public class ConnectionPool implements WiseSupplier<Connection> {
     /**
      * Detect {@link Dialect}.
      * 
-     * @param kind
+     * @param url
      * @return
      */
-    private Dialect detectDialect(String kind) {
+    private Dialect detectDialect(String url) {
+        String kind = url.substring(5, url.indexOf(':', 5));
+
         if (RDB.H2.kind.equals(kind)) {
             return RDB.H2;
         } else if (RDB.SQLite.kind.equals(kind)) {
@@ -125,6 +104,51 @@ public class ConnectionPool implements WiseSupplier<Connection> {
         } else {
             throw new Error("Unknown dialect [" + kind + "]");
         }
+    }
+
+    /**
+     * Close system resources.
+     */
+    private void close() {
+        for (ManagedConnection connecton : busy) {
+            try {
+                connecton.delegation.close();
+            } catch (SQLException e) {
+                throw I.quiet(e);
+            }
+        }
+        busy.clear();
+
+        for (ManagedConnection connecton : idle) {
+            try {
+                connecton.delegation.close();
+            } catch (SQLException e) {
+                throw I.quiet(e);
+            }
+        }
+        idle.clear();
+    }
+
+    /**
+     * Get the idled connection.
+     * 
+     * @return
+     */
+    @Override
+    public Connection call() throws Exception {
+        ManagedConnection connection = idle.poll();
+        if (connection == null) {
+            if (max <= busy.size()) {
+                connection = idle.poll(timeout, TimeUnit.MILLISECONDS);
+            } else {
+                connection = new ManagedConnection();
+            }
+        }
+
+        connection.processing = true;
+        busy.add(connection);
+
+        return connection;
     }
 
     /** The connnection pool manager. */
@@ -136,7 +160,7 @@ public class ConnectionPool implements WiseSupplier<Connection> {
      * @param url
      * @return
      */
-    public static ConnectionPool by(String url) {
+    static ConnectionPool by(String url) {
         if (url == null || !url.startsWith("jdbc:")) {
             throw new Error("Invalid JDBC URL [" + url + "]");
         }
@@ -144,43 +168,46 @@ public class ConnectionPool implements WiseSupplier<Connection> {
     }
 
     /**
-     * Release all resources for the specified backend.
-     * 
-     * @param kind
+     * Release all system resources related to RDB.
      */
-    public static void clear(String kind) {
+    static void release() {
         Iterator<Entry<String, ConnectionPool>> iterator = CACHE.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<String, ConnectionPool> entry = iterator.next();
-            if (entry.getKey().startsWith("jdbc:" + kind + ":")) {
+            Entry<String, ConnectionPool> entry = iterator.next();
+            entry.getValue().close();
+            iterator.remove();
+        }
+    }
+
+    /**
+     * Release all system resources related to the specified RDB.
+     */
+    static void release(Dialect dialect) {
+        Iterator<Entry<String, ConnectionPool>> iterator = CACHE.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Entry<String, ConnectionPool> entry = iterator.next();
+            ConnectionPool pool = entry.getValue();
+            if (pool.dialect == dialect) {
+                pool.close();
                 iterator.remove();
-
-                ConnectionPool pool = entry.getValue();
-                for (Proxy connection : pool.idle) {
-                    try {
-                        connection.delegation.close();
-                    } catch (SQLException e) {
-                        throw I.quiet(e);
-                    }
-                }
-                pool.idle.clear();
-
-                for (Proxy connection : pool.busy) {
-                    try {
-                        connection.delegation.close();
-                    } catch (SQLException e) {
-                        throw I.quiet(e);
-                    }
-                }
-                pool.busy.clear();
             }
+        }
+    }
+
+    /**
+     * Release all system resources related to the specified URL.
+     */
+    static void release(String url) {
+        ConnectionPool removed = CACHE.remove(url);
+        if (removed != null) {
+            removed.close();
         }
     }
 
     /**
      * Connection delegator.
      */
-    private class Proxy implements Connection {
+    private class ManagedConnection implements Connection {
 
         /** The backend. */
         private final Connection delegation;
@@ -195,10 +222,17 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          * @param delegation
          * @throws SQLException
          */
-        private Proxy() throws Exception {
+        private ManagedConnection() throws Exception {
             this.delegation = dialect.createConnection(url);
         }
 
+        /**
+         * Manage any resource.
+         * 
+         * @param <R>
+         * @param resource
+         * @return
+         */
         private <R extends AutoCloseable> R manage(R resource) {
             resources.add(resource);
             return resource;
@@ -240,8 +274,6 @@ public class ConnectionPool implements WiseSupplier<Connection> {
             idle.offer(this);
             busy.remove(this);
             processing = false;
-
-            System.out.println("Close connection");
         }
 
         /**

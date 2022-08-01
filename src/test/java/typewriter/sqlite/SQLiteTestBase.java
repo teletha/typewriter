@@ -9,7 +9,7 @@
  */
 package typewriter.sqlite;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 
 import kiss.Signal;
 import kiss.model.Model;
@@ -20,9 +20,12 @@ import typewriter.rdb.RDB;
 
 public class SQLiteTestBase implements Testable {
 
-    @BeforeEach
-    void setup() {
-        RDB.close(RDB.SQLite);
+    /** The temporary database address. */
+    private final String db = "jdbc:sqlite:" + createTemporaryFile();
+
+    @AfterEach
+    void release() {
+        RDB.release(db);;
     }
 
     /**
@@ -30,6 +33,6 @@ public class SQLiteTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(Model.of(type), RDB.SQLite, "jdbc:sqlite:" + createTemporaryFile());
+        return (Q) new RDB(Model.of(type), RDB.SQLite, db);
     }
 }
