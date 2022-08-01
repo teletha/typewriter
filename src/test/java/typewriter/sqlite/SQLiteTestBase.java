@@ -21,7 +21,7 @@ import typewriter.rdb.RDB;
 public class SQLiteTestBase implements Testable {
 
     /** The temporary database address. */
-    private final String db = "jdbc:sqlite:" + createTemporaryFile();
+    private final String db = "jdbc:sqlite:" + Testable.createTemporaryFile();
 
     @AfterEach
     void release() {

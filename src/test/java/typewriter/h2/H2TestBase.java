@@ -21,7 +21,7 @@ import typewriter.rdb.RDB;
 public class H2TestBase implements Testable {
 
     /** The temporary database address. */
-    private final String db = "jdbc:h2:" + createTemporaryFile();
+    private final String db = "jdbc:h2:" + Testable.createTemporaryFile();
 
     @AfterEach
     void release() {

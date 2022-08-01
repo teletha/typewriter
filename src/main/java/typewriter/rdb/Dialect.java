@@ -78,7 +78,7 @@ public abstract class Dialect {
      * @return
      */
     public String createTable(String tableName, Model model) {
-        return "CREATE TABLE IF NOT EXISTS" + tableName + defineColumns(model);
+        return "CREATE TABLE IF NOT EXISTS " + tableName + " " + defineColumns(model);
     }
 
     /**

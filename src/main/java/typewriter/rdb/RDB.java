@@ -29,6 +29,7 @@ import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.h2.H2;
+import typewriter.maria.MariaDB;
 import typewriter.sqlite.SQLite;
 
 /**
@@ -42,8 +43,12 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     /** The supported RDBMS. */
     public static final Dialect SQLite = I.make(SQLite.class);
 
+    /** The supported RDBMS. */
+    public static final Dialect MariaDB = I.make(MariaDB.class);
+
     /** The reusable DAO cache. */
-    private static final Map<Dialect, Map<Class, RDB>> DAO = Map.of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap());
+    private static final Map<Dialect, Map<Class, RDB>> DAO = Map
+            .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap());
 
     /** The document model. */
     protected final Model<M> model;
@@ -78,7 +83,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     private RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> provider, boolean createTable) {
         this.model = model;
-        this.tableName = '"' + model.type.getName() + '"';
+        this.tableName = '`' + model.type.getName() + '`';
         this.dialect = dialect;
         this.provider = provider;
 

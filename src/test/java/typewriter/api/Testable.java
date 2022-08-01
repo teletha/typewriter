@@ -33,9 +33,24 @@ public interface Testable {
      * 
      * @return
      */
-    default Path createTemporaryFile() {
+    static Path createTemporaryFile() {
         try {
             Path file = Files.createTempFile("typewriter", "db");
+            file.toFile().deleteOnExit();
+            return file;
+        } catch (IOException e) {
+            throw I.quiet(e);
+        }
+    }
+
+    /**
+     * Create a temporary file.
+     * 
+     * @return
+     */
+    static Path createTemporaryDir() {
+        try {
+            Path file = Files.createTempDirectory("typewriter");
             file.toFile().deleteOnExit();
             return file;
         } catch (IOException e) {

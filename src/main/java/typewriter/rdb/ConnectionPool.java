@@ -101,6 +101,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
             return RDB.H2;
         } else if (RDB.SQLite.kind.equals(kind)) {
             return RDB.SQLite;
+        } else if (RDB.MariaDB.kind.equals(kind)) {
+            return RDB.MariaDB;
         } else {
             throw new Error("Unknown dialect [" + kind + "]");
         }
