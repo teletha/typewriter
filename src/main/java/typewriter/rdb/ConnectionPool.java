@@ -25,7 +25,9 @@ import java.sql.Savepoint;
 import java.sql.ShardingKey;
 import java.sql.Statement;
 import java.sql.Struct;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -39,9 +41,6 @@ import kiss.I;
 import kiss.WiseSupplier;
 
 public class ConnectionPool implements WiseSupplier<Connection> {
-
-    /** The connnection pool manager. */
-    private static final Map<String, ConnectionPool> CACHE = new ConcurrentHashMap();
 
     /** The address. */
     private final String url;
@@ -78,34 +77,6 @@ public class ConnectionPool implements WiseSupplier<Connection> {
     }
 
     /**
-     * Detect {@link Dialect}.
-     * 
-     * @param kind
-     * @return
-     */
-    private Dialect detectDialect(String kind) {
-        if (RDB.H2.kind.equals(kind)) {
-            return RDB.H2;
-        } else if (RDB.SQLite.kind.equals(kind)) {
-            return RDB.SQLite;
-        } else {
-            throw new Error("Unknown dialect [" + kind + "]");
-        }
-    }
-
-    /**
-     * Cascade configuration.
-     * 
-     * @param <V>
-     * @param key
-     * @param defaultValue
-     * @return
-     */
-    private <V> V config(String key, V defaultValue) {
-        return I.env(key + "." + url, I.env(key + "." + dialect.kind, I.env(key, defaultValue)));
-    }
-
-    /**
      * Get the idled connection.
      * 
      * @return
@@ -127,6 +98,37 @@ public class ConnectionPool implements WiseSupplier<Connection> {
         System.out.println("Retrive " + connection);
         return connection;
     }
+
+    /**
+     * Cascade configuration.
+     * 
+     * @param <V>
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    private <V> V config(String key, V defaultValue) {
+        return I.env(key + "." + url, I.env(key + "." + dialect.kind, I.env(key, defaultValue)));
+    }
+
+    /**
+     * Detect {@link Dialect}.
+     * 
+     * @param kind
+     * @return
+     */
+    private Dialect detectDialect(String kind) {
+        if (RDB.H2.kind.equals(kind)) {
+            return RDB.H2;
+        } else if (RDB.SQLite.kind.equals(kind)) {
+            return RDB.SQLite;
+        } else {
+            throw new Error("Unknown dialect [" + kind + "]");
+        }
+    }
+
+    /** The connnection pool manager. */
+    private static final Map<String, ConnectionPool> CACHE = new ConcurrentHashMap();
 
     /**
      * Get the connection pool for the specified URL.
@@ -183,6 +185,9 @@ public class ConnectionPool implements WiseSupplier<Connection> {
         /** The backend. */
         private final Connection delegation;
 
+        /** The managed resources. */
+        private final List<AutoCloseable> resources = new ArrayList();
+
         /** State. */
         private boolean processing;
 
@@ -194,168 +199,25 @@ public class ConnectionPool implements WiseSupplier<Connection> {
             this.delegation = dialect.createConnection(url);
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public <T> T unwrap(Class<T> iface) throws SQLException {
-            return delegation.unwrap(iface);
+        private <R extends AutoCloseable> R manage(R resource) {
+            resources.add(resource);
+            return resource;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean isWrapperFor(Class<?> iface) throws SQLException {
-            return delegation.isWrapperFor(iface);
+        public void abort(Executor executor) throws SQLException {
+            delegation.abort(executor);
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public Statement createStatement() throws SQLException {
-            return delegation.createStatement();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public PreparedStatement prepareStatement(String sql) throws SQLException {
-            return delegation.prepareStatement(sql);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public CallableStatement prepareCall(String sql) throws SQLException {
-            return delegation.prepareCall(sql);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String nativeSQL(String sql) throws SQLException {
-            return delegation.nativeSQL(sql);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setAutoCommit(boolean autoCommit) throws SQLException {
-            delegation.setAutoCommit(autoCommit);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean getAutoCommit() throws SQLException {
-            return delegation.getAutoCommit();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void commit() throws SQLException {
-            delegation.commit();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void rollback() throws SQLException {
-            delegation.rollback();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void close() throws SQLException {
-            idle.offer(this);
-            busy.remove(this);
-            processing = false;
-
-            System.out.println("Close connection");
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean isClosed() throws SQLException {
-            return processing;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public DatabaseMetaData getMetaData() throws SQLException {
-            return delegation.getMetaData();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setReadOnly(boolean readOnly) throws SQLException {
-            delegation.setReadOnly(readOnly);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean isReadOnly() throws SQLException {
-            return delegation.isReadOnly();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setCatalog(String catalog) throws SQLException {
-            delegation.setCatalog(catalog);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String getCatalog() throws SQLException {
-            return delegation.getCatalog();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setTransactionIsolation(int level) throws SQLException {
-            delegation.setTransactionIsolation(level);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int getTransactionIsolation() throws SQLException {
-            return delegation.getTransactionIsolation();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public SQLWarning getWarnings() throws SQLException {
-            return delegation.getWarnings();
+        public void beginRequest() throws SQLException {
+            delegation.beginRequest();
         }
 
         /**
@@ -370,146 +232,32 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          * {@inheritDoc}
          */
         @Override
-        public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
-            return delegation.createStatement(resultSetType, resultSetConcurrency);
+        public void close() throws SQLException {
+            for (AutoCloseable resource : resources) {
+                I.quiet(resource);
+            }
+            resources.clear();
+            idle.offer(this);
+            busy.remove(this);
+            processing = false;
+
+            System.out.println("Close connection");
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-            return delegation.prepareStatement(sql, resultSetType, resultSetConcurrency);
+        public void commit() throws SQLException {
+            delegation.commit();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-            return delegation.prepareCall(sql, resultSetType, resultSetConcurrency);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Map<String, Class<?>> getTypeMap() throws SQLException {
-            return delegation.getTypeMap();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
-            delegation.setTypeMap(map);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setHoldability(int holdability) throws SQLException {
-            delegation.setHoldability(holdability);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int getHoldability() throws SQLException {
-            return delegation.getHoldability();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Savepoint setSavepoint() throws SQLException {
-            return delegation.setSavepoint();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Savepoint setSavepoint(String name) throws SQLException {
-            return delegation.setSavepoint(name);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void rollback(Savepoint savepoint) throws SQLException {
-            delegation.rollback(savepoint);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void releaseSavepoint(Savepoint savepoint) throws SQLException {
-            delegation.releaseSavepoint(savepoint);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-            return delegation.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
-                throws SQLException {
-            return delegation.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
-                throws SQLException {
-            return delegation.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
-            return delegation.prepareStatement(sql, autoGeneratedKeys);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
-            return delegation.prepareStatement(sql, columnIndexes);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
-            return delegation.prepareStatement(sql, columnNames);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Clob createClob() throws SQLException {
-            return delegation.createClob();
+        public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+            return delegation.createArrayOf(typeName, elements);
         }
 
         /**
@@ -518,6 +266,14 @@ public class ConnectionPool implements WiseSupplier<Connection> {
         @Override
         public Blob createBlob() throws SQLException {
             return delegation.createBlob();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Clob createClob() throws SQLException {
+            return delegation.createClob();
         }
 
         /**
@@ -540,48 +296,24 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          * {@inheritDoc}
          */
         @Override
-        public boolean isValid(int timeout) throws SQLException {
-            return delegation.isValid(timeout);
+        public Statement createStatement() throws SQLException {
+            return manage(delegation.createStatement());
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public void setClientInfo(String name, String value) throws SQLClientInfoException {
-            delegation.setClientInfo(name, value);
+        public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
+            return manage(delegation.createStatement(resultSetType, resultSetConcurrency));
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public void setClientInfo(Properties properties) throws SQLClientInfoException {
-            delegation.setClientInfo(properties);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String getClientInfo(String name) throws SQLException {
-            return delegation.getClientInfo(name);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Properties getClientInfo() throws SQLException {
-            return delegation.getClientInfo();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
-            return delegation.createArrayOf(typeName, elements);
+        public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+            return manage(delegation.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability));
         }
 
         /**
@@ -596,32 +328,56 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          * {@inheritDoc}
          */
         @Override
-        public void setSchema(String schema) throws SQLException {
-            delegation.setSchema(schema);
+        public void endRequest() throws SQLException {
+            delegation.endRequest();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public String getSchema() throws SQLException {
-            return delegation.getSchema();
+        public boolean getAutoCommit() throws SQLException {
+            return delegation.getAutoCommit();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public void abort(Executor executor) throws SQLException {
-            delegation.abort(executor);
+        public String getCatalog() throws SQLException {
+            return delegation.getCatalog();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
-            delegation.setNetworkTimeout(executor, milliseconds);
+        public Properties getClientInfo() throws SQLException {
+            return delegation.getClientInfo();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getClientInfo(String name) throws SQLException {
+            return delegation.getClientInfo(name);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int getHoldability() throws SQLException {
+            return delegation.getHoldability();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DatabaseMetaData getMetaData() throws SQLException {
+            return delegation.getMetaData();
         }
 
         /**
@@ -636,32 +392,258 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          * {@inheritDoc}
          */
         @Override
-        public void beginRequest() throws SQLException {
-            delegation.beginRequest();
+        public String getSchema() throws SQLException {
+            return delegation.getSchema();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public void endRequest() throws SQLException {
-            delegation.endRequest();
+        public int getTransactionIsolation() throws SQLException {
+            return delegation.getTransactionIsolation();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean setShardingKeyIfValid(ShardingKey shardingKey, ShardingKey superShardingKey, int timeout) throws SQLException {
-            return delegation.setShardingKeyIfValid(shardingKey, superShardingKey, timeout);
+        public Map<String, Class<?>> getTypeMap() throws SQLException {
+            return delegation.getTypeMap();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean setShardingKeyIfValid(ShardingKey shardingKey, int timeout) throws SQLException {
-            return delegation.setShardingKeyIfValid(shardingKey, timeout);
+        public SQLWarning getWarnings() throws SQLException {
+            return delegation.getWarnings();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isClosed() throws SQLException {
+            return processing;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isReadOnly() throws SQLException {
+            return delegation.isReadOnly();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isValid(int timeout) throws SQLException {
+            return delegation.isValid(timeout);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isWrapperFor(Class<?> iface) throws SQLException {
+            return delegation.isWrapperFor(iface);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String nativeSQL(String sql) throws SQLException {
+            return delegation.nativeSQL(sql);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CallableStatement prepareCall(String sql) throws SQLException {
+            return manage(delegation.prepareCall(sql));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+            return manage(delegation.prepareCall(sql, resultSetType, resultSetConcurrency));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
+                throws SQLException {
+            return manage(delegation.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public PreparedStatement prepareStatement(String sql) throws SQLException {
+            return manage(delegation.prepareStatement(sql));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
+            return manage(delegation.prepareStatement(sql, autoGeneratedKeys));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+            return manage(delegation.prepareStatement(sql, resultSetType, resultSetConcurrency));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
+                throws SQLException {
+            return manage(delegation.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
+            return manage(delegation.prepareStatement(sql, columnIndexes));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
+            return manage(delegation.prepareStatement(sql, columnNames));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void releaseSavepoint(Savepoint savepoint) throws SQLException {
+            delegation.releaseSavepoint(savepoint);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void rollback() throws SQLException {
+            delegation.rollback();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void rollback(Savepoint savepoint) throws SQLException {
+            delegation.rollback(savepoint);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setAutoCommit(boolean autoCommit) throws SQLException {
+            delegation.setAutoCommit(autoCommit);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setCatalog(String catalog) throws SQLException {
+            delegation.setCatalog(catalog);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setClientInfo(Properties properties) throws SQLClientInfoException {
+            delegation.setClientInfo(properties);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setClientInfo(String name, String value) throws SQLClientInfoException {
+            delegation.setClientInfo(name, value);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setHoldability(int holdability) throws SQLException {
+            delegation.setHoldability(holdability);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+            delegation.setNetworkTimeout(executor, milliseconds);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setReadOnly(boolean readOnly) throws SQLException {
+            delegation.setReadOnly(readOnly);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Savepoint setSavepoint() throws SQLException {
+            return delegation.setSavepoint();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Savepoint setSavepoint(String name) throws SQLException {
+            return delegation.setSavepoint(name);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setSchema(String schema) throws SQLException {
+            delegation.setSchema(schema);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setShardingKey(ShardingKey shardingKey) throws SQLException {
+            delegation.setShardingKey(shardingKey);
         }
 
         /**
@@ -676,8 +658,40 @@ public class ConnectionPool implements WiseSupplier<Connection> {
          * {@inheritDoc}
          */
         @Override
-        public void setShardingKey(ShardingKey shardingKey) throws SQLException {
-            delegation.setShardingKey(shardingKey);
+        public boolean setShardingKeyIfValid(ShardingKey shardingKey, int timeout) throws SQLException {
+            return delegation.setShardingKeyIfValid(shardingKey, timeout);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean setShardingKeyIfValid(ShardingKey shardingKey, ShardingKey superShardingKey, int timeout) throws SQLException {
+            return delegation.setShardingKeyIfValid(shardingKey, superShardingKey, timeout);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setTransactionIsolation(int level) throws SQLException {
+            delegation.setTransactionIsolation(level);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
+            delegation.setTypeMap(map);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <T> T unwrap(Class<T> iface) throws SQLException {
+            return delegation.unwrap(iface);
         }
     }
 }
