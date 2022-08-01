@@ -100,6 +100,18 @@ public abstract class Dialect {
     }
 
     /**
+     * Define SQL for LIMIT and OFFSET.
+     * 
+     * @param builder
+     * @param limit
+     * @param offset
+     */
+    public void commandLimitAndOffset(StringBuilder builder, long limit, long offset) {
+        if (0 < limit) builder.append(" LIMIT ").append(limit);
+        if (0 < offset) builder.append(" OFFSET ").append(offset);
+    }
+
+    /**
      * Helper to write column definitions.
      * 
      * @param model A processing model.

@@ -141,6 +141,14 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public R offset(long position) {
+        return findBy(createQueryable().offset(position));
+    }
+
+    /**
      * Find model by id.
      * 
      * @param id An identifier of the target model.

@@ -52,7 +52,10 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     protected final List<RDBConstraint<?, ?>> constraints = new ArrayList();
 
     /** The limit size. */
-    private long limit = -1;
+    private long limit;
+
+    /** The starting position. */
+    private long offset;
 
     /**
      * Hide constructor.
@@ -148,7 +151,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> limit(long size) {
-        if (0 <= size) {
+        if (0 < size) {
             this.limit = size;
         }
         return this;
@@ -158,7 +161,20 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
+    public RDBQuery<M> offset(long position) {
+        if (0 < position) {
+            this.offset = position;
+        }
+        return this;
+    }
+
+    /**
+     * Convert to SQL statement.
+     * 
+     * @param dialect
+     * @return
+     */
+    final StringBuilder build(Dialect dialect) {
         StringBuilder builder = new StringBuilder();
 
         if (!constraints.isEmpty()) {
@@ -171,10 +187,8 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
             builder.append(joiner);
         }
 
-        if (0 < limit) {
-            builder.append(" LIMIT ").append(limit);
-        }
-        return builder.toString();
+        dialect.commandLimitAndOffset(builder, limit, offset);
 
+        return builder;
     }
 }

@@ -99,16 +99,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * {@inheritDoc}
      */
     @Override
-    public Signal<M> limit(long size) {
-        return super.limit(size);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return query("SELECT * FROM " + tableName + " " + query)
+        return query("SELECT * FROM " + tableName + " " + query.build(dialect))
                 .map(result -> decode(model, model.properties(), I.make(model.type), result));
     }
 
@@ -175,17 +167,17 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
             R result = operation.apply(new RDB<>(model, dialect, () -> connection, false));
             connection.commit();
             return result;
-        } catch (Throwable e) {
+        } catch (SQLException e) {
             try {
                 connection.rollback();
-            } catch (Throwable x) {
+            } catch (SQLException x) {
                 throw I.quiet(x);
             }
             throw I.quiet(e);
         } finally {
             try {
                 connection.setAutoCommit(true);
-            } catch (Throwable e) {
+            } catch (SQLException e) {
                 throw I.quiet(e);
             }
         }
@@ -303,19 +295,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     }
 
     /**
-     * Delete comma character at tail.
-     * 
-     * @param builder
-     */
-    private static StringBuilder deleteTailComma(StringBuilder builder) {
-        int last = builder.length() - 1;
-        if (builder.charAt(last) == ',') {
-            builder.deleteCharAt(last);
-        }
-        return builder;
-    }
-
-    /**
      * Helper to write delete columns.
      * 
      * @return
@@ -380,6 +359,19 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         builder.append(")");
 
+        return builder;
+    }
+
+    /**
+     * Delete comma character at tail.
+     * 
+     * @param builder
+     */
+    private static StringBuilder deleteTailComma(StringBuilder builder) {
+        int last = builder.length() - 1;
+        if (builder.charAt(last) == ',') {
+            builder.deleteCharAt(last);
+        }
         return builder;
     }
 }

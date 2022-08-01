@@ -89,4 +89,16 @@ public class SQLite extends Dialect {
 
         return connection;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void commandLimitAndOffset(StringBuilder builder, long limit, long offset) {
+        if (0 < limit) builder.append(" LIMIT ").append(limit);
+        if (0 < offset) {
+            if (limit <= 0) builder.append(" LIMIT -1");
+            builder.append(" OFFSET ").append(offset);
+        }
+    }
 }

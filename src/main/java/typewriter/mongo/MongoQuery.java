@@ -64,6 +64,9 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     /** The limit size. */
     private int limit;
 
+    /** The offset position. */
+    private int offset;
+
     /**
      * Hide constructor.
      */
@@ -165,6 +168,17 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> offset(long position) {
+        if (0 < position) {
+            this.offset = (int) position;
+        }
+        return this;
+    }
+
+    /**
      * Build query.
      * 
      * @param collection
@@ -174,6 +188,7 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
         FindIterable finder = collection.find();
         finder = finder.filter(new AndFilter(I.signal(constraints).flatIterable(c -> c.filters).toList()));
         if (0 < limit) finder = finder.limit(limit);
+        if (0 < offset) finder = finder.skip(offset);
 
         return finder;
     }

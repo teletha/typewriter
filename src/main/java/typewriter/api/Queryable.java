@@ -129,5 +129,19 @@ public interface Queryable<M, R> {
      */
     R findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint);
 
+    /**
+     * Limit size of query result.
+     * 
+     * @param size
+     * @return
+     */
     R limit(long size);
+
+    /**
+     * Offset starting position of query result.
+     * 
+     * @param position
+     * @return
+     */
+    R offset(long position);
 }
