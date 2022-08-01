@@ -180,21 +180,6 @@ class ConnectionPool implements WiseSupplier<Connection> {
     }
 
     /**
-     * Release all system resources related to the specified RDB.
-     */
-    static void release(Dialect dialect) {
-        Iterator<Entry<String, ConnectionPool>> iterator = CACHE.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Entry<String, ConnectionPool> entry = iterator.next();
-            ConnectionPool pool = entry.getValue();
-            if (pool.dialect == dialect) {
-                pool.close();
-                iterator.remove();
-            }
-        }
-    }
-
-    /**
      * Release all system resources related to the specified URL.
      */
     static void release(String url) {

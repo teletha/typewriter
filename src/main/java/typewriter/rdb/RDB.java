@@ -263,16 +263,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     }
 
     /**
-     * Release all system resources related to the specified RDB.
-     */
-    public static void release(Dialect dialect) {
-        if (dialect != null) {
-            ConnectionPool.release(dialect);
-            DAO.remove(dialect);
-        }
-    }
-
-    /**
      * Release all system resources related to the specified URL.
      */
     public static void release(String url) {
