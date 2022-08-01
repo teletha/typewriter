@@ -138,10 +138,10 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            execute("DELETE FROM", tableName, WHERE(instance));
+            execute("DELETE FROM " + tableName + " " + WHERE(instance));
         } else {
             // delete properties
-            execute(dialect.commandUpdate(), tableName, SETNULL(model, specifiers), WHERE(instance));
+            execute(dialect.commandUpdate() + " " + tableName + " " + SETNULL(model, specifiers) + " " + WHERE(instance));
         }
     }
 
@@ -156,10 +156,10 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            execute(dialect.commandReplace(), tableName, VALUES(model, instance));
+            execute(dialect.commandReplace() + " " + tableName + " " + VALUES(model, instance));
         } else {
             // update properties
-            execute(dialect.commandUpdate(), tableName, SET(model, specifiers, instance), WHERE(instance));
+            execute(dialect.commandUpdate() + " " + tableName + " " + SET(model, specifiers, instance) + " " + WHERE(instance));
         }
     }
 
@@ -214,18 +214,11 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * 
      * @param statements
      */
-    protected final void execute(Object... statements) {
-        StringBuilder builder = new StringBuilder();
-        for (Object statement : statements) {
-            if (statement != null) {
-                builder.append(statement).append(' ');
-            }
-        }
-
+    private void execute(String query) {
         try (Connection connection = provider.get()) {
-            connection.createStatement().executeUpdate(builder.toString());
+            connection.createStatement().executeUpdate(query);
         } catch (SQLException e) {
-            throw I.quiet(new SQLException(builder.toString(), e));
+            throw I.quiet(new SQLException(query, e));
         }
     }
 
@@ -244,7 +237,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
                 }
                 observer.complete();
             } catch (SQLException e) {
-                observer.error(e);
+                observer.error(new SQLException(query, e));
             }
             return disposer;
         });
