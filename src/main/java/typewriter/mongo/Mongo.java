@@ -184,14 +184,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     public Signal<M> restore(M model, Specifier<M, ?>... specifiers) {
         return new Signal<M>((observer, disposer) -> {
             try {
-                List<String> names = new ArrayList();
-                if (specifiers != null) {
-                    for (Specifier<M, ?> specifier : specifiers) {
-                        if (specifier != null) {
-                            names.add(specifier.propertyName());
-                        }
-                    }
-                }
+                List<String> names = names(specifiers).toList();
 
                 Document doc = collection.find(identify(model)).projection(names.isEmpty() ? null : Projections.include(names)).first();
 

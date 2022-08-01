@@ -9,14 +9,14 @@
  */
 package typewriter.rdb;
 
-import static typewriter.rdb.SQLTemplate.*;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import kiss.I;
@@ -92,10 +92,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public long count() {
-        return execute("SELECT COUNT(*) N FROM " + tableName, result -> {
-            result.next();
-            return result.getLong("N");
-        });
+        return query("SELECT COUNT(*) N FROM " + tableName).map(result -> result.getLong("N")).to().exact();
     }
 
     /**
@@ -111,19 +108,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return new Signal<>((observer, disposer) -> {
-            try (Connection connection = provider.get()) {
-                ResultSet result = connection.createStatement().executeQuery("SELECT * FROM " + tableName + query);
-
-                while (!disposer.isDisposed() && result.next()) {
-                    observer.accept(decode(result));
-                }
-                observer.complete();
-            } catch (Throwable e) {
-                observer.error(e);
-            }
-            return disposer;
-        });
+        return query("SELECT * FROM " + tableName + " " + query)
+                .map(result -> decode(model, model.properties(), I.make(model.type), result));
     }
 
     /**
@@ -131,32 +117,14 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> restore(M instance, Specifier<M, ?>... specifiers) {
-        return new Signal<>((observer, disposer) -> {
-            try (Connection connection = provider.get()) {
-                List<Property> properties = new ArrayList();
-                if (specifiers != null) {
-                    for (Specifier<M, ?> specifier : specifiers) {
-                        if (specifier != null) {
-                            properties.add(model.property(specifier.propertyName()));
-                        }
-                    }
-                }
+        if (instance == null) {
+            return I.signal();
+        }
 
-                if (properties.isEmpty()) {
-                    properties = model.properties();
-                }
+        List<Property> properties = names(specifiers).map(model::property).or(I.signal(model.properties())).toList();
 
-                ResultSet result = connection.createStatement()
-                        .executeQuery("SELECT " + column(properties) + " FROM " + tableName + " " + WHERE(instance));
-                if (result.next()) {
-                    observer.accept(decode(model, properties, instance, result));
-                }
-                observer.complete();
-            } catch (Throwable e) {
-                observer.error(e);
-            }
-            return disposer;
-        });
+        return query("SELECT " + column(properties) + " FROM " + tableName + WHERE(instance))
+                .map(result -> decode(model, properties, instance, result));
     }
 
     /**
@@ -223,20 +191,22 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         }
     }
 
-    protected final M decode(ResultSet result) {
-        return decode(model, model.properties(), I.make(model.type), result);
-    }
-
-    protected final <V> V decode(Model model, List<Property> properties, V instance, ResultSet result) {
-        try {
-            for (Property property : properties) {
-                RDBCodec codec = RDBCodec.by(property.model.type);
-                model.set(instance, property, codec.decode(result, property.name));
-            }
-            return instance;
-        } catch (SQLException e) {
-            throw I.quiet(e);
+    /**
+     * Decode from {@link ResultSet} to model data.
+     * 
+     * @param <V>
+     * @param model
+     * @param properties
+     * @param instance
+     * @param result
+     * @return
+     */
+    private <V> V decode(Model model, List<Property> properties, V instance, ResultSet result) throws SQLException {
+        for (Property property : properties) {
+            RDBCodec codec = RDBCodec.by(property.model.type);
+            model.set(instance, property, codec.decode(result, property.name));
         }
+        return instance;
     }
 
     /**
@@ -263,14 +233,21 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * Execute query.
      * 
      * @param query
-     * @param result
+     * @param A result stream.
      */
-    protected final <R> R execute(String query, WiseFunction<ResultSet, R> result) {
-        try (Connection connection = provider.get()) {
-            return result.apply(connection.createStatement().executeQuery(query));
-        } catch (SQLException e) {
-            throw I.quiet(new SQLException(query, e));
-        }
+    private Signal<ResultSet> query(String query) {
+        return new Signal<>((observer, disposer) -> {
+            try (Connection connection = provider.get()) {
+                ResultSet result = connection.createStatement().executeQuery(query);
+                while (!disposer.isDisposed() && result.next()) {
+                    observer.accept(result);
+                }
+                observer.complete();
+            } catch (SQLException e) {
+                observer.error(e);
+            }
+            return disposer;
+        });
     }
 
     /**
@@ -309,5 +286,117 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         if (url != null && url.startsWith("jdbc:")) {
             ConnectionPool.release(url);
         }
+    }
+
+    /**
+     * Helper to write WHERE statement.
+     * 
+     * @param model
+     * @return
+     */
+    private static CharSequence WHERE(IdentifiableModel model) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("WHERE id=").append(model.getId());
+        return builder;
+    }
+
+    /**
+     * Helper to write name of columns.
+     * 
+     * @param properties
+     * @return
+     */
+    private static CharSequence column(List<Property> properties) {
+        StringBuilder builder = new StringBuilder();
+
+        for (Property property : properties) {
+            RDBCodec<?> codec = RDBCodec.by(property.model.type);
+            for (int j = 0; j < codec.types.size(); j++) {
+                builder.append(property.name).append(codec.names.get(j)).append(',');
+            }
+        }
+
+        return deleteTailComma(builder);
+    }
+
+    /**
+     * Delete comma character at tail.
+     * 
+     * @param builder
+     */
+    private static StringBuilder deleteTailComma(StringBuilder builder) {
+        int last = builder.length() - 1;
+        if (builder.charAt(last) == ',') {
+            builder.deleteCharAt(last);
+        }
+        return builder;
+    }
+
+    /**
+     * Helper to write delete columns.
+     * 
+     * @return
+     */
+    private static CharSequence SETNULL(Model model, Specifier[] specifiers) {
+        StringBuilder builder = new StringBuilder("SET ");
+
+        for (Property property : names(specifiers).map(model::property).toList()) {
+            RDBCodec codec = RDBCodec.by(property.model.type);
+
+            for (int i = 0; i < codec.types.size(); i++) {
+                builder.append(property.name).append(codec.names.get(i)).append("=NULL,");
+            }
+        }
+
+        return deleteTailComma(builder);
+    }
+
+    /**
+     * Helper to write set columns.
+     * 
+     * @return
+     */
+    private static CharSequence SET(Model model, Specifier[] specifiers, Object instance) {
+        Map<String, Object> result = new HashMap();
+        for (Property property : names(specifiers).map(model::property).toList()) {
+            RDBCodec codec = RDBCodec.by(property.model.type);
+            codec.encode(result, property.name, model.get(instance, property));
+        }
+
+        StringBuilder builder = new StringBuilder("SET ");
+        for (Entry<String, Object> entry : result.entrySet()) {
+            builder.append(entry.getKey()).append('=').append(I.transform(entry.getValue(), String.class)).append(',');
+        }
+
+        return deleteTailComma(builder);
+    }
+
+    /**
+     * Helper to write VALUES statement.
+     * 
+     * @param model
+     * @return
+     */
+    private static <V> CharSequence VALUES(Model<V> model, V instance) {
+        Map<String, Object> result = new LinkedHashMap();
+        for (Property property : model.properties()) {
+            RDBCodec codec = RDBCodec.by(property.model.type);
+            codec.encode(result, property.name, model.get(instance, property));
+        }
+
+        StringBuilder builder = new StringBuilder("VALUES(");
+        for (Entry<String, Object> entry : result.entrySet()) {
+            builder.append(I.transform(entry.getValue(), String.class)).append(",");
+        }
+
+        // remove tail comma
+        int last = builder.length() - 1;
+        if (builder.charAt(last) == ',') {
+            builder.deleteCharAt(last);
+        }
+
+        builder.append(")");
+
+        return builder;
     }
 }

@@ -14,6 +14,7 @@ import java.lang.reflect.Type;
 import java.util.function.UnaryOperator;
 
 import kiss.I;
+import kiss.Signal;
 import kiss.model.Model;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
@@ -166,4 +167,14 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
      * @return A result stream.
      */
     public abstract R findBy(Q query);
+
+    /**
+     * Helper to convert from {@link Specifier} to property names.
+     * 
+     * @param specifiers
+     * @return
+     */
+    protected static Signal<String> names(Specifier[] specifiers) {
+        return I.signal(specifiers).skipNull().map(specifier -> specifier.propertyName());
+    }
 }
