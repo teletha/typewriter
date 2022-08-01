@@ -10,6 +10,7 @@
 package typewriter.rdb;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -108,8 +109,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return query("SELECT * FROM " + tableName + " " + query)
-                .map(result -> decode(model, model.properties(), I.make(model.type), result));
+        return query("SELECT * FROM ? ?", tableName, query).map(result -> decode(model, model.properties(), I.make(model.type), result));
     }
 
     /**
@@ -232,6 +232,32 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         return new Signal<>((observer, disposer) -> {
             try (Connection connection = provider.get()) {
                 ResultSet result = connection.createStatement().executeQuery(query);
+                while (!disposer.isDisposed() && result.next()) {
+                    observer.accept(result);
+                }
+                observer.complete();
+            } catch (SQLException e) {
+                observer.error(new SQLException(query, e));
+            }
+            return disposer;
+        });
+    }
+
+    /**
+     * Execute query.
+     * 
+     * @param query
+     * @param A result stream.
+     */
+    private Signal<ResultSet> query(String query, Object... params) {
+        return new Signal<>((observer, disposer) -> {
+            try (Connection connection = provider.get()) {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                for (int i = 0; i < params.length; i++) {
+                    prepare.setObject(i + 1, params[i]);
+                }
+
+                ResultSet result = prepare.executeQuery();
                 while (!disposer.isDisposed() && result.next()) {
                     observer.accept(result);
                 }
