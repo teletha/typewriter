@@ -5,6 +5,7 @@ const root = {
 		"typewriter.api",
 		"typewriter.api.model",
 		"typewriter.h2",
+		"typewriter.maria",
 		"typewriter.mongo",
 		"typewriter.rdb",
 		"typewriter.sqlite"
@@ -120,6 +121,20 @@ const root = {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "IdentifiableModel",
 			"packageName": "typewriter.api.model",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "MariaDB",
+			"packageName": "typewriter.maria",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "MariaModel",
+			"packageName": "typewriter.maria",
 			"type": "AbstractClass"
 		},
 		{
