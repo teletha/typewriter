@@ -216,6 +216,38 @@ public interface QueryExecutorTestSet extends Testable {
         assert found.get(4).equals(model5);
     }
 
+    @Test
+    default void sortByMultiTypes() {
+        Person model1 = new Person("A", 3);
+        Person model2 = new Person("B", 1);
+        Person model3 = new Person("B", 3);
+        Person model4 = new Person("C", 2);
+        Person model5 = new Person("C", 1);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model3);
+        dao.update(model2);
+        dao.update(model5);
+        dao.update(model4);
+        dao.update(model1);
+
+        List<Person> found = dao.findBy(o -> o.sortBy(Person::getName, true).sortBy(Person::getAge, true)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model1);
+        assert found.get(1).equals(model2);
+        assert found.get(2).equals(model3);
+        assert found.get(3).equals(model5);
+        assert found.get(4).equals(model4);
+
+        found = dao.findBy(o -> o.sortBy(Person::getAge, false).sortBy(Person::getName, true)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model1);
+        assert found.get(1).equals(model3);
+        assert found.get(2).equals(model4);
+        assert found.get(3).equals(model2);
+        assert found.get(4).equals(model5);
+    }
+
     /**
      * 
      */

@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.UnaryOperator;
 
+import kiss.I;
+import kiss.Ⅱ;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
@@ -58,10 +60,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     private long offset;
 
     /** The sorting property. */
-    private String sort;
-
-    /** The sorting order. */
-    private boolean ascending;
+    private List<Ⅱ<String, Boolean>> sorts;
 
     /**
      * Hide constructor.
@@ -179,8 +178,10 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public <N extends Number> RDBQuery<M> sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
-        this.sort = specifier.propertyName();
-        this.ascending = ascending;
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
 
         return this;
     }
@@ -190,8 +191,10 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> sortBy(StringSpecifier<M> specifier, boolean ascending) {
-        this.sort = specifier.propertyName();
-        this.ascending = ascending;
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
 
         return this;
     }
@@ -217,8 +220,13 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
 
         dialect.commandLimitAndOffset(builder, limit, offset);
 
-        if (sort != null && !sort.isBlank()) {
-            builder.append(" ORDER BY ").append(sort).append(" ").append(ascending ? "ASC" : "DESC");
+        if (sorts != null) {
+            builder.append(" ORDER BY ");
+            for (int i = 0; i < sorts.size(); i++) {
+                if (i != 0) builder.append(",");
+                Ⅱ<String, Boolean> sort = sorts.get(i);
+                builder.append(sort.ⅰ).append(" ").append(sort.ⅱ ? "ASC" : "DESC");
+            }
         }
 
         return builder;

@@ -12,6 +12,7 @@ package typewriter.mongo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.function.UnaryOperator;
 
 import org.bson.BsonArray;
@@ -23,9 +24,9 @@ import org.bson.conversions.Bson;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Sorts;
 
 import kiss.I;
+import kiss.Ⅱ;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
@@ -69,10 +70,7 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     private int offset;
 
     /** The sorting property. */
-    private String sort;
-
-    /** The sorting order. */
-    private boolean ascending;
+    private List<Ⅱ<String, Boolean>> sorts;
 
     /**
      * Hide constructor.
@@ -190,8 +188,10 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
      */
     @Override
     public <N extends Number> MongoQuery<M> sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
-        this.sort = specifier.propertyName();
-        this.ascending = ascending;
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
 
         return this;
     }
@@ -201,8 +201,10 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
      */
     @Override
     public MongoQuery<M> sortBy(StringSpecifier<M> specifier, boolean ascending) {
-        this.sort = specifier.propertyName();
-        this.ascending = ascending;
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
 
         return this;
     }
@@ -218,7 +220,13 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
         finder = finder.filter(new AndFilter(I.signal(constraints).flatIterable(c -> c.filters).toList()));
         if (0 < limit) finder = finder.limit(limit);
         if (0 < offset) finder = finder.skip(offset);
-        if (sort != null && !sort.isBlank()) finder = finder.sort(ascending ? Sorts.ascending(sort) : Sorts.descending(sort));
+        if (sorts != null) {
+            StringJoiner join = new StringJoiner(",", "{", "}");
+            for (Ⅱ<String, Boolean> sort : sorts) {
+                join.add('"' + sort.ⅰ + '"' + ":" + (sort.ⅱ ? 1 : -1));
+            }
+            finder = finder.sort(BsonDocument.parse(join.toString()));
+        }
 
         return finder;
     }
