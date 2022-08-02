@@ -9,6 +9,12 @@
  */
 package typewriter.api;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.function.UnaryOperator;
 
 import typewriter.api.Constraint.DateConstraint;
@@ -26,6 +32,7 @@ import typewriter.api.Specifier.LocalDateSpecifier;
 import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
 import typewriter.api.Specifier.NumericSpecifier;
+import typewriter.api.Specifier.OffsetDateTimeSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 
@@ -152,7 +159,9 @@ public interface Queryable<M, R> {
      * @param ascending Ascending or descending.
      * @return Chainable API.
      */
-    <N extends Number> R sortBy(NumericSpecifier<M, N> specifier, boolean ascending);
+    default <N extends Number> R sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
+        return sortBy((Specifier<M, N>) specifier, ascending);
+    }
 
     /**
      * Sort by the specified property.
@@ -161,7 +170,9 @@ public interface Queryable<M, R> {
      * @param ascending Ascending or descending.
      * @return Chainable API.
      */
-    R sortBy(StringSpecifier<M> specifier, boolean ascending);
+    default R sortBy(StringSpecifier<M> specifier, boolean ascending) {
+        return sortBy((Specifier<M, String>) specifier, ascending);
+    }
 
     /**
      * Sort by the specified property.
@@ -170,7 +181,9 @@ public interface Queryable<M, R> {
      * @param ascending Ascending or descending.
      * @return Chainable API.
      */
-    R sortBy(DateSpecifier<M> specifier, boolean ascending);
+    default R sortBy(DateSpecifier<M> specifier, boolean ascending) {
+        return sortBy((Specifier<M, Date>) specifier, ascending);
+    }
 
     /**
      * Sort by the specified property.
@@ -179,5 +192,60 @@ public interface Queryable<M, R> {
      * @param ascending Ascending or descending.
      * @return Chainable API.
      */
-    R sortBy(LocalDateSpecifier<M> specifier, boolean ascending);
+    default R sortBy(LocalDateSpecifier<M> specifier, boolean ascending) {
+        return sortBy((Specifier<M, LocalDate>) specifier, ascending);
+    }
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    default R sortBy(LocalTimeSpecifier<M> specifier, boolean ascending) {
+        return sortBy((Specifier<M, LocalTime>) specifier, ascending);
+    }
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    default R sortBy(LocalDateTimeSpecifier<M> specifier, boolean ascending) {
+        return sortBy((Specifier<M, LocalDateTime>) specifier, ascending);
+    }
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    default R sortBy(OffsetDateTimeSpecifier<M> specifier, boolean ascending) {
+        return sortBy((Specifier<M, OffsetDateTime>) specifier, ascending);
+    }
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    default R sortBy(ZonedDateTimeSpecifier<M> specifier, boolean ascending) {
+        return sortBy((Specifier<M, ZonedDateTime>) specifier, ascending);
+    }
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    <N> R sortBy(Specifier<M, N> specifier, boolean ascending);
 }

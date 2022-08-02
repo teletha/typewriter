@@ -152,31 +152,7 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> R sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
-        return findBy(createQueryable().sortBy(specifier, ascending));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public R sortBy(StringSpecifier<M> specifier, boolean ascending) {
-        return findBy(createQueryable().sortBy(specifier, ascending));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public R sortBy(DateSpecifier<M> specifier, boolean ascending) {
-        return findBy(createQueryable().sortBy(specifier, ascending));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public R sortBy(LocalDateSpecifier<M> specifier, boolean ascending) {
+    public <N> R sortBy(Specifier<M, N> specifier, boolean ascending) {
         return findBy(createQueryable().sortBy(specifier, ascending));
     }
 

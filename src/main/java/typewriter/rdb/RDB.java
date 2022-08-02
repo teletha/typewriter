@@ -104,7 +104,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return query("SELECT * FROM " + tableName + " " + query.build(dialect))
+        return query("SELECT * FROM " + tableName + " " + query.build(model, dialect))
                 .map(result -> decode(model, model.properties(), I.make(model.type), result));
     }
 

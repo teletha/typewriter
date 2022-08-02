@@ -16,6 +16,8 @@ import java.util.function.UnaryOperator;
 
 import kiss.I;
 import kiss.Ⅱ;
+import kiss.model.Model;
+import kiss.model.Property;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
@@ -26,6 +28,7 @@ import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Constraint.ZonedDateTimeConstraint;
 import typewriter.api.Queryable;
+import typewriter.api.Specifier;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
 import typewriter.api.Specifier.DateSpecifier;
@@ -60,7 +63,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     private long offset;
 
     /** The sorting property. */
-    private List<Ⅱ<String, Boolean>> sorts;
+    private List<Ⅱ<Specifier, Boolean>> sorts;
 
     /**
      * Hide constructor.
@@ -177,50 +180,11 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> RDBQuery<M> sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
+    public <N> RDBQuery<M> sortBy(Specifier<M, N> specifier, boolean ascending) {
         if (sorts == null) {
             sorts = new ArrayList();
         }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
-
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RDBQuery<M> sortBy(StringSpecifier<M> specifier, boolean ascending) {
-        if (sorts == null) {
-            sorts = new ArrayList();
-        }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
-
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RDBQuery<M> sortBy(DateSpecifier<M> specifier, boolean ascending) {
-        if (sorts == null) {
-            sorts = new ArrayList();
-        }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
-
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RDBQuery<M> sortBy(LocalDateSpecifier<M> specifier, boolean ascending) {
-        if (sorts == null) {
-            sorts = new ArrayList();
-        }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
+        sorts.add(I.pair(specifier, ascending));
 
         return this;
     }
@@ -228,10 +192,11 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     /**
      * Convert to SQL statement.
      * 
+     * @param model
      * @param dialect
      * @return
      */
-    final StringBuilder build(Dialect dialect) {
+    final StringBuilder build(Model model, Dialect dialect) {
         StringBuilder builder = new StringBuilder();
 
         if (!constraints.isEmpty()) {
@@ -247,12 +212,15 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
         dialect.commandLimitAndOffset(builder, limit, offset);
 
         if (sorts != null) {
-            builder.append(" ORDER BY ");
-            for (int i = 0; i < sorts.size(); i++) {
-                if (i != 0) builder.append(",");
-                Ⅱ<String, Boolean> sort = sorts.get(i);
-                builder.append(sort.ⅰ).append(" ").append(sort.ⅱ ? "ASC" : "DESC");
+            StringJoiner joiner = new StringJoiner(",", " ORDER BY ", "");
+            for (Ⅱ<Specifier, Boolean> sort : sorts) {
+                Property property = model.property(sort.ⅰ.propertyName());
+                RDBCodec<?> codec = RDBCodec.by(property.model.type);
+                for (String name : codec.columnNames(property.name)) {
+                    joiner.add(name + " " + (sort.ⅱ ? "ASC" : "DESC"));
+                }
             }
+            builder.append(joiner);
         }
 
         return builder;

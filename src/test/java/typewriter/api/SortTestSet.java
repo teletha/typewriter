@@ -10,6 +10,9 @@
 package typewriter.api;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
@@ -150,6 +153,70 @@ public interface SortTestSet extends Testable {
     }
 
     @Test
+    default void sortByLocalDateTime() {
+        Event model1 = new Event("one", 2022, 1, 18);
+        Event model2 = new Event("two", 2022, 2, 1);
+        Event model3 = new Event("three", 2022, 2, 21);
+        Event model4 = new Event("four", 2023, 4, 9);
+        Event model5 = new Event("five", 2023, 5, 3);
+
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
+        dao.update(model3);
+        dao.update(model5);
+        dao.update(model1);
+        dao.update(model4);
+        dao.update(model2);
+
+        List<Event> found = dao.findBy(o -> o.sortBy(Event::getLocalDateTime, true)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model1);
+        assert found.get(1).equals(model2);
+        assert found.get(2).equals(model3);
+        assert found.get(3).equals(model4);
+        assert found.get(4).equals(model5);
+
+        found = dao.findBy(o -> o.sortBy(Event::getLocalDateTime, false)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model5);
+        assert found.get(1).equals(model4);
+        assert found.get(2).equals(model3);
+        assert found.get(3).equals(model2);
+        assert found.get(4).equals(model1);
+    }
+
+    @Test
+    default void sortByOffsetDateTime() {
+        Event model1 = new Event("one", 2022, 1, 18);
+        Event model2 = new Event("two", 2022, 2, 1);
+        Event model3 = new Event("three", 2022, 2, 21);
+        Event model4 = new Event("four", 2023, 4, 9);
+        Event model5 = new Event("five", 2023, 5, 3);
+
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
+        dao.update(model3);
+        dao.update(model5);
+        dao.update(model1);
+        dao.update(model4);
+        dao.update(model2);
+
+        List<Event> found = dao.findBy(o -> o.sortBy(Event::getOffset, true)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model1);
+        assert found.get(1).equals(model2);
+        assert found.get(2).equals(model3);
+        assert found.get(3).equals(model4);
+        assert found.get(4).equals(model5);
+
+        found = dao.findBy(o -> o.sortBy(Event::getOffset, false)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model5);
+        assert found.get(1).equals(model4);
+        assert found.get(2).equals(model3);
+        assert found.get(3).equals(model2);
+        assert found.get(4).equals(model1);
+    }
+
+    @Test
     default void sortByMultiTypes() {
         Person model1 = new Person("A", 3);
         Person model2 = new Person("B", 1);
@@ -272,6 +339,10 @@ public interface SortTestSet extends Testable {
 
         private LocalDate localDate;
 
+        private LocalDateTime localDateTime;
+
+        private OffsetDateTime offset;
+
         /**
          * Create empty model.
          */
@@ -285,7 +356,9 @@ public interface SortTestSet extends Testable {
         private Event(String name, int year, int month, int day) {
             this.name = name;
             this.localDate = LocalDate.of(year, month, day);
+            this.localDateTime = localDate.atStartOfDay();
             this.date = Date.from(localDate.atStartOfDay().toInstant(ZoneOffset.UTC));
+            this.offset = localDate.atTime(OffsetTime.MIN);
         }
 
         /**
@@ -340,6 +413,42 @@ public interface SortTestSet extends Testable {
          */
         public void setLocalDate(LocalDate localDate) {
             this.localDate = localDate;
+        }
+
+        /**
+         * Get the localDateTime property of this {@link SortTestSet.Event}.
+         * 
+         * @return The localDateTime property.
+         */
+        public final LocalDateTime getLocalDateTime() {
+            return localDateTime;
+        }
+
+        /**
+         * Set the localDateTime property of this {@link SortTestSet.Event}.
+         * 
+         * @param localDateTime The localDateTime value to set.
+         */
+        public final void setLocalDateTime(LocalDateTime localDateTime) {
+            this.localDateTime = localDateTime;
+        }
+
+        /**
+         * Get the offset property of this {@link SortTestSet.Event}.
+         * 
+         * @return The offset property.
+         */
+        public final OffsetDateTime getOffset() {
+            return offset;
+        }
+
+        /**
+         * Set the offset property of this {@link SortTestSet.Event}.
+         * 
+         * @param offset The offset value to set.
+         */
+        public final void setOffset(OffsetDateTime offset) {
+            this.offset = offset;
         }
     }
 }

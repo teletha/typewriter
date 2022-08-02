@@ -9,12 +9,13 @@
  */
 package typewriter.mongo;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -66,8 +67,8 @@ import typewriter.api.model.IdentifiableModel;
 
 public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>, Mongo<M>> {
 
-    private static final CodecRegistry CODEC_REGISTRY = CodecRegistries
-            .fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromCodecs(I.make(ZonedDateTimeCodec.class)));
+    private static final CodecRegistry CODEC_REGISTRY = CodecRegistries.fromRegistries(MongoClientSettings
+            .getDefaultCodecRegistry(), CodecRegistries.fromCodecs(I.make(OffsetDateTimeCodec.class), I.make(ZonedDateTimeCodec.class)));
 
     /** The primary key. */
     private static final String PrimaryKey = "_id";
@@ -92,6 +93,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
         decoders.put(LocalDateTime.class, (doc, key) -> {
             return LocalDateTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
         });
+        decoders.put(OffsetDateTime.class, I.make(OffsetDateTimeCodec.class));
         decoders.put(ZonedDateTime.class, I.make(ZonedDateTimeCodec.class));
     }
 
@@ -363,6 +365,51 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      */
     public static <M extends IdentifiableModel> Mongo<M> of(Class<M> model) {
         return Cache.computeIfAbsent(model, key -> new Mongo(key));
+    }
+
+    /**
+     * Built-in codec.
+     */
+    @Managed(Singleton.class)
+    private static class OffsetDateTimeCodec implements Codec<OffsetDateTime>, BiFunction<Document, String, OffsetDateTime> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public OffsetDateTime decode(BsonReader reader, DecoderContext decoderContext) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void encode(BsonWriter writer, OffsetDateTime value, EncoderContext encoderContext) {
+            writer.writeStartDocument();
+            writer.writeDateTime("date", value.toInstant().toEpochMilli());
+            writer.writeInt32("offset", value.getOffset().getTotalSeconds());
+            writer.writeEndDocument();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public OffsetDateTime apply(Document doc, String key) {
+            Document sub = doc.get(key, Document.class);
+            Instant date = sub.getDate("date").toInstant();
+            ZoneOffset zone = ZoneOffset.ofTotalSeconds(sub.getInteger("offset"));
+            return OffsetDateTime.ofInstant(date, zone);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Class<OffsetDateTime> getEncoderClass() {
+            return OffsetDateTime.class;
+        }
     }
 
     /**

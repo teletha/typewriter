@@ -9,7 +9,7 @@
  */
 package typewriter.rdb;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -19,9 +19,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,9 +59,7 @@ public abstract class RDBCodec<T> implements Extensible {
         register(Byte.class, ResultSet::getByte);
         register(Short.class, ResultSet::getShort);
         register(Boolean.class, ResultSet::getBoolean);
-        // register(String.class, ResultSet::getString);
         register(BigDecimal.class, ResultSet::getBigDecimal);
-        // register(Date.class, ResultSet::getDate);
         register(java.sql.Date.class, ResultSet::getDate);
         register(Time.class, ResultSet::getTime);
     }
@@ -113,14 +113,41 @@ public abstract class RDBCodec<T> implements Extensible {
     /** The associated names. */
     final List<String> names;
 
+    /**
+     * Define codec.
+     * 
+     * @param type1
+     */
     protected RDBCodec(Class type1) {
         this.types = List.of(type1);
         this.names = List.of("");
     }
 
+    /**
+     * Define codec.
+     * 
+     * @param type1
+     * @param name1
+     * @param type2
+     * @param name2
+     */
     protected RDBCodec(Class type1, String name1, Class type2, String name2) {
         this.types = List.of(type1, type2);
         this.names = List.of(name1, name2);
+    }
+
+    /**
+     * Convert from property name to name of columns.
+     * 
+     * @param propertyName
+     * @return
+     */
+    final List<String> columnNames(String propertyName) {
+        List<String> list = new ArrayList();
+        for (String name : names) {
+            list.add(propertyName + name);
+        }
+        return list;
     }
 
     public abstract void encode(Map<String, Object> result, String name, T value);
@@ -315,6 +342,37 @@ public abstract class RDBCodec<T> implements Extensible {
         public LocalDateTime decode(ResultSet result, String name) throws SQLException {
             Instant instant = Instant.ofEpochMilli(result.getLong(name));
             return instant.atOffset(ZoneOffset.UTC).toLocalDateTime();
+        }
+    }
+
+    /**
+     * Built-in codec.
+     */
+    static class OffsetDateTimeCodec extends RDBCodec<OffsetDateTime> {
+
+        OffsetDateTimeCodec() {
+            super(long.class, "DATE", int.class, "OFFSET");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void encode(Map<String, Object> result, String name, OffsetDateTime value) {
+            result.put(name + "DATE", value.toInstant().toEpochMilli());
+            result.put(name + "OFFSET", "'" + value.getOffset().getTotalSeconds() + "'");
+        }
+
+        /**
+         * {@inheritDoc}
+         * 
+         * @throws SQLException
+         */
+        @Override
+        public OffsetDateTime decode(ResultSet result, String name) throws SQLException {
+            Instant date = Instant.ofEpochMilli(result.getLong(name + "DATE"));
+            ZoneOffset offset = ZoneOffset.ofTotalSeconds(result.getInt(name + "OFFSET"));
+            return OffsetDateTime.ofInstant(date, offset);
         }
     }
 

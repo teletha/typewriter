@@ -37,6 +37,7 @@ import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Constraint.ZonedDateTimeConstraint;
 import typewriter.api.Queryable;
+import typewriter.api.Specifier;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
 import typewriter.api.Specifier.DateSpecifier;
@@ -187,46 +188,7 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> MongoQuery<M> sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
-        if (sorts == null) {
-            sorts = new ArrayList();
-        }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
-
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MongoQuery<M> sortBy(StringSpecifier<M> specifier, boolean ascending) {
-        if (sorts == null) {
-            sorts = new ArrayList();
-        }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
-
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MongoQuery<M> sortBy(DateSpecifier<M> specifier, boolean ascending) {
-        if (sorts == null) {
-            sorts = new ArrayList();
-        }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
-
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MongoQuery<M> sortBy(LocalDateSpecifier<M> specifier, boolean ascending) {
+    public <N> MongoQuery<M> sortBy(Specifier<M, N> specifier, boolean ascending) {
         if (sorts == null) {
             sorts = new ArrayList();
         }
