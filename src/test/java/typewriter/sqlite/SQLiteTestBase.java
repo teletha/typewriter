@@ -12,7 +12,6 @@ package typewriter.sqlite;
 import org.junit.jupiter.api.AfterEach;
 
 import kiss.Signal;
-import kiss.model.Model;
 import psychopath.File;
 import psychopath.Locator;
 import typewriter.api.QueryExecutor;
@@ -39,6 +38,6 @@ public class SQLiteTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(Model.of(type), RDB.SQLite, db);
+        return (Q) new RDB(type, RDB.SQLite, db);
     }
 }

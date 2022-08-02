@@ -23,7 +23,6 @@ import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import kiss.Signal;
-import kiss.model.Model;
 import psychopath.Directory;
 import psychopath.Locator;
 import typewriter.api.QueryExecutor;
@@ -86,6 +85,6 @@ public class MariaDBTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(Model.of(type), RDB.MariaDB, url);
+        return (Q) new RDB(type, RDB.MariaDB, url);
     }
 }

@@ -65,12 +65,12 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     /**
      * Data Access Object.
      * 
-     * @param model A target model.
+     * @param type A target model type.
      * @param dialect
      * @param url A user specified backend address.
      */
-    public RDB(Model<M> model, Dialect dialect, String url) {
-        this(model, dialect, ConnectionPool.by(url));
+    public RDB(Class<M> type, Dialect dialect, String url) {
+        this(Model.of(type), dialect, ConnectionPool.by(url));
 
         dialect.createDatabase(url);
         execute(dialect.commandCreateTable(tableName, model));
@@ -255,7 +255,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @return
      */
     public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect) {
-        return DAO.get(dialect).computeIfAbsent(type, key -> new RDB(Model.of(type), dialect, (String) null));
+        return DAO.get(dialect).computeIfAbsent(type, key -> new RDB(type, dialect, (String) null));
     }
 
     /**
