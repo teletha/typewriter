@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.2.1](https://www.github.com/teletha/typewriter/compare/v1.2.0...v1.2.1) (2022-08-02)
+
+
+### Bug Fixes
+
+* MariaDB model must use its dialect. ([4a4f4ac](https://www.github.com/teletha/typewriter/commit/4a4f4acda28b23665a05b22bfc03ad01bd2f67f9))
+* Speed up H2 related tests. ([1b0fac6](https://www.github.com/teletha/typewriter/commit/1b0fac6cf6cc48cdf8f0e578ce64dc9f6b0c7916))
+
 ## [1.2.0](https://www.github.com/teletha/typewriter/compare/v1.1.0...v1.2.0) (2022-08-02)
 
 
