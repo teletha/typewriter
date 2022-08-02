@@ -13,6 +13,8 @@ import org.junit.jupiter.api.AfterEach;
 
 import kiss.Signal;
 import kiss.model.Model;
+import psychopath.File;
+import psychopath.Locator;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
@@ -20,12 +22,16 @@ import typewriter.rdb.RDB;
 
 public class SQLiteTestBase implements Testable {
 
+    /** The database file. */
+    private final File file = Locator.temporaryFile();
+
     /** The temporary database address. */
-    private final String db = "jdbc:sqlite:" + Testable.createTemporaryFile();
+    private final String db = "jdbc:sqlite:" + file;
 
     @AfterEach
     void release() {
-        RDB.release(db);;
+        RDB.release(db);
+        file.delete();
     }
 
     /**
