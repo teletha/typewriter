@@ -157,6 +157,14 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public R sortBy(StringSpecifier<M> specifier, boolean ascending) {
+        return findBy(createQueryable().sortBy(specifier, ascending));
+    }
+
+    /**
      * Find model by id.
      * 
      * @param id An identifier of the target model.

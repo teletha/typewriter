@@ -186,6 +186,17 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RDBQuery<M> sortBy(StringSpecifier<M> specifier, boolean ascending) {
+        this.sort = specifier.propertyName();
+        this.ascending = ascending;
+
+        return this;
+    }
+
+    /**
      * Convert to SQL statement.
      * 
      * @param dialect

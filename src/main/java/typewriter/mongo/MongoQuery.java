@@ -197,6 +197,17 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> sortBy(StringSpecifier<M> specifier, boolean ascending) {
+        this.sort = specifier.propertyName();
+        this.ascending = ascending;
+
+        return this;
+    }
+
+    /**
      * Build query.
      * 
      * @param collection
