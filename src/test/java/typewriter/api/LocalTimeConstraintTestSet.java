@@ -18,6 +18,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
+import typewriter.api.model.DerivableModel;
 
 public interface LocalTimeConstraintTestSet extends Testable {
 

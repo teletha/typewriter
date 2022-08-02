@@ -12,6 +12,7 @@ package typewriter.api;
 import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
+import typewriter.api.model.DerivableModel;
 
 public interface DeletableTestSet extends Testable {
 
