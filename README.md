@@ -38,7 +38,7 @@ Add it into in the dependencies element like so:
 <dependency>
     <groupId>com.github.teletha</groupId>
     <artifactId>typewriter</artifactId>
-    <version>0.1</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 #### [Gradle](https://gradle.org/)
@@ -51,7 +51,7 @@ repositories {
 Add it into the dependencies section like so:
 ```gradle
 dependencies {
-    implementation 'com.github.teletha:typewriter:0.1'
+    implementation 'com.github.teletha:typewriter:1.2.0'
 }
 ```
 #### [SBT](https://www.scala-sbt.org/)
@@ -61,7 +61,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 ```
 Add it into the libraryDependencies section like so:
 ```scala
-libraryDependencies += "com.github.teletha" % "typewriter" % "0.1"
+libraryDependencies += "com.github.teletha" % "typewriter" % "1.2.0"
 ```
 #### [Leiningen](https://leiningen.org/)
 Add JitPack repository at the end of repositories in your project.clj:
@@ -70,12 +70,12 @@ Add JitPack repository at the end of repositories in your project.clj:
 ```
 Add it into the dependencies section like so:
 ```clj
-:dependencies [[com.github.teletha/typewriter "0.1"]]
+:dependencies [[com.github.teletha/typewriter "1.2.0"]]
 ```
 #### [Bee](https://teletha.github.io/bee)
 Add it into your project definition class like so:
 ```java
-require("com.github.teletha", "typewriter", "0.1");
+require("com.github.teletha", "typewriter", "1.2.0");
 ```
 <p align="right"><a href="#top">back to top</a></p>
 
@@ -103,17 +103,13 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Built with
 Typewriter depends on the following products on runtime.
-* [bson-3.11.0](https://mvnrepository.com/artifact/org.mongodb/bson/3.11.0)
-* [bson-codecs-jsr310-3.5.4](https://mvnrepository.com/artifact/io.github.cbartosiak/bson-codecs-jsr310/3.5.4)
-* [mongo-java-driver-3.12.11](https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver/3.12.11)
 * [sinobu-2.16.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/2.16.0)
-* [sqlite-jdbc-3.36.0.3](https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.36.0.3)
 
 Typewriter depends on the following products on test.
 * [antibug-1.3.0](https://mvnrepository.com/artifact/com.github.teletha/antibug/1.3.0)
 * [apiguardian-api-1.1.2](https://mvnrepository.com/artifact/org.apiguardian/apiguardian-api/1.1.2)
-* [byte-buddy-1.12.12](https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy/1.12.12)
-* [byte-buddy-agent-1.12.12](https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent/1.12.12)
+* [byte-buddy-1.12.13](https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy/1.12.13)
+* [byte-buddy-agent-1.12.13](https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent/1.12.13)
 * [commons-lang3-3.12.0](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3/3.12.0)
 * [junit-jupiter-api-5.9.0-M1](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/5.9.0-M1)
 * [junit-jupiter-engine-5.9.0-M1](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine/5.9.0-M1)
@@ -131,6 +127,8 @@ Typewriter depends on the following products on test.
 * [netty-resolver-4.1.77.Final](https://mvnrepository.com/artifact/io.netty/netty-resolver/4.1.77.Final)
 * [netty-transport-4.1.77.Final](https://mvnrepository.com/artifact/io.netty/netty-transport/4.1.77.Final)
 * [opentest4j-1.2.0](https://mvnrepository.com/artifact/org.opentest4j/opentest4j/1.2.0)
+* [psychopath-1.6.0](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.6.0)
+* [sinobu-2.16.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/2.16.0)
 * [slf4j-api-1.7.36](https://mvnrepository.com/artifact/org.slf4j/slf4j-api/1.7.36)
 <p align="right"><a href="#top">back to top</a></p>
 
