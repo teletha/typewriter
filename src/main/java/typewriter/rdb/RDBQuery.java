@@ -57,6 +57,12 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     /** The starting position. */
     private long offset;
 
+    /** The sorting property. */
+    private String sort;
+
+    /** The sorting order. */
+    private boolean ascending;
+
     /**
      * Hide constructor.
      */
@@ -169,6 +175,17 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> RDBQuery<M> sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
+        this.sort = specifier.propertyName();
+        this.ascending = ascending;
+
+        return this;
+    }
+
+    /**
      * Convert to SQL statement.
      * 
      * @param dialect
@@ -188,6 +205,10 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
         }
 
         dialect.commandLimitAndOffset(builder, limit, offset);
+
+        if (sort != null && !sort.isBlank()) {
+            builder.append(" ORDER BY ").append(sort).append(" ").append(ascending ? "ASC" : "DESC");
+        }
 
         return builder;
     }

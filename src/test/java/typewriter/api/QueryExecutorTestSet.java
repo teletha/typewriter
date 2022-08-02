@@ -152,6 +152,38 @@ public interface QueryExecutorTestSet extends Testable {
         assert found.get(1).equals(model3);
     }
 
+    @Test
+    default void sort() {
+        Person model3 = new Person("one", 10);
+        Person model5 = new Person("two", 20);
+        Person model1 = new Person("three", 30);
+        Person model4 = new Person("four", 40);
+        Person model2 = new Person("five", 50);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+        dao.update(model5);
+
+        List<Person> found = dao.findBy(o -> o.sortBy(Person::getAge, true)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model3);
+        assert found.get(1).equals(model5);
+        assert found.get(2).equals(model1);
+        assert found.get(3).equals(model4);
+        assert found.get(4).equals(model2);
+
+        found = dao.findBy(o -> o.sortBy(Person::getAge, false)).toList();
+        assert found.size() == 5;
+        assert found.get(0).equals(model2);
+        assert found.get(1).equals(model4);
+        assert found.get(2).equals(model1);
+        assert found.get(3).equals(model5);
+        assert found.get(4).equals(model3);
+    }
+
     /**
      * 
      */

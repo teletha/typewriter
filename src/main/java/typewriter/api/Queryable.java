@@ -144,4 +144,13 @@ public interface Queryable<M, R> {
      * @return
      */
     R offset(long position);
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    <N extends Number> R sortBy(NumericSpecifier<M, N> specifier, boolean ascending);
 }

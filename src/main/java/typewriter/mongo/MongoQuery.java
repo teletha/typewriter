@@ -23,6 +23,7 @@ import org.bson.conversions.Bson;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Sorts;
 
 import kiss.I;
 import typewriter.api.Constraint;
@@ -66,6 +67,12 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
 
     /** The offset position. */
     private int offset;
+
+    /** The sorting property. */
+    private String sort;
+
+    /** The sorting order. */
+    private boolean ascending;
 
     /**
      * Hide constructor.
@@ -179,6 +186,17 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> MongoQuery<M> sortBy(NumericSpecifier<M, N> specifier, boolean ascending) {
+        this.sort = specifier.propertyName();
+        this.ascending = ascending;
+
+        return this;
+    }
+
+    /**
      * Build query.
      * 
      * @param collection
@@ -189,6 +207,7 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
         finder = finder.filter(new AndFilter(I.signal(constraints).flatIterable(c -> c.filters).toList()));
         if (0 < limit) finder = finder.limit(limit);
         if (0 < offset) finder = finder.skip(offset);
+        if (sort != null && !sort.isBlank()) finder = finder.sort(ascending ? Sorts.ascending(sort) : Sorts.descending(sort));
 
         return finder;
     }
