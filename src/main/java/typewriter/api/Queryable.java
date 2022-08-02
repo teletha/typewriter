@@ -162,4 +162,22 @@ public interface Queryable<M, R> {
      * @return Chainable API.
      */
     R sortBy(StringSpecifier<M> specifier, boolean ascending);
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    R sortBy(DateSpecifier<M> specifier, boolean ascending);
+
+    /**
+     * Sort by the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param ascending Ascending or descending.
+     * @return Chainable API.
+     */
+    R sortBy(LocalDateSpecifier<M> specifier, boolean ascending);
 }

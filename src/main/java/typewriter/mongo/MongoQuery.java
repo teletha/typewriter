@@ -210,6 +210,32 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> sortBy(DateSpecifier<M> specifier, boolean ascending) {
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
+
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MongoQuery<M> sortBy(LocalDateSpecifier<M> specifier, boolean ascending) {
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
+
+        return this;
+    }
+
+    /**
      * Build query.
      * 
      * @param collection

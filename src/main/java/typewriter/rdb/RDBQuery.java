@@ -200,6 +200,32 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RDBQuery<M> sortBy(DateSpecifier<M> specifier, boolean ascending) {
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
+
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RDBQuery<M> sortBy(LocalDateSpecifier<M> specifier, boolean ascending) {
+        if (sorts == null) {
+            sorts = new ArrayList();
+        }
+        sorts.add(I.pair(specifier.propertyName(), ascending));
+
+        return this;
+    }
+
+    /**
      * Convert to SQL statement.
      * 
      * @param dialect
