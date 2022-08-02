@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/teletha/typewriter/compare/v1.1.0...v1.2.0) (2022-08-02)
+
+
+### Features
+
+* Provide connection pool for RDB. ([feab563](https://www.github.com/teletha/typewriter/commit/feab563e98f3a6e82d0f63f93d7d659a7976de99))
+* Provide RDB dialect. ([e868801](https://www.github.com/teletha/typewriter/commit/e868801f3ad7f711e3b9468bae8f989128a95be0))
+* Support finding limit size. ([4266d2c](https://www.github.com/teletha/typewriter/commit/4266d2cb69fe0c2e0b88606c63107356bb367922))
+* Support MariaDB. ([2c1b48f](https://www.github.com/teletha/typewriter/commit/2c1b48f9db545f2ffb9d07baac8172c6aaa30abe))
+* Support multi thread operation. ([f732f3d](https://www.github.com/teletha/typewriter/commit/f732f3dddd64891edd16d4134f0bc6617d070a26))
+* Support offset constraint. ([cb2253b](https://www.github.com/teletha/typewriter/commit/cb2253b8702c81585f191de2cd370d4e219c1efa))
+* Support Queryable#findAll. ([9f9d026](https://www.github.com/teletha/typewriter/commit/9f9d026fa9429a2acfe11851d3ff9b890fe2da2f))
+
 ## [1.1.0](https://www.github.com/teletha/typewriter/compare/v1.0.0...v1.1.0) (2022-07-29)
 
 
