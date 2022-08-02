@@ -35,5 +35,4 @@ public class H2TestBase implements Testable {
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
         return (Q) new RDB(Model.of(type), RDB.H2, db);
     }
-
 }

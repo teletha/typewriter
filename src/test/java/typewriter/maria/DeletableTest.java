@@ -9,7 +9,7 @@
  */
 package typewriter.maria;
 
-import typewriter.api.QueryExecutorTestSet;
+import typewriter.api.DeletableTestSet;
 
-public class MariaTest extends MariaDBTestBase implements QueryExecutorTestSet {
+public class DeletableTest extends MariaDBTestBase implements DeletableTestSet {
 }

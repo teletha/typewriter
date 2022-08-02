@@ -8,7 +8,7 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-import static bee.api.License.MIT;
+import static bee.api.License.*;
 
 public class Project extends bee.api.Project {
     {
@@ -24,6 +24,7 @@ public class Project extends bee.api.Project {
         require("ch.vorburger.mariaDB4j", "mariaDB4j").atProvided();
         require("com.github.teletha", "antibug").atTest();
         require("de.bwaldvogel", "mongo-java-server").atTest();
+        require("com.github.teletha", "psychopath").atTest();
         require("org.apache.commons", "commons-lang3").atTest();
     }
 }

@@ -9,7 +9,7 @@
  */
 package typewriter.maria;
 
-import typewriter.api.QueryExecutorTestSet;
+import typewriter.api.LocalDateTimeConstraintTestSet;
 
-public class MariaTest extends MariaDBTestBase implements QueryExecutorTestSet {
+public class LocalDateTimeConstraintTest extends MariaDBTestBase implements LocalDateTimeConstraintTestSet {
 }

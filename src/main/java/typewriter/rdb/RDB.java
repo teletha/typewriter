@@ -70,7 +70,10 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param url A user specified backend address.
      */
     public RDB(Model<M> model, Dialect dialect, String url) {
-        this(model, dialect, ConnectionPool.by(url), true);
+        this(model, dialect, ConnectionPool.by(url));
+
+        dialect.createDatabase(url);
+        execute(dialect.commandCreateTable(tableName, model));
     }
 
     /**
@@ -81,15 +84,11 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param provider A user specified backend connection.
      * @param createTable Should I create table?
      */
-    private RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> provider, boolean createTable) {
+    private RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> provider) {
         this.model = model;
         this.tableName = '`' + model.type.getName() + '`';
         this.dialect = dialect;
         this.provider = provider;
-
-        if (createTable) {
-            execute(dialect.createTable(tableName, model));
-        }
     }
 
     /**
@@ -169,7 +168,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         try {
             connection.setAutoCommit(false);
 
-            R result = operation.apply(new RDB<>(model, dialect, () -> connection, false));
+            R result = operation.apply(new RDB<>(model, dialect, () -> connection));
             connection.commit();
             return result;
         } catch (SQLException e) {
@@ -212,6 +211,10 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param statements
      */
     private void execute(String query) {
+        if (query == null || query.isBlank()) {
+            return;
+        }
+
         try (Connection connection = provider.get()) {
             connection.createStatement().executeUpdate(query);
         } catch (SQLException e) {
@@ -226,6 +229,10 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param A result stream.
      */
     private Signal<ResultSet> query(String query) {
+        if (query == null || query.isBlank()) {
+            return I.signal();
+        }
+
         return new Signal<>((observer, disposer) -> {
             try (Connection connection = provider.get()) {
                 ResultSet result = connection.createStatement().executeQuery(query);

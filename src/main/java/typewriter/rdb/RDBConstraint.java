@@ -179,7 +179,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint isEmpty() {
-            expression.add(propertyName + "=''");
+            expression.add(propertyName + " LIKE ''");
             return this;
         }
 
@@ -188,7 +188,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint isNotEmpty() {
-            expression.add(propertyName + "!=''");
+            expression.add(propertyName + " NOT LIKE ''");
             return this;
         }
 

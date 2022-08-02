@@ -71,13 +71,21 @@ public abstract class Dialect {
     }
 
     /**
+     * Create new database.
+     * 
+     * @param url
+     */
+    public void createDatabase(String url) {
+    }
+
+    /**
      * Define SQL for creating new table.
      * 
      * @param tableName
      * @param model
      * @return
      */
-    public String createTable(String tableName, Model model) {
+    public String commandCreateTable(String tableName, Model model) {
         return "CREATE TABLE IF NOT EXISTS " + tableName + " " + defineColumns(model);
     }
 
