@@ -110,13 +110,13 @@ public abstract class Dialect {
     /**
      * Define SQL for LIMIT and OFFSET.
      * 
-     * @param builder
+     * @param sql
      * @param limit
      * @param offset
      */
-    public void commandLimitAndOffset(StringBuilder builder, long limit, long offset) {
-        if (0 < limit) builder.append(" LIMIT ").append(limit);
-        if (0 < offset) builder.append(" OFFSET ").append(offset);
+    public void commandLimitAndOffset(SQL sql, long limit, long offset) {
+        if (0 < limit) sql.write("LIMIT").write(limit);
+        if (0 < offset) sql.write("OFFSET").write(offset);
     }
 
     /**

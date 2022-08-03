@@ -11,7 +11,6 @@ package typewriter.rdb;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.function.UnaryOperator;
 
 import kiss.I;
@@ -194,35 +193,32 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      * 
      * @param model
      * @param dialect
-     * @return
      */
-    final StringBuilder build(Model model, Dialect dialect) {
-        StringBuilder builder = new StringBuilder();
-
+    final void build(SQL sql, Model model, Dialect dialect) {
         if (!constraints.isEmpty()) {
-            StringJoiner joiner = new StringJoiner(" AND ", " WHERE ", "");
+            int count = 0;
+            sql.write("WHERE");
             for (RDBConstraint<?, ?> constraint : constraints) {
                 for (String e : constraint.expression) {
-                    joiner.add(e);
+                    if (count++ != 0) sql.write("AND");
+                    sql.write(e);
                 }
             }
-            builder.append(joiner);
         }
 
-        dialect.commandLimitAndOffset(builder, limit, offset);
+        dialect.commandLimitAndOffset(sql, limit, offset);
 
         if (sorts != null) {
-            StringJoiner joiner = new StringJoiner(",", " ORDER BY ", "");
+            int count = 0;
+            sql.write("ORDER BY");
             for (Ⅱ<Specifier, Boolean> sort : sorts) {
                 Property property = model.property(sort.ⅰ.propertyName());
                 RDBCodec<?> codec = RDBCodec.by(property.model.type);
-                for (String name : codec.columnNames(property.name)) {
-                    joiner.add(name + " " + (sort.ⅱ ? "ASC" : "DESC"));
+                for (String name : codec.names) {
+                    if (count++ != 0) sql.write(",");
+                    sql.write(property.name + name + " " + (sort.ⅱ ? "ASC" : "DESC"));
                 }
             }
-            builder.append(joiner);
         }
-
-        return builder;
     }
 }

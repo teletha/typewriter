@@ -12,11 +12,8 @@ package typewriter.rdb;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import kiss.I;
@@ -73,7 +70,9 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         this(Model.of(type), dialect, ConnectionPool.by(url));
 
         dialect.createDatabase(url);
-        execute(dialect.commandCreateTable(tableName, model));
+        SQL.define() //
+                .write(dialect.commandCreateTable(tableName, model))
+                .execute(provider);
     }
 
     /**
@@ -96,7 +95,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public long count() {
-        return query("SELECT COUNT(*) N FROM " + tableName).map(result -> result.getLong("N")).to().exact();
+        return SQL.define().write("SELECT COUNT(*) N FROM", tableName).qurey(provider).map(result -> result.getLong("N")).to().exact();
     }
 
     /**
@@ -104,7 +103,10 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return query("SELECT * FROM " + tableName + " " + query.build(model, dialect))
+        return SQL.define()
+                .write("SELECT * FROM", tableName)
+                .write(query, model, dialect)
+                .qurey(provider)
                 .map(result -> decode(model, model.properties(), I.make(model.type), result));
     }
 
@@ -134,10 +136,14 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            execute("DELETE FROM " + tableName + " " + WHERE(instance));
+            SQL.define().write("DELETE FROM", tableName).where(instance).execute(provider);
         } else {
             // delete properties
-            execute(dialect.commandUpdate() + " " + tableName + " " + SETNULL(model, specifiers) + " " + WHERE(instance));
+            SQL.define()
+                    .write(dialect.commandUpdate(), tableName)
+                    .setNull(names(specifiers).map(model::property).toList())
+                    .where(instance)
+                    .execute(provider);
         }
     }
 
@@ -152,10 +158,16 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            execute(dialect.commandReplace() + " " + tableName + " " + VALUES(model, instance));
+            // execute(dialect.commandReplace() + " " + tableName + " " + VALUES(model, instance));
+
+            SQL.define().write(dialect.commandReplace(), tableName).values(model, instance).execute(provider);
         } else {
             // update properties
-            execute(dialect.commandUpdate() + " " + tableName + " " + SET(model, specifiers, instance) + " " + WHERE(instance));
+            SQL.define()
+                    .write(dialect.commandUpdate(), tableName)
+                    .set(model, names(specifiers).map(model::property).toList(), instance)
+                    .where(instance)
+                    .execute(provider);
         }
     }
 
@@ -203,23 +215,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
             model.set(instance, property, codec.decode(result, property.name));
         }
         return instance;
-    }
-
-    /**
-     * Execute query.
-     * 
-     * @param statements
-     */
-    private void execute(String query) {
-        if (query == null || query.isBlank()) {
-            return;
-        }
-
-        try (Connection connection = provider.get()) {
-            connection.createStatement().executeUpdate(query);
-        } catch (SQLException e) {
-            throw I.quiet(new SQLException(query, e));
-        }
     }
 
     /**
@@ -304,74 +299,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         }
 
         return deleteTailComma(builder);
-    }
-
-    /**
-     * Helper to write delete columns.
-     * 
-     * @return
-     */
-    private static CharSequence SETNULL(Model model, Specifier[] specifiers) {
-        StringBuilder builder = new StringBuilder("SET ");
-
-        for (Property property : names(specifiers).map(model::property).toList()) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
-
-            for (int i = 0; i < codec.types.size(); i++) {
-                builder.append(property.name).append(codec.names.get(i)).append("=NULL,");
-            }
-        }
-
-        return deleteTailComma(builder);
-    }
-
-    /**
-     * Helper to write set columns.
-     * 
-     * @return
-     */
-    private static CharSequence SET(Model model, Specifier[] specifiers, Object instance) {
-        Map<String, Object> result = new HashMap();
-        for (Property property : names(specifiers).map(model::property).toList()) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
-            codec.encode(result, property.name, model.get(instance, property));
-        }
-
-        StringBuilder builder = new StringBuilder("SET ");
-        for (Entry<String, Object> entry : result.entrySet()) {
-            builder.append(entry.getKey()).append('=').append(I.transform(entry.getValue(), String.class)).append(',');
-        }
-
-        return deleteTailComma(builder);
-    }
-
-    /**
-     * Helper to write VALUES statement.
-     * 
-     * @param model
-     * @return
-     */
-    private static <V> CharSequence VALUES(Model<V> model, V instance) {
-        Map<String, Object> result = new LinkedHashMap();
-        for (Property property : model.properties()) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
-            codec.encode(result, property.name, model.get(instance, property));
-        }
-
-        StringBuilder builder = new StringBuilder("VALUES(");
-        for (Entry<String, Object> entry : result.entrySet()) {
-            builder.append(I.transform(entry.getValue(), String.class)).append(",");
-        }
-
-        // remove tail comma
-        int last = builder.length() - 1;
-        if (builder.charAt(last) == ',') {
-            builder.deleteCharAt(last);
-        }
-
-        builder.append(")");
-
-        return builder;
     }
 
     /**

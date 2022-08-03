@@ -23,7 +23,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +44,7 @@ public abstract class RDBCodec<T> implements Extensible {
     static {
         I.load(RDBCodec.class);
 
+        register(String.class, ResultSet::getString);
         register(int.class, ResultSet::getInt);
         register(long.class, ResultSet::getLong);
         register(float.class, ResultSet::getFloat);
@@ -136,20 +136,6 @@ public abstract class RDBCodec<T> implements Extensible {
         this.names = List.of(name1, name2);
     }
 
-    /**
-     * Convert from property name to name of columns.
-     * 
-     * @param propertyName
-     * @return
-     */
-    final List<String> columnNames(String propertyName) {
-        List<String> list = new ArrayList();
-        for (String name : names) {
-            list.add(propertyName + name);
-        }
-        return list;
-    }
-
     public abstract void encode(Map<String, Object> result, String name, T value);
 
     public abstract T decode(ResultSet result, String name) throws SQLException;
@@ -186,37 +172,6 @@ public abstract class RDBCodec<T> implements Extensible {
         @Override
         public T decode(ResultSet result, String name) throws SQLException {
             return decoder.apply(result, name);
-        }
-    }
-
-    /**
-     * Built-in codec.
-     */
-    static class StringCodec extends RDBCodec<String> {
-
-        /**
-         * 
-         */
-        private StringCodec() {
-            super(String.class);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void encode(Map<String, Object> result, String name, String value) {
-            result.put(name, "'" + value + "'");
-        }
-
-        /**
-         * {@inheritDoc}
-         * 
-         * @throws SQLException
-         */
-        @Override
-        public String decode(ResultSet result, String name) throws SQLException {
-            return result.getString(name);
         }
     }
 
@@ -360,7 +315,7 @@ public abstract class RDBCodec<T> implements Extensible {
         @Override
         public void encode(Map<String, Object> result, String name, OffsetDateTime value) {
             result.put(name + "DATE", value.toInstant().toEpochMilli());
-            result.put(name + "OFFSET", "'" + value.getOffset().getTotalSeconds() + "'");
+            result.put(name + "OFFSET", value.getOffset().getTotalSeconds());
         }
 
         /**
@@ -391,7 +346,7 @@ public abstract class RDBCodec<T> implements Extensible {
         @Override
         public void encode(Map<String, Object> result, String name, ZonedDateTime value) {
             result.put(name + "DATE", value.withZoneSameInstant(UTC).toInstant().toEpochMilli());
-            result.put(name + "ZONE", "'" + value.getZone().getId() + "'");
+            result.put(name + "ZONE", value.getZone().getId());
         }
 
         /**

@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import org.sqlite.Function;
 
 import typewriter.rdb.Dialect;
+import typewriter.rdb.SQL;
 
 public class SQLite extends Dialect {
 
@@ -94,11 +95,11 @@ public class SQLite extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public void commandLimitAndOffset(StringBuilder builder, long limit, long offset) {
-        if (0 < limit) builder.append(" LIMIT ").append(limit);
+    public void commandLimitAndOffset(SQL builder, long limit, long offset) {
+        if (0 < limit) builder.write("LIMIT").write(limit);
         if (0 < offset) {
-            if (limit <= 0) builder.append(" LIMIT -1");
-            builder.append(" OFFSET ").append(offset);
+            if (limit <= 0) builder.write("LIMIT -1");
+            builder.write("OFFSET").write(offset);
         }
     }
 }
