@@ -210,6 +210,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "SQL",
+			"packageName": "typewriter.rdb",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "SQLite",
 			"packageName": "typewriter.sqlite",
 			"type": "Class"
