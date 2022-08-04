@@ -12,6 +12,7 @@ package typewriter.rdb;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
@@ -390,6 +391,24 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
         @Override
         protected String build(String operator, LocalDateTime date) {
             return propertyName + operator + date.toInstant(ZoneOffset.UTC).toEpochMilli();
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link OffsetDateTime}.
+     */
+    static class ForOffsetDateTime extends ForTermporal<OffsetDateTime, OffsetDateTimeConstraint> implements OffsetDateTimeConstraint {
+
+        protected ForOffsetDateTime(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected String build(String operator, OffsetDateTime date) {
+            return propertyName + "DATE" + operator + date.toInstant().toEpochMilli();
         }
     }
 

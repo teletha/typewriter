@@ -10,10 +10,12 @@
 package typewriter.mongo;
 
 import static java.util.Objects.*;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
@@ -329,6 +331,25 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
     static class ForLocalDateTime extends ForTermporal<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
         ForLocalDateTime(Specifier specifier) {
             super(specifier);
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link OffsetDateTime}.
+     */
+    static class ForOffsetDateTime extends ForTermporal<OffsetDateTime, OffsetDateTimeConstraint> implements OffsetDateTimeConstraint {
+        ForOffsetDateTime(Specifier specifier) {
+            super(specifier);
+
+            propertyName = propertyName + ".date";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected Object validate(OffsetDateTime value) {
+            return requireNonNull(value).atZoneSameInstant(UTC).toLocalDateTime();
         }
     }
 

@@ -23,6 +23,7 @@ import typewriter.api.Constraint.LocalDateConstraint;
 import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
+import typewriter.api.Constraint.OffsetDateTimeConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Constraint.ZonedDateTimeConstraint;
@@ -135,6 +136,15 @@ public interface Queryable<M, R> {
      * @return Chainable API.
      */
     R findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint);
+
+    /**
+     * Specify search conditions for the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param constraint Describes conditions for the target property.
+     * @return Chainable API.
+     */
+    R findBy(OffsetDateTimeSpecifier<M> specifier, UnaryOperator<OffsetDateTimeConstraint> constraint);
 
     /**
      * Specify search conditions for the specified property.

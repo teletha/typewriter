@@ -409,6 +409,20 @@ public interface Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link OffsetDateTime}.
      */
+    interface OffsetDateTimeConstraint extends TemporalConstraint<OffsetDateTime, OffsetDateTimeConstraint> {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        default OffsetDateTime assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli) {
+            return OffsetDateTime.of(year, month, day, hour, minute, second, milli, ZoneOffset.UTC);
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link ZonedDateTime}.
+     */
     interface ZonedDateTimeConstraint extends TemporalConstraint<ZonedDateTime, ZonedDateTimeConstraint> {
 
         /** Default zone */

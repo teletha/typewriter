@@ -22,6 +22,7 @@ import typewriter.api.Constraint.LocalDateConstraint;
 import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
 import typewriter.api.Constraint.NumericConstraint;
+import typewriter.api.Constraint.OffsetDateTimeConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Constraint.ZonedDateTimeConstraint;
@@ -34,6 +35,7 @@ import typewriter.api.Specifier.LocalDateSpecifier;
 import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
 import typewriter.api.Specifier.NumericSpecifier;
+import typewriter.api.Specifier.OffsetDateTimeSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.api.model.IdentifiableModel;
@@ -42,6 +44,7 @@ import typewriter.rdb.RDBConstraint.ForLocalDate;
 import typewriter.rdb.RDBConstraint.ForLocalDateTime;
 import typewriter.rdb.RDBConstraint.ForLocalTime;
 import typewriter.rdb.RDBConstraint.ForNumeric;
+import typewriter.rdb.RDBConstraint.ForOffsetDateTime;
 import typewriter.rdb.RDBConstraint.ForString;
 import typewriter.rdb.RDBConstraint.ForZonedDateTime;
 import typewriter.rdb.RDBConstraint.GenericType;
@@ -150,6 +153,14 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     @Override
     public RDBQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForLocalDateTime(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RDBQuery<M> findBy(OffsetDateTimeSpecifier<M> specifier, UnaryOperator<OffsetDateTimeConstraint> constraint) {
+        return findBy(constraint.apply(new ForOffsetDateTime(specifier)));
     }
 
     /**
