@@ -93,7 +93,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public long count() {
-        return new SQL<>(this).write("SELECT COUNT(*) N FROM", tableName).qurey().map(result -> result.getLong("N")).to().exact();
+        return new SQL<>(this).write("SELECT COUNT(*) N").from(tableName).qurey().map(result -> result.getLong("N")).to().exact();
     }
 
     /**
@@ -102,11 +102,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     @Override
     public <V> Signal<V> distinct(Specifier<M, V> specifier) {
         Property property = model.property(specifier.propertyName());
-
-        return new SQL<>(this).write("SELECT DISTINCT", property.name).write("FROM", tableName).qurey().map(result -> {
-            RDBCodec<V> codec = RDBCodec.by(property.model.type);
-            return codec.decode(result, property.name);
-        });
+        return new SQL<>(this).write("SELECT DISTINCT", property.name).from(tableName).qurey().map(result -> (V) decode(property, result));
     }
 
     /**
@@ -115,10 +111,62 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     @Override
     public <C extends Comparable> C min(Specifier<M, C> specifier) {
         Property property = model.property(specifier.propertyName());
-        return new SQL<>(this).write("SELECT MIN(" + property.name + ") AS " + property.name + " FROM", tableName).qurey().map(result -> {
-            RDBCodec<C> codec = RDBCodec.by(property.model.type);
-            return codec.decode(result, property.name);
-        }).to().exact();
+        return new SQL<>(this).write("SELECT")
+                .func("MIN", property)
+                .as(property.name)
+                .from(tableName)
+                .qurey()
+                .map(result -> (C) decode(property, result))
+                .to()
+                .exact();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <C extends Comparable> C max(Specifier<M, C> specifier) {
+        Property property = model.property(specifier.propertyName());
+        return new SQL<>(this).write("SELECT")
+                .func("MAX", property)
+                .as(property.name)
+                .from(tableName)
+                .qurey()
+                .map(result -> (C) decode(property, result))
+                .to()
+                .exact();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> double avg(Specifier<M, N> specifier) {
+        Property property = model.property(specifier.propertyName());
+        return new SQL<>(this).write("SELECT")
+                .func("AVG", property)
+                .as("N")
+                .from(tableName)
+                .qurey()
+                .map(result -> result.getDouble("N"))
+                .to()
+                .exact();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> N sum(Specifier<M, N> specifier) {
+        Property property = model.property(specifier.propertyName());
+        return new SQL<>(this).write("SELECT")
+                .func("SUM", property)
+                .as(property.name)
+                .from(tableName)
+                .qurey()
+                .map(result -> (N) decode(property, result))
+                .to()
+                .exact();
     }
 
     /**
@@ -126,7 +174,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return new SQL<>(this).write("SELECT * FROM", tableName)
+        return new SQL<>(this).write("SELECT *")
+                .from(tableName)
                 .write(query)
                 .qurey()
                 .map(result -> decode(model, model.properties(), I.make(model.type), result));
@@ -145,7 +194,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         return new SQL<>(this).write("SELECT")
                 .names(properties)
-                .write("FROM", tableName)
+                .from(tableName)
                 .where(instance)
                 .qurey()
                 .map(result -> decode(model, properties, instance, result));
@@ -162,7 +211,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            new SQL<>(this).write("DELETE FROM", tableName).where(instance).execute();
+            new SQL<>(this).write("DELETE").from(tableName).where(instance).execute();
         } else {
             // delete properties
             new SQL<>(this).write(dialect.commandUpdate(), tableName)
@@ -219,6 +268,20 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
                 throw I.quiet(e);
             }
         }
+    }
+
+    /**
+     * Decode from {@link ResultSet} to property data.
+     * 
+     * @param <V>
+     * @param property
+     * @param result
+     * @return
+     * @throws SQLException
+     */
+    private <V> V decode(Property property, ResultSet result) throws SQLException {
+        RDBCodec<V> codec = RDBCodec.by(property.model.type);
+        return codec.decode(result, property.name);
     }
 
     /**

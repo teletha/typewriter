@@ -207,6 +207,38 @@ public class SQL<M extends IdentifiableModel> {
     }
 
     /**
+     * Write function statement.
+     * 
+     * @param name A function name.
+     * @param property A target property.
+     * @return Chainable API.
+     */
+    public SQL<M> func(String name, Property property) {
+        text.append(' ').append(name).append('(').append(property.name).append(')');
+        return this;
+    }
+
+    /**
+     * Write AS statement.
+     * 
+     * @param alias An alias.
+     */
+    public SQL<M> as(String alias) {
+        text.append(" AS ").append(alias);
+        return this;
+    }
+
+    /**
+     * Write FROM statement.
+     * 
+     * @param table A name of table.
+     */
+    public SQL<M> from(String table) {
+        text.append(" FROM ").append(table);
+        return this;
+    }
+
+    /**
      * Write WHERE statement.
      * 
      * @param instance

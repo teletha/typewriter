@@ -39,7 +39,7 @@ import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.api.model.IdentifiableModel;
 
 public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Queryable<M, Q>, Self extends QueryExecutor<M, R, Q, Self>>
-        implements Queryable<M, R>, Operatable<M>, Updatable<M>, Deletable<M>, Restorable<M>, Transactional<Self> {
+        implements Queryable<M, R>, Accumulable<M>, Updatable<M>, Deletable<M>, Restorable<M>, Transactional<Self> {
 
     /**
      * Create {@link Queryable}.

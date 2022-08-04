@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -47,6 +47,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.ReplaceOptions;
@@ -166,9 +168,39 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      */
     @Override
     public <C extends Comparable> C min(Specifier<M, C> specifier) {
-        return query(sub -> sub.sortBy(specifier, true).limit(1)).map(o -> (C) model.get(o, model.property(specifier.propertyName())))
-                .to()
-                .exact();
+        return (C) collection.aggregate(List.of(Aggregates.group(null, Accumulators.min("R", "$" + specifier.propertyName()))))
+                .first()
+                .get("R");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <C extends Comparable> C max(Specifier<M, C> specifier) {
+        return (C) collection.aggregate(List.of(Aggregates.group(null, Accumulators.max("R", "$" + specifier.propertyName()))))
+                .first()
+                .get("R");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> double avg(Specifier<M, N> specifier) {
+        return collection.aggregate(List.of(Aggregates.group(null, Accumulators.avg("R", "$" + specifier.propertyName()))))
+                .first()
+                .getDouble("R");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> N sum(Specifier<M, N> specifier) {
+        return (N) collection.aggregate(List.of(Aggregates.group(null, Accumulators.sum("R", "$" + specifier.propertyName()))))
+                .first()
+                .get("R");
     }
 
     /**
