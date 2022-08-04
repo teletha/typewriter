@@ -28,4 +28,9 @@ public interface Operatable<M> {
      * @return
      */
     <V> Signal<V> distinct(Specifier<M, V> specifier);
+
+    /**
+     * Calculate the minumum value.
+     */
+    <C extends Comparable> C min(Specifier<M, C> specifier);
 }

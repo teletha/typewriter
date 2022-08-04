@@ -211,6 +211,23 @@ public interface QueryExecutorTestSet extends Testable {
         assert found.get(2).equals("C");
     }
 
+    @Test
+    default void min() {
+        Person model1 = new Person("A", 10);
+        Person model2 = new Person("B", 20);
+        Person model3 = new Person("C", 30);
+        Person model4 = new Person("D", 40);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+
+        int min = dao.min(Person::getAge);
+        assert min == 10;
+    }
+
     /**
      * 
      */

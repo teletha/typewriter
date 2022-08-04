@@ -103,10 +103,22 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     public <V> Signal<V> distinct(Specifier<M, V> specifier) {
         Property property = model.property(specifier.propertyName());
 
-        return new SQL<M>(this).write("SELECT DISTINCT", property.name).write("FROM", tableName).qurey().map(result -> {
+        return new SQL<>(this).write("SELECT DISTINCT", property.name).write("FROM", tableName).qurey().map(result -> {
             RDBCodec<V> codec = RDBCodec.by(property.model.type);
             return codec.decode(result, property.name);
         });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <C extends Comparable> C min(Specifier<M, C> specifier) {
+        Property property = model.property(specifier.propertyName());
+        return new SQL<>(this).write("SELECT MIN(" + property.name + ") AS " + property.name + " FROM", tableName).qurey().map(result -> {
+            RDBCodec<C> codec = RDBCodec.by(property.model.type);
+            return codec.decode(result, property.name);
+        }).to().exact();
     }
 
     /**

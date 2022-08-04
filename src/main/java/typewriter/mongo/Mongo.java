@@ -162,6 +162,16 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <C extends Comparable> C min(Specifier<M, C> specifier) {
+        return query(sub -> sub.sortBy(specifier, true).limit(1)).map(o -> (C) model.get(o, model.property(specifier.propertyName())))
+                .to()
+                .exact();
+    }
+
+    /**
      * Find model by id.
      * 
      * @param id
