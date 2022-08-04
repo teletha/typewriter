@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/teletha/typewriter/compare/v1.2.0...v1.3.0) (2022-08-04)
+
+
+### Features
+
+* Support sort by text. ([838227b](https://www.github.com/teletha/typewriter/commit/838227b5a9f08d237962d679a01f5069b2f9e625))
+* Support sorting by Data and LocalData. ([57c3f15](https://www.github.com/teletha/typewriter/commit/57c3f15c304d40134ac56d940bf003ce3d427746))
+* Support sorting by multiple properties. ([dbd9636](https://www.github.com/teletha/typewriter/commit/dbd9636eb3a491f43a8d97111e950d814f5dea0a))
+* Support sorting by various date related API. ([86d70b1](https://www.github.com/teletha/typewriter/commit/86d70b1ebca6f819a4f6f99269bbb4c1fa52dd0c))
+* Support sorting. ([662c2d0](https://www.github.com/teletha/typewriter/commit/662c2d00b78d5e1dbe7f309b3f5ccf3c452e46f5))
+* Support various character set. ([b3eb7a4](https://www.github.com/teletha/typewriter/commit/b3eb7a4ee2479aa3af38213a7bb4bf290468f4ac))
+
+
+### Bug Fixes
+
+* MariaDB model must use its dialect. ([4a4f4ac](https://www.github.com/teletha/typewriter/commit/4a4f4acda28b23665a05b22bfc03ad01bd2f67f9))
+* Speed up H2 related tests. ([1b0fac6](https://www.github.com/teletha/typewriter/commit/1b0fac6cf6cc48cdf8f0e578ce64dc9f6b0c7916))
+
 ## [1.2.0](https://www.github.com/teletha/typewriter/compare/v1.1.0...v1.2.0) (2022-08-02)
 
 
