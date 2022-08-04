@@ -63,6 +63,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Constraint.OffsetDateTimeConstraint",
+			"packageName": "typewriter.api",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Constraint.StringConstraint",
 			"packageName": "typewriter.api",
 			"type": "Interface"
