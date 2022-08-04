@@ -71,17 +71,6 @@ public class SQL<M extends IdentifiableModel> {
     /**
      * Write statement.
      * 
-     * @param statement1
-     * @param statement2
-     * @return
-     */
-    public SQL<M> write(CharSequence statement1, CharSequence statement2, CharSequence statement3) {
-        return write(statement1).write(statement2).write(statement3);
-    }
-
-    /**
-     * Write statement.
-     * 
      * @param value
      * @return
      */
@@ -110,7 +99,7 @@ public class SQL<M extends IdentifiableModel> {
         int count = 0;
         for (RDBConstraint<?, ?> constraint : query.constraints) {
             for (String e : constraint.expression) {
-                write(count++ == 0 ? "WHERE" : "AND").write(e);
+                text.append(count++ == 0 ? " WHERE " : " AND ").append(e);
             }
         }
 
@@ -122,7 +111,7 @@ public class SQL<M extends IdentifiableModel> {
                 Property property = rdb.model.property(sort.ⅰ.propertyName());
                 RDBCodec<?> codec = RDBCodec.by(property.model.type);
                 for (String name : codec.names) {
-                    write(count++ == 0 ? "ORDER BY" : ",", property.name.concat(name), sort.ⅱ ? "ASC" : "DESC");
+                    text.append(count++ == 0 ? " ORDER BY " : ",").append(property.name.concat(name)).append(sort.ⅱ ? " ASC" : " DESC");
                 }
             }
         }
