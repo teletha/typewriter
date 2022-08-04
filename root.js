@@ -170,7 +170,7 @@ const root = {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Operatable",
 			"packageName": "typewriter.api",
-			"type": "Functional"
+			"type": "Interface"
 		},
 		{
 			"modifiers": {
