@@ -14,6 +14,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Accumulable",
+			"packageName": "typewriter.api",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "BackendedModel",
 			"packageName": "typewriter.api.model",
 			"type": "AbstractClass"
@@ -164,13 +171,6 @@ const root = {
 			"name": "MongoQuery",
 			"packageName": "typewriter.mongo",
 			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Operatable",
-			"packageName": "typewriter.api",
-			"type": "Interface"
 		},
 		{
 			"modifiers": {
