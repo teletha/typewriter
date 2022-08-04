@@ -93,7 +93,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public long count() {
-        return new SQL<>(this).write("SELECT COUNT(*) N").from(tableName).qurey().map(result -> result.getLong("N")).to().exact();
+        return new SQL<>(this).write("SELECT count(*) N").from(tableName).qurey().map(result -> result.getLong("N")).to().exact();
     }
 
     /**
@@ -112,7 +112,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     public <C extends Comparable> C min(Specifier<M, C> specifier) {
         Property property = model.property(specifier.propertyName());
         return new SQL<>(this).write("SELECT")
-                .func("MIN", property)
+                .func("min", property)
                 .as(property.name)
                 .from(tableName)
                 .qurey()
@@ -128,7 +128,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     public <C extends Comparable> C max(Specifier<M, C> specifier) {
         Property property = model.property(specifier.propertyName());
         return new SQL<>(this).write("SELECT")
-                .func("MAX", property)
+                .func("max", property)
                 .as(property.name)
                 .from(tableName)
                 .qurey()
@@ -144,7 +144,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     public <N extends Number> double avg(Specifier<M, N> specifier) {
         Property property = model.property(specifier.propertyName());
         return new SQL<>(this).write("SELECT")
-                .func("AVG", property)
+                .func("avg", property)
                 .as("N")
                 .from(tableName)
                 .qurey()
@@ -160,7 +160,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     public <N extends Number> N sum(Specifier<M, N> specifier) {
         Property property = model.property(specifier.propertyName());
         return new SQL<>(this).write("SELECT")
-                .func("SUM", property)
+                .func("sum", property)
                 .as(property.name)
                 .from(tableName)
                 .qurey()
