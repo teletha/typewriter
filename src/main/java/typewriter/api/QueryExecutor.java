@@ -11,6 +11,7 @@ package typewriter.api;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import kiss.I;
@@ -50,6 +51,14 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
         } else {
             return I.make((Class<Q>) type);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <QUERYABLE extends Queryable<M, QUERYABLE>> R query(Function<QUERYABLE, QUERYABLE> constraint) {
+        return findBy((Q) constraint.apply((QUERYABLE) createQueryable()));
     }
 
     /**
@@ -164,16 +173,6 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
      */
     public R findBy(long id) {
         return findBy(M::getId, v -> v.is(id));
-    }
-
-    /**
-     * Shorthand for {@link #findBy(Queryable)},
-     * 
-     * @param query A query builder.
-     * @return A result stream.
-     */
-    public R findBy(UnaryOperator<Q> query) {
-        return findBy(query.apply(createQueryable()));
     }
 
     /**

@@ -15,6 +15,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import typewriter.api.Constraint.DateConstraint;
@@ -44,8 +45,16 @@ public interface Queryable<M, R> {
      * @return
      */
     default R findAll() {
-        return findBy(null);
+        return findBy((Constraint) null);
     }
+
+    /**
+     * Specify search conditions for the specified property.
+     * 
+     * @param constraint Describes conditions for the target property.
+     * @return Chainable API.
+     */
+    <QUERYABLE extends Queryable<M, QUERYABLE>> R query(Function<QUERYABLE, QUERYABLE> constraint);
 
     /**
      * Specify search conditions for the specified property.
@@ -151,6 +160,17 @@ public interface Queryable<M, R> {
      * @return
      */
     R offset(long position);
+
+    /**
+     * Paging helper.
+     * 
+     * @param number A page number.
+     * @param size A item size for each page.
+     * @return
+     */
+    default R page(long number, long size) {
+        return query(sub -> sub.offset((number - 1) * size).limit(size));
+    }
 
     /**
      * Sort by the specified property.

@@ -93,15 +93,15 @@ public interface QueryExecutorTestSet extends Testable {
         Person model3 = new Person("three", 30);
         Person model4 = new Person("four", 40);
         Person model5 = new Person("five", 50);
-    
+
         QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
         dao.update(model4);
         dao.update(model5);
-    
-        List<Person> found = dao.findBy(o -> o.offset(3)).toList();
+
+        List<Person> found = dao.query(o -> o.offset(3)).toList();
         assert found.size() == 2;
         assert found.get(0).equals(model4);
         assert found.get(1).equals(model5);
@@ -122,7 +122,7 @@ public interface QueryExecutorTestSet extends Testable {
         dao.update(model4);
         dao.update(model5);
 
-        List<Person> found = dao.findBy(o -> o.limit(3)).toList();
+        List<Person> found = dao.query(o -> o.limit(3)).toList();
         assert found.size() == 3;
     }
 
@@ -141,15 +141,50 @@ public interface QueryExecutorTestSet extends Testable {
         dao.update(model4);
         dao.update(model5);
 
-        List<Person> found = dao.findBy(o -> o.limit(2).offset(2)).toList();
+        List<Person> found = dao.query(o -> o.limit(2).offset(2)).toList();
         assert found.size() == 2;
         assert found.get(0).equals(model3);
         assert found.get(1).equals(model4);
 
-        found = dao.findBy(o -> o.offset(1).limit(2)).toList();
+        found = dao.query(o -> o.offset(1).limit(2)).toList();
         assert found.size() == 2;
         assert found.get(0).equals(model2);
         assert found.get(1).equals(model3);
+    }
+
+    @Test
+    default void page() {
+        Person model1 = new Person("one", 10);
+        Person model2 = new Person("two", 20);
+        Person model3 = new Person("three", 30);
+        Person model4 = new Person("four", 40);
+        Person model5 = new Person("five", 50);
+        Person model6 = new Person("size", 60);
+        Person model7 = new Person("seven", 70);
+        Person model8 = new Person("eight", 80);
+        Person model9 = new Person("nine", 90);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+        dao.update(model5);
+        dao.update(model6);
+        dao.update(model7);
+        dao.update(model8);
+        dao.update(model9);
+
+        List<Person> found = dao.query(o -> o.page(3, 3)).toList();
+        assert found.size() == 3;
+        assert found.get(0).equals(model7);
+        assert found.get(1).equals(model8);
+        assert found.get(2).equals(model9);
+
+        found = dao.query(o -> o.page(4, 2)).toList();
+        assert found.size() == 2;
+        assert found.get(0).equals(model7);
+        assert found.get(1).equals(model8);
     }
 
     /**

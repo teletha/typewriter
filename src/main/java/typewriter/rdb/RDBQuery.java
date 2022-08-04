@@ -11,6 +11,7 @@ package typewriter.rdb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import kiss.I;
@@ -66,6 +67,14 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      * Hide constructor.
      */
     private RDBQuery() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <QUERYABLE extends Queryable<M, QUERYABLE>> RDBQuery<M> query(Function<QUERYABLE, QUERYABLE> constraint) {
+        return (RDBQuery<M>) constraint.apply((QUERYABLE) this);
     }
 
     /**

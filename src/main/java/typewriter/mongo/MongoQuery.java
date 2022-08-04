@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import org.bson.BsonArray;
@@ -77,6 +78,14 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
      * Hide constructor.
      */
     MongoQuery() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <QUERYABLE extends Queryable<M, QUERYABLE>> MongoQuery<M> query(Function<QUERYABLE, QUERYABLE> constraint) {
+        return (MongoQuery<M>) constraint.apply((QUERYABLE) this);
     }
 
     /**

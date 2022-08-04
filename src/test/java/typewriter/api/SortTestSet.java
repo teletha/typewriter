@@ -39,7 +39,7 @@ public interface SortTestSet extends Testable {
         dao.update(model4);
         dao.update(model5);
 
-        List<Person> found = dao.findBy(o -> o.sortBy(Person::getAge, true)).toList();
+        List<Person> found = dao.query(o -> o.sortBy(Person::getAge, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model3);
         assert found.get(1).equals(model5);
@@ -47,7 +47,7 @@ public interface SortTestSet extends Testable {
         assert found.get(3).equals(model4);
         assert found.get(4).equals(model2);
 
-        found = dao.findBy(o -> o.sortBy(Person::getAge, false)).toList();
+        found = dao.query(o -> o.sortBy(Person::getAge, false)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model2);
         assert found.get(1).equals(model4);
@@ -71,7 +71,7 @@ public interface SortTestSet extends Testable {
         dao.update(model4);
         dao.update(model5);
 
-        List<Person> found = dao.findBy(o -> o.sortBy(Person::getName, true)).toList();
+        List<Person> found = dao.query(o -> o.sortBy(Person::getName, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model5);
         assert found.get(1).equals(model4);
@@ -79,7 +79,7 @@ public interface SortTestSet extends Testable {
         assert found.get(3).equals(model3);
         assert found.get(4).equals(model2);
 
-        found = dao.findBy(o -> o.sortBy(Person::getName, false)).toList();
+        found = dao.query(o -> o.sortBy(Person::getName, false)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model2);
         assert found.get(1).equals(model3);
@@ -103,7 +103,7 @@ public interface SortTestSet extends Testable {
         dao.update(model4);
         dao.update(model2);
 
-        List<Event> found = dao.findBy(o -> o.sortBy(Event::getDate, true)).toList();
+        List<Event> found = dao.query(o -> o.sortBy(Event::getDate, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model1);
         assert found.get(1).equals(model2);
@@ -111,7 +111,7 @@ public interface SortTestSet extends Testable {
         assert found.get(3).equals(model4);
         assert found.get(4).equals(model5);
 
-        found = dao.findBy(o -> o.sortBy(Event::getDate, false)).toList();
+        found = dao.query(o -> o.sortBy(Event::getDate, false)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model5);
         assert found.get(1).equals(model4);
@@ -135,7 +135,7 @@ public interface SortTestSet extends Testable {
         dao.update(model4);
         dao.update(model2);
 
-        List<Event> found = dao.findBy(o -> o.sortBy(Event::getLocalDate, true)).toList();
+        List<Event> found = dao.query(o -> o.sortBy(Event::getLocalDate, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model1);
         assert found.get(1).equals(model2);
@@ -143,7 +143,7 @@ public interface SortTestSet extends Testable {
         assert found.get(3).equals(model4);
         assert found.get(4).equals(model5);
 
-        found = dao.findBy(o -> o.sortBy(Event::getLocalDate, false)).toList();
+        found = dao.query(o -> o.sortBy(Event::getLocalDate, false)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model5);
         assert found.get(1).equals(model4);
@@ -167,7 +167,7 @@ public interface SortTestSet extends Testable {
         dao.update(model4);
         dao.update(model2);
 
-        List<Event> found = dao.findBy(o -> o.sortBy(Event::getLocalDateTime, true)).toList();
+        List<Event> found = dao.query(o -> o.sortBy(Event::getLocalDateTime, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model1);
         assert found.get(1).equals(model2);
@@ -175,7 +175,7 @@ public interface SortTestSet extends Testable {
         assert found.get(3).equals(model4);
         assert found.get(4).equals(model5);
 
-        found = dao.findBy(o -> o.sortBy(Event::getLocalDateTime, false)).toList();
+        found = dao.query(o -> o.sortBy(Event::getLocalDateTime, false)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model5);
         assert found.get(1).equals(model4);
@@ -199,7 +199,7 @@ public interface SortTestSet extends Testable {
         dao.update(model4);
         dao.update(model2);
 
-        List<Event> found = dao.findBy(o -> o.sortBy(Event::getOffset, true)).toList();
+        List<Event> found = dao.query(o -> o.sortBy(Event::getOffset, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model1);
         assert found.get(1).equals(model2);
@@ -207,7 +207,7 @@ public interface SortTestSet extends Testable {
         assert found.get(3).equals(model4);
         assert found.get(4).equals(model5);
 
-        found = dao.findBy(o -> o.sortBy(Event::getOffset, false)).toList();
+        found = dao.query(o -> o.sortBy(Event::getOffset, false)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model5);
         assert found.get(1).equals(model4);
@@ -231,7 +231,7 @@ public interface SortTestSet extends Testable {
         dao.update(model4);
         dao.update(model1);
 
-        List<Person> found = dao.findBy(o -> o.sortBy(Person::getName, true).sortBy(Person::getAge, true)).toList();
+        List<Person> found = dao.query(o -> o.sortBy(Person::getName, true).sortBy(Person::getAge, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model1);
         assert found.get(1).equals(model2);
@@ -239,7 +239,7 @@ public interface SortTestSet extends Testable {
         assert found.get(3).equals(model5);
         assert found.get(4).equals(model4);
 
-        found = dao.findBy(o -> o.sortBy(Person::getAge, false).sortBy(Person::getName, true)).toList();
+        found = dao.query(o -> o.sortBy(Person::getAge, false).sortBy(Person::getName, true)).toList();
         assert found.size() == 5;
         assert found.get(0).equals(model1);
         assert found.get(1).equals(model3);
