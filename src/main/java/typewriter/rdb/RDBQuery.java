@@ -15,8 +15,6 @@ import java.util.function.UnaryOperator;
 
 import kiss.I;
 import kiss.Ⅱ;
-import kiss.model.Model;
-import kiss.model.Property;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
@@ -56,13 +54,13 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     protected final List<RDBConstraint<?, ?>> constraints = new ArrayList();
 
     /** The limit size. */
-    private long limit;
+    long limit;
 
     /** The starting position. */
-    private long offset;
+    long offset;
 
     /** The sorting property. */
-    private List<Ⅱ<Specifier, Boolean>> sorts;
+    List<Ⅱ<Specifier, Boolean>> sorts;
 
     /**
      * Hide constructor.
@@ -186,39 +184,5 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
         sorts.add(I.pair(specifier, ascending));
 
         return this;
-    }
-
-    /**
-     * Convert to SQL statement.
-     * 
-     * @param model
-     * @param dialect
-     */
-    final void build(SQL sql, Model model, Dialect dialect) {
-        if (!constraints.isEmpty()) {
-            int count = 0;
-            sql.write("WHERE");
-            for (RDBConstraint<?, ?> constraint : constraints) {
-                for (String e : constraint.expression) {
-                    if (count++ != 0) sql.write("AND");
-                    sql.write(e);
-                }
-            }
-        }
-
-        dialect.commandLimitAndOffset(sql, limit, offset);
-
-        if (sorts != null) {
-            int count = 0;
-            sql.write("ORDER BY");
-            for (Ⅱ<Specifier, Boolean> sort : sorts) {
-                Property property = model.property(sort.ⅰ.propertyName());
-                RDBCodec<?> codec = RDBCodec.by(property.model.type);
-                for (String name : codec.names) {
-                    if (count++ != 0) sql.write(",");
-                    sql.write(property.name + name + " " + (sort.ⅱ ? "ASC" : "DESC"));
-                }
-            }
-        }
     }
 }

@@ -23,12 +23,15 @@ import java.util.Map.Entry;
 import kiss.I;
 import kiss.Signal;
 import kiss.WiseBiConsumer;
-import kiss.WiseSupplier;
-import kiss.model.Model;
+import kiss.Ⅱ;
 import kiss.model.Property;
+import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 
-public class SQL {
+public class SQL<M extends IdentifiableModel> {
+
+    /** The database layer. */
+    private final RDB<M> rdb;
 
     /** The statement expresison. */
     private final StringBuilder text = new StringBuilder();
@@ -37,39 +40,43 @@ public class SQL {
     private final List<WiseBiConsumer<PreparedStatement, Integer>> variables = new ArrayList();
 
     /**
-     * Define your SQL.
-     * 
-     * @return
-     */
-    public static SQL define() {
-        return new SQL();
-    }
-
-    /**
      * Hide constructor.
      */
-    private SQL() {
+    SQL(RDB<M> rdb) {
+        this.rdb = rdb;
     }
 
     /**
      * Write statement.
      * 
-     * @param text
+     * @param statement
      * @return
      */
-    public SQL write(CharSequence text) {
-        this.text.append(' ').append(text);
+    public SQL<M> write(CharSequence statement) {
+        text.append(' ').append(statement);
         return this;
     }
 
     /**
      * Write statement.
      * 
-     * @param text1
+     * @param statement1
+     * @param statement2
      * @return
      */
-    public SQL write(CharSequence text1, CharSequence text2) {
-        return write(text1).write(text2);
+    public SQL<M> write(CharSequence statement1, CharSequence statement2) {
+        return write(statement1).write(statement2);
+    }
+
+    /**
+     * Write statement.
+     * 
+     * @param statement1
+     * @param statement2
+     * @return
+     */
+    public SQL<M> write(CharSequence statement1, CharSequence statement2, CharSequence statement3) {
+        return write(statement1).write(statement2).write(statement3);
     }
 
     /**
@@ -78,16 +85,47 @@ public class SQL {
      * @param value
      * @return
      */
-    public SQL write(long value) {
-        this.text.append(' ').append(value);
+    public SQL<M> write(int value) {
+        text.append(' ').append(value);
         return this;
     }
 
     /**
+     * Write statement.
+     * 
+     * @param value
+     * @return
+     */
+    public SQL<M> write(long value) {
+        text.append(' ').append(value);
+        return this;
+    }
+
+    /**
+     * Write statement by {@link RDBQuery}.
+     * 
      * @param query
      */
-    public <M extends IdentifiableModel> SQL write(RDBQuery<M> query, Model<M> model, Dialect dialect) {
-        query.build(this, model, dialect);
+    public SQL<M> write(RDBQuery<M> query) {
+        int count = 0;
+        for (RDBConstraint<?, ?> constraint : query.constraints) {
+            for (String e : constraint.expression) {
+                write(count++ == 0 ? "WHERE" : "AND").write(e);
+            }
+        }
+
+        rdb.dialect.commandLimitAndOffset(this, query.limit, query.offset);
+
+        if (query.sorts != null) {
+            count = 0;
+            for (Ⅱ<Specifier, Boolean> sort : query.sorts) {
+                Property property = rdb.model.property(sort.ⅰ.propertyName());
+                RDBCodec<?> codec = RDBCodec.by(property.model.type);
+                for (String name : codec.names) {
+                    write(count++ == 0 ? "ORDER BY" : ",", property.name.concat(name), sort.ⅱ ? "ASC" : "DESC");
+                }
+            }
+        }
         return this;
     }
 
@@ -97,33 +135,85 @@ public class SQL {
      * @param variable
      * @return
      */
-    public SQL bind(Object variable) {
+    public SQL<M> bind(Object variable) {
         variables.add((p, index) -> p.setObject(index, variable));
+        return this;
+    }
+
+    /**
+     * Write column names.
+     * 
+     * @param properties
+     * @return
+     */
+    public SQL<M> names(List<Property> properties) {
+        int count = 0;
+        for (Property property : properties) {
+            RDBCodec<?> codec = RDBCodec.by(property.model.type);
+            for (int i = 0; i < codec.types.size(); i++) {
+                text.append(count++ == 0 ? ' ' : ',').append(property.name).append(codec.names.get(i));
+            }
+        }
         return this;
     }
 
     /**
      * Write VALUES statement.
      * 
-     * @param model
      * @param instance
      * @return
      */
-    public <M> SQL values(Model<M> model, M instance) {
+    public SQL<M> values(M instance) {
         Map<String, Object> result = new LinkedHashMap();
-        for (Property property : model.properties()) {
+        for (Property property : rdb.model.properties()) {
             RDBCodec codec = RDBCodec.by(property.model.type);
-            codec.encode(result, property.name, model.get(instance, property));
+            codec.encode(result, property.name, rdb.model.get(instance, property));
         }
 
         int count = 0;
-        text.append(" VALUES(");
         for (Entry<String, Object> entry : result.entrySet()) {
-            if (count++ != 0) text.append(',');
-            text.append('?');
+            text.append(count++ == 0 ? " VALUES(?" : ",?");
             variables.add((p, index) -> p.setObject(index, entry.getValue()));
         }
         text.append(')');
+        return this;
+    }
+
+    /**
+     * Write SET properties.
+     * 
+     * @param properties
+     * @param instance
+     */
+    public SQL<M> set(List<Property> properties, M instance) {
+        Map<String, Object> result = new HashMap();
+        for (Property property : properties) {
+            RDBCodec codec = RDBCodec.by(property.model.type);
+            codec.encode(result, property.name, rdb.model.get(instance, property));
+        }
+
+        int count = 0;
+        for (Entry<String, Object> entry : result.entrySet()) {
+            text.append(count++ == 0 ? " SET " : ",").append(entry.getKey()).append("=?");
+            variables.add((p, index) -> p.setObject(index, entry.getValue()));
+        }
+        return this;
+    }
+
+    /**
+     * Write SET properties to null.
+     * 
+     * @param properties
+     */
+    public SQL<M> setNull(List<Property> properties) {
+        int count = 0;
+        for (Property property : properties) {
+            RDBCodec codec = RDBCodec.by(property.model.type);
+
+            for (int i = 0; i < codec.types.size(); i++) {
+                text.append(count++ == 0 ? " SET " : ",").append(property.name).append(codec.names.get(i)).append("=NULL");
+            }
+        }
         return this;
     }
 
@@ -132,59 +222,17 @@ public class SQL {
      * 
      * @param instance
      */
-    public <M extends IdentifiableModel> SQL where(M instance) {
+    public SQL<M> where(M instance) {
         text.append(" WHERE id=").append(instance.getId());
         return this;
     }
 
     /**
-     * @param model
-     * @param properties
-     * @param instance
+     * Execute query.
      */
-    public <M extends IdentifiableModel> SQL set(Model<M> model, List<Property> properties, M instance) {
-        Map<String, Object> result = new HashMap();
-        for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
-            codec.encode(result, property.name, model.get(instance, property));
-        }
-
-        int count = 0;
-        text.append(" SET ");
-        for (Entry<String, Object> entry : result.entrySet()) {
-            if (count++ != 0) text.append(',');
-            text.append(entry.getKey()).append("=?");
-            variables.add((p, index) -> p.setObject(index, entry.getValue()));
-        }
-
-        return this;
-    }
-
-    /**
-     * @param properties
-     */
-    public <M extends IdentifiableModel> SQL setNull(List<Property> properties) {
-        text.append(" SET ");
-
-        int count = 0;
-        for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
-
-            for (int i = 0; i < codec.types.size(); i++) {
-                if (count++ != 0) text.append(",");
-                text.append(property.name).append(codec.names.get(i)).append("=NULL");
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * @param provider
-     */
-    public void execute(WiseSupplier<Connection> provider) {
+    void execute() {
         int index = 1;
-        try (Connection connection = provider.get()) {
+        try (Connection connection = rdb.provider.get()) {
             PreparedStatement prepared = connection.prepareStatement(text.toString());
             for (WiseBiConsumer<PreparedStatement, Integer> variable : variables) {
                 variable.accept(prepared, index++);
@@ -196,17 +244,16 @@ public class SQL {
     }
 
     /**
-     * @param provider
-     * @return
+     * Execute query.
      */
-    public Signal<ResultSet> qurey(WiseSupplier<Connection> provider) {
+    Signal<ResultSet> qurey() {
         if (text.isEmpty()) {
             return I.signal();
         }
 
         return new Signal<>((observer, disposer) -> {
             int index = 1;
-            try (Connection connection = provider.get()) {
+            try (Connection connection = rdb.provider.get()) {
                 PreparedStatement prepared = connection.prepareStatement(text.toString());
                 for (WiseBiConsumer<PreparedStatement, Integer> variable : variables) {
                     variable.accept(prepared, index++);

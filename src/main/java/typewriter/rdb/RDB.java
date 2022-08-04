@@ -70,9 +70,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         this(Model.of(type), dialect, ConnectionPool.by(url));
 
         dialect.createDatabase(url);
-        SQL.define() //
-                .write(dialect.commandCreateTable(tableName, model))
-                .execute(provider);
+        new SQL<>(this).write(dialect.commandCreateTable(tableName, model)).execute();
     }
 
     /**
@@ -95,7 +93,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public long count() {
-        return SQL.define().write("SELECT COUNT(*) N FROM", tableName).qurey(provider).map(result -> result.getLong("N")).to().exact();
+        return new SQL<>(this).write("SELECT COUNT(*) N FROM", tableName).qurey().map(result -> result.getLong("N")).to().exact();
     }
 
     /**
@@ -103,10 +101,9 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return SQL.define()
-                .write("SELECT * FROM", tableName)
-                .write(query, model, dialect)
-                .qurey(provider)
+        return new SQL<>(this).write("SELECT * FROM", tableName)
+                .write(query)
+                .qurey()
                 .map(result -> decode(model, model.properties(), I.make(model.type), result));
     }
 
@@ -121,7 +118,11 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         List<Property> properties = names(specifiers).map(model::property).or(I.signal(model.properties())).toList();
 
-        return query("SELECT " + column(properties) + " FROM " + tableName + WHERE(instance))
+        return new SQL<>(this).write("SELECT")
+                .names(properties)
+                .write("FROM", tableName)
+                .where(instance)
+                .qurey()
                 .map(result -> decode(model, properties, instance, result));
     }
 
@@ -136,14 +137,13 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         if (specifiers == null || specifiers.length == 0) {
             // delete model
-            SQL.define().write("DELETE FROM", tableName).where(instance).execute(provider);
+            new SQL<>(this).write("DELETE FROM", tableName).where(instance).execute();
         } else {
             // delete properties
-            SQL.define()
-                    .write(dialect.commandUpdate(), tableName)
+            new SQL<>(this).write(dialect.commandUpdate(), tableName)
                     .setNull(names(specifiers).map(model::property).toList())
                     .where(instance)
-                    .execute(provider);
+                    .execute();
         }
     }
 
@@ -158,16 +158,13 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            // execute(dialect.commandReplace() + " " + tableName + " " + VALUES(model, instance));
-
-            SQL.define().write(dialect.commandReplace(), tableName).values(model, instance).execute(provider);
+            new SQL<>(this).write(dialect.commandReplace(), tableName).values(instance).execute();
         } else {
             // update properties
-            SQL.define()
-                    .write(dialect.commandUpdate(), tableName)
-                    .set(model, names(specifiers).map(model::property).toList(), instance)
+            new SQL<>(this).write(dialect.commandUpdate(), tableName)
+                    .set(names(specifiers).map(model::property).toList(), instance)
                     .where(instance)
-                    .execute(provider);
+                    .execute();
         }
     }
 
@@ -218,31 +215,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     }
 
     /**
-     * Execute query.
-     * 
-     * @param query
-     * @param A result stream.
-     */
-    private Signal<ResultSet> query(String query) {
-        if (query == null || query.isBlank()) {
-            return I.signal();
-        }
-
-        return new Signal<>((observer, disposer) -> {
-            try (Connection connection = provider.get()) {
-                ResultSet result = connection.createStatement().executeQuery(query);
-                while (!disposer.isDisposed() && result.next()) {
-                    observer.accept(result);
-                }
-                observer.complete();
-            } catch (SQLException e) {
-                observer.error(new SQLException(query, e));
-            }
-            return disposer;
-        });
-    }
-
-    /**
      * Get the collection.
      * 
      * @param <M>
@@ -268,49 +240,5 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         if (url != null && url.startsWith("jdbc:")) {
             ConnectionPool.release(url);
         }
-    }
-
-    /**
-     * Helper to write WHERE statement.
-     * 
-     * @param model
-     * @return
-     */
-    private static CharSequence WHERE(IdentifiableModel model) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("WHERE id=").append(model.getId());
-        return builder;
-    }
-
-    /**
-     * Helper to write name of columns.
-     * 
-     * @param properties
-     * @return
-     */
-    private static CharSequence column(List<Property> properties) {
-        StringBuilder builder = new StringBuilder();
-
-        for (Property property : properties) {
-            RDBCodec<?> codec = RDBCodec.by(property.model.type);
-            for (int j = 0; j < codec.types.size(); j++) {
-                builder.append(property.name).append(codec.names.get(j)).append(',');
-            }
-        }
-
-        return deleteTailComma(builder);
-    }
-
-    /**
-     * Delete comma character at tail.
-     * 
-     * @param builder
-     */
-    private static StringBuilder deleteTailComma(StringBuilder builder) {
-        int last = builder.length() - 1;
-        if (builder.charAt(last) == ',') {
-            builder.deleteCharAt(last);
-        }
-        return builder;
     }
 }
