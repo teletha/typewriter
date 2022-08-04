@@ -7,9 +7,9 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.maria;
+package typewriter.sqlite;
 
 import typewriter.api.OffsetDateTimeConstraintTestSet;
 
-public class OffsetDateTimeConstraintTest2 extends MariaDBTestBase implements OffsetDateTimeConstraintTestSet {
+public class OffsetDateTimeConstraintTest extends SQLiteTestBase implements OffsetDateTimeConstraintTestSet {
 }

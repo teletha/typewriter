@@ -7,9 +7,9 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package typewriter.sqlite;
+package typewriter.mongo;
 
 import typewriter.api.OffsetDateTimeConstraintTestSet;
 
-public class OffsetDateTimeConstraintTest2 extends SQLiteTestBase implements OffsetDateTimeConstraintTestSet {
+public class OffsetDateTimeConstraintTest extends MongoTestBase implements OffsetDateTimeConstraintTestSet {
 }
