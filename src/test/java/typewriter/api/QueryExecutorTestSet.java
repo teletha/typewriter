@@ -187,6 +187,30 @@ public interface QueryExecutorTestSet extends Testable {
         assert found.get(1).equals(model8);
     }
 
+    @Test
+    default void distinct() {
+        Person model1 = new Person("A", 10);
+        Person model2 = new Person("A", 20);
+        Person model3 = new Person("B", 30);
+        Person model4 = new Person("B", 40);
+        Person model5 = new Person("B", 50);
+        Person model6 = new Person("C", 60);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+        dao.update(model4);
+        dao.update(model5);
+        dao.update(model6);
+
+        List<String> found = dao.distinct(Person::getName).toList();
+        assert found.size() == 3;
+        assert found.get(0).equals("A");
+        assert found.get(1).equals("B");
+        assert found.get(2).equals("C");
+    }
+
     /**
      * 
      */

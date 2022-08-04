@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -40,6 +40,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.conversions.Bson;
 
 import com.mongodb.MongoClientSettings;
+import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -135,6 +136,29 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     @Override
     public long count() {
         return collection.estimatedDocumentCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <V> Signal<V> distinct(Specifier<M, V> specifier) {
+        return new Signal<>((observer, disposer) -> {
+            try {
+                Property property = model.property(specifier.propertyName());
+
+                DistinctIterable<V> founds = collection.distinct(property.name, (Class<V>) property.model.type);
+                for (V found : founds) {
+                    if (!disposer.isDisposed()) {
+                        observer.accept(found);
+                    }
+                }
+                observer.complete();
+            } catch (Throwable e) {
+                observer.error(e);
+            }
+            return disposer;
+        });
     }
 
     /**

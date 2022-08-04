@@ -9,6 +9,8 @@
  */
 package typewriter.api;
 
+import kiss.Signal;
+
 public interface Operatable<M> {
 
     /**
@@ -17,4 +19,13 @@ public interface Operatable<M> {
      * @return
      */
     long count();
+
+    /**
+     * Distinct values by the specified property.
+     * 
+     * @param <V>
+     * @param specifier
+     * @return
+     */
+    <V> Signal<V> distinct(Specifier<M, V> specifier);
 }

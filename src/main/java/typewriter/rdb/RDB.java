@@ -100,6 +100,18 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * {@inheritDoc}
      */
     @Override
+    public <V> Signal<V> distinct(Specifier<M, V> specifier) {
+        Property property = model.property(specifier.propertyName());
+
+        return new SQL<>(this).write("SELECT DISTINCT", property.name).write("FROM", tableName).qurey().map(result -> {
+            return RDBCodec.<V> by(property.model.type).decode(result, property.name);
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Signal<M> findBy(RDBQuery<M> query) {
         return new SQL<>(this).write("SELECT * FROM", tableName)
                 .write(query)
