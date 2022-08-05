@@ -9,8 +9,8 @@
  */
 package typewriter.api.model;
 
-import java.util.function.Consumer;
-
+import kiss.I;
+import kiss.Signal;
 import typewriter.api.Deletable;
 import typewriter.api.Restorable;
 import typewriter.api.Updatable;
@@ -24,7 +24,8 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     public M restore() {
-        return restore((Consumer<M>) null);
+        restoring().to(I.NoOP);
+        return (M) this;
     }
 
     /**
@@ -32,15 +33,8 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * 
      * @return
      */
-    public M restore(Consumer<M> completion) {
-        if (completion == null) {
-            completion = m -> {
-            };
-        }
-
-        backend().restore((M) this).or((M) this).to(completion::accept);
-
-        return (M) this;
+    public Signal<M> restoring() {
+        return backend().restore((M) this).or((M) this);
     }
 
     /**
