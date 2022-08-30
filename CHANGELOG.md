@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.0](https://www.github.com/teletha/typewriter/compare/v1.3.0...v1.4.0) (2022-08-30)
+
+
+### Features
+
+* Add BackendModel#restoring instead of #restore(Consumer<M>). ([75ea065](https://www.github.com/teletha/typewriter/commit/75ea06565b7c4873b118c0484700627bb1307c07))
+* Provide Queryable#page as pagination helper. ([fc3929f](https://www.github.com/teletha/typewriter/commit/fc3929f6b86f8d5525671baa59b0314a74ee149b))
+* Support accumulable operators. (MIN MAX SVG SUM DISTINCT) ([55720f1](https://www.github.com/teletha/typewriter/commit/55720f1bdfda79ce7d35ae9e1e6011fba31033be))
+* Support distinct by single property. ([77a1265](https://www.github.com/teletha/typewriter/commit/77a1265542326780873651a872c73174c6aff0aa))
+* Support min accumulator. ([11181d3](https://www.github.com/teletha/typewriter/commit/11181d33c1551945660dc5d66f50afa22b2c70b0))
+* Support OffsetDateTime. ([d034253](https://www.github.com/teletha/typewriter/commit/d03425302f55d309fa37265393147b46b96f7821))
+
+
+### Bug Fixes
+
+* SQL functions use lower case name. ([de11f2c](https://www.github.com/teletha/typewriter/commit/de11f2c0319cd923cc2f5b30e945368f6a4d6af5))
+* Update sinobu. ([60b73ed](https://www.github.com/teletha/typewriter/commit/60b73ede2078281de52c223eb73afd155c766546))
+
 ## [1.3.0](https://www.github.com/teletha/typewriter/compare/v1.2.0...v1.3.0) (2022-08-04)
 
 
