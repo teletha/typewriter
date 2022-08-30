@@ -12,6 +12,7 @@ package typewriter.rdb;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -294,7 +295,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param result
      * @return
      */
-    private <V> V decode(Model model, List<Property> properties, V instance, ResultSet result) throws SQLException {
+    private <V> V decode(Model model, Collection<Property> properties, V instance, ResultSet result) throws SQLException {
         for (Property property : properties) {
             RDBCodec codec = RDBCodec.by(property.model.type);
             model.set(instance, property, codec.decode(result, property.name));
