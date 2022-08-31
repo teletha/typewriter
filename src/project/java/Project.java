@@ -8,13 +8,16 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-import static bee.api.License.*;
+import static bee.api.License.MIT;
 
 public class Project extends bee.api.Project {
     {
         product("com.github.teletha", "typewriter", ref("version.txt"));
         license(MIT);
         versionControlSystem("https://github.com/teletha/typewriter");
+        describe("""
+                General DAO for various database.
+                """);
 
         require("com.github.teletha", "sinobu");
         require("org.mongodb", "mongo-java-driver").atProvided();
