@@ -8,7 +8,11 @@
 
 
 ## Summary
-General DAO for various database.
+Provides a general-purpose, type-safe DAO. Currently supported databases are the following:
+* [H2](https://github.com/h2database/h2database)
+* [SQLite](https://github.com/sqlite/sqlite)
+* [MariaDB](https://github.com/MariaDB/)
+* [MongoDB](https://github.com/mongodb/mongo)
 <p align="right"><a href="#top">back to top</a></p>
 
 

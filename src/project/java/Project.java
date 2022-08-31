@@ -16,7 +16,11 @@ public class Project extends bee.api.Project {
         license(MIT);
         versionControlSystem("https://github.com/teletha/typewriter");
         describe("""
-                General DAO for various database.
+                Provides a general-purpose, type-safe DAO. Currently supported databases are the following:
+                * [H2](https://github.com/h2database/h2database)
+                * [SQLite](https://github.com/sqlite/sqlite)
+                * [MariaDB](https://github.com/MariaDB/)
+                * [MongoDB](https://github.com/mongodb/mongo)
                 """);
 
         require("com.github.teletha", "sinobu");
