@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://docs.oracle.com/en/java/javase/17/"><img src="https://img.shields.io/badge/Java-Release%2017-green"/></a>
+    <a href="https://docs.oracle.com/en/java/javase/19/"><img src="https://img.shields.io/badge/Java-Release%2019-green"/></a>
     <span>&nbsp;</span>
     <a href="https://jitpack.io/#teletha/typewriter"><img src="https://img.shields.io/jitpack/v/github/teletha/typewriter?label=Repository&color=green"></a>
     <span>&nbsp;</span>
@@ -22,7 +22,7 @@ Provides a general-purpose, type-safe DAO. Currently supported databases are the
 
 
 ## Prerequisites
-Typewriter runs on all major operating systems and requires only [Java version 17](https://docs.oracle.com/en/java/javase/17/) or later to run.
+Typewriter runs on all major operating systems and requires only [Java version 19](https://docs.oracle.com/en/java/javase/19/) or later to run.
 To check, please run `java -version` from the command line interface. You should see something like this:
 ```
 > java -version
@@ -53,12 +53,14 @@ Add it into in the dependencies element like so:
 #### [Gradle](https://gradle.org/)
 Add JitPack repository at the end of repositories in your build.gradle:
 ```gradle
-repositories } url "https://jitpack.io" }
+repositories {
+    maven { url "https://jitpack.io" }
 }
 ```
 Add it into the dependencies section like so:
 ```gradle
-dependencies :typewriter:1.4.0'
+dependencies {
+    implementation 'com.github.teletha:typewriter:1.4.0'
 }
 ```
 #### [SBT](https://www.scala-sbt.org/)
@@ -110,12 +112,12 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Typewriter depends on the following products on runtime.
-* [sinobu-2.20.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/2.20.0)
+* [sinobu-3.0.1](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.0.1)
 <p align="right"><a href="#top">back to top</a></p>
 
 
 ## License
-Copyright (C) 2022 The TYPEWRITER Development Team
+Copyright (C) 2023 The TYPEWRITER Development Team
 
 MIT License
 
