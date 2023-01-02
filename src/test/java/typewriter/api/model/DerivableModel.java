@@ -14,8 +14,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import typewriter.api.model.IdentifiableModel;
-
 public abstract class DerivableModel extends IdentifiableModel {
 
     private static int counter = 1;
