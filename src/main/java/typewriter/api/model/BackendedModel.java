@@ -24,7 +24,7 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     public M restore() {
-        restoring().to(I.NoOP);
+        restoring().to(I.NoOP, this::notify, I.NoOP);
         return (M) this;
     }
 
@@ -43,7 +43,11 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     public M save() {
-        backend().update((M) this);
+        try {
+            backend().update((M) this);
+        } catch (Throwable e) {
+            notify(e);
+        }
 
         return (M) this;
     }
@@ -54,7 +58,11 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     public M delete() {
-        backend().delete((M) this);
+        try {
+            backend().delete((M) this);
+        } catch (Throwable e) {
+            notify(e);
+        }
 
         return (M) this;
     }
@@ -65,4 +73,13 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     protected abstract DAO backend();
+
+    /**
+     * Listen internal error.
+     * 
+     * @param error
+     */
+    protected void notify(Throwable error) {
+        // do nothing
+    }
 }
