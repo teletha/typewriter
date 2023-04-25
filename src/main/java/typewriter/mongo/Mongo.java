@@ -9,8 +9,8 @@
  */
 package typewriter.mongo;
 
-import static com.mongodb.client.model.Aggregates.*;
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+import static com.mongodb.client.model.Aggregates.group;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -402,14 +402,16 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
             }
 
             Property property = model.property(localKey);
-            Class type = property.model.type;
-            Object value;
-            if (type.isEnum()) {
-                value = I.transform(doc.getString(key), type);
-            } else {
-                value = decoders.getOrDefault(type, defaultDecoder).apply(doc, key);
+            if (property != null) {
+                Class type = property.model.type;
+                Object value;
+                if (type.isEnum()) {
+                    value = I.transform(doc.getString(key), type);
+                } else {
+                    value = decoders.getOrDefault(type, defaultDecoder).apply(doc, key);
+                }
+                model.set(object, property, value);
             }
-            model.set(object, property, value);
         }
         return object;
     }
