@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0](https://github.com/teletha/typewriter/compare/v1.4.0...v1.5.0) (2023-04-25)
+
+
+### Features
+
+* Support error handling in BackendedModel. ([adf0a45](https://github.com/teletha/typewriter/commit/adf0a4513b8b102c91be1ce8cab64fd80e3f1dfa))
+
+
+### Bug Fixes
+
+* downgrade mariadb4j to avoid bug ([c800110](https://github.com/teletha/typewriter/commit/c800110ee16b0abd8152b87af0326f546529e0b0))
+* MongoDB can check the existence of property. ([f5ab950](https://github.com/teletha/typewriter/commit/f5ab95041d83ec5b9f1771b9243fb92a1bc63384))
+
 ## [1.4.0](https://www.github.com/teletha/typewriter/compare/v1.3.0...v1.4.0) (2022-08-30)
 
 
