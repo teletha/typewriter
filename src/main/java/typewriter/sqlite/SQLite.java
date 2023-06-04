@@ -12,6 +12,7 @@ package typewriter.sqlite;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,6 +51,7 @@ public class SQLite extends Dialect {
         TYPES.put(byte.class, "integer");
         TYPES.put(boolean.class, "bit");
         TYPES.put(String.class, "text");
+        TYPES.put(List.class, "json");
     }
 
     /**

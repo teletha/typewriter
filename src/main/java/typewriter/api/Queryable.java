@@ -19,6 +19,7 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import typewriter.api.Constraint.DateConstraint;
+import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
 import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
@@ -30,6 +31,7 @@ import typewriter.api.Constraint.ZonedDateTimeConstraint;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
 import typewriter.api.Specifier.DateSpecifier;
+import typewriter.api.Specifier.ListSpecifier;
 import typewriter.api.Specifier.LocalDateSpecifier;
 import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
@@ -154,6 +156,15 @@ public interface Queryable<M, R> {
      * @return Chainable API.
      */
     R findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint);
+
+    /**
+     * Specify search conditions for the specified property.
+     * 
+     * @param specifier Specify the target property type-safely.
+     * @param constraint Describes conditions for the target property.
+     * @return Chainable API.
+     */
+    <N> R findBy(ListSpecifier<M, N> specifier, UnaryOperator<ListConstraint<N>> constraint);
 
     /**
      * Limit size of query result.

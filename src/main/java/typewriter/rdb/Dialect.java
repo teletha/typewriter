@@ -129,7 +129,7 @@ public abstract class Dialect {
         StringBuilder builder = new StringBuilder();
         builder.append('(');
         for (Property property : model.properties()) {
-            RDBCodec<?> codec = RDBCodec.by(property.model.type);
+            RDBCodec<?> codec = RDBCodec.by(property.model);
             for (int i = 0; i < codec.types.size(); i++) {
                 Class columnType = codec.types.get(i);
                 String columnName = codec.names.get(i);

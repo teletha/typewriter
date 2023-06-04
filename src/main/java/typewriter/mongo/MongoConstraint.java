@@ -9,8 +9,8 @@
  */
 package typewriter.mongo;
 
-import static java.util.Objects.*;
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
+import static java.util.Objects.requireNonNull;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -369,6 +369,23 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
         @Override
         protected Object validate(ZonedDateTime value) {
             return requireNonNull(value).withZoneSameInstant(UTC).toLocalDateTime();
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link List}.
+     */
+    static class ForList<M> extends MongoConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
+        ForList(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> contains(M value) {
+            return this;
         }
     }
 }

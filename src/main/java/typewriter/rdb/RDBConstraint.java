@@ -429,4 +429,23 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
             return propertyName + "DATE" + operator + date.toInstant().toEpochMilli();
         }
     }
+
+    /**
+     * The specialized {@link Constraint} for {@link List}.
+     */
+    static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
+        ForList(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> contains(M value) {
+            System.out.println("Add const " + value);
+            expression.add("json_extract(" + propertyName + ", '$[*]') = '" + value + "'");
+            return this;
+        }
+    }
 }

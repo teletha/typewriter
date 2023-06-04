@@ -18,6 +18,7 @@ import kiss.I;
 import kiss.Ⅱ;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
+import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
 import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
@@ -31,6 +32,7 @@ import typewriter.api.Specifier;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
 import typewriter.api.Specifier.DateSpecifier;
+import typewriter.api.Specifier.ListSpecifier;
 import typewriter.api.Specifier.LocalDateSpecifier;
 import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
@@ -40,6 +42,7 @@ import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.rdb.RDBConstraint.ForDate;
+import typewriter.rdb.RDBConstraint.ForList;
 import typewriter.rdb.RDBConstraint.ForLocalDate;
 import typewriter.rdb.RDBConstraint.ForLocalDateTime;
 import typewriter.rdb.RDBConstraint.ForLocalTime;
@@ -169,6 +172,14 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     @Override
     public RDBQuery<M> findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForZonedDateTime(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N> RDBQuery<M> findBy(ListSpecifier<M, N> specifier, UnaryOperator<ListConstraint<N>> constraint) {
+        return findBy(constraint.apply(new ForList<N>(specifier)));
     }
 
     /**

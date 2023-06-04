@@ -315,7 +315,7 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * {@inheritDoc}
      */
     @Override
-    public <R> R transact(WiseFunction<Mongo<M>, R> operation) {
+    public <R> R transactWith(WiseFunction<Mongo<M>, R> operation) {
         throw new UnsupportedOperationException();
     }
 

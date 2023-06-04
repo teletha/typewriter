@@ -247,7 +247,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * {@inheritDoc}
      */
     @Override
-    public synchronized <R> R transact(WiseFunction<RDB<M>, R> operation) {
+    public synchronized <R> R transactWith(WiseFunction<RDB<M>, R> operation) {
         Connection connection = provider.get();
         try {
             connection.setAutoCommit(false);
@@ -281,7 +281,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @throws SQLException
      */
     private <V> V decode(Property property, ResultSet result) throws SQLException {
-        RDBCodec<V> codec = RDBCodec.by(property.model.type);
+        RDBCodec<V> codec = RDBCodec.by(property.model);
         return codec.decode(result, property.name);
     }
 
@@ -297,7 +297,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     private <V> V decode(Model model, Collection<Property> properties, V instance, ResultSet result) throws SQLException {
         for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
+            RDBCodec codec = RDBCodec.by(property.model);
             model.set(instance, property, codec.decode(result, property.name));
         }
         return instance;

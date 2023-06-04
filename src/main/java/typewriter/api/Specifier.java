@@ -19,6 +19,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 
 import kiss.I;
@@ -127,5 +128,11 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
      * The specialized {@link Specifier}.
      */
     interface ZonedDateTimeSpecifier<S> extends Specifier<S, ZonedDateTime> {
+    }
+
+    /**
+     * The specialized {@link Specifier}.
+     */
+    interface ListSpecifier<S, X> extends Specifier<S, List<X>> {
     }
 }

@@ -17,6 +17,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 
 public interface Constraint<V, Self> {
 
@@ -435,5 +436,18 @@ public interface Constraint<V, Self> {
         default ZonedDateTime assembleTemporalValue(int year, int month, int day, int hour, int minute, int second, int milli) {
             return ZonedDateTime.of(year, month, day, hour, minute, second, milli, UTC);
         }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link List}.
+     */
+    interface ListConstraint<M> extends Constraint<List<M>, ListConstraint<M>> {
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param value A conditional value.
+         * @return Chainable API.
+         */
+        ListConstraint<M> contains(M value);
     }
 }

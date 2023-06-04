@@ -20,7 +20,7 @@ public interface Transactional<Self extends Transactional<Self>> {
      * @param operation Your operation.
      */
     default void transact(WiseConsumer<Self> operation) {
-        transact((WiseFunction) operation::invoke);
+        transactWith((WiseFunction) operation::invoke);
     }
 
     /**
@@ -30,5 +30,5 @@ public interface Transactional<Self extends Transactional<Self>> {
      * @param operation Your operation.
      * @return A result of operation.
      */
-    <R> R transact(WiseFunction<Self, R> operation);
+    <R> R transactWith(WiseFunction<Self, R> operation);
 }

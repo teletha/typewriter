@@ -30,6 +30,7 @@ import kiss.I;
 import kiss.Ⅱ;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.DateConstraint;
+import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
 import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
@@ -43,6 +44,7 @@ import typewriter.api.Specifier;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
 import typewriter.api.Specifier.DateSpecifier;
+import typewriter.api.Specifier.ListSpecifier;
 import typewriter.api.Specifier.LocalDateSpecifier;
 import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
@@ -51,6 +53,7 @@ import typewriter.api.Specifier.OffsetDateTimeSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.mongo.MongoConstraint.ForDate;
+import typewriter.mongo.MongoConstraint.ForList;
 import typewriter.mongo.MongoConstraint.ForLocalDate;
 import typewriter.mongo.MongoConstraint.ForLocalDateTime;
 import typewriter.mongo.MongoConstraint.ForLocalTime;
@@ -180,6 +183,14 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
     @Override
     public MongoQuery<M> findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
         return findBy(constraint.apply(new ForZonedDateTime(specifier)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N> MongoQuery<M> findBy(ListSpecifier<M, N> specifier, UnaryOperator<ListConstraint<N>> constraint) {
+        return findBy(constraint.apply(new ForList(specifier)));
     }
 
     /**

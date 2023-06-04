@@ -16,8 +16,10 @@ import java.util.function.UnaryOperator;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.WiseFunction;
 import kiss.model.Model;
 import typewriter.api.Constraint.DateConstraint;
+import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;
 import typewriter.api.Constraint.LocalDateTimeConstraint;
 import typewriter.api.Constraint.LocalTimeConstraint;
@@ -29,6 +31,7 @@ import typewriter.api.Constraint.ZonedDateTimeConstraint;
 import typewriter.api.Specifier.BooleanSpecifier;
 import typewriter.api.Specifier.CharSpecifier;
 import typewriter.api.Specifier.DateSpecifier;
+import typewriter.api.Specifier.ListSpecifier;
 import typewriter.api.Specifier.LocalDateSpecifier;
 import typewriter.api.Specifier.LocalDateTimeSpecifier;
 import typewriter.api.Specifier.LocalTimeSpecifier;
@@ -149,6 +152,92 @@ public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Qu
     @Override
     public R findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
         return findBy(createQueryable().findBy(specifier, constraint));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N> R findBy(ListSpecifier<M, N> specifier, UnaryOperator<ListConstraint<N>> constraint) {
+        return findBy(createQueryable().findBy(specifier, constraint));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <R> R transactWith(WiseFunction<Self, R> operation) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<M> restore(M model, Specifier<M, ?>... specifiers) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(M model, Specifier<M, ?>... specifiers) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(M model, Specifier<M, ?>... specifiers) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <V> Signal<V> distinct(Specifier<M, V> specifier) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <C extends Comparable> C min(Specifier<M, C> specifier) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <C extends Comparable> C max(Specifier<M, C> specifier) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> double avg(Specifier<M, N> specifier) {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <N extends Number> N sum(Specifier<M, N> specifier) {
+        return null;
     }
 
     /**

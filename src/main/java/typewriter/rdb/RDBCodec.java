@@ -9,8 +9,6 @@
  */
 package typewriter.rdb;
 
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
-
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +31,9 @@ import kiss.I;
 import kiss.Managed;
 import kiss.Singleton;
 import kiss.WiseBiFunction;
+import kiss.model.Model;
 import kiss.model.Property;
+import typewriter.api.Constraint.ZonedDateTimeConstraint;
 
 @Managed(Singleton.class)
 public abstract class RDBCodec<T> implements Extensible {
@@ -79,20 +79,25 @@ public abstract class RDBCodec<T> implements Extensible {
      * Find {@link RDBCodec} by type.
      * 
      * @param <T>
-     * @param type
+     * @param model
      * @return
      */
-    public static <T> RDBCodec<T> by(Class<T> type) {
-        RDBCodec<T> codec = BULTINS.get(type);
+    public static <T> RDBCodec<T> by(Model<T> model) {
+        RDBCodec<T> codec = BULTINS.get(model.type);
         if (codec != null) {
             return codec;
         }
 
-        codec = I.find(RDBCodec.class, type);
+        codec = I.find(RDBCodec.class, model.type);
         if (codec != null) {
             return codec;
         }
-        throw new Error(RDBCodec.class.getSimpleName() + " for " + type.getName() + " is not found.");
+
+        if (model.type == List.class) {
+            return new ListCodec(model);
+        }
+
+        throw new Error(RDBCodec.class.getSimpleName() + " for " + model.type + " is not found.");
     }
 
     /**
@@ -104,7 +109,7 @@ public abstract class RDBCodec<T> implements Extensible {
      * @throws SQLException
      */
     public static Object decode(Property property, ResultSet result) throws SQLException {
-        return by(property.model.type).decode(result, property.name);
+        return by(property.model).decode(result, property.name);
     }
 
     /** The associtated types. */
@@ -345,7 +350,7 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public void encode(Map<String, Object> result, String name, ZonedDateTime value) {
-            result.put(name + "DATE", value.withZoneSameInstant(UTC).toInstant().toEpochMilli());
+            result.put(name + "DATE", value.withZoneSameInstant(ZonedDateTimeConstraint.UTC).toInstant().toEpochMilli());
             result.put(name + "ZONE", value.getZone().getId());
         }
 
@@ -359,6 +364,41 @@ public abstract class RDBCodec<T> implements Extensible {
             Instant date = Instant.ofEpochMilli(result.getLong(name + "DATE"));
             ZoneId zone = ZoneId.of(result.getString(name + "ZONE"));
             return ZonedDateTime.ofInstant(date, zone);
+        }
+    }
+
+    /**
+     * Built-in codec.
+     */
+    static class ListCodec<T> extends RDBCodec<List<T>> {
+
+        /** The specialized list model. */
+        private final Model<List<T>> model;
+
+        private ListCodec(Model<List<T>> model) {
+            super(List.class);
+
+            this.model = model;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void encode(Map<String, Object> result, String name, List<T> value) {
+            StringBuilder buffer = new StringBuilder("json_array('");
+            I.write(model, value, buffer);
+            buffer.append("')");
+            System.out.println("PUT JSON " + buffer);
+            result.put(name, buffer.toString());
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public List<T> decode(ResultSet result, String name) throws SQLException {
+            return I.json(result.getString(name)).as(model);
         }
     }
 }

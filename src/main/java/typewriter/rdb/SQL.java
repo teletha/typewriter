@@ -109,12 +109,14 @@ public class SQL<M extends IdentifiableModel> {
             count = 0;
             for (Ⅱ<Specifier, Boolean> sort : query.sorts) {
                 Property property = rdb.model.property(sort.ⅰ.propertyName());
-                RDBCodec<?> codec = RDBCodec.by(property.model.type);
+                RDBCodec<?> codec = RDBCodec.by(property.model);
                 for (String name : codec.names) {
                     text.append(count++ == 0 ? " ORDER BY " : ",").append(property.name.concat(name)).append(sort.ⅱ ? " ASC" : " DESC");
                 }
             }
         }
+
+        System.out.println(text);
         return this;
     }
 
@@ -138,7 +140,7 @@ public class SQL<M extends IdentifiableModel> {
     public SQL<M> names(List<Property> properties) {
         int count = 0;
         for (Property property : properties) {
-            RDBCodec<?> codec = RDBCodec.by(property.model.type);
+            RDBCodec<?> codec = RDBCodec.by(property.model);
             for (int i = 0; i < codec.types.size(); i++) {
                 text.append(count++ == 0 ? ' ' : ',').append(property.name).append(codec.names.get(i));
             }
@@ -155,7 +157,7 @@ public class SQL<M extends IdentifiableModel> {
     public SQL<M> values(M instance) {
         Map<String, Object> result = new LinkedHashMap();
         for (Property property : rdb.model.properties()) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
+            RDBCodec codec = RDBCodec.by(property.model);
             codec.encode(result, property.name, rdb.model.get(instance, property));
         }
 
@@ -177,7 +179,7 @@ public class SQL<M extends IdentifiableModel> {
     public SQL<M> set(List<Property> properties, M instance) {
         Map<String, Object> result = new HashMap();
         for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
+            RDBCodec codec = RDBCodec.by(property.model);
             codec.encode(result, property.name, rdb.model.get(instance, property));
         }
 
@@ -197,7 +199,7 @@ public class SQL<M extends IdentifiableModel> {
     public SQL<M> setNull(List<Property> properties) {
         int count = 0;
         for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model.type);
+            RDBCodec codec = RDBCodec.by(property.model);
 
             for (int i = 0; i < codec.types.size(); i++) {
                 text.append(count++ == 0 ? " SET " : ",").append(property.name).append(codec.names.get(i)).append("=NULL");
