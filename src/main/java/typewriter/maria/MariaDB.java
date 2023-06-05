@@ -123,8 +123,16 @@ public class MariaDB extends Dialect {
          */
         @Override
         public ListConstraint<M> contains(M value) {
-            expression.add("(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ");
+            expression.add("JSON_CONTAINS(" + propertyName + ", " + convert(value) + ", '$')");
             return this;
+        }
+
+        private String convert(Object value) {
+            if (value instanceof String) {
+                return "'\"" + value + "\"'";
+            } else {
+                return String.valueOf(value);
+            }
         }
 
         /**
@@ -132,7 +140,7 @@ public class MariaDB extends Dialect {
          */
         @Override
         public ListConstraint<M> size(int value) {
-            expression.add("json_array_length(" + propertyName + ") = " + value);
+            expression.add("json_length(" + propertyName + ") = " + value);
             return this;
         }
 
@@ -141,7 +149,7 @@ public class MariaDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") > " + value);
+            expression.add("json_length(" + propertyName + ") > " + value);
             return this;
         }
 
@@ -150,7 +158,7 @@ public class MariaDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") < " + value);
+            expression.add("json_length(" + propertyName + ") < " + value);
             return this;
         }
 
@@ -159,7 +167,7 @@ public class MariaDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isOrLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") <= " + value);
+            expression.add("json_length(" + propertyName + ") <= " + value);
             return this;
         }
 
@@ -168,7 +176,7 @@ public class MariaDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isOrMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") >= " + value);
+            expression.add("json_length(" + propertyName + ") >= " + value);
             return this;
         }
     }

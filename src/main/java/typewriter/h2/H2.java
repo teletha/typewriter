@@ -97,7 +97,7 @@ public class H2 extends Dialect {
          */
         @Override
         public ListConstraint<M> size(int value) {
-            expression.add("json_array_length(" + propertyName + ") = " + value);
+            expression.add("json_length(" + propertyName + ") = " + value);
             return this;
         }
 
