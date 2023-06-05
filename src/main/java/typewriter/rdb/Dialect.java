@@ -17,6 +17,8 @@ import kiss.Managed;
 import kiss.Singleton;
 import kiss.model.Model;
 import kiss.model.Property;
+import typewriter.api.Constraint.ListConstraint;
+import typewriter.api.Specifier.ListSpecifier;
 
 @Managed(Singleton.class)
 public abstract class Dialect {
@@ -77,6 +79,12 @@ public abstract class Dialect {
      */
     public void createDatabase(String url) {
     }
+
+    /**
+     * @param specifier
+     * @return
+     */
+    public abstract <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier);
 
     /**
      * Define SQL for creating new table.

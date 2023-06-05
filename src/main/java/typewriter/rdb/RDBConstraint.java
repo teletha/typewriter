@@ -26,12 +26,13 @@ import typewriter.api.Specifier;
 /**
  * {@link Constraint} for mongdb.
  */
-abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
+public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
 
     /** The name of target property. */
     protected final String propertyName;
 
-    final List<String> expression = new ArrayList();
+    /** The additional expression. */
+    protected final List<String> expression = new ArrayList();
 
     /**
      * Hide constructor.
@@ -428,69 +429,5 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
         protected String build(String operator, ZonedDateTime date) {
             return propertyName + "DATE" + operator + date.toInstant().toEpochMilli();
         }
-    }
-
-    /**
-     * The specialized {@link Constraint} for {@link List}.
-     */
-    static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
-        ForList(Specifier specifier) {
-            super(specifier);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> contains(M value) {
-            expression.add("(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ");
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> size(int value) {
-            expression.add("json_array_length(" + propertyName + ") = " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") > " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") < " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") <= " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") >= " + value);
-            return this;
-        }
-
     }
 }

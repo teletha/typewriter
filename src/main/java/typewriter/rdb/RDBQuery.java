@@ -42,7 +42,6 @@ import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.rdb.RDBConstraint.ForDate;
-import typewriter.rdb.RDBConstraint.ForList;
 import typewriter.rdb.RDBConstraint.ForLocalDate;
 import typewriter.rdb.RDBConstraint.ForLocalDateTime;
 import typewriter.rdb.RDBConstraint.ForLocalTime;
@@ -60,6 +59,8 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     /** The all constraint set. */
     protected final List<RDBConstraint<?, ?>> constraints = new ArrayList();
 
+    protected final Dialect dialect;
+
     /** The limit size. */
     long limit;
 
@@ -72,7 +73,8 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
     /**
      * Hide constructor.
      */
-    private RDBQuery() {
+    RDBQuery(Dialect dialect) {
+        this.dialect = dialect;
     }
 
     /**
@@ -179,8 +181,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public <N> RDBQuery<M> findBy(ListSpecifier<M, N> specifier, UnaryOperator<ListConstraint<N>> constraint) {
-        new Error().printStackTrace();
-        return findBy(constraint.apply(new ForList<N>(specifier)));
+        return findBy(constraint.apply(dialect.createListConstraint(specifier)));
     }
 
     /**

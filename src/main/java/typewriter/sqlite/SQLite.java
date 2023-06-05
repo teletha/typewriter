@@ -20,7 +20,12 @@ import java.util.regex.Pattern;
 
 import org.sqlite.Function;
 
+import typewriter.api.Constraint;
+import typewriter.api.Constraint.ListConstraint;
+import typewriter.api.Specifier;
+import typewriter.api.Specifier.ListSpecifier;
 import typewriter.rdb.Dialect;
+import typewriter.rdb.RDBConstraint;
 import typewriter.rdb.SQL;
 
 public class SQLite extends Dialect {
@@ -97,11 +102,82 @@ public class SQLite extends Dialect {
      * {@inheritDoc}
      */
     @Override
+    public <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier) {
+        return new ForList(specifier);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void commandLimitAndOffset(SQL builder, long limit, long offset) {
         if (0 < limit) builder.write("LIMIT").write(limit);
         if (0 < offset) {
             if (limit <= 0) builder.write("LIMIT -1");
             builder.write("OFFSET").write(offset);
+        }
+    }
+
+    /**
+     * The specialized {@link Constraint} for {@link List}.
+     */
+    private static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
+        private ForList(Specifier specifier) {
+            super(specifier);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> contains(M value) {
+            expression.add("(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ");
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> size(int value) {
+            expression.add("json_array_length(" + propertyName + ") = " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isMoreThan(int value) {
+            expression.add("json_array_length(" + propertyName + ") > " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isLessThan(int value) {
+            expression.add("json_array_length(" + propertyName + ") < " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isOrLessThan(int value) {
+            expression.add("json_array_length(" + propertyName + ") <= " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isOrMoreThan(int value) {
+            expression.add("json_array_length(" + propertyName + ") >= " + value);
+            return this;
         }
     }
 }

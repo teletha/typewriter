@@ -76,6 +76,14 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected RDBQuery<M> createQueryable() {
+        return new RDBQuery(dialect);
+    }
+
+    /**
      * Data Access Object.
      * 
      * @param model A target model.
