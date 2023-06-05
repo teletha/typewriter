@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +39,7 @@ public class MariaDB extends Dialect {
         TYPES.put(byte.class, "smallint");
         TYPES.put(boolean.class, "boolean");
         TYPES.put(String.class, "text");
+        TYPES.put(List.class, "json");
     }
 
     /**

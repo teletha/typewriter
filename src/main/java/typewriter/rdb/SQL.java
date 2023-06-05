@@ -96,12 +96,6 @@ public class SQL<M extends IdentifiableModel> {
      * @param query
      */
     public SQL<M> write(RDBQuery<M> query) {
-        for (RDBConstraint constraint : query.constraints) {
-            if (constraint instanceof Fromable locatable) {
-                text.append(", ").append(locatable.from());
-            }
-        }
-
         int count = 0;
         for (RDBConstraint<?, ?> constraint : query.constraints) {
             for (String e : constraint.expression) {
@@ -122,7 +116,6 @@ public class SQL<M extends IdentifiableModel> {
             }
         }
 
-        System.out.println(text);
         return this;
     }
 

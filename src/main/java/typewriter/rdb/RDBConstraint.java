@@ -125,7 +125,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> isOrLess(V value) {
+        public NumericConstraint<V> isOrLessThan(V value) {
             expression.add(propertyName + "<=" + value);
             return this;
         }
@@ -143,7 +143,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> isOrMore(V value) {
+        public NumericConstraint<V> isOrMoreThan(V value) {
             expression.add(propertyName + ">=" + value);
             return this;
         }
@@ -224,7 +224,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint isOrLess(int value) {
+        public StringConstraint isOrLessThan(int value) {
             expression.add("LENGTH(" + propertyName + ")<=" + value + "");
             return this;
         }
@@ -242,7 +242,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint isOrMore(int value) {
+        public StringConstraint isOrMoreThan(int value) {
             expression.add("LENGTH(" + propertyName + ")>=" + value + "");
             return this;
         }
@@ -433,7 +433,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link List}.
      */
-    static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M>, Fromable {
+    static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
         ForList(Specifier specifier) {
             super(specifier);
         }
@@ -443,7 +443,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public ListConstraint<M> contains(M value) {
-            expression.add("json_each.value = '" + value + "'");
+            expression.add("(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ");
             return this;
         }
 
@@ -461,7 +461,8 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public ListConstraint<M> isMoreThan(int value) {
-            return null;
+            expression.add("json_array_length(" + propertyName + ") > " + value);
+            return this;
         }
 
         /**
@@ -469,31 +470,27 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public ListConstraint<M> isLessThan(int value) {
-            return null;
+            expression.add("json_array_length(" + propertyName + ") < " + value);
+            return this;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public ListConstraint<M> isOrLess(int value) {
-            return null;
+        public ListConstraint<M> isOrLessThan(int value) {
+            expression.add("json_array_length(" + propertyName + ") <= " + value);
+            return this;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public ListConstraint<M> isOrMore(int value) {
-            return null;
+        public ListConstraint<M> isOrMoreThan(int value) {
+            expression.add("json_array_length(" + propertyName + ") >= " + value);
+            return this;
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String from() {
-            return "json_each(" + propertyName + ")";
-        }
     }
 }

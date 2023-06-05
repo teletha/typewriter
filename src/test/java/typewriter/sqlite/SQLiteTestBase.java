@@ -9,11 +9,11 @@
  */
 package typewriter.sqlite;
 
+import java.util.Random;
+
 import org.junit.jupiter.api.AfterEach;
 
 import kiss.Signal;
-import psychopath.File;
-import psychopath.Locator;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
@@ -21,16 +21,15 @@ import typewriter.rdb.RDB;
 
 public class SQLiteTestBase implements Testable {
 
-    /** The database file. */
-    private final File file = Locator.temporaryFile();
+    /** The postfix generator. */
+    private static final Random RANDOM = new Random();
 
     /** The temporary database address. */
-    private final String db = "jdbc:sqlite:" + file;
+    private final String db = "jdbc:sqlite:file:memdb" + Math.abs(RANDOM.nextInt()) + "?mode=memory&cache=shared";
 
     @AfterEach
     void release() {
         RDB.release(db);
-        file.delete();
     }
 
     /**

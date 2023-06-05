@@ -10,6 +10,7 @@
 package typewriter.h2;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import typewriter.rdb.Dialect;
@@ -28,6 +29,7 @@ public class H2 extends Dialect {
         TYPES.put(byte.class, "smallint");
         TYPES.put(boolean.class, "boolean");
         TYPES.put(String.class, "varchar");
+        TYPES.put(List.class, "json");
     }
 
     /**

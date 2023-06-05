@@ -179,6 +179,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public <N> RDBQuery<M> findBy(ListSpecifier<M, N> specifier, UnaryOperator<ListConstraint<N>> constraint) {
+        new Error().printStackTrace();
         return findBy(constraint.apply(new ForList<N>(specifier)));
     }
 

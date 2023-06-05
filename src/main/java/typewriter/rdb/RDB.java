@@ -71,6 +71,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         this(Model.of(type), dialect, ConnectionPool.by(url));
 
         dialect.createDatabase(url);
+
         new SQL<>(this).write(dialect.commandCreateTable(tableName, model)).execute();
     }
 

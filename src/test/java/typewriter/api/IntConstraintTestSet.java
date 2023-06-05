@@ -52,7 +52,7 @@ public interface IntConstraintTestSet extends Testable {
     }
 
     @Test
-    default void lessThan() {
+    default void isLessThan() {
         Person model1 = new Person(10);
         Person model2 = new Person(20);
         Person model3 = new Person(30);
@@ -68,7 +68,7 @@ public interface IntConstraintTestSet extends Testable {
     }
 
     @Test
-    default void lessThanOrEqual() {
+    default void isOrLessThan() {
         Person model1 = new Person(10);
         Person model2 = new Person(20);
         Person model3 = new Person(30);
@@ -78,14 +78,14 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.isOrLess(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isOrLessThan(20)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model1);
         assert founds.get(1).equals(model2);
     }
 
     @Test
-    default void greaterThan() {
+    default void isMoreThan() {
         Person model1 = new Person(10);
         Person model2 = new Person(20);
         Person model3 = new Person(30);
@@ -101,7 +101,7 @@ public interface IntConstraintTestSet extends Testable {
     }
 
     @Test
-    default void greaterThanOrEqual() {
+    default void isOrMoreThan() {
         Person model1 = new Person(10);
         Person model2 = new Person(20);
         Person model3 = new Person(30);
@@ -111,7 +111,7 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.isOrMore(20)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isOrMoreThan(20)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model2);
         assert founds.get(1).equals(model3);
@@ -128,7 +128,7 @@ public interface IntConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getAge, c -> c.isOrMore(20).isLessThan(30)).toList();
+        List<Person> founds = dao.findBy(Person::getAge, c -> c.isOrMoreThan(20).isLessThan(30)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model2);
     }

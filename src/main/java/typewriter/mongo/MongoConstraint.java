@@ -147,7 +147,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> isOrLess(V value) {
+        public NumericConstraint<V> isOrLessThan(V value) {
             filters.add(Filters.lte(propertyName, value));
             return this;
         }
@@ -165,7 +165,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> isOrMore(V value) {
+        public NumericConstraint<V> isOrMoreThan(V value) {
             filters.add(Filters.gte(propertyName, value));
             return this;
         }
@@ -227,7 +227,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint isOrLess(int value) {
+        public StringConstraint isOrLessThan(int value) {
             filters.add(Filters.expr(BsonDocument.parse("{$lte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
             return this;
         }
@@ -245,7 +245,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint isOrMore(int value) {
+        public StringConstraint isOrMoreThan(int value) {
             filters.add(Filters.expr(BsonDocument.parse("{$gte: [{ $strLenCP : '$" + propertyName + "' }, " + value + "]} ")));
             return this;
         }
@@ -416,7 +416,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public ListConstraint<M> isOrLess(int value) {
+        public ListConstraint<M> isOrLessThan(int value) {
             return null;
         }
 
@@ -424,7 +424,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public ListConstraint<M> isOrMore(int value) {
+        public ListConstraint<M> isOrMoreThan(int value) {
             return null;
         }
     }
