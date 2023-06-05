@@ -117,7 +117,7 @@ public interface StringConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getName, c -> c.isLessThanOrEqual(3)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.isOrLess(3)).toList();
         assert founds.size() == 2;
         assert founds.get(0).equals(model1);
         assert founds.get(1).equals(model2);
@@ -134,7 +134,7 @@ public interface StringConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getName, c -> c.isGreaterThan(3)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.isMoreThan(3)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model3);
     }
@@ -150,7 +150,7 @@ public interface StringConstraintTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        List<Person> founds = dao.findBy(Person::getName, c -> c.isGreaterThanOrEqual(4)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.isOrMore(4)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model3);
     }
@@ -206,7 +206,7 @@ public interface StringConstraintTestSet extends Testable {
         dao.update(model3);
         dao.update(model4);
 
-        List<Person> founds = dao.findBy(Person::getName, c -> c.isGreaterThanOrEqual(4).isLessThan(5)).toList();
+        List<Person> founds = dao.findBy(Person::getName, c -> c.isOrMore(4).isLessThan(5)).toList();
         assert founds.size() == 1;
         assert founds.get(0).equals(model4);
     }

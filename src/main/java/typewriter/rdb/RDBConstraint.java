@@ -125,7 +125,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> isLessThanOrEqual(V value) {
+        public NumericConstraint<V> isOrLess(V value) {
             expression.add(propertyName + "<=" + value);
             return this;
         }
@@ -134,7 +134,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> isGreaterThan(V value) {
+        public NumericConstraint<V> isMoreThan(V value) {
             expression.add(propertyName + ">" + value);
             return this;
         }
@@ -143,7 +143,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public NumericConstraint<V> isGreaterThanOrEqual(V value) {
+        public NumericConstraint<V> isOrMore(V value) {
             expression.add(propertyName + ">=" + value);
             return this;
         }
@@ -224,7 +224,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint isLessThanOrEqual(int value) {
+        public StringConstraint isOrLess(int value) {
             expression.add("LENGTH(" + propertyName + ")<=" + value + "");
             return this;
         }
@@ -233,7 +233,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint isGreaterThan(int value) {
+        public StringConstraint isMoreThan(int value) {
             expression.add("LENGTH(" + propertyName + ")>" + value + "");
             return this;
         }
@@ -242,7 +242,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          * {@inheritDoc}
          */
         @Override
-        public StringConstraint isGreaterThanOrEqual(int value) {
+        public StringConstraint isOrMore(int value) {
             expression.add("LENGTH(" + propertyName + ")>=" + value + "");
             return this;
         }
@@ -433,7 +433,7 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
     /**
      * The specialized {@link Constraint} for {@link List}.
      */
-    static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
+    static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M>, Fromable {
         ForList(Specifier specifier) {
             super(specifier);
         }
@@ -443,9 +443,57 @@ abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public ListConstraint<M> contains(M value) {
-            System.out.println("Add const " + value);
-            expression.add("json_extract(" + propertyName + ", '$[*]') = '" + value + "'");
+            expression.add("json_each.value = '" + value + "'");
             return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> size(int value) {
+            expression.add("json_array_length(" + propertyName + ") = " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isMoreThan(int value) {
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isLessThan(int value) {
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isOrLess(int value) {
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isOrMore(int value) {
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String from() {
+            return "json_each(" + propertyName + ")";
         }
     }
 }

@@ -17,10 +17,10 @@ import kiss.I;
 import kiss.Signal;
 import typewriter.api.model.DerivableModel;
 
-public interface ListTestSet extends Testable {
+public interface ListConstraintTestSet extends Testable {
 
     @Test
-    default void list() {
+    default void codec() {
         Person model1 = new Person("one", "first", "1", "一");
         Person model2 = new Person("two", "second", "2", "二");
 
@@ -44,7 +44,7 @@ public interface ListTestSet extends Testable {
     }
 
     @Test
-    default void constraint() {
+    default void contains() {
         Person model1 = new Person("one", "first", "1", "一");
         Person model2 = new Person("two", "second", "2", "二");
 
@@ -54,7 +54,21 @@ public interface ListTestSet extends Testable {
 
         List<Person> founds = dao.findBy(Person::getAlias, c -> c.contains("2")).toList();
         assert founds.size() == 1;
-        assert founds.get(0).equals(model1);
+        assert founds.get(0).equals(model2);
+    }
+
+    @Test
+    default void size() {
+        Person model1 = new Person("one", "first", "1", "一");
+        Person model2 = new Person("two", "second");
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+
+        List<Person> founds = dao.findBy(Person::getAlias, c -> c.size(1)).toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model2);
     }
 
     /**
@@ -75,7 +89,7 @@ public interface ListTestSet extends Testable {
         }
 
         /**
-         * Get the alias property of this {@link ListTestSet.Person}.
+         * Get the alias property of this {@link ListConstraintTestSet.Person}.
          * 
          * @return The alias property.
          */

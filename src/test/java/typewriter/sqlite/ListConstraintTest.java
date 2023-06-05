@@ -9,7 +9,7 @@
  */
 package typewriter.sqlite;
 
-import typewriter.api.ListTestSet;
+import typewriter.api.ListConstraintTestSet;
 
-public class ListTest extends SQLiteTestBase implements ListTestSet {
+public class ListConstraintTest extends SQLiteTestBase implements ListConstraintTestSet {
 }

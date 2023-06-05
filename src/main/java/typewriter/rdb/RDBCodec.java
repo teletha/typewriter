@@ -386,10 +386,8 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public void encode(Map<String, Object> result, String name, List<T> value) {
-            StringBuilder buffer = new StringBuilder("json_array('");
+            StringBuilder buffer = new StringBuilder();
             I.write(model, value, buffer);
-            buffer.append("')");
-            System.out.println("PUT JSON " + buffer);
             result.put(name, buffer.toString());
         }
 

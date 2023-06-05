@@ -92,7 +92,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        NumericConstraint<V> isLessThanOrEqual(V value);
+        NumericConstraint<V> isOrLess(V value);
 
         /**
          * Describes conditions for the specified property.
@@ -100,7 +100,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        NumericConstraint<V> isGreaterThan(V value);
+        NumericConstraint<V> isMoreThan(V value);
 
         /**
          * Describes conditions for the specified property.
@@ -108,7 +108,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        NumericConstraint<V> isGreaterThanOrEqual(V value);
+        NumericConstraint<V> isOrMore(V value);
     }
 
     /**
@@ -160,7 +160,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        StringConstraint isLessThanOrEqual(int value);
+        StringConstraint isOrLess(int value);
 
         /**
          * Describes conditions for the specified property.
@@ -168,7 +168,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        StringConstraint isGreaterThan(int value);
+        StringConstraint isMoreThan(int value);
 
         /**
          * Describes conditions for the specified property.
@@ -176,7 +176,7 @@ public interface Constraint<V, Self> {
          * @param value A conditional value.
          * @return Chainable API.
          */
-        StringConstraint isGreaterThanOrEqual(int value);
+        StringConstraint isOrMore(int value);
     }
 
     /**
@@ -449,5 +449,45 @@ public interface Constraint<V, Self> {
          * @return Chainable API.
          */
         ListConstraint<M> contains(M value);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param value A conditional value.
+         * @return Chainable API.
+         */
+        ListConstraint<M> size(int value);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param value A conditional value.
+         * @return Chainable API.
+         */
+        ListConstraint<M> isMoreThan(int value);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param value A conditional value.
+         * @return Chainable API.
+         */
+        ListConstraint<M> isLessThan(int value);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param value A conditional value.
+         * @return Chainable API.
+         */
+        ListConstraint<M> isOrLess(int value);
+
+        /**
+         * Describes conditions for the specified property.
+         * 
+         * @param value A conditional value.
+         * @return Chainable API.
+         */
+        ListConstraint<M> isOrMore(int value);
     }
 }
