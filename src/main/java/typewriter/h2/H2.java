@@ -9,10 +9,14 @@
  */
 package typewriter.h2;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kiss.I;
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Specifier;
@@ -34,7 +38,7 @@ public class H2 extends Dialect {
         TYPES.put(byte.class, "smallint");
         TYPES.put(boolean.class, "boolean");
         TYPES.put(String.class, "varchar");
-        TYPES.put(List.class, "json");
+        TYPES.put(List.class, "varchar");
     }
 
     /**
@@ -49,6 +53,24 @@ public class H2 extends Dialect {
     @Override
     public String types(Class type) {
         return TYPES.get(type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Connection createConnection(String url) throws Exception {
+        Connection con = super.createConnection(url);
+
+        try {
+            Statement stat = con.createStatement();
+            stat.execute("CREATE ALIAS json_array_length FOR '" + Functions.class.getName() + ".jsonArrayLength'");
+            stat.execute("CREATE ALIAS json_array_contains FOR '" + Functions.class.getName() + ".jsonArrayContains'");
+        } catch (SQLException e) {
+            // ignore
+        }
+
+        return con;
     }
 
     /**
@@ -88,7 +110,7 @@ public class H2 extends Dialect {
          */
         @Override
         public ListConstraint<M> contains(M value) {
-            expression.add("(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ");
+            expression.add("json_array_contains(" + propertyName + ", '" + I.transform(value, String.class) + "')");
             return this;
         }
 
@@ -97,7 +119,7 @@ public class H2 extends Dialect {
          */
         @Override
         public ListConstraint<M> size(int value) {
-            expression.add("json_length(" + propertyName + ") = " + value);
+            expression.add("json_array_length(" + propertyName + ") = " + value);
             return this;
         }
 
