@@ -23,7 +23,7 @@ public class Project extends bee.api.Project {
                 * [MongoDB](https://github.com/mongodb/mongo)
                 """);
 
-        require("com.github.teletha", "sinobu");
+        require("com.github.teletha", "sinobu", "[3.4.0)");
         require("org.mongodb", "mongodb-driver-sync").atProvided();
         require("org.xerial", "sqlite-jdbc").atProvided();
         require("com.h2database", "h2").atProvided();
