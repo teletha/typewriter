@@ -9,18 +9,7 @@
  */
 package typewriter.maria;
 
-import org.junit.jupiter.api.Test;
-
 import typewriter.api.StringStoreTestSet;
 
 public class StringStoreTest extends MariaDBTestBase implements StringStoreTestSet {
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Test
-    public void tab() {
-        StringStoreTestSet.super.tab();
-    }
 }

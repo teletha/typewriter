@@ -33,5 +33,6 @@ public class Project extends bee.api.Project {
         require("de.bwaldvogel", "mongo-java-server").atTest();
         require("com.github.teletha", "psychopath").atTest();
         require("org.apache.commons", "commons-lang3").atTest();
+        require("org.slf4j", "slf4j-nop").atTest();
     }
 }
