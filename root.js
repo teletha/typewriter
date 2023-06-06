@@ -42,6 +42,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Constraint.ListConstraint",
+			"packageName": "typewriter.api",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Constraint.LocalDateConstraint",
 			"packageName": "typewriter.api",
 			"type": "Interface"
@@ -115,6 +122,13 @@ const root = {
 			"name": "Dialect",
 			"packageName": "typewriter.rdb",
 			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Functions",
+			"packageName": "typewriter.h2",
+			"type": "Class"
 		},
 		{
 			"modifiers": {
@@ -203,6 +217,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "RDBConstraint",
+			"packageName": "typewriter.rdb",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "RDBQuery",
 			"packageName": "typewriter.rdb",
 			"type": "Class"
@@ -260,6 +281,13 @@ const root = {
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Specifier.DateSpecifier",
+			"packageName": "typewriter.api",
+			"type": "Functional"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Specifier.ListSpecifier",
 			"packageName": "typewriter.api",
 			"type": "Functional"
 		},
