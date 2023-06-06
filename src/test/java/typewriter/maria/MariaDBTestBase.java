@@ -46,7 +46,7 @@ public class MariaDBTestBase implements Testable {
     private String url;
 
     @BeforeAll
-    static synchronized void before() throws ManagedProcessException {
+    static synchronized void before() throws ManagedProcessException, InterruptedException {
         if (count++ == 0) {
             dir = Locator.temporaryDirectory();
 
