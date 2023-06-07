@@ -74,8 +74,6 @@ class ConnectionPool implements WiseSupplier<Connection> {
         this.timeout = config("typewriter.connection.timeout", 1000 * 10L);
         this.idle = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
-
-        Migration.run(url);
     }
 
     /**
@@ -146,6 +144,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
                 connection = idle.poll(timeout, TimeUnit.MILLISECONDS);
             } else {
                 connection = new ManagedConnection();
+
+                Migration.run(connection);
             }
         }
 

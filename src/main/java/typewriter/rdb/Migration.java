@@ -9,22 +9,44 @@
  */
 package typewriter.rdb;
 
+import java.io.OutputStreamWriter;
+import java.sql.Connection;
+
+import kiss.I;
+import liquibase.Contexts;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
+
 public class Migration {
 
-    private static boolean canMigrate;
+    /** Check if Liquibase exists on the classpath. */
+    private static boolean canLiquibase;
 
     static {
         try {
-            Class.forName("org.flywaydb.core.Flyway");
-            canMigrate = true;
+            Class.forName("liquibase.Liquibase");
+            canLiquibase = true;
         } catch (ClassNotFoundException e) {
-            canMigrate = false;
+            canLiquibase = false;
         }
     }
 
-    public static void run(String url) {
-        if (canMigrate) {
-            // Flyway.configure().dataSource(url, "", "").load().migrate();
+    @SuppressWarnings("resource")
+    public static void run(Connection url) {
+        if (canLiquibase) {
+            try {
+                Database db = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(url));
+
+                Liquibase liquibase = new Liquibase("db/changeLog.xml", new ClassLoaderResourceAccessor(), db);
+                liquibase.update(new Contexts(), new OutputStreamWriter(System.out));
+
+                System.out.println("OK");
+            } catch (Exception e) {
+                throw I.quiet(e);
+            }
         }
     }
 }
