@@ -12,6 +12,7 @@ package typewriter.rdb;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,41 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
     /** The supported RDBMS. */
     public static final Dialect MariaDB = I.make(MariaDB.class);
+
+    /** The detected dialect from environment. */
+    private static final Dialect Detected = detect();
+
+    private static Dialect detect() {
+        List<Dialect> detected = new ArrayList();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            detected.add(RDB.SQLite);
+        } catch (ClassNotFoundException e) {
+            // ignore
+        }
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            detected.add(RDB.MariaDB);
+        } catch (ClassNotFoundException e) {
+            // ignore
+        }
+
+        try {
+            Class.forName("org.h2.Driver");
+            detected.add(RDB.H2);
+        } catch (ClassNotFoundException e) {
+            // ignore
+        }
+
+        if (detected.size() == 1) {
+            return detected.get(0);
+        } else if (detected.size() == 0) {
+            throw new Error("The suitable jdbc driver is not found.");
+        } else {
+            throw new Error("Multiple jdbc drivers are found. " + detected);
+        }
+    }
 
     /** The reusable DAO cache. */
     private static final Map<Dialect, Map<Class, RDB>> DAO = Map
@@ -318,6 +354,17 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
             model.set(instance, property, codec.decode(result, property.name));
         }
         return instance;
+    }
+
+    /**
+     * Get the collection using {@link Dialect} found in the environmental information.
+     * 
+     * @param <M>
+     * @param type The model type.
+     * @return
+     */
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type) {
+        return of(type, Detected);
     }
 
     /**
