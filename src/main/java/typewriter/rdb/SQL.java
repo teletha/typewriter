@@ -14,11 +14,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import kiss.I;
 import kiss.Signal;
@@ -167,6 +169,142 @@ public class SQL<M extends IdentifiableModel> {
         }
         text.append(')');
         return this;
+    }
+
+    /**
+     * Write VALUES statement.
+     * 
+     * @param instances
+     * @return
+     */
+    public SQL<M> values(Iterable<M> instances) {
+        text.append("VALUES");
+        for (M instance : instances) {
+            text.append('(');
+
+            Map<String, Object> result = new LinkedHashMap();
+            for (Property property : rdb.model.properties()) {
+                RDBCodec codec = RDBCodec.by(property.model);
+                codec.encode(result, property.name, rdb.model.get(instance, property));
+            }
+
+            for (Entry<String, Object> entry : result.entrySet()) {
+                text.append("?,");
+                variables.add((p, index) -> p.setObject(index, entry.getValue()));
+            }
+
+            text.deleteCharAt(text.length() - 1);
+            text.append("),");
+        }
+        text.deleteCharAt(text.length() - 1);
+
+        return this;
+    }
+
+    private class Mapper implements Map {
+
+        private boolean valueMode;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int size() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isEmpty() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean containsKey(Object key) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean containsValue(Object value) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object get(Object key) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object put(Object key, Object value) {
+            if (valueMode) {
+                text.append(value).append(',');
+            } else {
+                text.append(key).append(',');
+            }
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object remove(Object key) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void putAll(Map m) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clear() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set keySet() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Collection values() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set entrySet() {
+            throw new Error();
+        }
     }
 
     /**

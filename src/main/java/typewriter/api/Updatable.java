@@ -9,6 +9,9 @@
  */
 package typewriter.api;
 
+import java.util.List;
+
+import kiss.Signal;
 import typewriter.api.model.IdentifiableModel;
 
 public interface Updatable<M extends IdentifiableModel> {
@@ -39,4 +42,31 @@ public interface Updatable<M extends IdentifiableModel> {
      * @param specifiers A list of property {@link Specifier}.
      */
     void update(M model, Specifier<M, ?>... specifiers);
+
+    /**
+     * Update the properties of all given models.
+     * 
+     * @param models
+     */
+    default void updateAll(M... models) {
+        updateAll(List.of(models));
+    }
+
+    /**
+     * Update the properties of all given models.
+     * 
+     * @param models
+     */
+    default void updateAll(Iterable<M> models) {
+        models.forEach(this::update);
+    }
+
+    /**
+     * Update the properties of all given models.
+     * 
+     * @param models
+     */
+    default void updateAll(Signal<M> models) {
+        updateAll(models.toList());
+    }
 }

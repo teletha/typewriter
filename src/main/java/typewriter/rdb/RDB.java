@@ -256,6 +256,14 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * {@inheritDoc}
      */
     @Override
+    public void updateAll(Iterable<M> models) {
+        new SQL<>(this).write(dialect.commandReplace(), tableName).values(models).execute();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized <R> R transactWith(WiseFunction<RDB<M>, R> operation) {
         Connection connection = provider.get();
         try {
