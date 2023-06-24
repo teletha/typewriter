@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,7 +23,6 @@ import java.util.Set;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.WiseBiConsumer;
 import kiss.Ⅱ;
 import kiss.model.Property;
 import typewriter.api.Specifier;
@@ -39,7 +37,7 @@ public class SQL<M extends IdentifiableModel> {
     private final StringBuilder text = new StringBuilder();
 
     /** The variable list. */
-    private final List<WiseBiConsumer<PreparedStatement, Integer>> variables = new ArrayList();
+    private final List variables = new ArrayList();
 
     /**
      * Hide constructor.
@@ -122,17 +120,6 @@ public class SQL<M extends IdentifiableModel> {
     }
 
     /**
-     * Register variable.
-     * 
-     * @param variable
-     * @return
-     */
-    public SQL<M> bind(Object variable) {
-        variables.add((p, index) -> p.setObject(index, variable));
-        return this;
-    }
-
-    /**
      * Write column names.
      * 
      * @param properties
@@ -156,19 +143,7 @@ public class SQL<M extends IdentifiableModel> {
      * @return
      */
     public SQL<M> values(M instance) {
-        Map<String, Object> result = new LinkedHashMap();
-        for (Property property : rdb.model.properties()) {
-            RDBCodec codec = RDBCodec.by(property.model);
-            codec.encode(result, property.name, rdb.model.get(instance, property));
-        }
-
-        int count = 0;
-        for (Entry<String, Object> entry : result.entrySet()) {
-            text.append(count++ == 0 ? " VALUES(?" : ",?");
-            variables.add((p, index) -> p.setObject(index, entry.getValue()));
-        }
-        text.append(')');
-        return this;
+        return values(List.of(instance));
     }
 
     /**
@@ -178,133 +153,24 @@ public class SQL<M extends IdentifiableModel> {
      * @return
      */
     public SQL<M> values(Iterable<M> instances) {
+        // prepare RDB codecs
+        List<Ⅱ<Property, RDBCodec>> codecs = new ArrayList();
+        for (Property property : rdb.model.properties()) {
+            codecs.add(I.pair(property, RDBCodec.by(property.model)));
+        }
+
+        Mapper mapper = new Mapper();
         text.append("VALUES");
         for (M instance : instances) {
             text.append('(');
-
-            Map<String, Object> result = new LinkedHashMap();
-            for (Property property : rdb.model.properties()) {
-                RDBCodec codec = RDBCodec.by(property.model);
-                codec.encode(result, property.name, rdb.model.get(instance, property));
+            for (Ⅱ<Property, RDBCodec> codec : codecs) {
+                codec.ⅱ.encode(mapper, codec.ⅰ.name, rdb.model.get(instance, codec.ⅰ));
             }
-
-            for (Entry<String, Object> entry : result.entrySet()) {
-                text.append("?,");
-                variables.add((p, index) -> p.setObject(index, entry.getValue()));
-            }
-
-            text.deleteCharAt(text.length() - 1);
-            text.append("),");
+            text.deleteCharAt(text.length() - 1).append("),");
         }
         text.deleteCharAt(text.length() - 1);
 
         return this;
-    }
-
-    private class Mapper implements Map {
-
-        private boolean valueMode;
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int size() {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean isEmpty() {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean containsKey(Object key) {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean containsValue(Object value) {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Object get(Object key) {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Object put(Object key, Object value) {
-            if (valueMode) {
-                text.append(value).append(',');
-            } else {
-                text.append(key).append(',');
-            }
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Object remove(Object key) {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void putAll(Map m) {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void clear() {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set keySet() {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Collection values() {
-            throw new Error();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Set entrySet() {
-            throw new Error();
-        }
     }
 
     /**
@@ -323,7 +189,7 @@ public class SQL<M extends IdentifiableModel> {
         int count = 0;
         for (Entry<String, Object> entry : result.entrySet()) {
             text.append(count++ == 0 ? " SET " : ",").append(entry.getKey()).append("=?");
-            variables.add((p, index) -> p.setObject(index, entry.getValue()));
+            variables.add(entry.getValue());
         }
         return this;
     }
@@ -394,8 +260,8 @@ public class SQL<M extends IdentifiableModel> {
         int index = 1;
         try (Connection connection = rdb.provider.get()) {
             PreparedStatement prepared = connection.prepareStatement(text.toString());
-            for (WiseBiConsumer<PreparedStatement, Integer> variable : variables) {
-                variable.accept(prepared, index++);
+            for (Object variable : variables) {
+                prepared.setObject(index++, variable);
             }
             prepared.execute();
         } catch (SQLException e) {
@@ -415,8 +281,8 @@ public class SQL<M extends IdentifiableModel> {
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
                 PreparedStatement prepared = connection.prepareStatement(text.toString());
-                for (WiseBiConsumer<PreparedStatement, Integer> variable : variables) {
-                    variable.accept(prepared, index++);
+                for (Object variable : variables) {
+                    prepared.setObject(index++, variable);
                 }
                 ResultSet result = prepared.executeQuery();
                 while (!disposer.isDisposed() && result.next()) {
@@ -428,5 +294,109 @@ public class SQL<M extends IdentifiableModel> {
             }
             return disposer;
         });
+    }
+
+    /**
+     * Transparent variable mapper.
+     */
+    private class Mapper implements Map {
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int size() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isEmpty() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean containsKey(Object key) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean containsValue(Object value) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object get(Object key) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object put(Object key, Object value) {
+            text.append("?,");
+            variables.add(value);
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Object remove(Object key) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void putAll(Map m) {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clear() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set keySet() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Collection values() {
+            throw new Error();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Set entrySet() {
+            throw new Error();
+        }
     }
 }
