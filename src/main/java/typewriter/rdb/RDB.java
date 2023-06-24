@@ -320,7 +320,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @return
      */
     public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect) {
-        return DAO.get(dialect).computeIfAbsent(type, key -> new RDB(type, dialect, (String) null));
+        return DAO.get(dialect).computeIfAbsent(type, key -> new RDB(type, dialect, dialect.configureLocation(null)));
     }
 
     /**
