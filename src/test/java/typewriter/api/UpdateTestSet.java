@@ -19,7 +19,7 @@ import typewriter.api.model.DerivableModel;
 public interface UpdateTestSet extends Testable {
 
     @Test
-    default void all() {
+    default void updateAll() {
         Person model1 = new Person("one", 10);
         Person model2 = new Person("two", 20);
 
@@ -30,6 +30,26 @@ public interface UpdateTestSet extends Testable {
         model1 = list.get(0);
         model2 = list.get(1);
         assert model1.age == 10;
+        assert model1.name.equals("one");
+        assert model2.age == 20;
+        assert model2.name.equals("two");
+    }
+
+    @Test
+    default void updatePartial() {
+        Person model1 = new Person("one", 10);
+        Person model2 = new Person("two", 20);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+
+        model1.age = 15;
+        dao.updateAll(model1, model2);
+
+        List<Person> list = dao.findAll().toList();
+        model1 = list.get(0);
+        model2 = list.get(1);
+        assert model1.age == 15;
         assert model1.name.equals("one");
         assert model2.age == 20;
         assert model2.name.equals("two");
