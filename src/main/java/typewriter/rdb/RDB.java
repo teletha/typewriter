@@ -76,7 +76,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         } else if (detected.size() == 0) {
             throw new Error("The suitable jdbc driver is not found.");
         } else {
-            throw new Error("Multiple jdbc drivers are found. " + detected);
+            return detected.get(0);
+            // throw new Error("Multiple jdbc drivers are found. " + detected);
         }
     }
 
