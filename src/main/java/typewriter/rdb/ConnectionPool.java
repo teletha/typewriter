@@ -144,8 +144,6 @@ class ConnectionPool implements WiseSupplier<Connection> {
                 connection = idle.poll(timeout, TimeUnit.MILLISECONDS);
             } else {
                 connection = new ManagedConnection();
-
-                Migration.run(connection);
             }
         }
 

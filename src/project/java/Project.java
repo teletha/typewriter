@@ -29,7 +29,6 @@ public class Project extends bee.api.Project {
         require("com.h2database", "h2").atProvided();
         require("org.mariadb.jdbc", "mariadb-java-client").atProvided();
         require("ch.vorburger.mariaDB4j", "mariaDB4j").atProvided();
-        require("org.liquibase", "liquibase-core").atProvided();
         require("com.github.teletha", "antibug").atTest();
         require("de.bwaldvogel", "mongo-java-server").atTest();
         require("com.github.teletha", "psychopath").atTest();
