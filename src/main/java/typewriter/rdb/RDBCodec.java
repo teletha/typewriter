@@ -97,6 +97,10 @@ public abstract class RDBCodec<T> implements Extensible {
             return new ListCodec(model);
         }
 
+        if (model.type.isEnum()) {
+            return new EnumCodec(model.type);
+        }
+
         throw new Error(RDBCodec.class.getSimpleName() + " for " + model.type + " is not found.");
     }
 
@@ -397,6 +401,36 @@ public abstract class RDBCodec<T> implements Extensible {
         @Override
         public List<T> decode(ResultSet result, String name) throws SQLException {
             return I.json(result.getString(name)).as(model);
+        }
+    }
+
+    /**
+     * Built-in codec.
+     */
+    static class EnumCodec<T> extends RDBCodec<T> {
+
+        private final Class<T> type;
+
+        private EnumCodec(Class<T> type) {
+            super(String.class);
+
+            this.type = type;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void encode(Map<String, Object> result, String name, T value) {
+            result.put(name, I.transform(value, String.class));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public T decode(ResultSet result, String name) throws SQLException {
+            return I.transform(result.getString(name), type);
         }
     }
 }
