@@ -12,7 +12,6 @@ package typewriter.rdb;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +27,11 @@ import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.h2.H2;
+import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
+import typewriter.maria.MariaModel;
 import typewriter.sqlite.SQLite;
+import typewriter.sqlite.SQLiteModel;
 
 /**
  * Data Access Object for RDBMS.
@@ -44,42 +46,6 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
     /** The supported RDBMS. */
     public static final Dialect MariaDB = I.make(MariaDB.class);
-
-    /** The detected dialect from environment. */
-    private static final Dialect Detected = detect();
-
-    private static Dialect detect() {
-        List<Dialect> detected = new ArrayList();
-        try {
-            Class.forName("org.sqlite.JDBC");
-            detected.add(RDB.SQLite);
-        } catch (ClassNotFoundException e) {
-            // ignore
-        }
-
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            detected.add(RDB.MariaDB);
-        } catch (ClassNotFoundException e) {
-            // ignore
-        }
-
-        try {
-            Class.forName("org.h2.Driver");
-            detected.add(RDB.H2);
-        } catch (ClassNotFoundException e) {
-            // ignore
-        }
-
-        if (detected.size() == 1) {
-            return detected.get(0);
-        } else if (detected.size() == 0) {
-            throw new Error("The suitable jdbc driver is not found.");
-        } else {
-            return detected.get(0);
-            // throw new Error("Multiple jdbc drivers are found. " + detected);
-        }
-    }
 
     /** The reusable DAO cache. */
     private static final Map<Dialect, Map<Class, RDB>> DAO = Map
@@ -365,7 +331,17 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @return
      */
     public static <M extends IdentifiableModel> RDB<M> of(Class<M> type) {
-        return of(type, Detected);
+        Dialect dialect;
+        if (SQLiteModel.class.isAssignableFrom(type)) {
+            dialect = SQLite;
+        } else if (H2Model.class.isAssignableFrom(type)) {
+            dialect = H2;
+        } else if (MariaModel.class.isAssignableFrom(type)) {
+            dialect = MariaDB;
+        } else {
+            throw new Error("The suitable dialect is not found for" + type + ".");
+        }
+        return of(type, dialect);
     }
 
     /**
