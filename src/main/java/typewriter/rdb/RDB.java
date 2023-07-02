@@ -187,11 +187,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     @Override
     public Signal<M> findBy(RDBQuery<M> query) {
-        return new SQL<>(this).write("SELECT *")
-                .from(tableName)
-                .write(query)
-                .qurey()
-                .map(result -> decode(model, model.properties(), I.make(model.type), result));
+        SQL<M> sql = new SQL(this).write("SELECT *").from(tableName).write(query);
+        return sql.qurey().map(result -> decode(model, model.properties(), I.make(model.type), result)).effectOnError(e -> log(e, sql));
     }
 
     /**
@@ -205,12 +202,24 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         List<Property> properties = names(specifiers).map(model::property).or(I.signal(model.properties())).toList();
 
-        return new SQL<>(this).write("SELECT")
-                .names(properties)
-                .from(tableName)
-                .where(instance)
-                .qurey()
-                .map(result -> decode(model, properties, instance, result));
+        SQL<M> sql = new SQL(this).write("SELECT").names(properties).from(tableName).where(instance);
+        return sql.qurey().map(result -> decode(model, properties, instance, result)).effectOnError(e -> log(e, sql));
+    }
+
+    /**
+     * Write error log in detail.
+     * 
+     * @param e
+     */
+    private void log(Throwable e, SQL sql) {
+        StringBuilder builder = new StringBuilder(e.getMessage()).append("\r\n");
+        builder.append("\tModel\t: ").append(model.type.getCanonicalName()).append("\r\n");
+        builder.append("\tTable\t: ").append(tableName).append("\r\n");
+        builder.append("\tDialect\t: ").append(dialect.kind).append("\r\n");
+        builder.append("\tSQL \t: ").append(sql.toString());
+
+        I.error(builder);
+        I.error(e);
     }
 
     /**

@@ -297,6 +297,14 @@ public class SQL<M extends IdentifiableModel> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return text.toString();
+    }
+
+    /**
      * Transparent variable mapper.
      */
     private class Mapper implements Map {
