@@ -168,6 +168,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Migration",
+			"packageName": "typewriter.api",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Mongo",
 			"packageName": "typewriter.mongo",
 			"type": "Class"
