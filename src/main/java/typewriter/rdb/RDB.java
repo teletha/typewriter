@@ -74,7 +74,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param url A user specified backend address.
      */
     public RDB(Class<M> type, Dialect dialect, String url) {
-        this(Model.of(type), dialect, ConnectionPool.by(url + dialect.locationParameters()));
+        this(Model.of(type), dialect, ConnectionPool.by(url));
 
         dialect.createDatabase(url);
 

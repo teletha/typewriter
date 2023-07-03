@@ -63,15 +63,6 @@ public abstract class Dialect {
     protected abstract String defaultLocation();
 
     /**
-     * Define the additional parameters for database location.
-     * 
-     * @return
-     */
-    protected String locationParameters() {
-        return "";
-    }
-
-    /**
      * Create new {@link Connection}.
      * 
      * @param url A database URL.
