@@ -63,6 +63,15 @@ public abstract class Dialect {
     protected abstract String defaultLocation();
 
     /**
+     * Define the additional parameters for database location.
+     * 
+     * @return
+     */
+    protected String locationParameters() {
+        return "";
+    }
+
+    /**
      * Create new {@link Connection}.
      * 
      * @param url A database URL.
@@ -95,6 +104,18 @@ public abstract class Dialect {
      */
     public String commandCreateTable(String tableName, Model model) {
         return "CREATE TABLE IF NOT EXISTS " + tableName + " " + defineColumns(model);
+    }
+
+    /**
+     * Define SQL for adding new column.
+     * 
+     * @param tableName
+     * @param columnName
+     * @param type
+     * @return
+     */
+    public String commandAddRow(String tableName, String columnName, Class type) {
+        return "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + types(type);
     }
 
     /**

@@ -127,9 +127,15 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
      * @param client
      */
     Mongo(Class<M> model, MongoClient client) {
+        String name = model.getName();
+        Managed managed = model.getAnnotation(Managed.class);
+        if (managed != null && !managed.name().isEmpty()) {
+            name = managed.name();
+        }
+
         this.model = Model.of(model);
         this.db = Objects.requireNonNullElse(client, Client).getDatabase("master").withCodecRegistry(CODEC_REGISTRY);
-        this.collection = db.getCollection(model.getName().replace('$', '#'));
+        this.collection = db.getCollection(name.replace('$', '#'));
     }
 
     /**

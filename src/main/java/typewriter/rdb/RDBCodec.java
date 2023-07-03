@@ -21,6 +21,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import kiss.I;
 import kiss.Managed;
 import kiss.Singleton;
 import kiss.WiseBiFunction;
+import kiss.Ⅱ;
 import kiss.model.Model;
 import kiss.model.Property;
 import typewriter.api.Constraint.ZonedDateTimeConstraint;
@@ -154,6 +156,19 @@ public abstract class RDBCodec<T> implements Extensible {
     public abstract void encode(Map<String, Object> result, String name, T value);
 
     public abstract T decode(ResultSet result, String name) throws SQLException;
+
+    /**
+     * List up all types with its name.
+     * 
+     * @param defaultName
+     */
+    public final List<Ⅱ<String, Class>> info(String defaultName) {
+        List<Ⅱ<String, Class>> set = new ArrayList();
+        for (int i = 0; i < names.size(); i++) {
+            set.add(I.pair(defaultName + names.get(i), types.get(i)));
+        }
+        return set;
+    }
 
     /**
      * Generic codec.

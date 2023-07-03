@@ -59,6 +59,14 @@ public class H2 extends Dialect {
      * {@inheritDoc}
      */
     @Override
+    protected String locationParameters() {
+        return ";database_to_upper=false;";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Connection createConnection(String url) throws Exception {
         Connection con = super.createConnection(url);
 

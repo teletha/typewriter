@@ -10,14 +10,17 @@
 package typewriter.rdb;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import kiss.I;
+import kiss.Managed;
 import kiss.Signal;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
@@ -71,19 +74,32 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param url A user specified backend address.
      */
     public RDB(Class<M> type, Dialect dialect, String url) {
-        this(Model.of(type), dialect, ConnectionPool.by(url));
+        this(Model.of(type), dialect, ConnectionPool.by(url + dialect.locationParameters()));
 
         dialect.createDatabase(url);
 
         new SQL<>(this).write(dialect.commandCreateTable(tableName, model)).execute();
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected RDBQuery<M> createQueryable() {
-        return new RDBQuery(dialect);
+        // collect table metadata
+        Map<String, String> rows = new HashMap();
+        try (Connection connection = provider.get()) {
+            DatabaseMetaData meta = connection.getMetaData();
+            ResultSet columns = meta.getColumns(null, null, tableName.replaceAll("`", ""), null);
+
+            while (columns.next()) {
+                rows.put(columns.getString("COLUMN_NAME"), columns.getString("TYPE_NAME"));
+            }
+        } catch (SQLException e) {
+            throw I.quiet(e);
+        }
+
+        // validate property
+        I.signal(model.properties())
+                .flatIterable(x -> RDBCodec.<Object> by(x.model).info(x.name))
+                .take(x -> rows.get(x.ⅰ) == null)
+                .to(x -> {
+                    new SQL<>(this).write(dialect.commandAddRow(tableName, x.ⅰ, x.ⅱ)).execute();
+                });
     }
 
     /**
@@ -95,10 +111,24 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @param createTable Should I create table?
      */
     private RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> provider) {
+        String name = model.type.getName();
+        Managed managed = model.type.getAnnotation(Managed.class);
+        if (managed != null && !managed.name().isEmpty()) {
+            name = managed.name();
+        }
+
         this.model = model;
-        this.tableName = '`' + model.type.getName() + '`';
+        this.tableName = '`' + name + '`';
         this.dialect = dialect;
         this.provider = provider;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected RDBQuery<M> createQueryable() {
+        return new RDBQuery(dialect);
     }
 
     /**
@@ -310,8 +340,12 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @throws SQLException
      */
     private <V> V decode(Property property, ResultSet result) throws SQLException {
-        RDBCodec<V> codec = RDBCodec.by(property.model);
-        return codec.decode(result, property.name);
+        try {
+            RDBCodec<V> codec = RDBCodec.by(property.model);
+            return codec.decode(result, property.name);
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
     /**
@@ -326,8 +360,12 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      */
     private <V> V decode(Model model, Collection<Property> properties, V instance, ResultSet result) throws SQLException {
         for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model);
-            model.set(instance, property, codec.decode(result, property.name));
+            try {
+                RDBCodec codec = RDBCodec.by(property.model);
+                model.set(instance, property, codec.decode(result, property.name));
+            } catch (Throwable e) {
+                // ignore
+            }
         }
         return instance;
     }
