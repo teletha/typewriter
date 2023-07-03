@@ -16,13 +16,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.WiseFunction;
 import kiss.Ⅱ;
 import kiss.model.Property;
 import typewriter.api.Specifier;
@@ -125,9 +128,11 @@ public class SQL<M extends IdentifiableModel> {
      * @param properties
      * @return
      */
-    public SQL<M> names(List<Property> properties) {
+    public SQL<M> names(Iterable<Property> properties) {
         int count = 0;
-        for (Property property : properties) {
+        Iterator<Property> iterator = properties.iterator();
+        while (iterator.hasNext()) {
+            Property property = iterator.next();
             RDBCodec<?> codec = RDBCodec.by(property.model);
             for (int i = 0; i < codec.types.size(); i++) {
                 text.append(count++ == 0 ? ' ' : ',').append(property.name).append(codec.names.get(i));
@@ -264,7 +269,10 @@ public class SQL<M extends IdentifiableModel> {
                 prepared.setObject(index++, variable);
             }
             prepared.execute();
+
+            log(null);
         } catch (SQLException e) {
+            log(e);
             throw I.quiet(e);
         }
     }
@@ -273,11 +281,18 @@ public class SQL<M extends IdentifiableModel> {
      * Execute query.
      */
     Signal<ResultSet> qurey() {
+        return qurey(x -> x);
+    }
+
+    /**
+     * Execute query.
+     */
+    <R> Signal<R> qurey(WiseFunction<ResultSet, R> process) {
         if (text.isEmpty()) {
             return I.signal();
         }
 
-        return new Signal<>((observer, disposer) -> {
+        return new Signal<ResultSet>((observer, disposer) -> {
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
                 PreparedStatement prepared = connection.prepareStatement(text.toString());
@@ -289,11 +304,45 @@ public class SQL<M extends IdentifiableModel> {
                     observer.accept(result);
                 }
                 observer.complete();
+                log(null);
             } catch (SQLException e) {
                 observer.error(new SQLException(text.toString(), e));
             }
             return disposer;
-        });
+        }).map(process).effectOnError(this::log);
+    }
+
+    /**
+     * Write execution log in detail.
+     * 
+     * @param e
+     */
+    private void log(Throwable e) {
+        if (e == null) {
+            I.debug(message(e));
+        } else {
+            I.error(message(e));
+            I.error(e);
+        }
+    }
+
+    /**
+     * Create log message lazily.
+     * 
+     * @param e
+     * @return
+     */
+    private Supplier message(Throwable e) {
+        return () -> {
+            StringBuilder builder = new StringBuilder("Typewriter ");
+            builder.append(e == null ? "executes" : "throws ".concat(e.getMessage()));
+            builder.append(" Model: ").append(rdb.model.type.getCanonicalName());
+            builder.append("\tTable: ").append(rdb.tableName);
+            builder.append("\tDialect: ").append(rdb.dialect.kind);
+            builder.append(" \tSQL: ").append(text.toString());
+
+            return builder.toString();
+        };
     }
 
     /**
