@@ -21,6 +21,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +89,8 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
     // register built-in decoders
     static {
         decoders.put(LocalDate.class, (doc, key) -> {
-            return LocalDate.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
+            Date date = doc.getDate(key);
+            return date == null ? null : LocalDate.ofInstant(date.toInstant(), ZoneOffset.UTC);
         });
         decoders.put(LocalTime.class, (doc, key) -> {
             return LocalTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);

@@ -253,7 +253,7 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public void encode(Map<String, Object> result, String name, LocalDate value) {
-            result.put(name, value.toEpochDay());
+            result.put(name, value == null ? null : value.toEpochDay());
         }
 
         /**
@@ -263,7 +263,8 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public LocalDate decode(ResultSet result, String name) throws SQLException {
-            return LocalDate.ofEpochDay(result.getLong(name));
+            long value = result.getLong(name);
+            return result.wasNull() ? null : LocalDate.ofEpochDay(value);
         }
     }
 
