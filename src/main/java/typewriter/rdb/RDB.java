@@ -95,7 +95,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
 
         // validate property
         I.signal(model.properties())
-                .flatIterable(x -> RDBCodec.<Object> by(x.model).info(x.name))
+                .flatIterable(x -> RDBCodec.by((Model<?>) x.model).info(x.name))
                 .take(x -> rows.get(x.ⅰ) == null)
                 .to(x -> {
                     new SQL<>(this).write(dialect.commandAddRow(tableName, x.ⅰ, x.ⅱ)).execute();
