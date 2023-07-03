@@ -9,6 +9,9 @@
  */
 package typewriter.api.model;
 
+import java.util.concurrent.TimeUnit;
+
+import kiss.Disposable;
 import kiss.I;
 import kiss.Signal;
 import typewriter.api.Deletable;
@@ -17,6 +20,9 @@ import typewriter.api.Updatable;
 
 public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO extends Updatable<M> & Deletable<M> & Restorable<M>>
         extends IdentifiableModel {
+
+    /** The current save task. */
+    private Disposable saver;;
 
     /**
      * Restore this model from the backend storage.
@@ -43,13 +49,26 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     public M save() {
+        if (saver != null) saver.dispose();
+        long delay = delay();
+        if (delay <= 0) {
+            saving();
+        } else {
+            saver = I.schedule(delay(), TimeUnit.MILLISECONDS).to(this::saving);
+        }
+
+        return (M) this;
+    }
+
+    /**
+     * Save this model actually.
+     */
+    private void saving() {
         try {
             backend().update((M) this);
         } catch (Throwable e) {
             notify(e);
         }
-
-        return (M) this;
     }
 
     /**
@@ -81,5 +100,14 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      */
     protected void notify(Throwable error) {
         // do nothing
+    }
+
+    /**
+     * Define delay time (millis) on saving. (default is 0, immediately)
+     * 
+     * @return
+     */
+    protected long delay() {
+        return I.env("typewriter.save.delay", 0L);
     }
 }
