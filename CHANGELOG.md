@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.6.0](https://github.com/teletha/typewriter/compare/v1.5.0...v1.6.0) (2023-07-03)
+
+
+### Features
+
+* Add general codec for enum. ([45915d6](https://github.com/teletha/typewriter/commit/45915d617ec3fa1850fe267d83a09ab326b505e5))
+* Add various List constraints. ([e029268](https://github.com/teletha/typewriter/commit/e029268480e163bb7dec584fdd3535d65d68d54d))
+* BackendedModel supports delayed saving. ([5f805e1](https://github.com/teletha/typewriter/commit/5f805e11aec332ec2bec8e006ed2bd8597927762))
+* Dialect can create the specialized ListConstraint. ([0aeabf2](https://github.com/teletha/typewriter/commit/0aeabf2642a08863016b11b4d114d648a8fc5b08))
+* Enable error log. ([7870b6b](https://github.com/teletha/typewriter/commit/7870b6bf7357089dfd1aca126da2a59739898d16))
+* H2 supports ListConstraint. ([a9e600a](https://github.com/teletha/typewriter/commit/a9e600ad11bbdfe83b71caa1fc1dcc53c31a283f))
+* LocalDate codec supports null. ([eb6ee9c](https://github.com/teletha/typewriter/commit/eb6ee9c4f5efc8d75325805e19ac869f18731f5a))
+* RDB can detect dialect from environment. ([c13f65f](https://github.com/teletha/typewriter/commit/c13f65f9cd1653ac614252dbe5b17dd6a7f32256))
+* Support additional property migration. ([b86e0f6](https://github.com/teletha/typewriter/commit/b86e0f6bfb084cc1c6a6ab6687b5a504b42f7a02))
+* Support ListConstraint on sqlite. ([c5834dc](https://github.com/teletha/typewriter/commit/c5834dcf2c6104f411b6f55dcf043d797230ee25))
+* Support multiple update. ([0d090d1](https://github.com/teletha/typewriter/commit/0d090d1504099be3142df4d4c8c656a2c1cb7adc))
+* Support name-based property update on RDB backend. ([37e1f77](https://github.com/teletha/typewriter/commit/37e1f77ad4887701682317fd09954a8712c799ae))
+* Try to support 1:n relationship. ([790cf98](https://github.com/teletha/typewriter/commit/790cf9803c1671c0faf0e36276d51cb9d6691685))
+
+
+### Bug Fixes
+
+* Add slf4j-nop explicitly. ([9dc4af8](https://github.com/teletha/typewriter/commit/9dc4af83619e85928c01efa49b3175ba324b2d39))
+* Can't search the configured db location. ([f63b281](https://github.com/teletha/typewriter/commit/f63b28197b61b8f83cd9a404c39e82c8f0968257))
+* Correct DB setting on H2. ([dcc9b6c](https://github.com/teletha/typewriter/commit/dcc9b6c057d8b0e62adaa49cb63b9c8aeb4d69c0))
+* correct type inference ([b2590dd](https://github.com/teletha/typewriter/commit/b2590ddfe013990a38734949c8e45ea0b6262a7b))
+* H2DB uses memory db on test. ([e62295c](https://github.com/teletha/typewriter/commit/e62295ca43aa7947b739d71eebbf9708dec4b3cd))
+* Optimize query builder. ([eededb8](https://github.com/teletha/typewriter/commit/eededb8edc9f3ac9892442306ae3b0cae079d4a3))
+* Update MariaDB. ([166d53b](https://github.com/teletha/typewriter/commit/166d53bc040fa4341f360f244f20f854ed4675d7))
+* We should detect dialect from model type. ([a44830c](https://github.com/teletha/typewriter/commit/a44830c32d6f9e8d941f7f18af79ab2fa917c32e))
+
 ## [1.5.0](https://github.com/teletha/typewriter/compare/v1.4.0...v1.5.0) (2023-04-25)
 
 
