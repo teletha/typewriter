@@ -76,7 +76,8 @@ public abstract class RDBCodec<T> implements Extensible {
     private static <T> void register(Class<T> type, WiseBiFunction<ResultSet, String, T> decoder) {
         BULTINS.put(type, new GenericCodec<>(type, (result, name) -> {
             try {
-                return decoder.apply(result, name);
+                T value = decoder.apply(result, name);
+                return result.wasNull() && !type.isPrimitive() ? null : value;
             } catch (Exception e) {
                 return null;
             }
