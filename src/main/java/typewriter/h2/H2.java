@@ -37,6 +37,13 @@ public class H2 extends Dialect {
         TYPES.put(short.class, "tinyint");
         TYPES.put(byte.class, "smallint");
         TYPES.put(boolean.class, "boolean");
+        TYPES.put(Integer.class, "int");
+        TYPES.put(Long.class, "bigint");
+        TYPES.put(Float.class, "real");
+        TYPES.put(Double.class, "double");
+        TYPES.put(Short.class, "tinyint");
+        TYPES.put(Byte.class, "smallint");
+        TYPES.put(Boolean.class, "boolean");
         TYPES.put(String.class, "varchar");
         TYPES.put(List.class, "varchar");
     }

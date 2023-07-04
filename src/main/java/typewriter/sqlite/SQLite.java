@@ -55,6 +55,13 @@ public class SQLite extends Dialect {
         TYPES.put(short.class, "integer");
         TYPES.put(byte.class, "integer");
         TYPES.put(boolean.class, "bit");
+        TYPES.put(Integer.class, "integer");
+        TYPES.put(Long.class, "integer");
+        TYPES.put(Float.class, "real");
+        TYPES.put(Double.class, "real");
+        TYPES.put(Short.class, "integer");
+        TYPES.put(Byte.class, "integer");
+        TYPES.put(Boolean.class, "bit");
         TYPES.put(String.class, "text");
         TYPES.put(List.class, "json");
     }

@@ -43,6 +43,13 @@ public class MariaDB extends Dialect {
         TYPES.put(short.class, "tinyint");
         TYPES.put(byte.class, "smallint");
         TYPES.put(boolean.class, "boolean");
+        TYPES.put(Integer.class, "integer");
+        TYPES.put(Long.class, "bigint");
+        TYPES.put(Float.class, "float");
+        TYPES.put(Double.class, "double");
+        TYPES.put(Short.class, "tinyint");
+        TYPES.put(Byte.class, "smallint");
+        TYPES.put(Boolean.class, "boolean");
         TYPES.put(String.class, "text");
         TYPES.put(List.class, "json");
     }

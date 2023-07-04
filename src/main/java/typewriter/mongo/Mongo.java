@@ -21,7 +21,6 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,18 +87,30 @@ public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<
 
     // register built-in decoders
     static {
-        decoders.put(LocalDate.class, (doc, key) -> {
-            Date date = doc.getDate(key);
-            return date == null ? null : LocalDate.ofInstant(date.toInstant(), ZoneOffset.UTC);
-        });
-        decoders.put(LocalTime.class, (doc, key) -> {
-            return LocalTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
-        });
-        decoders.put(LocalDateTime.class, (doc, key) -> {
-            return LocalDateTime.ofInstant(doc.getDate(key).toInstant(), ZoneOffset.UTC);
-        });
+        register(Byte.class, Document::getInteger, Integer::byteValue);
+        register(Short.class, Document::getInteger, Integer::shortValue);
+        register(Float.class, Document::getDouble, Double::floatValue);
+        register(LocalDate.class, Document::getDate, date -> LocalDate.ofInstant(date.toInstant(), ZoneOffset.UTC));
+        register(LocalTime.class, Document::getDate, date -> LocalTime.ofInstant(date.toInstant(), ZoneOffset.UTC));
+        register(LocalDateTime.class, Document::getDate, date -> LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC));
         decoders.put(OffsetDateTime.class, I.make(OffsetDateTimeCodec.class));
         decoders.put(ZonedDateTime.class, I.make(ZonedDateTimeCodec.class));
+    }
+
+    /**
+     * Register the value codec for your type.
+     * 
+     * @param <T> Target type
+     * @param <B> Type for BSON
+     * @param type The target type.
+     * @param retriver
+     * @param converter
+     */
+    private static <T, B> void register(Class<T> type, BiFunction<Document, String, B> retriver, Function<B, T> converter) {
+        decoders.put(type, (doc, key) -> {
+            B value = retriver.apply(doc, key);
+            return value == null ? null : converter.apply(value);
+        });
     }
 
     /** The reusabel {@link Mongo} cache. */
