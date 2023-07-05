@@ -11,6 +11,7 @@ package typewriter.rdb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 import kiss.I;
 import kiss.Managed;
@@ -66,10 +67,11 @@ public abstract class Dialect {
      * Create new {@link Connection}.
      * 
      * @param url A database URL.
+     * @param properties JDBC options
      * @return
      */
-    public Connection createConnection(String url) throws Exception {
-        return DriverManager.getConnection(url);
+    public Connection createConnection(String url, Properties properties) throws Exception {
+        return DriverManager.getConnection(url, properties);
     }
 
     /**

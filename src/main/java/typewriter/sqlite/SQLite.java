@@ -15,10 +15,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import org.sqlite.Function;
+import org.sqlite.SQLiteConfig;
 
 import typewriter.api.Constraint;
 import typewriter.api.Constraint.ListConstraint;
@@ -29,6 +31,9 @@ import typewriter.rdb.RDBConstraint;
 import typewriter.rdb.SQL;
 
 public class SQLite extends Dialect {
+
+    /** The global config for SQLite. */
+    public static final SQLiteConfig CONFIG = new SQLiteConfig();
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
@@ -92,12 +97,8 @@ public class SQLite extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public Connection createConnection(String url) throws Exception {
-        Connection connection = super.createConnection(url);
-
-        // pragma
-        connection.createStatement().executeUpdate("PRAGMA journal_mode=wal");
-        connection.createStatement().executeUpdate("PRAGMA sync_mode=off");
+    public Connection createConnection(String url, Properties properties) throws Exception {
+        Connection connection = super.createConnection(url, CONFIG.toProperties());
 
         // register extra functions
         Function.create(connection, "REGEXP", REGEXP_FUNCTION);

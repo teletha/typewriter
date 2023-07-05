@@ -210,7 +210,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
          * @throws SQLException
          */
         private ManagedConnection() throws Exception {
-            this.delegation = dialect.createConnection(url);
+            this.delegation = dialect.createConnection(url, null);
         }
 
         /**

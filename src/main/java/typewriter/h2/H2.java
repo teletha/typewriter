@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import kiss.I;
 import typewriter.api.Constraint;
@@ -66,8 +67,8 @@ public class H2 extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public Connection createConnection(String url) throws Exception {
-        Connection con = super.createConnection(url + ";database_to_upper=false");
+    public Connection createConnection(String url, Properties properties) throws Exception {
+        Connection con = super.createConnection(url + ";database_to_upper=false", properties);
 
         try {
             Statement stat = con.createStatement();
