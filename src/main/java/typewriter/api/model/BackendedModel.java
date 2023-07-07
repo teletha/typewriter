@@ -55,6 +55,15 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
     /**
      * Save this model to the backend storage with delay.
      * 
+     * @return
+     */
+    public M saveLazily() {
+        return saveLazily(I.env("typewriter.save.delay", 250));
+    }
+
+    /**
+     * Save this model to the backend storage with delay.
+     * 
      * @param delay Milliseconds to delay.
      * @return
      */
