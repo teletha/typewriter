@@ -49,12 +49,21 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      * @return
      */
     public M save() {
+        return saveLazily(0);
+    }
+
+    /**
+     * Save this model to the backend storage with delay.
+     * 
+     * @param delay Milliseconds to delay.
+     * @return
+     */
+    public M saveLazily(int delay) {
         if (saver != null) saver.dispose();
-        long delay = delay();
         if (delay <= 0) {
             saving();
         } else {
-            saver = I.schedule(delay(), TimeUnit.MILLISECONDS).to(this::saving);
+            saver = I.schedule(delay, TimeUnit.MILLISECONDS).to(this::saving);
         }
 
         return (M) this;
@@ -100,14 +109,5 @@ public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO exten
      */
     protected void notify(Throwable error) {
         // do nothing
-    }
-
-    /**
-     * Define delay time (millis) on saving. (default is 0, immediately)
-     * 
-     * @return
-     */
-    protected long delay() {
-        return I.env("typewriter.save.delay", 0L);
     }
 }
