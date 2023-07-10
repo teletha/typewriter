@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/teletha/typewriter/compare/v1.6.0...v1.7.0) (2023-07-10)
+
+
+### Features
+
+* Add 'typewriter.connection.autoCommit readOnly isolation' config. ([856b5c8](https://github.com/teletha/typewriter/commit/856b5c8037648cbe8d3224ce4bd80a97c76ca245))
+* Add 'typewriter.connection.singleton' config. ([9045bbe](https://github.com/teletha/typewriter/commit/9045bbefa1d2f8232114aa06408f9333a738b9bc))
+* Add BackendedModel#saveLazily with default delay. ([24ca70f](https://github.com/teletha/typewriter/commit/24ca70fdb9f05740c37d8833ad3d4e1d5e33ae5b))
+* Add BackendedModel#saveLazily. ([4ed7242](https://github.com/teletha/typewriter/commit/4ed72426c5dc34ddfe43b22546495bc845499665))
+* RDBCodec support null column. ([986d071](https://github.com/teletha/typewriter/commit/986d07104335cd5b6c1cea904ddefeafc7b2af15))
+* SQLite is more configurable. ([5440652](https://github.com/teletha/typewriter/commit/544065230e01af058b4e5e1a8e207f1f6be0e77a))
+* Support primitive wrapper types. ([9cd071a](https://github.com/teletha/typewriter/commit/9cd071a49f6d281302a86901cac76c63abb5edeb))
+
 ## [1.6.0](https://github.com/teletha/typewriter/compare/v1.5.0...v1.6.0) (2023-07-03)
 
 
