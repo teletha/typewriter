@@ -58,11 +58,20 @@ class ConnectionPool implements WiseSupplier<Connection> {
     /** The min size of pooled connections. */
     private final int min;
 
+    /** The automatic commit. */
+    private final boolean autoCommit;
+
+    /** The read-only mode. */
+    private final boolean readOnly;
+
     /** The connection timeout. */
     private final long timeout;
 
+    /** The default transaction isolation level. */
+    private final int isolation;
+
     /** The actual connection pool. */
-    private final ArrayBlockingQueue<ManagedConnection> idle;
+    private final ArrayBlockingQueue<ManagedConnection> idles;
 
     /** The actual connection pool. */
     private final Set<ManagedConnection> busy;
@@ -73,10 +82,13 @@ class ConnectionPool implements WiseSupplier<Connection> {
     private ConnectionPool(String url) {
         this.url = url;
         this.dialect = detectDialect(url);
-        this.max = config("typewriter.connection.maxsize", 8);
-        this.min = config("typewriter.connection.minsize", 2);
-        this.timeout = config("typewriter.connection.timeout", 1000 * 10L);
-        this.idle = new ArrayBlockingQueue(max);
+        this.max = config("typewriter.connection.maxPool", 8);
+        this.min = config("typewriter.connection.minPool", 2);
+        this.autoCommit = config("typewriter.connection.autoCommit", true);
+        this.readOnly = config("typewriter.connection.readOnly", false);
+        this.timeout = config("typewriter.connection.timeout", 1000 * 30L);
+        this.isolation = config("typewriter.connection.isolation", -1);
+        this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
         this.singleton = config("typewriter.connection.singleton", false) ? new ManagedConnection() : null;
 
@@ -127,14 +139,14 @@ class ConnectionPool implements WiseSupplier<Connection> {
         }
         busy.clear();
 
-        for (ManagedConnection connecton : idle) {
+        for (ManagedConnection connecton : idles) {
             try {
                 connecton.delegation.close();
             } catch (SQLException e) {
                 throw I.quiet(e);
             }
         }
-        idle.clear();
+        idles.clear();
     }
 
     /**
@@ -148,10 +160,10 @@ class ConnectionPool implements WiseSupplier<Connection> {
             return singleton;
         }
 
-        ManagedConnection connection = idle.poll();
+        ManagedConnection connection = idles.poll();
         if (connection == null) {
             if (max <= busy.size()) {
-                connection = idle.poll(timeout, TimeUnit.MILLISECONDS);
+                connection = idles.poll(timeout, TimeUnit.MILLISECONDS);
             } else {
                 connection = new ManagedConnection();
             }
@@ -222,6 +234,9 @@ class ConnectionPool implements WiseSupplier<Connection> {
         private ManagedConnection() {
             try {
                 this.delegation = dialect.createConnection(url, null);
+                this.delegation.setAutoCommit(autoCommit);
+                this.delegation.setReadOnly(readOnly);
+                if (0 <= isolation) this.delegation.setTransactionIsolation(isolation);
             } catch (Exception e) {
                 throw I.quiet(e);
             }
@@ -272,7 +287,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
                 I.quiet(resource);
             }
             resources.clear();
-            idle.offer(this);
+            idles.offer(this);
             busy.remove(this);
             processing = false;
         }
