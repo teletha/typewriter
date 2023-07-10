@@ -42,6 +42,10 @@ import kiss.WiseSupplier;
 
 class ConnectionPool implements WiseSupplier<Connection> {
 
+    static {
+        I.env("typewriter.connection.singleton.sqlite", true);
+    }
+
     /** The address. */
     private final String url;
 
@@ -63,9 +67,9 @@ class ConnectionPool implements WiseSupplier<Connection> {
     /** The actual connection pool. */
     private final Set<ManagedConnection> busy;
 
-    /**
-     * 
-     */
+    /** The singleton connection. */
+    private final ManagedConnection singleton;
+
     private ConnectionPool(String url) {
         this.url = url;
         this.dialect = detectDialect(url);
@@ -74,6 +78,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
         this.timeout = config("typewriter.connection.timeout", 1000 * 10L);
         this.idle = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
+        this.singleton = config("typewriter.connection.singleton", false) ? new ManagedConnection() : null;
+
     }
 
     /**
@@ -138,6 +144,10 @@ class ConnectionPool implements WiseSupplier<Connection> {
      */
     @Override
     public Connection call() throws Exception {
+        if (singleton != null) {
+            return singleton;
+        }
+
         ManagedConnection connection = idle.poll();
         if (connection == null) {
             if (max <= busy.size()) {
@@ -209,8 +219,12 @@ class ConnectionPool implements WiseSupplier<Connection> {
          * @param delegation
          * @throws SQLException
          */
-        private ManagedConnection() throws Exception {
-            this.delegation = dialect.createConnection(url, null);
+        private ManagedConnection() {
+            try {
+                this.delegation = dialect.createConnection(url, null);
+            } catch (Exception e) {
+                throw I.quiet(e);
+            }
         }
 
         /**
