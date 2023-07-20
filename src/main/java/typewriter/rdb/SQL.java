@@ -300,7 +300,7 @@ public class SQL<M extends IdentifiableModel> {
                     prepared.setObject(index++, variable);
                 }
                 ResultSet result = prepared.executeQuery();
-                while (!disposer.isDisposed() && result.next()) {
+                while (!disposer.isDisposed() && !result.isClosed() && result.next()) {
                     observer.accept(result);
                 }
                 observer.complete();

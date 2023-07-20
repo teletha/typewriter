@@ -283,6 +283,10 @@ class ConnectionPool implements WiseSupplier<Connection> {
          */
         @Override
         public void close() throws SQLException {
+            if (singleton != null) {
+                return;
+            }
+
             for (AutoCloseable resource : resources) {
                 I.quiet(resource);
             }
