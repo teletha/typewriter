@@ -24,10 +24,10 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import kiss.I;
+import kiss.Property;
 import kiss.Signal;
 import kiss.WiseFunction;
 import kiss.Ⅱ;
-import kiss.model.Property;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 

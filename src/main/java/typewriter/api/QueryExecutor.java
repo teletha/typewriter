@@ -15,9 +15,9 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import kiss.I;
+import kiss.Model;
 import kiss.Signal;
 import kiss.WiseFunction;
-import kiss.model.Model;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Constraint.LocalDateConstraint;

@@ -15,9 +15,9 @@ import java.util.Properties;
 
 import kiss.I;
 import kiss.Managed;
+import kiss.Model;
+import kiss.Property;
 import kiss.Singleton;
-import kiss.model.Model;
-import kiss.model.Property;
 import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Specifier.ListSpecifier;
 

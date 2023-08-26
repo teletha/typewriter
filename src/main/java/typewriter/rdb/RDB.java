@@ -21,11 +21,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import kiss.I;
 import kiss.Managed;
+import kiss.Model;
+import kiss.Property;
 import kiss.Signal;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
-import kiss.model.Model;
-import kiss.model.Property;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;

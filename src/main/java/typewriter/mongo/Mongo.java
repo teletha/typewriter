@@ -59,11 +59,11 @@ import com.mongodb.client.model.changestream.FullDocument;
 
 import kiss.I;
 import kiss.Managed;
+import kiss.Model;
+import kiss.Property;
 import kiss.Signal;
 import kiss.Singleton;
 import kiss.WiseFunction;
-import kiss.model.Model;
-import kiss.model.Property;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
