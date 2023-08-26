@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.1](https://github.com/teletha/typewriter/compare/v1.7.0...v1.7.1) (2023-08-26)
+
+
+### Bug Fixes
+
+* Eliminate the closed connection. ([cee22dd](https://github.com/teletha/typewriter/commit/cee22dd75965054d74f62990d3ed73b8856edda7))
+* update sinobu ([80b3000](https://github.com/teletha/typewriter/commit/80b3000db4b20df958c58c1842a5f43ea102fd6a))
+
 ## [1.7.0](https://github.com/teletha/typewriter/compare/v1.6.0...v1.7.0) (2023-07-10)
 
 
