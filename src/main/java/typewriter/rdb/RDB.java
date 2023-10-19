@@ -372,17 +372,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @return
      */
     public static <M extends IdentifiableModel> RDB<M> of(Class<M> type) {
-        Dialect dialect;
-        if (SQLiteModel.class.isAssignableFrom(type)) {
-            dialect = SQLite;
-        } else if (H2Model.class.isAssignableFrom(type)) {
-            dialect = H2;
-        } else if (MariaModel.class.isAssignableFrom(type)) {
-            dialect = MariaDB;
-        } else {
-            throw new Error("The suitable dialect is not found for" + type + ".");
-        }
-        return of(type, dialect);
+        return of(type, null);
     }
 
     /**
@@ -393,7 +383,49 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
      * @return
      */
     public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect) {
-        return DAO.get(dialect).computeIfAbsent(type, key -> new RDB(type, dialect, dialect.configureLocation(null)));
+        if (dialect == null) {
+            if (SQLiteModel.class.isAssignableFrom(type)) {
+                dialect = SQLite;
+            } else if (H2Model.class.isAssignableFrom(type)) {
+                dialect = H2;
+            } else if (MariaModel.class.isAssignableFrom(type)) {
+                dialect = MariaDB;
+            } else {
+                throw new Error("The suitable dialect is not found for" + type + ".");
+            }
+        }
+
+        Dialect detected = dialect;
+
+        return DAO.get(dialect).computeIfAbsent(type, key -> {
+            return new RDB(type, detected, detected.configureLocation(null));
+        });
+    }
+
+    /**
+     * Get the collection by {@link Signal}.
+     * 
+     * @param <M>
+     * @param type The model type.
+     * @return
+     */
+    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type) {
+        return by(type, null);
+    }
+
+    /**
+     * Get the collection by {@link Signal}.
+     * 
+     * @param <M>
+     * @param type The model type.
+     * @return
+     */
+    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type, Dialect dialect) {
+        return new Signal<>((observer, disposer) -> {
+            observer.accept(of(type, dialect));
+            observer.complete();
+            return disposer;
+        });
     }
 
     /**
