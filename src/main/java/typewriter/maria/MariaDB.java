@@ -9,6 +9,8 @@
  */
 package typewriter.maria;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -49,6 +51,8 @@ public class MariaDB extends Dialect {
         TYPES.put(Double.class, "double");
         TYPES.put(Short.class, "tinyint");
         TYPES.put(Byte.class, "smallint");
+        TYPES.put(BigInteger.class, "bigint");
+        TYPES.put(BigDecimal.class, "decimal");
         TYPES.put(Boolean.class, "boolean");
         TYPES.put(String.class, "text");
         TYPES.put(List.class, "json");

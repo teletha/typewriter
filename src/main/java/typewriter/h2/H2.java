@@ -9,6 +9,8 @@
  */
 package typewriter.h2;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,6 +46,8 @@ public class H2 extends Dialect {
         TYPES.put(Double.class, "double");
         TYPES.put(Short.class, "tinyint");
         TYPES.put(Byte.class, "smallint");
+        TYPES.put(BigInteger.class, "bigint");
+        TYPES.put(BigDecimal.class, "decimal");
         TYPES.put(Boolean.class, "boolean");
         TYPES.put(String.class, "varchar");
         TYPES.put(List.class, "varchar");

@@ -9,6 +9,8 @@
  */
 package typewriter.sqlite;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -66,6 +68,8 @@ public class SQLite extends Dialect {
         TYPES.put(Double.class, "real");
         TYPES.put(Short.class, "integer");
         TYPES.put(Byte.class, "integer");
+        TYPES.put(BigInteger.class, "integer");
+        TYPES.put(BigDecimal.class, "real");
         TYPES.put(Boolean.class, "bit");
         TYPES.put(String.class, "text");
         TYPES.put(List.class, "json");
