@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.8.0](https://github.com/teletha/typewriter/compare/v1.7.1...v1.8.0) (2024-01-08)
+
+
+### Features
+
+* RDB can build stream collection. ([1865eda](https://github.com/teletha/typewriter/commit/1865eda348cca7d7db7b16cf74c9163f17d199cf))
+* support BigDecimal and BigInteger ([09be090](https://github.com/teletha/typewriter/commit/09be0900f8da05419e7e1fe8d2a66b03361cb396))
+
+
+### Bug Fixes
+
+* update ci process ([6bb2c06](https://github.com/teletha/typewriter/commit/6bb2c06a1a189ea859dae88da687389851cae50b))
+* update license ([94457e5](https://github.com/teletha/typewriter/commit/94457e589f3389c7bd6746d75e73588e73933fa0))
+
 ## [1.7.1](https://github.com/teletha/typewriter/compare/v1.7.0...v1.7.1) (2023-08-26)
 
 
