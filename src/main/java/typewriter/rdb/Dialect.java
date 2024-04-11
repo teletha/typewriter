@@ -151,6 +151,15 @@ public abstract class Dialect {
     }
 
     /**
+     * @param propertyName
+     * @param regex
+     * @return
+     */
+    public String commandRegex(String propertyName, String regex) {
+        return propertyName + " REGEXP '" + regex + "'";
+    }
+
+    /**
      * Helper to write column definitions.
      * 
      * @param model A processing model.

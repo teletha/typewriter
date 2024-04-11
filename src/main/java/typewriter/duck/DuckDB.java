@@ -45,7 +45,7 @@ public class DuckDB extends Dialect {
         TYPES.put(BigDecimal.class, "decimal");
         TYPES.put(Boolean.class, "boolean");
         TYPES.put(String.class, "varchar");
-        TYPES.put(List.class, "list");
+        TYPES.put(List.class, "varchar[]");
     }
 
     /**
@@ -91,7 +91,15 @@ public class DuckDB extends Dialect {
      */
     @Override
     public String commandReplace() {
-        return "INSERT INTO";
+        return "INSERT OR REPLACE INTO";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String commandRegex(String propertyName, String regex) {
+        return "regexp_matches(" + propertyName + ", '" + regex + "')";
     }
 
     /**
@@ -107,7 +115,7 @@ public class DuckDB extends Dialect {
          */
         @Override
         public ListConstraint<M> contains(M value) {
-            expression.add("(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ");
+            expression.add("list_any_value(" + propertyName + ") = '1'");
             return this;
         }
 
@@ -116,7 +124,7 @@ public class DuckDB extends Dialect {
          */
         @Override
         public ListConstraint<M> size(int value) {
-            expression.add("json_array_length(" + propertyName + ") = " + value);
+            expression.add("len(" + propertyName + ") = " + value);
             return this;
         }
 
@@ -125,7 +133,7 @@ public class DuckDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") > " + value);
+            expression.add("len(" + propertyName + ") > " + value);
             return this;
         }
 
@@ -134,7 +142,7 @@ public class DuckDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") < " + value);
+            expression.add("len(" + propertyName + ") < " + value);
             return this;
         }
 
@@ -143,7 +151,7 @@ public class DuckDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isOrLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") <= " + value);
+            expression.add("len(" + propertyName + ") <= " + value);
             return this;
         }
 
@@ -152,7 +160,7 @@ public class DuckDB extends Dialect {
          */
         @Override
         public ListConstraint<M> isOrMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") >= " + value);
+            expression.add("len(" + propertyName + ") >= " + value);
             return this;
         }
     }

@@ -212,7 +212,7 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint regex(String regex) {
-            expression.add("regexp_matches(" + propertyName + ", '" + regex + "')");
+            expression.add(dialect.commandRegex(propertyName, regex));
             return this;
         }
 
