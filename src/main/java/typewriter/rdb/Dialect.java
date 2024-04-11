@@ -64,6 +64,15 @@ public abstract class Dialect {
     protected abstract String defaultLocation();
 
     /**
+     * Define table name quotation character.
+     * 
+     * @return
+     */
+    public String quote() {
+        return "`";
+    }
+
+    /**
      * Create new {@link Connection}.
      * 
      * @param url A database URL.

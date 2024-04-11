@@ -29,6 +29,7 @@ import kiss.WiseSupplier;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
+import typewriter.duck.DuckDB;
 import typewriter.h2.H2;
 import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
@@ -50,9 +51,12 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
     /** The supported RDBMS. */
     public static final Dialect MariaDB = I.make(MariaDB.class);
 
+    /** The supported RDBMS. */
+    public static final Dialect DuckDB = I.make(DuckDB.class);
+
     /** The reusable DAO cache. */
     private static final Map<Dialect, Map<Class, RDB>> DAO = Map
-            .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap());
+            .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap(), DuckDB, new ConcurrentHashMap());
 
     /** The document model. */
     protected final Model<M> model;
@@ -84,7 +88,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         Map<String, String> rows = new HashMap();
         try (Connection connection = provider.get()) {
             DatabaseMetaData meta = connection.getMetaData();
-            ResultSet columns = meta.getColumns(null, null, tableName.replaceAll("`", ""), null);
+            ResultSet columns = meta.getColumns(null, null, tableName.replaceAll(dialect.quote(), ""), null);
 
             while (columns.next()) {
                 rows.put(columns.getString("COLUMN_NAME"), columns.getString("TYPE_NAME"));
@@ -118,7 +122,7 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
         }
 
         this.model = model;
-        this.tableName = '`' + name + '`';
+        this.tableName = dialect.quote() + name + dialect.quote();
         this.dialect = dialect;
         this.provider = provider;
     }

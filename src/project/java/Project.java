@@ -8,7 +8,7 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-import static bee.api.License.MIT;
+import static bee.api.License.*;
 
 public class Project extends bee.api.Project {
     {
@@ -27,6 +27,7 @@ public class Project extends bee.api.Project {
         require("org.mongodb", "mongodb-driver-sync").atProvided();
         require("org.xerial", "sqlite-jdbc").atProvided();
         require("com.h2database", "h2").atProvided();
+        require("org.duckdb", "duckdb_jdbc").atProvided();
         require("org.mariadb.jdbc", "mariadb-java-client").atProvided();
         require("ch.vorburger.mariaDB4j", "mariaDB4j").atProvided();
         require("com.github.teletha", "antibug").atTest();

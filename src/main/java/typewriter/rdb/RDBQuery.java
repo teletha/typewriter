@@ -101,7 +101,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public <N extends Number> RDBQuery<M> findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
-        return findBy(constraint.apply(new ForNumeric(specifier)));
+        return findBy(constraint.apply(new ForNumeric(specifier, dialect)));
     }
 
     /**
@@ -109,7 +109,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(CharSpecifier<M> specifier, UnaryOperator<TypeConstraint<Character>> constraint) {
-        return findBy(constraint.apply(new GenericType(specifier)));
+        return findBy(constraint.apply(new GenericType(specifier, dialect)));
     }
 
     /**
@@ -117,7 +117,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(BooleanSpecifier<M> specifier, UnaryOperator<TypeConstraint<Boolean>> constraint) {
-        return findBy(constraint.apply(new GenericType(specifier)));
+        return findBy(constraint.apply(new GenericType(specifier, dialect)));
     }
 
     /**
@@ -125,7 +125,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(StringSpecifier<M> specifier, UnaryOperator<StringConstraint> constraint) {
-        return findBy(constraint.apply(new ForString(specifier)));
+        return findBy(constraint.apply(new ForString(specifier, dialect)));
     }
 
     /**
@@ -133,7 +133,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(DateSpecifier<M> specifier, UnaryOperator<DateConstraint> constraint) {
-        return findBy(constraint.apply(new ForDate(specifier)));
+        return findBy(constraint.apply(new ForDate(specifier, dialect)));
     }
 
     /**
@@ -141,7 +141,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(LocalDateSpecifier<M> specifier, UnaryOperator<LocalDateConstraint> constraint) {
-        return findBy(constraint.apply(new ForLocalDate(specifier)));
+        return findBy(constraint.apply(new ForLocalDate(specifier, dialect)));
     }
 
     /**
@@ -149,7 +149,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(LocalTimeSpecifier<M> specifier, UnaryOperator<LocalTimeConstraint> constraint) {
-        return findBy(constraint.apply(new ForLocalTime(specifier)));
+        return findBy(constraint.apply(new ForLocalTime(specifier, dialect)));
     }
 
     /**
@@ -157,7 +157,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(LocalDateTimeSpecifier<M> specifier, UnaryOperator<LocalDateTimeConstraint> constraint) {
-        return findBy(constraint.apply(new ForLocalDateTime(specifier)));
+        return findBy(constraint.apply(new ForLocalDateTime(specifier, dialect)));
     }
 
     /**
@@ -165,7 +165,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(OffsetDateTimeSpecifier<M> specifier, UnaryOperator<OffsetDateTimeConstraint> constraint) {
-        return findBy(constraint.apply(new ForOffsetDateTime(specifier)));
+        return findBy(constraint.apply(new ForOffsetDateTime(specifier, dialect)));
     }
 
     /**
@@ -173,7 +173,7 @@ public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQu
      */
     @Override
     public RDBQuery<M> findBy(ZonedDateTimeSpecifier<M> specifier, UnaryOperator<ZonedDateTimeConstraint> constraint) {
-        return findBy(constraint.apply(new ForZonedDateTime(specifier)));
+        return findBy(constraint.apply(new ForZonedDateTime(specifier, dialect)));
     }
 
     /**

@@ -98,7 +98,7 @@ public class H2 extends Dialect {
      */
     @Override
     public <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier) {
-        return new ForList(specifier);
+        return new ForList(specifier, this);
     }
 
     /**
@@ -113,8 +113,8 @@ public class H2 extends Dialect {
      * The specialized {@link Constraint} for {@link List}.
      */
     private static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
-        private ForList(Specifier specifier) {
-            super(specifier);
+        private ForList(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**

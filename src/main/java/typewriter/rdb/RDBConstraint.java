@@ -31,6 +31,9 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
     /** The name of target property. */
     protected final String propertyName;
 
+    /** The dialiect. */
+    protected final Dialect dialect;
+
     /** The additional expression. */
     protected final List<String> expression = new ArrayList();
 
@@ -39,8 +42,9 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      * 
      * @param specifier The property specifier.
      */
-    protected RDBConstraint(Specifier specifier) {
+    protected RDBConstraint(Specifier specifier, Dialect dialect) {
         this.propertyName = specifier.propertyName();
+        this.dialect = dialect;
     }
 
     /**
@@ -99,8 +103,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      * The specialized {@link Constraint}.
      */
     static class GenericType<T> extends RDBConstraint<T, TypeConstraint<T>> implements TypeConstraint<T> {
-        GenericType(Specifier specifier) {
-            super(specifier);
+        GenericType(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
     }
 
@@ -109,8 +113,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForNumeric<V extends Number> extends RDBConstraint<V, NumericConstraint<V>> implements NumericConstraint<V> {
 
-        protected ForNumeric(Specifier specifier) {
-            super(specifier);
+        protected ForNumeric(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -154,8 +158,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      * The specialized {@link Constraint} for {@link String}.
      */
     static class ForString extends RDBConstraint<String, StringConstraint> implements StringConstraint {
-        ForString(Specifier specifier) {
-            super(specifier);
+        ForString(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -208,7 +212,7 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         public StringConstraint regex(String regex) {
-            expression.add(propertyName + " REGEXP '" + regex + "'");
+            expression.add("regexp_matches(" + propertyName + ", '" + regex + "')");
             return this;
         }
 
@@ -255,8 +259,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
     static abstract class ForTermporal<T, Self extends TemporalConstraint<T, Self>> extends RDBConstraint<T, Self>
             implements TemporalConstraint<T, Self> {
 
-        protected ForTermporal(Specifier specifier) {
-            super(specifier);
+        protected ForTermporal(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -328,8 +332,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForDate extends ForTermporal<Date, DateConstraint> implements DateConstraint {
 
-        protected ForDate(Specifier specifier) {
-            super(specifier);
+        protected ForDate(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -346,8 +350,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForLocalDate extends ForTermporal<LocalDate, LocalDateConstraint> implements LocalDateConstraint {
 
-        protected ForLocalDate(Specifier specifier) {
-            super(specifier);
+        protected ForLocalDate(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -364,8 +368,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForLocalTime extends ForTermporal<LocalTime, LocalTimeConstraint> implements LocalTimeConstraint {
 
-        protected ForLocalTime(Specifier specifier) {
-            super(specifier);
+        protected ForLocalTime(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -382,8 +386,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForLocalDateTime extends ForTermporal<LocalDateTime, LocalDateTimeConstraint> implements LocalDateTimeConstraint {
 
-        protected ForLocalDateTime(Specifier specifier) {
-            super(specifier);
+        protected ForLocalDateTime(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -400,8 +404,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForOffsetDateTime extends ForTermporal<OffsetDateTime, OffsetDateTimeConstraint> implements OffsetDateTimeConstraint {
 
-        protected ForOffsetDateTime(Specifier specifier) {
-            super(specifier);
+        protected ForOffsetDateTime(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
@@ -418,8 +422,8 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      */
     static class ForZonedDateTime extends ForTermporal<ZonedDateTime, ZonedDateTimeConstraint> implements ZonedDateTimeConstraint {
 
-        protected ForZonedDateTime(Specifier specifier) {
-            super(specifier);
+        protected ForZonedDateTime(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
         }
 
         /**
