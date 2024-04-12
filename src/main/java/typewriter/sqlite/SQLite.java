@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import org.sqlite.Function;
@@ -29,22 +30,8 @@ import typewriter.rdb.SQL;
 
 public class SQLite extends Dialect {
 
-    /** The global config for SQLite. */
-    public static final SQLiteConfig CONFIG = new SQLiteConfig();
-
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
-
-    /** Support REGEXP function. */
-    private static final Function REGEXP_FUNCTION = new Function() {
-        @Override
-        protected void xFunc() throws SQLException {
-            String value = Objects.requireNonNullElse(value_text(1), "");
-            Pattern pattern = REGEX.computeIfAbsent(value_text(0), Pattern::compile);
-
-            result(pattern.matcher(value).find() ? 1 : 0);
-        }
-    };
 
     /** The JAVA-SQL type mapping. */
     private static final Map<Class, String> TYPES = new HashMap();
@@ -97,10 +84,10 @@ public class SQLite extends Dialect {
      */
     @Override
     public Connection createConnection(String url, Properties properties) throws Exception {
-        Connection connection = super.createConnection(url, CONFIG.toProperties());
+        Connection connection = super.createConnection(url, Lazy.CONFIG.toProperties());
 
         // register extra functions
-        Function.create(connection, "REGEXP", REGEXP_FUNCTION);
+        Function.create(connection, "REGEXP", Lazy.REGEXP_FUNCTION);
 
         return connection;
     }
@@ -131,5 +118,34 @@ public class SQLite extends Dialect {
     @Override
     public String commnadListContains(String propertyName, Object value) {
         return "(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ";
+    }
+
+    /**
+     * Custom SQLite specific configuration.
+     * 
+     * @param configuration
+     */
+    public static void configure(Consumer<SQLiteConfig> configuration) {
+        configuration.accept(Lazy.CONFIG);
+    }
+
+    /**
+     * In-direct lazy initializer to avoid {@link ClassNotFoundException} in no sqlite environment.
+     */
+    private static class Lazy {
+
+        /** The global config for SQLite. */
+        private static final SQLiteConfig CONFIG = new SQLiteConfig();
+
+        /** Support REGEXP function. */
+        private static final Function REGEXP_FUNCTION = new Function() {
+            @Override
+            protected void xFunc() throws SQLException {
+                String value = Objects.requireNonNullElse(value_text(1), "");
+                Pattern pattern = REGEX.computeIfAbsent(value_text(0), Pattern::compile);
+
+                result(pattern.matcher(value).find() ? 1 : 0);
+            }
+        };
     }
 }
