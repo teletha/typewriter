@@ -30,6 +30,7 @@ import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.duck.DuckDB;
+import typewriter.duck.DuckModel;
 import typewriter.h2.H2;
 import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
@@ -394,6 +395,8 @@ public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>
                 dialect = H2;
             } else if (MariaModel.class.isAssignableFrom(type)) {
                 dialect = MariaDB;
+            } else if (DuckModel.class.isAssignableFrom(type)) {
+                dialect = DuckDB;
             } else {
                 throw new Error("The suitable dialect is not found for" + type + ".");
             }
