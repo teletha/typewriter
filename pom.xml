@@ -9,7 +9,8 @@
 * [H2](https://github.com/h2database/h2database)
 * [SQLite](https://github.com/sqlite/sqlite)
 * [MariaDB](https://github.com/MariaDB/)
-* [MongoDB](https://github.com/mongodb/mongo)</description>
+* [MongoDB](https://github.com/mongodb/mongo)
+* [DuckDB](https://duckdb.org/)</description>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.teletha</groupId>
