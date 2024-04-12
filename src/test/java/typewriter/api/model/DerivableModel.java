@@ -14,12 +14,33 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public abstract class DerivableModel extends IdentifiableModel {
+public abstract class DerivableModel implements IdentifiableModel {
 
     private static int counter = 1;
 
+    private long id;
+
     public DerivableModel() {
-        setId(counter++);
+        id = counter++;
+    }
+
+    /**
+     * Get the id property of this {@link DerivableModel}.
+     * 
+     * @return The id property.
+     */
+    @Override
+    public final long getId() {
+        return id;
+    }
+
+    /**
+     * Set the id property of this {@link DerivableModel}.
+     * 
+     * @param id The id value to set.
+     */
+    protected final void setId(long id) {
+        this.id = id;
     }
 
     /**

@@ -9,25 +9,12 @@
  */
 package typewriter.api.model;
 
-public abstract class IdentifiableModel {
-
-    private long id;
+public interface IdentifiableModel {
 
     /**
      * Get the id property of this {@link IdentifiableModel}.
      * 
      * @return The id property.
      */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Set the id property of this {@link IdentifiableModel}.
-     * 
-     * @param id The id value to set.
-     */
-    protected void setId(long id) {
-        this.id = id;
-    }
+    long getId();
 }
