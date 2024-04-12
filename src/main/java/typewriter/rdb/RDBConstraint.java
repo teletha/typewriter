@@ -434,4 +434,68 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
             return propertyName + "DATE" + operator + date.toInstant().toEpochMilli();
         }
     }
+
+    /**
+     * The specialized {@link Constraint} for {@link List}.
+     */
+    static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
+
+        protected ForList(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> contains(M value) {
+            expression.add(dialect.commnadListContains(propertyName, value));
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> size(int value) {
+            expression.add(dialect.commnadListLength() + "(" + propertyName + ") = " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isMoreThan(int value) {
+            expression.add(dialect.commnadListLength() + "(" + propertyName + ") > " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isLessThan(int value) {
+            expression.add(dialect.commnadListLength() + "(" + propertyName + ") < " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isOrLessThan(int value) {
+            expression.add(dialect.commnadListLength() + "(" + propertyName + ") <= " + value);
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ListConstraint<M> isOrMoreThan(int value) {
+            expression.add(dialect.commnadListLength() + "(" + propertyName + ") >= " + value);
+            return this;
+        }
+    }
 }

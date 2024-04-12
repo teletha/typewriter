@@ -20,6 +20,7 @@ import kiss.Property;
 import kiss.Singleton;
 import typewriter.api.Constraint.ListConstraint;
 import typewriter.api.Specifier.ListSpecifier;
+import typewriter.rdb.RDBConstraint.ForList;
 
 @Managed(Singleton.class)
 public abstract class Dialect {
@@ -95,7 +96,9 @@ public abstract class Dialect {
      * @param specifier
      * @return
      */
-    public abstract <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier);
+    public <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier) {
+        return new ForList(specifier, this);
+    }
 
     /**
      * Define SQL for creating new table.
@@ -158,6 +161,20 @@ public abstract class Dialect {
     public String commandRegex(String propertyName, String regex) {
         return propertyName + " REGEXP '" + regex + "'";
     }
+
+    /**
+     * Define function for length of list.
+     * 
+     * @return
+     */
+    public abstract String commnadListLength();
+
+    /**
+     * Define function for length of list.
+     * 
+     * @return
+     */
+    public abstract String commnadListContains(String propertyName, Object value);
 
     /**
      * Helper to write column definitions.

@@ -15,12 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import typewriter.api.Constraint;
-import typewriter.api.Constraint.ListConstraint;
-import typewriter.api.Specifier;
-import typewriter.api.Specifier.ListSpecifier;
+import kiss.I;
 import typewriter.rdb.Dialect;
-import typewriter.rdb.RDBConstraint;
 
 public class DuckDB extends Dialect {
 
@@ -82,14 +78,6 @@ public class DuckDB extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier) {
-        return new ForList(specifier, this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String commandReplace() {
         return "INSERT OR REPLACE INTO";
     }
@@ -103,73 +91,26 @@ public class DuckDB extends Dialect {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link List}.
+     * {@inheritDoc}
      */
-    private static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
-        private ForList(Specifier specifier, Dialect dialect) {
-            super(specifier, dialect);
-        }
+    @Override
+    public String commnadListLength() {
+        return "len";
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> contains(M value) {
-            expression.add("list_contains(" + propertyName + ", " + convert(value) + ")");
-            return this;
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String commnadListContains(String propertyName, Object value) {
+        return "list_contains(" + propertyName + ", " + convert(value) + ")";
+    }
 
-        private String convert(Object value) {
-            if (value instanceof String) {
-                return "'\"" + value + "\"'";
-            } else {
-                return String.valueOf(value);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> size(int value) {
-            expression.add("len(" + propertyName + ") = " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isMoreThan(int value) {
-            expression.add("len(" + propertyName + ") > " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isLessThan(int value) {
-            expression.add("len(" + propertyName + ") < " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrLessThan(int value) {
-            expression.add("len(" + propertyName + ") <= " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrMoreThan(int value) {
-            expression.add("len(" + propertyName + ") >= " + value);
-            return this;
+    private String convert(Object value) {
+        if (value instanceof String) {
+            return "'\"" + value + "\"'";
+        } else {
+            return I.transform(value, String.class);
         }
     }
 }

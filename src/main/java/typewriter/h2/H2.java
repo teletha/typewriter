@@ -20,12 +20,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import kiss.I;
-import typewriter.api.Constraint;
-import typewriter.api.Constraint.ListConstraint;
-import typewriter.api.Specifier;
-import typewriter.api.Specifier.ListSpecifier;
 import typewriter.rdb.Dialect;
-import typewriter.rdb.RDBConstraint;
 
 public class H2 extends Dialect {
 
@@ -97,78 +92,23 @@ public class H2 extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier) {
-        return new ForList(specifier, this);
+    public String commandReplace() {
+        return "MERGE INTO";
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String commandReplace() {
-        return "MERGE INTO";
+    public String commnadListLength() {
+        return "json_array_length";
     }
 
     /**
-     * The specialized {@link Constraint} for {@link List}.
+     * {@inheritDoc}
      */
-    private static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
-        private ForList(Specifier specifier, Dialect dialect) {
-            super(specifier, dialect);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> contains(M value) {
-            expression.add("json_array_contains(" + propertyName + ", '" + I.transform(value, String.class) + "')");
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> size(int value) {
-            expression.add("json_array_length(" + propertyName + ") = " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") > " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") < " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrLessThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") <= " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrMoreThan(int value) {
-            expression.add("json_array_length(" + propertyName + ") >= " + value);
-            return this;
-        }
+    @Override
+    public String commnadListContains(String propertyName, Object value) {
+        return "json_array_contains(" + propertyName + ", '" + I.transform(value, String.class) + "')";
     }
 }

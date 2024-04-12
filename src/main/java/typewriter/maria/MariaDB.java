@@ -21,12 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import kiss.I;
-import typewriter.api.Constraint;
-import typewriter.api.Constraint.ListConstraint;
-import typewriter.api.Specifier;
-import typewriter.api.Specifier.ListSpecifier;
 import typewriter.rdb.Dialect;
-import typewriter.rdb.RDBConstraint;
 import typewriter.rdb.SQL;
 
 public class MariaDB extends Dialect {
@@ -105,14 +100,6 @@ public class MariaDB extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public <M, N> ListConstraint<N> createListConstraint(ListSpecifier<M, N> specifier) {
-        return new ForList(specifier, this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void commandLimitAndOffset(SQL builder, long limit, long offset) {
         if (0 < limit) builder.write("LIMIT").write(limit);
         if (0 < offset) {
@@ -122,73 +109,26 @@ public class MariaDB extends Dialect {
     }
 
     /**
-     * The specialized {@link Constraint} for {@link List}.
+     * {@inheritDoc}
      */
-    private static class ForList<M> extends RDBConstraint<List<M>, ListConstraint<M>> implements ListConstraint<M> {
-        private ForList(Specifier specifier, Dialect dialect) {
-            super(specifier, dialect);
-        }
+    @Override
+    public String commnadListLength() {
+        return "json_length";
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> contains(M value) {
-            expression.add("JSON_CONTAINS(" + propertyName + ", " + convert(value) + ", '$')");
-            return this;
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String commnadListContains(String propertyName, Object value) {
+        return "JSON_CONTAINS(" + propertyName + ", " + convert(value) + ", '$')";
+    }
 
-        private String convert(Object value) {
-            if (value instanceof String) {
-                return "'\"" + value + "\"'";
-            } else {
-                return String.valueOf(value);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> size(int value) {
-            expression.add("json_length(" + propertyName + ") = " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isMoreThan(int value) {
-            expression.add("json_length(" + propertyName + ") > " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isLessThan(int value) {
-            expression.add("json_length(" + propertyName + ") < " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrLessThan(int value) {
-            expression.add("json_length(" + propertyName + ") <= " + value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ListConstraint<M> isOrMoreThan(int value) {
-            expression.add("json_length(" + propertyName + ") >= " + value);
-            return this;
+    private String convert(Object value) {
+        if (value instanceof String) {
+            return "'\"" + value + "\"'";
+        } else {
+            return I.transform(value, String.class);
         }
     }
 }
