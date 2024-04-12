@@ -112,7 +112,7 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Typewriter depends on the following products on runtime.
-* [sinobu-3.9.1](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.9.1)
+* [sinobu-3.11.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.11.0)
 <p align="right"><a href="#top">back to top</a></p>
 
 
