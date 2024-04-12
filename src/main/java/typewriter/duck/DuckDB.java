@@ -115,8 +115,16 @@ public class DuckDB extends Dialect {
          */
         @Override
         public ListConstraint<M> contains(M value) {
-            expression.add("list_any_value(" + propertyName + ") = '1'");
+            expression.add("list_contains(" + propertyName + ", " + convert(value) + ")");
             return this;
+        }
+
+        private String convert(Object value) {
+            if (value instanceof String) {
+                return "'\"" + value + "\"'";
+            } else {
+                return String.valueOf(value);
+            }
         }
 
         /**

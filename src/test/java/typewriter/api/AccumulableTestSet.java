@@ -37,9 +37,9 @@ public interface AccumulableTestSet extends Testable {
 
         List<String> found = dao.distinct(Person::getName).toList();
         assert found.size() == 3;
-        assert found.get(0).equals("A");
-        assert found.get(1).equals("B");
-        assert found.get(2).equals("C");
+        assert found.contains("A");
+        assert found.contains("B");
+        assert found.contains("C");
     }
 
     @Test

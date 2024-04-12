@@ -295,7 +295,6 @@ public class SQL<M extends IdentifiableModel> {
         return new Signal<ResultSet>((observer, disposer) -> {
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
-                System.out.println(text);
                 PreparedStatement prepared = connection.prepareStatement(text.toString());
                 for (Object variable : variables) {
                     prepared.setObject(index++, variable);
