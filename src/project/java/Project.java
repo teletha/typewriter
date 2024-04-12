@@ -21,9 +21,10 @@ public class Project extends bee.api.Project {
                 * [SQLite](https://github.com/sqlite/sqlite)
                 * [MariaDB](https://github.com/MariaDB/)
                 * [MongoDB](https://github.com/mongodb/mongo)
+                * [DuckDB](https://duckdb.org/)
                 """);
 
-        require("com.github.teletha", "sinobu", "3.11.0");
+        require("com.github.teletha", "sinobu");
         require("org.mongodb", "mongodb-driver-sync").atProvided();
         require("org.xerial", "sqlite-jdbc").atProvided();
         require("com.h2database", "h2").atProvided();
