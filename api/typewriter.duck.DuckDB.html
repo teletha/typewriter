@@ -36,19 +36,25 @@
 				<div></div>
 			</nav>
 			<article class="Q" id="Article">
-				<section class="M"><code class="h">typewriter.sqlite</code>
-					<h2 class="Class c"><code class="j">SQLite</code></h2>
+				<section class="M"><code class="h">typewriter.duck</code>
+					<h2 class="Class c"><code class="j">DuckDB</code></h2>
 					<div class="P">
 						<ul class="C E">
 							<li><code><a href="api/typewriter.rdb.Dialect.html">Dialect</a></code></li>
 						</ul>
 					</div>
 				</section>
-				<section class="M" id="CONFIG">
-					<h2 class="X"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="j">CONFIG</code><i class="V"><code class="return">org.sqlite.SQLiteConfig</code></i></h2><span class="B"><p>The global config for SQLite.</p>
-</span></section>
 				<section class="M" id="defaultLocation()">
 					<h2 class="X"><i class="OVERRIDE PROTECTED"></i><code class="j">defaultLocation</code><code class="U">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="S">
+						<tr class="d">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="M" id="quote()">
+					<h2 class="X"><i class="OVERRIDE PUBLIC"></i><code class="j">quote</code><code class="U">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
 					<table class="S">
 						<tr class="d">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
@@ -69,40 +75,28 @@
 						</tr>
 					</table>
 				</section>
-				<section class="M" id="createConnection(java.lang.String,java.util.Properties)">
-					<h2 class="X"><i class="OVERRIDE PUBLIC"></i><code class="j">createConnection</code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code class="parameterName">properties</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></h2>
+				<section class="M" id="commandReplace()">
+					<h2 class="X"><i class="OVERRIDE PUBLIC"></i><code class="j">commandReplace</code><code class="U">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
 					<table class="S">
-						<tr class="e">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>url</code></td>
-							<td></td>
-						</tr>
-						<tr class="e">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code>properties</code></td>
-							<td></td>
-						</tr>
 						<tr class="d">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></td>
-							<td></td>
-						</tr>
-						<tr class="W">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Exception.html">Exception</a></code></td>
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="M" id="commandLimitAndOffset(typewriter.rdb.SQL,long,long)">
-					<h2 class="X"><i class="OVERRIDE PUBLIC"></i><code class="j">commandLimitAndOffset</code><code class="U">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code class="parameterName">builder</code>, <code>long</code> <code class="parameterName">limit</code>, <code>long</code> <code class="parameterName">offset</code>)</code><i class="V"><code>void</code></i></h2>
+				<section class="M" id="commandRegex(java.lang.String,java.lang.String)">
+					<h2 class="X"><i class="OVERRIDE PUBLIC"></i><code class="j">commandRegex</code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
 					<table class="S">
 						<tr class="e">
-							<td><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code>builder</code></td>
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>propertyName</code></td>
 							<td></td>
 						</tr>
 						<tr class="e">
-							<td><code>long</code> <code>limit</code></td>
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>regex</code></td>
 							<td></td>
 						</tr>
-						<tr class="e">
-							<td><code>long</code> <code>offset</code></td>
+						<tr class="d">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table>
@@ -136,18 +130,15 @@
 			</article>
 			<aside class="I" id="SubNavi">
 				<div class="f">
-					<h5 class="T">Static Fields</h5>
-					<ul>
-						<li><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/typewriter.sqlite.SQLite.html#CONFIG">CONFIG</a></code><i class="b"><code class="return">org.sqlite.SQLiteConfig</code></i></li>
-					</ul>
 					<h5 class="T">Methods</h5>
 					<ul>
-						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/typewriter.sqlite.SQLite.html#defaultLocation()">defaultLocation</a></code><code class="U">()</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#types(java.lang.Class)">types</a></code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#createConnection(java.lang.String,java.util.Properties)">createConnection</a></code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code class="parameterName">properties</code>)</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#commandLimitAndOffset(typewriter.rdb.SQL,long,long)">commandLimitAndOffset</a></code><code class="U">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code class="parameterName">builder</code>, <code>long</code> <code class="parameterName">limit</code>, <code>long</code> <code class="parameterName">offset</code>)</code><i class="b"><code>void</code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#commnadListLength()">commnadListLength</a></code><code class="U">()</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.sqlite.SQLite.html#commnadListContains(java.lang.String,java.lang.Object)">commnadListContains</a></code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">value</code>)</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/typewriter.duck.DuckDB.html#defaultLocation()">defaultLocation</a></code><code class="U">()</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.duck.DuckDB.html#quote()">quote</a></code><code class="U">()</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.duck.DuckDB.html#types(java.lang.Class)">types</a></code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.duck.DuckDB.html#commandReplace()">commandReplace</a></code><code class="U">()</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.duck.DuckDB.html#commandRegex(java.lang.String,java.lang.String)">commandRegex</a></code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.duck.DuckDB.html#commnadListLength()">commnadListLength</a></code><code class="U">()</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/typewriter.duck.DuckDB.html#commnadListContains(java.lang.String,java.lang.Object)">commnadListContains</a></code><code class="U">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">value</code>)</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 					</ul>
 				</div>
 			</aside>

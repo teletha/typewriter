@@ -4,6 +4,7 @@ const root = {
 	"packages": [
 		"typewriter.api",
 		"typewriter.api.model",
+		"typewriter.duck",
 		"typewriter.h2",
 		"typewriter.maria",
 		"typewriter.mongo",
@@ -121,6 +122,20 @@ const root = {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Dialect",
 			"packageName": "typewriter.rdb",
+			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "DuckDB",
+			"packageName": "typewriter.duck",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "DuckModel",
+			"packageName": "typewriter.duck",
 			"type": "AbstractClass"
 		},
 		{
