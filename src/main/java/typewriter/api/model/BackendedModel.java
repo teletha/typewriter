@@ -19,7 +19,7 @@ import typewriter.api.Restorable;
 import typewriter.api.Updatable;
 
 public abstract class BackendedModel<M extends BackendedModel<M, DAO>, DAO extends Updatable<M> & Deletable<M> & Restorable<M>>
-        implements IdentifiableModel {
+        extends IdentifiableModel {
 
     /** The current save task. */
     private Disposable saver;;
