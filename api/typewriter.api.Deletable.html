@@ -11,10 +11,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="H">
+	<body class="X">
 		<header class="T">
-			<h1 class="K" date="2023-08-26" ver="1.7.1"><code>Typewriter</code></h1>
-			<nav class="h"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+			<h1 class="W" date="2023-08-26" ver="1.7.1"><code>Typewriter</code></h1>
+			<nav class="N"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -23,7 +23,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="M" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="m" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -31,16 +31,16 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="l">
-			<nav class="i">
+		<main class="Q">
+			<nav class="H">
 				<div></div>
 			</nav>
-			<article class="Y" id="Article">
-				<section class="f"><code class="b">typewriter.api</code>
-					<h2 class="Functional N"><code class="I">Deletable</code><code class="L">&#60;<code>M</code>&#62;</code></h2>
-					<div class="k">
+			<article class="e" id="Article">
+				<section class="U"><code class="g">typewriter.api</code>
+					<h2 class="Functional b"><code class="S">Deletable</code><code class="V">&#60;<code>M</code>&#62;</code></h2>
+					<div class="K">
 						<ul class="C D">
-							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.model.IdentifiableModel.html">IdentifiableModel</a></code></code></li>
+							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.Identifiable.html">Identifiable</a></code></code></li>
 						</ul>
 						<ul class="C G">
 							<li><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></li>
@@ -49,40 +49,40 @@
 						</ul>
 					</div>
 				</section>
-				<section class="f" id="delete(java.lang.Object)">
-					<h2 class="P"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="I">delete</code><code class="L">(<code>M</code> <code class="parameterName">model</code>)</code><i class="m"><code>void</code></i></h2>
-					<table class="J">
-						<tr class="R">
+				<section class="U" id="delete(java.lang.Object)">
+					<h2 class="R"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="S">delete</code><code class="V">(<code>M</code> <code class="parameterName">model</code>)</code><i class="f"><code>void</code></i></h2>
+					<table class="h">
+						<tr class="I">
 							<td><code>M</code> <code>model</code></td>
 							<td><span><p>A target model.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Delete the specified model.</p>
 </span></section>
-				<section class="f" id="delete(java.lang.Object,typewriter.api.Specifier)">
-					<h2 class="P"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="I">delete</code><code class="L">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="m"><code>void</code></i></h2>
-					<table class="J">
-						<tr class="R">
+				<section class="U" id="delete(java.lang.Object,typewriter.api.Specifier)">
+					<h2 class="R"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="S">delete</code><code class="V">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="f"><code>void</code></i></h2>
+					<table class="h">
+						<tr class="I">
 							<td><code>M</code> <code>model</code></td>
 							<td><span><p>A target model.</p>
 </span></td>
 						</tr>
-						<tr class="R">
+						<tr class="I">
 							<td><code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifier</code></td>
 							<td><span><p>A property <code><a href="api/typewriter.api.Specifier.html">Specifier</a></code>.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Delete the property of the given model.</p>
 </span></section>
-				<section class="f" id="delete(java.lang.Object,typewriter.api.Specifier...)">
-					<h2 class="P"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="I">delete</code><code class="L">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="m"><code>void</code></i></h2>
-					<table class="J">
-						<tr class="R">
+				<section class="U" id="delete(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="R"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="S">delete</code><code class="V">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="f"><code>void</code></i></h2>
+					<table class="h">
+						<tr class="I">
 							<td><code>M</code> <code>model</code></td>
 							<td><span><p>A target model.</p>
 </span></td>
 						</tr>
-						<tr class="R">
+						<tr class="I">
 							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
 							<td><span><p>A list of property <code><a href="api/typewriter.api.Specifier.html">Specifier</a></code>.</p>
 </span></td>
@@ -90,13 +90,13 @@
 					</table><span class="B"><p>Delete the properties of the given model.</p>
 </span></section>
 			</article>
-			<aside class="Q" id="SubNavi">
-				<div class="S">
-					<h5 class="e">Methods</h5>
+			<aside class="i" id="SubNavi">
+				<div class="L">
+					<h5 class="Z">Methods</h5>
 					<ul>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Deletable.html#delete(java.lang.Object)">delete</a></code><code class="L">(<code>M</code> <code class="parameterName">model</code>)</code><i class="g"><code>void</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Deletable.html#delete(java.lang.Object,typewriter.api.Specifier)">delete</a></code><code class="L">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="g"><code>void</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Deletable.html#delete(java.lang.Object,typewriter.api.Specifier...)">delete</a></code><code class="L">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="g"><code>void</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Deletable.html#delete(java.lang.Object)">delete</a></code><code class="V">(<code>M</code> <code class="parameterName">model</code>)</code><i class="M"><code>void</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Deletable.html#delete(java.lang.Object,typewriter.api.Specifier)">delete</a></code><code class="V">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="M"><code>void</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Deletable.html#delete(java.lang.Object,typewriter.api.Specifier...)">delete</a></code><code class="V">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="M"><code>void</code></i></li>
 					</ul>
 				</div>
 			</aside>

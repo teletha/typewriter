@@ -162,6 +162,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Identifiable",
+			"packageName": "typewriter.api",
+			"type": "Functional"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "IdentifiableModel",
 			"packageName": "typewriter.api.model",
 			"type": "AbstractClass"
