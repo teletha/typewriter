@@ -28,10 +28,10 @@ import kiss.Property;
 import kiss.Signal;
 import kiss.WiseFunction;
 import kiss.Ⅱ;
+import typewriter.api.Identifiable;
 import typewriter.api.Specifier;
-import typewriter.api.model.IdentifiableModel;
 
-public class SQL<M extends IdentifiableModel> {
+public class SQL<M extends Identifiable> {
 
     /** The database layer. */
     private final RDB<M> rdb;

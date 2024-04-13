@@ -12,9 +12,8 @@ package typewriter.api;
 import java.util.List;
 
 import kiss.Signal;
-import typewriter.api.model.IdentifiableModel;
 
-public interface Updatable<M extends IdentifiableModel> {
+public interface Updatable<M extends Identifiable> {
 
     /**
      * Update the specified model.

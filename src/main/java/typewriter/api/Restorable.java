@@ -10,9 +10,8 @@
 package typewriter.api;
 
 import kiss.Signal;
-import typewriter.api.model.IdentifiableModel;
 
-public interface Restorable<M extends IdentifiableModel> {
+public interface Restorable<M extends Identifiable> {
 
     /**
      * Restore the specified model.

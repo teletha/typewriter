@@ -9,21 +9,22 @@
  */
 package typewriter.api.model;
 
-public abstract class IdentifiableModel {
+import typewriter.api.Identifiable;
+
+public abstract class IdentifiableModel implements Identifiable {
 
     private long id;
 
     /**
-     * Get the id property of this {@link IdentifiableModel}.
-     * 
-     * @return The id property.
+     * {@inheritDoc}
      */
+    @Override
     public long getId() {
         return id;
     }
 
     /**
-     * Set the id property of this {@link IdentifiableModel}.
+     * Set the id property of this {@link Identifiable}.
      * 
      * @param id The id value to set.
      */

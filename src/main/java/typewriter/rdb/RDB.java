@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.checkerframework.checker.units.qual.C;
+import org.checkerframework.checker.units.qual.N;
+
 import kiss.I;
 import kiss.Managed;
 import kiss.Model;
@@ -26,6 +29,7 @@ import kiss.Property;
 import kiss.Signal;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
+import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
@@ -41,7 +45,7 @@ import typewriter.sqlite.SQLiteModel;
 /**
  * Data Access Object for RDBMS.
  */
-public class RDB<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, RDBQuery<M>, RDB<M>> {
+public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDBQuery<M>, RDB<M>> {
 
     /** The supported RDBMS. */
     public static final Dialect H2 = I.make(H2.class);

@@ -39,9 +39,8 @@ import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.OffsetDateTimeSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
-import typewriter.api.model.IdentifiableModel;
 
-public abstract class QueryExecutor<M extends IdentifiableModel, R, Q extends Queryable<M, Q>, Self extends QueryExecutor<M, R, Q, Self>>
+public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryable<M, Q>, Self extends QueryExecutor<M, R, Q, Self>>
         implements Queryable<M, R>, Accumulable<M>, Updatable<M>, Deletable<M>, Restorable<M>, Transactional<Self> {
 
     /**

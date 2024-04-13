@@ -9,9 +9,7 @@
  */
 package typewriter.api;
 
-import typewriter.api.model.IdentifiableModel;
-
-public interface Deletable<M extends IdentifiableModel> {
+public interface Deletable<M extends Identifiable> {
 
     /**
      * Delete the specified model.

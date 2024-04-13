@@ -9,8 +9,8 @@
  */
 package typewriter.mongo;
 
-import static com.mongodb.client.model.Aggregates.group;
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
+import static com.mongodb.client.model.Aggregates.*;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -64,11 +64,12 @@ import kiss.Property;
 import kiss.Signal;
 import kiss.Singleton;
 import kiss.WiseFunction;
+import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
 
-public class Mongo<M extends IdentifiableModel> extends QueryExecutor<M, Signal<M>, MongoQuery<M>, Mongo<M>> {
+public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, MongoQuery<M>, Mongo<M>> {
 
     private static final CodecRegistry CODEC_REGISTRY = CodecRegistries.fromRegistries(MongoClientSettings
             .getDefaultCodecRegistry(), CodecRegistries.fromCodecs(I.make(OffsetDateTimeCodec.class), I.make(ZonedDateTimeCodec.class)));

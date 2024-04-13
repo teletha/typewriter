@@ -27,6 +27,7 @@ import typewriter.api.Constraint.OffsetDateTimeConstraint;
 import typewriter.api.Constraint.StringConstraint;
 import typewriter.api.Constraint.TypeConstraint;
 import typewriter.api.Constraint.ZonedDateTimeConstraint;
+import typewriter.api.Identifiable;
 import typewriter.api.Queryable;
 import typewriter.api.Specifier;
 import typewriter.api.Specifier.BooleanSpecifier;
@@ -40,7 +41,6 @@ import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.OffsetDateTimeSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
-import typewriter.api.model.IdentifiableModel;
 import typewriter.rdb.RDBConstraint.ForDate;
 import typewriter.rdb.RDBConstraint.ForLocalDate;
 import typewriter.rdb.RDBConstraint.ForLocalDateTime;
@@ -54,7 +54,7 @@ import typewriter.rdb.RDBConstraint.GenericType;
 /**
  * {@link Queryable} for mongodb.
  */
-public class RDBQuery<M extends IdentifiableModel> implements Queryable<M, RDBQuery<M>> {
+public class RDBQuery<M extends Identifiable> implements Queryable<M, RDBQuery<M>> {
 
     /** The all constraint set. */
     protected final List<RDBConstraint<?, ?>> constraints = new ArrayList();
