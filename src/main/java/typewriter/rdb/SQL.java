@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import kiss.I;
 import kiss.Property;
@@ -241,10 +243,81 @@ public class SQL<M extends Identifiable> {
     /**
      * Write FROM statement.
      * 
+     */
+    public SQL<M> fromCurrentTable() {
+        return from(rdb.tableName);
+    }
+
+    /**
+     * Write FROM statement.
+     * 
      * @param table A name of table.
      */
     public SQL<M> from(String table) {
         text.append(" FROM ").append(table);
+        return this;
+    }
+
+    /**
+     * Write ORDER BY statement.
+     * 
+     * @param specifier
+     * @return
+     */
+    public SQL<M> orderBy(Specifier<M, ?> specifier) {
+        return orderBy(specifier, true);
+    }
+
+    /**
+     * Write ORDER BY statement.
+     * 
+     * @param specifier
+     * @return
+     */
+    public SQL<M> orderBy(Specifier<M, ?> specifier, boolean ascending) {
+        return orderBy(specifier, ascending, null, true);
+    }
+
+    /**
+     * Write ORDER BY statement.
+     * 
+     * @return
+     */
+    public SQL<M> orderBy(Specifier<M, ?> specifier1, boolean ascending1, Specifier<M, ?> specifier2, boolean ascending2) {
+        return orderBy(specifier1, ascending1, specifier2, ascending2, null, true);
+    }
+
+    /**
+     * Write ORDER BY statement.
+     * 
+     * @return
+     */
+    public SQL<M> orderBy(Specifier<M, ?> specifier1, boolean ascending1, Specifier<M, ?> specifier2, boolean ascending2, Specifier<M, ?> specifier3, boolean ascending3) {
+        text.append(" ORDER BY ").append(specifier1.propertyName()).append(ascending1 ? " ASC" : " DESC");
+        if (specifier2 != null) text.append(", ").append(specifier2.propertyName()).append(ascending2 ? " ASC" : " DESC");
+        if (specifier3 != null) text.append(", ").append(specifier3.propertyName()).append(ascending3 ? " ASC" : " DESC");
+
+        return this;
+    }
+
+    /**
+     * Write SELECT statement.
+     * 
+     * @param specifiers
+     * @return
+     */
+    public SQL<M> select(Specifier<M, ?>... specifiers) {
+        text.append(" SELECT ").append(Stream.of(specifiers).map(Specifier::propertyName).collect(Collectors.joining(", ")));
+        return this;
+    }
+
+    public SQL<M> avg(Specifier<M, ?> specifier, int windowSize) {
+        text.append(", avg(")
+                .append(specifier.propertyName())
+                .append(") OVER (order by id")
+                .append(" rows between ")
+                .append(windowSize)
+                .append(" preceding and current row)");
         return this;
     }
 
@@ -261,7 +334,7 @@ public class SQL<M extends Identifiable> {
     /**
      * Execute query.
      */
-    void execute() {
+    public void execute() {
         int index = 1;
         try (Connection connection = rdb.provider.get()) {
             PreparedStatement prepared = connection.prepareStatement(text.toString());
@@ -280,14 +353,14 @@ public class SQL<M extends Identifiable> {
     /**
      * Execute query.
      */
-    Signal<ResultSet> qurey() {
+    public Signal<ResultSet> qurey() {
         return qurey(x -> x);
     }
 
     /**
      * Execute query.
      */
-    <R> Signal<R> qurey(WiseFunction<ResultSet, R> process) {
+    public <R> Signal<R> qurey(WiseFunction<ResultSet, R> process) {
         if (text.isEmpty()) {
             return I.signal();
         }

@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.checkerframework.checker.units.qual.C;
-import org.checkerframework.checker.units.qual.N;
-
 import kiss.I;
 import kiss.Managed;
 import kiss.Model;
@@ -331,6 +328,15 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 throw I.quiet(e);
             }
         }
+    }
+
+    /**
+     * Execute raw query.
+     * 
+     * @return
+     */
+    public SQL<M> query() {
+        return new SQL<>(this);
     }
 
     /**
