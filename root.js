@@ -8,6 +8,7 @@ const root = {
 		"typewriter.h2",
 		"typewriter.maria",
 		"typewriter.mongo",
+		"typewriter.query",
 		"typewriter.rdb",
 		"typewriter.sqlite"
 	],
@@ -214,6 +215,13 @@ const root = {
 			"name": "MongoQuery",
 			"packageName": "typewriter.mongo",
 			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Query",
+			"packageName": "typewriter.query",
+			"type": "AbstractClass"
 		},
 		{
 			"modifiers": {
