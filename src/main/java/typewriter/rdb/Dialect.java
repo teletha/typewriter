@@ -149,8 +149,7 @@ public abstract class Dialect {
      * @param offset
      */
     public void commandLimitAndOffset(SQL sql, long limit, long offset) {
-        if (0 < limit) sql.write("LIMIT").write(limit);
-        if (0 < offset) sql.write("OFFSET").write(offset);
+        sql.limit(limit).offset(offset);
     }
 
     /**

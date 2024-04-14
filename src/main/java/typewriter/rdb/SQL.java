@@ -303,6 +303,26 @@ public class SQL<M extends Identifiable> {
     /**
      * Write SELECT statement.
      * 
+     * @return
+     */
+    public SQL<M> distinct(String... specifiers) {
+        text.append(" SELECT DISTINCT ").append(Stream.of(specifiers).collect(Collectors.joining(", ")));
+        return this;
+    }
+
+    /**
+     * Write SELECT statement.
+     * 
+     * @return
+     */
+    public SQL<M> select(String... specifiers) {
+        text.append(" SELECT ").append(Stream.of(specifiers).collect(Collectors.joining(", ")));
+        return this;
+    }
+
+    /**
+     * Write SELECT statement.
+     * 
      * @param specifiers
      * @return
      */
@@ -318,6 +338,16 @@ public class SQL<M extends Identifiable> {
                 .append(" rows between ")
                 .append(windowSize)
                 .append(" preceding and current row)");
+        return this;
+    }
+
+    public SQL<M> limit(long size) {
+        if (0 < size) text.append(" LIMIT ").append(size);
+        return this;
+    }
+
+    public SQL<M> offset(long size) {
+        if (0 < size) text.append(" OFFSET ").append(size);
         return this;
     }
 

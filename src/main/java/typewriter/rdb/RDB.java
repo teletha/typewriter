@@ -142,7 +142,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public long count() {
-        return new SQL<>(this).write("SELECT count(*) N").from(tableName).qurey().map(result -> result.getLong("N")).to().exact();
+        return new SQL<>(this).select("count(*)").from(tableName).qurey().map(result -> result.getLong(1)).to().exact();
     }
 
     /**

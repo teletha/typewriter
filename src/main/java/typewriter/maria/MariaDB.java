@@ -100,11 +100,11 @@ public class MariaDB extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public void commandLimitAndOffset(SQL builder, long limit, long offset) {
-        if (0 < limit) builder.write("LIMIT").write(limit);
+    public void commandLimitAndOffset(SQL sql, long limit, long offset) {
+        sql.limit(limit);
         if (0 < offset) {
-            if (limit <= 0) builder.write("LIMIT 18446744073709551615");
-            builder.write(" OFFSET ").write(offset);
+            if (limit <= 0) sql.limit(Long.MAX_VALUE);
+            sql.offset(offset);
         }
     }
 
