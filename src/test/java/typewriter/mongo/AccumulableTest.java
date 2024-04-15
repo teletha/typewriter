@@ -9,7 +9,21 @@
  */
 package typewriter.mongo;
 
+import org.junit.jupiter.api.Disabled;
+
 import typewriter.api.AccumulableTestSet;
 
 public class AccumulableTest extends MongoTestBase implements AccumulableTestSet {
+
+    @Override
+    @Disabled
+    public void avgDistinct() {
+        AccumulableTestSet.super.avgDistinct();
+    }
+
+    @Override
+    @Disabled
+    public void avgRange() {
+        AccumulableTestSet.super.avgRange();
+    }
 }

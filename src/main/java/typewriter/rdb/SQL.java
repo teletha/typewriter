@@ -33,6 +33,7 @@ import kiss.WiseFunction;
 import kiss.Ⅱ;
 import typewriter.api.Identifiable;
 import typewriter.api.Specifier;
+import typewriter.query.AVGOption;
 
 public class SQL<M extends Identifiable> {
 
@@ -381,12 +382,17 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> avg(String specifier, UnaryOperator<AVGOption> option) {
-        AVGOption o = new AVGOption();
-        if (option != null) o = option.apply(o);
+        AVGOption o = new AVGOption(option);
 
-        text.append(" avg(").append(o.distinct ? "DISTINCT " : "").append(specifier).append(")");
-
+        text.append(" AVG(").append(o.distinct ? "DISTINCT " : "").append(specifier).append(")");
+        if (o.from != 0 || o.to != 0) {
+            text.append(" OVER (rows between ").append(range(o.from)).append(" and ").append(range(o.to)).append(")");
+        }
         return this;
+    }
+
+    private String range(int size) {
+        return size == 0 ? "current row" : size > 0 ? size + " following" : -size + " preceding";
     }
 
     public SQL<M> limit(long size) {

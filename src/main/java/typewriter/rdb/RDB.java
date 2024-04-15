@@ -39,6 +39,7 @@ import typewriter.h2.H2;
 import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
 import typewriter.maria.MariaModel;
+import typewriter.query.AVGOption;
 import typewriter.query.Query;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
@@ -194,15 +195,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> double avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
-        return new SQL<>(this).write("SELECT")
-                .avg(specifier, option)
-                .as("N")
-                .from(tableName)
-                .qurey()
-                .map(result -> result.getDouble("N"))
-                .to()
-                .exact();
+    public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
+        return new SQL<>(this).write("SELECT").avg(specifier, option).as("N").from(tableName).qurey().map(result -> result.getDouble("N"));
     }
 
     /**

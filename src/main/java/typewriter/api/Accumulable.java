@@ -12,7 +12,7 @@ package typewriter.api;
 import java.util.function.UnaryOperator;
 
 import kiss.Signal;
-import typewriter.rdb.AVGOption;
+import typewriter.query.AVGOption;
 
 public interface Accumulable<M> {
 
@@ -54,7 +54,7 @@ public interface Accumulable<M> {
      * @param specifier A {@link Specifier} of the target property.
      * @return Calculated result.
      */
-    default <N extends Number> double avg(Specifier<M, N> specifier) {
+    default <N extends Number> Signal<Double> avg(Specifier<M, N> specifier) {
         return avg(specifier, null);
     }
 
@@ -64,7 +64,7 @@ public interface Accumulable<M> {
      * @param specifier A {@link Specifier} of the target property.
      * @return Calculated result.
      */
-    <N extends Number> double avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option);
+    <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option);
 
     /**
      * Returns a sum of numerical values. Ignores non-numeric values.

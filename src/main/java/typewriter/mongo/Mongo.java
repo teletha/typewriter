@@ -69,7 +69,7 @@ import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
-import typewriter.rdb.AVGOption;
+import typewriter.query.AVGOption;
 
 public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, MongoQuery<M>, Mongo<M>> {
 
@@ -205,9 +205,10 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> double avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
-        System.out.println(group(null, Accumulators.avg("R", "$" + specifier.propertyName())));
-        return collection.aggregate(List.of(group(null, Accumulators.avg("R", "$" + specifier.propertyName())))).first().getDouble("R");
+    public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
+        return I.signal(collection.aggregate(List.of(group(null, Accumulators.avg("R", "$" + specifier.propertyName()))))
+                .first()
+                .getDouble("R"));
     }
 
     /**

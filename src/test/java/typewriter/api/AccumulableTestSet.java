@@ -87,7 +87,7 @@ public interface AccumulableTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        double calculated = dao.avg(Person::getAge);
+        double calculated = dao.avg(Person::getAge).to().exact();
         assert calculated == 20d;
     }
 
@@ -102,8 +102,36 @@ public interface AccumulableTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        double calculated = dao.avg(Person::getAge, o -> o.distinct());
+        double calculated = dao.avg(Person::getAge, o -> o.distinct()).to().exact();
         assert calculated == 20;
+    }
+
+    @Test
+    default void avgRange() {
+        Person model1 = new Person("A", 10);
+        Person model2 = new Person("B", 20);
+        Person model3 = new Person("C", 30);
+        Person model4 = new Person("C", 40);
+        Person model5 = new Person("C", 50);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.updateAll(model1, model2, model3, model4, model5);
+
+        List<Double> calculated = dao.avg(Person::getAge, o -> o.range(-2, 0)).waitForTerminate().toList();
+        assert calculated.size() == 5;
+        assert calculated.get(0) == 10;
+        assert calculated.get(1) == 15;
+        assert calculated.get(2) == 20;
+        assert calculated.get(3) == 30;
+        assert calculated.get(4) == 40;
+
+        calculated = dao.avg(Person::getAge, o -> o.range(-1, 1)).waitForTerminate().toList();
+        assert calculated.size() == 5;
+        assert calculated.get(0) == 15;
+        assert calculated.get(1) == 20;
+        assert calculated.get(2) == 30;
+        assert calculated.get(3) == 40;
+        assert calculated.get(4) == 45;
     }
 
     @Test

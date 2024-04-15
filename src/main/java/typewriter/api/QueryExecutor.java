@@ -39,7 +39,7 @@ import typewriter.api.Specifier.NumericSpecifier;
 import typewriter.api.Specifier.OffsetDateTimeSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
-import typewriter.rdb.AVGOption;
+import typewriter.query.AVGOption;
 
 public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryable<M, Q>, Self extends QueryExecutor<M, R, Q, Self>>
         implements Queryable<M, R>, Accumulable<M>, Updatable<M>, Deletable<M>, Restorable<M>, Transactional<Self> {
@@ -228,8 +228,8 @@ public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryab
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> double avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
-        return 0;
+    public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
+        return I.signal();
     }
 
     /**
