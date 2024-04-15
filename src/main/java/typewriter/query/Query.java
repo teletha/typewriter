@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 import typewriter.api.Identifiable;
 import typewriter.api.Specifier;
 
-public abstract class Query<M extends Identifiable> {
+public class Query<M extends Identifiable> {
 
     private final List<String> select = new ArrayList();
 
@@ -26,7 +26,7 @@ public abstract class Query<M extends Identifiable> {
      * 
      * @param names
      */
-    protected final void SELECT(Specifier<M, ?>... names) {
+    public final void SELECT(Specifier<M, ?>... names) {
         SELECT(Stream.of(names).map(Specifier::propertyName).toList());
     }
 
@@ -35,7 +35,7 @@ public abstract class Query<M extends Identifiable> {
      * 
      * @param names
      */
-    protected final void SELECT(String... names) {
+    public final void SELECT(String... names) {
         SELECT(List.of(names));
     }
 
@@ -44,8 +44,16 @@ public abstract class Query<M extends Identifiable> {
      * 
      * @param names
      */
-    protected final void SELECT(List<String> names) {
+    public final void SELECT(List<String> names) {
         select.addAll(names);
+    }
+
+    /**
+     * Declare SELECT statement.
+     * 
+     */
+    public final void avg(Specifier<M, ?> specifier) {
+
     }
 
     /**

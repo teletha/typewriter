@@ -11,6 +11,7 @@ package typewriter.rdb;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -18,12 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.UnaryOperator;
 
 import kiss.I;
 import kiss.Managed;
 import kiss.Model;
 import kiss.Property;
 import kiss.Signal;
+import kiss.WiseConsumer;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
@@ -36,6 +39,7 @@ import typewriter.h2.H2;
 import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
 import typewriter.maria.MariaModel;
+import typewriter.query.Query;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
 
@@ -190,10 +194,9 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> double avg(Specifier<M, N> specifier) {
-        Property property = model.property(specifier.propertyName());
+    public <N extends Number> double avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
         return new SQL<>(this).write("SELECT")
-                .func("avg", property)
+                .avg(specifier, option)
                 .as("N")
                 .from(tableName)
                 .qurey()
@@ -337,6 +340,29 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     public SQL<M> query() {
         return new SQL<>(this);
+    }
+
+    public <M> Signal<ResultSet> query(WiseConsumer<Query> builder) {
+        Query query = new Query();
+        builder.accept(query);
+
+        return new Signal<ResultSet>((observer, disposer) -> {
+            int index = 1;
+            try (Connection connection = provider.get()) {
+                PreparedStatement prepared = connection.prepareStatement(query.toString());
+                // for (Object variable : variables) {
+                // prepared.setObject(index++, variable);
+                // }
+                ResultSet result = prepared.executeQuery();
+                while (!disposer.isDisposed() && !result.isClosed() && result.next()) {
+                    observer.accept(result);
+                }
+                observer.complete();
+            } catch (SQLException e) {
+                observer.error(new SQLException(query.toString(), e));
+            }
+            return disposer;
+        });
     }
 
     /**

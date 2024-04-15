@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -341,6 +342,53 @@ public class SQL<M extends Identifiable> {
         return this;
     }
 
+    /**
+     * Write AVG function.
+     * 
+     * @param specifier
+     * @return
+     */
+    public SQL<M> avg(Specifier<M, ?> specifier) {
+        return avg(specifier.propertyName(), null);
+    }
+
+    /**
+     * Write AVG function.
+     * 
+     * @param specifier
+     * @param option
+     * @return
+     */
+    public SQL<M> avg(Specifier<M, ?> specifier, UnaryOperator<AVGOption> option) {
+        return avg(specifier.propertyName(), option);
+    }
+
+    /**
+     * Write AVG function.
+     * 
+     * @param specifier
+     * @return
+     */
+    public SQL<M> avg(String specifier) {
+        return avg(specifier, null);
+    }
+
+    /**
+     * Write AVG function.
+     * 
+     * @param specifier
+     * @param option
+     * @return
+     */
+    public SQL<M> avg(String specifier, UnaryOperator<AVGOption> option) {
+        AVGOption o = new AVGOption();
+        if (option != null) o = option.apply(o);
+
+        text.append(" avg(").append(o.distinct ? "DISTINCT " : "").append(specifier).append(")");
+
+        return this;
+    }
+
     public SQL<M> limit(long size) {
         if (0 < size) text.append(" LIMIT ").append(size);
         return this;
@@ -398,6 +446,7 @@ public class SQL<M extends Identifiable> {
         return new Signal<ResultSet>((observer, disposer) -> {
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
+                System.out.println(text.toString());
                 PreparedStatement prepared = connection.prepareStatement(text.toString());
                 for (Object variable : variables) {
                     prepared.setObject(index++, variable);

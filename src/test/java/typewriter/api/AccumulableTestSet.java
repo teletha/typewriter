@@ -92,6 +92,21 @@ public interface AccumulableTestSet extends Testable {
     }
 
     @Test
+    default void avgDistinct() {
+        Person model1 = new Person("A", 10);
+        Person model2 = new Person("B", 10);
+        Person model3 = new Person("C", 30);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model1);
+        dao.update(model2);
+        dao.update(model3);
+
+        double calculated = dao.avg(Person::getAge, o -> o.distinct());
+        assert calculated == 20;
+    }
+
+    @Test
     default void sum() {
         Person model1 = new Person("A", 10);
         Person model2 = new Person("B", 20);
