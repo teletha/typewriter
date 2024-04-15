@@ -11,13 +11,17 @@ package typewriter.query;
 
 import java.util.function.UnaryOperator;
 
-public class AVGOption {
+import typewriter.api.Specifier;
+
+public class AVGOption<M> {
 
     public boolean distinct;
 
     public int from;
 
     public int to;
+
+    public String orderBy;
 
     /**
      * @param option
@@ -37,13 +41,24 @@ public class AVGOption {
     }
 
     /**
-     * Configure window range.
+     * Configure window frame.
      * 
      * @return
      */
-    public AVGOption range(int from, int to) {
+    public AVGOption frame(int from, int to) {
         this.from = from;
         this.to = to;
+        return this;
+    }
+
+    /**
+     * Configure ORDER BY option.
+     * 
+     * @param specifier
+     * @return
+     */
+    public AVGOption orderBy(Specifier<M, ?> specifier) {
+        this.orderBy = specifier.propertyName();
         return this;
     }
 }

@@ -64,7 +64,7 @@ public interface Accumulable<M> {
      * @param specifier A {@link Specifier} of the target property.
      * @return Calculated result.
      */
-    <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option);
+    <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption<M>> option);
 
     /**
      * Returns a sum of numerical values. Ignores non-numeric values.

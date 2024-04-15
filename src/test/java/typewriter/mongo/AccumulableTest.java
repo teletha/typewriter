@@ -23,7 +23,13 @@ public class AccumulableTest extends MongoTestBase implements AccumulableTestSet
 
     @Override
     @Disabled
-    public void avgRange() {
-        AccumulableTestSet.super.avgRange();
+    public void avgFrame() {
+        AccumulableTestSet.super.avgFrame();
+    }
+
+    @Override
+    @Disabled
+    public void avgOrderBy() {
+        AccumulableTestSet.super.avgOrderBy();
     }
 }

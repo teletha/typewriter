@@ -228,7 +228,7 @@ public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryab
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
+    public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption<M>> option) {
         return I.signal();
     }
 

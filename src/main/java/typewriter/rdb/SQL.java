@@ -333,16 +333,6 @@ public class SQL<M extends Identifiable> {
         return this;
     }
 
-    public SQL<M> avg(Specifier<M, ?> specifier, int windowSize) {
-        text.append(", avg(")
-                .append(specifier.propertyName())
-                .append(") OVER (order by id")
-                .append(" rows between ")
-                .append(windowSize)
-                .append(" preceding and current row)");
-        return this;
-    }
-
     /**
      * Write AVG function.
      * 
@@ -360,7 +350,7 @@ public class SQL<M extends Identifiable> {
      * @param option
      * @return
      */
-    public SQL<M> avg(Specifier<M, ?> specifier, UnaryOperator<AVGOption> option) {
+    public SQL<M> avg(Specifier<M, ?> specifier, UnaryOperator<AVGOption<M>> option) {
         return avg(specifier.propertyName(), option);
     }
 
@@ -381,12 +371,21 @@ public class SQL<M extends Identifiable> {
      * @param option
      * @return
      */
-    public SQL<M> avg(String specifier, UnaryOperator<AVGOption> option) {
+    public SQL<M> avg(String specifier, UnaryOperator<AVGOption<M>> option) {
         AVGOption o = new AVGOption(option);
 
         text.append(" AVG(").append(o.distinct ? "DISTINCT " : "").append(specifier).append(")");
+
+        StringBuilder builder = new StringBuilder();
+        if (o.orderBy != null) {
+            builder.append(" ORDER BY ").append(o.orderBy);
+        }
         if (o.from != 0 || o.to != 0) {
-            text.append(" OVER (rows between ").append(range(o.from)).append(" and ").append(range(o.to)).append(")");
+            builder.append(" ROWS BETWEEN ").append(range(o.from)).append(" and ").append(range(o.to));
+        }
+
+        if (!builder.isEmpty()) {
+            text.append(" OVER (").append(builder).append(")");
         }
         return this;
     }

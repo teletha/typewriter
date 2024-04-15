@@ -107,7 +107,7 @@ public interface AccumulableTestSet extends Testable {
     }
 
     @Test
-    default void avgRange() {
+    default void avgFrame() {
         Person model1 = new Person("A", 10);
         Person model2 = new Person("B", 20);
         Person model3 = new Person("C", 30);
@@ -117,7 +117,7 @@ public interface AccumulableTestSet extends Testable {
         QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.updateAll(model1, model2, model3, model4, model5);
 
-        List<Double> calculated = dao.avg(Person::getAge, o -> o.range(-2, 0)).waitForTerminate().toList();
+        List<Double> calculated = dao.avg(Person::getAge, o -> o.frame(-2, 0)).waitForTerminate().toList();
         assert calculated.size() == 5;
         assert calculated.get(0) == 10;
         assert calculated.get(1) == 15;
@@ -125,13 +125,33 @@ public interface AccumulableTestSet extends Testable {
         assert calculated.get(3) == 30;
         assert calculated.get(4) == 40;
 
-        calculated = dao.avg(Person::getAge, o -> o.range(-1, 1)).waitForTerminate().toList();
+        calculated = dao.avg(Person::getAge, o -> o.frame(-1, 1)).toList();
         assert calculated.size() == 5;
         assert calculated.get(0) == 15;
         assert calculated.get(1) == 20;
         assert calculated.get(2) == 30;
         assert calculated.get(3) == 40;
         assert calculated.get(4) == 45;
+    }
+
+    @Test
+    default void avgOrderBy() {
+        Person model1 = new Person("A", 10);
+        Person model2 = new Person("B", 20);
+        Person model3 = new Person("C", 30);
+        Person model4 = new Person("C", 40);
+        Person model5 = new Person("C", 50);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.updateAll(model1, model2, model3, model4, model5);
+
+        List<Double> calculated = dao.avg(Person::getAge, o -> o.orderBy(Person::getAge)).toList();
+        assert calculated.size() == 5;
+        assert calculated.get(0) == 10;
+        assert calculated.get(1) == 15;
+        assert calculated.get(2) == 20;
+        assert calculated.get(3) == 25;
+        assert calculated.get(4) == 30;
     }
 
     @Test

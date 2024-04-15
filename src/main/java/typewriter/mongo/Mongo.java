@@ -205,7 +205,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      * {@inheritDoc}
      */
     @Override
-    public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption> option) {
+    public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption<M>> option) {
         return I.signal(collection.aggregate(List.of(group(null, Accumulators.avg("R", "$" + specifier.propertyName()))))
                 .first()
                 .getDouble("R"));
