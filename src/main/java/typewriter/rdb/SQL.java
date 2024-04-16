@@ -302,6 +302,12 @@ public class SQL<M extends Identifiable> {
         return this;
     }
 
+    public SQL<M> groupBy(String group) {
+        text.append(" GROUP BY ").append(group);
+
+        return this;
+    }
+
     /**
      * Write SELECT statement.
      * 
