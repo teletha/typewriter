@@ -40,6 +40,7 @@ import typewriter.api.Specifier.OffsetDateTimeSpecifier;
 import typewriter.api.Specifier.StringSpecifier;
 import typewriter.api.Specifier.ZonedDateTimeSpecifier;
 import typewriter.query.AVGOption;
+import typewriter.rdb.Dialect;
 
 public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryable<M, Q>, Self extends QueryExecutor<M, R, Q, Self>>
         implements Queryable<M, R>, Accumulable<M>, Updatable<M>, Deletable<M>, Restorable<M>, Transactional<Self> {
@@ -288,7 +289,7 @@ public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryab
      * @param specifiers
      * @return
      */
-    protected static Signal<String> names(Specifier[] specifiers) {
-        return I.signal(specifiers).skipNull().map(specifier -> specifier.propertyName());
+    protected static Signal<String> names(Dialect dialect, Specifier[] specifiers) {
+        return I.signal(specifiers).skipNull().map(specifier -> specifier.propertyName(dialect));
     }
 }

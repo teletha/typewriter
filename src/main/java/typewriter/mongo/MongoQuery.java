@@ -223,7 +223,7 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
         if (sorts == null) {
             sorts = new ArrayList();
         }
-        sorts.add(I.pair(specifier.propertyName(), ascending));
+        sorts.add(I.pair(specifier.propertyName(null), ascending));
 
         return this;
     }

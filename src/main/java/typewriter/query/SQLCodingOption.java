@@ -9,8 +9,8 @@
  */
 package typewriter.query;
 
-public class Query<M, R> {
-    public Query<M, R> select(Select<M, R> selector) {
-        return this;
-    }
+import reincarnation.coder.CodingOption;
+
+public class SQLCodingOption extends CodingOption {
+
 }

@@ -43,7 +43,7 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
      * @param specifier The property specifier.
      */
     protected RDBConstraint(Specifier specifier, Dialect dialect) {
-        this.propertyName = specifier.propertyName();
+        this.propertyName = specifier.propertyName(dialect);
         this.dialect = dialect;
     }
 

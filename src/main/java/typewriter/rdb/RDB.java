@@ -25,6 +25,7 @@ import kiss.Managed;
 import kiss.Model;
 import kiss.Property;
 import kiss.Signal;
+import kiss.WiseConsumer;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
@@ -38,6 +39,7 @@ import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
 import typewriter.maria.MariaModel;
 import typewriter.query.AVGOption;
+import typewriter.query.QueryWriter;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
 
@@ -152,7 +154,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public <V> Signal<V> distinct(Specifier<M, V> specifier) {
-        Property property = model.property(specifier.propertyName());
+        Property property = model.property(specifier.propertyName(dialect));
         return new SQL<>(this).write("SELECT DISTINCT", property.name).from(tableName).qurey().map(result -> (V) decode(property, result));
     }
 
@@ -161,7 +163,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public <C extends Comparable> C min(Specifier<M, C> specifier) {
-        Property property = model.property(specifier.propertyName());
+        Property property = model.property(specifier.propertyName(dialect));
         return new SQL<>(this).write("SELECT")
                 .func("min", property)
                 .as(property.name)
@@ -177,7 +179,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public <C extends Comparable> C max(Specifier<M, C> specifier) {
-        Property property = model.property(specifier.propertyName());
+        Property property = model.property(specifier.propertyName(dialect));
         return new SQL<>(this).write("SELECT")
                 .func("max", property)
                 .as(property.name)
@@ -201,7 +203,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public <N extends Number> N sum(Specifier<M, N> specifier) {
-        Property property = model.property(specifier.propertyName());
+        Property property = model.property(specifier.propertyName(dialect));
         return new SQL<>(this).write("SELECT")
                 .func("sum", property)
                 .as(property.name)
@@ -232,7 +234,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
             return I.signal();
         }
 
-        List<Property> properties = names(specifiers).map(model::property).or(I.signal(model.properties())).toList();
+        List<Property> properties = names(dialect, specifiers).map(model::property).or(I.signal(model.properties())).toList();
 
         return new SQL<>(this).write("SELECT")
                 .names(properties)
@@ -256,7 +258,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         } else {
             // delete properties
             new SQL<>(this).write(dialect.commandUpdate(), tableName)
-                    .setNull(names(specifiers).map(model::property).toList())
+                    .setNull(names(dialect, specifiers).map(model::property).toList())
                     .where(instance)
                     .execute();
         }
@@ -282,7 +284,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         } else {
             // update properties
             new SQL<>(this).write(dialect.commandUpdate(), tableName)
-                    .set(names(specifiers).map(model::property).toList(), instance)
+                    .set(names(dialect, specifiers).map(model::property).toList(), instance)
                     .where(instance)
                     .execute();
         }
@@ -331,6 +333,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     public SQL<M> query() {
         return new SQL<>(this);
+    }
+
+    public void writer(WiseConsumer<QueryWriter<M>> writer) {
+        QueryWriter w = new QueryWriter(dialect);
+        writer.accept(w);
+
+        String sql = w.build(dialect);
+        System.out.println("SQL: " + sql);
     }
 
     /**

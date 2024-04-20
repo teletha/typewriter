@@ -11,10 +11,10 @@ package typewriter.api;
 
 import org.junit.jupiter.api.Test;
 
-import kiss.Signal;
 import typewriter.api.model.DerivableModel;
+import typewriter.rdb.RDB;
 
-public interface PoweredQueryTestSet extends Testable {
+public interface QueryWriterTestSet extends Testable {
 
     @Test
     default void query() {
@@ -25,7 +25,7 @@ public interface PoweredQueryTestSet extends Testable {
         Person model5 = new Person("B", 50);
         Person model6 = new Person("C", 60);
 
-        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        RDB<Person> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -33,11 +33,10 @@ public interface PoweredQueryTestSet extends Testable {
         dao.update(model5);
         dao.update(model6);
 
-        // List<String> found = dao.select(m -> m.get)
-        // assert found.size() == 3;
-        // assert found.contains("A");
-        // assert found.contains("B");
-        // assert found.contains("C");
+        dao.writer(w -> {
+            w.select(m -> m.getAge() == 10);
+        });
+
     }
 
     /**
@@ -67,7 +66,7 @@ public interface PoweredQueryTestSet extends Testable {
         }
 
         /**
-         * Get the name property of this {@link PoweredQueryTestSet.Person}.
+         * Get the name property of this {@link QueryWriterTestSet.Person}.
          * 
          * @return The name property.
          */
@@ -76,7 +75,7 @@ public interface PoweredQueryTestSet extends Testable {
         }
 
         /**
-         * Set the name property of this {@link PoweredQueryTestSet.Person}.
+         * Set the name property of this {@link QueryWriterTestSet.Person}.
          * 
          * @param name The name value to set.
          */
@@ -85,7 +84,7 @@ public interface PoweredQueryTestSet extends Testable {
         }
 
         /**
-         * Get the age property of this {@link PoweredQueryTestSet.Person}.
+         * Get the age property of this {@link QueryWriterTestSet.Person}.
          * 
          * @return The age property.
          */
@@ -94,7 +93,7 @@ public interface PoweredQueryTestSet extends Testable {
         }
 
         /**
-         * Set the age property of this {@link PoweredQueryTestSet.Person}.
+         * Set the age property of this {@link QueryWriterTestSet.Person}.
          * 
          * @param age The age value to set.
          */
@@ -103,7 +102,7 @@ public interface PoweredQueryTestSet extends Testable {
         }
 
         /**
-         * Get the marked property of this {@link PoweredQueryTestSet.Person}.
+         * Get the marked property of this {@link QueryWriterTestSet.Person}.
          * 
          * @return The marked property.
          */
@@ -112,7 +111,7 @@ public interface PoweredQueryTestSet extends Testable {
         }
 
         /**
-         * Set the marked property of this {@link PoweredQueryTestSet.Person}.
+         * Set the marked property of this {@link QueryWriterTestSet.Person}.
          * 
          * @param marked The marked value to set.
          */

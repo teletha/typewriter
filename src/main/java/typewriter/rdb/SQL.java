@@ -115,7 +115,7 @@ public class SQL<M extends Identifiable> {
         if (query.sorts != null) {
             count = 0;
             for (Ⅱ<Specifier, Boolean> sort : query.sorts) {
-                Property property = rdb.model.property(sort.ⅰ.propertyName());
+                Property property = rdb.model.property(sort.ⅰ.propertyName(rdb.dialect));
                 RDBCodec<?> codec = RDBCodec.by(property.model);
                 for (String name : codec.names) {
                     text.append(count++ == 0 ? " ORDER BY " : ",").append(property.name.concat(name)).append(sort.ⅱ ? " ASC" : " DESC");
@@ -295,9 +295,9 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> orderBy(Specifier<M, ?> specifier1, boolean ascending1, Specifier<M, ?> specifier2, boolean ascending2, Specifier<M, ?> specifier3, boolean ascending3) {
-        text.append(" ORDER BY ").append(specifier1.propertyName()).append(ascending1 ? " ASC" : " DESC");
-        if (specifier2 != null) text.append(", ").append(specifier2.propertyName()).append(ascending2 ? " ASC" : " DESC");
-        if (specifier3 != null) text.append(", ").append(specifier3.propertyName()).append(ascending3 ? " ASC" : " DESC");
+        text.append(" ORDER BY ").append(specifier1.propertyName(rdb.dialect)).append(ascending1 ? " ASC" : " DESC");
+        if (specifier2 != null) text.append(", ").append(specifier2.propertyName(rdb.dialect)).append(ascending2 ? " ASC" : " DESC");
+        if (specifier3 != null) text.append(", ").append(specifier3.propertyName(rdb.dialect)).append(ascending3 ? " ASC" : " DESC");
 
         return this;
     }
@@ -335,7 +335,7 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> select(Specifier<M, ?>... specifiers) {
-        text.append(" SELECT ").append(Stream.of(specifiers).map(Specifier::propertyName).collect(Collectors.joining(", ")));
+        text.append(" SELECT ").append(Stream.of(specifiers).map(s -> s.propertyName(rdb.dialect)).collect(Collectors.joining(", ")));
         return this;
     }
 
@@ -346,7 +346,7 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> avg(Specifier<M, ?> specifier) {
-        return avg(specifier.propertyName(), null);
+        return avg(specifier.propertyName(rdb.dialect), null);
     }
 
     /**
@@ -357,7 +357,7 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> avg(Specifier<M, ?> specifier, UnaryOperator<AVGOption<M>> option) {
-        return avg(specifier.propertyName(), option);
+        return avg(specifier.propertyName(rdb.dialect), option);
     }
 
     /**
@@ -378,7 +378,7 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> avg(String specifier, UnaryOperator<AVGOption<M>> option) {
-        AVGOption o = new AVGOption(option);
+        AVGOption o = new AVGOption(option, rdb.dialect);
 
         text.append(" AVG(").append(o.distinct ? "DISTINCT " : "").append(specifier).append(")");
 

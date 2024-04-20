@@ -9,8 +9,8 @@
  */
 package typewriter.mongo;
 
-import static java.util.Objects.requireNonNull;
-import static typewriter.api.Constraint.ZonedDateTimeConstraint.UTC;
+import static java.util.Objects.*;
+import static typewriter.api.Constraint.ZonedDateTimeConstraint.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,7 +49,7 @@ abstract class MongoConstraint<V, Self> implements Constraint<V, Self> {
      * @param specifier The property specifier.
      */
     protected MongoConstraint(Specifier specifier) {
-        this.propertyName = specifier.propertyName();
+        this.propertyName = specifier.propertyName(null);
     }
 
     /**

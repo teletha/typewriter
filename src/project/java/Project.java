@@ -25,8 +25,10 @@ public class Project extends bee.api.Project {
                 """);
 
         require("com.github.teletha", "sinobu");
-        require("org.jinq", "analysis");
-        require("org.jinq", "jinq-jooq").atTest();
+        require("org.jinq", "api");
+        require("org.jinq", "jinq-jooq");
+        require("org.jooq", "jooq");
+        require("org.vineflower", "vineflower");
         require("org.mongodb", "mongodb-driver-sync").atProvided();
         require("org.xerial", "sqlite-jdbc").atProvided();
         require("com.h2database", "h2").atProvided();

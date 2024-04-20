@@ -12,6 +12,7 @@ package typewriter.query;
 import java.util.function.UnaryOperator;
 
 import typewriter.api.Specifier;
+import typewriter.rdb.Dialect;
 
 public class AVGOption<M> {
 
@@ -23,11 +24,14 @@ public class AVGOption<M> {
 
     public String orderBy;
 
+    private final Dialect dialect;
+
     /**
      * @param option
      */
-    public AVGOption(UnaryOperator<AVGOption> option) {
+    public AVGOption(UnaryOperator<AVGOption> option, Dialect dialect) {
         if (option != null) option.apply(this);
+        this.dialect = dialect;
     }
 
     /**
@@ -58,7 +62,7 @@ public class AVGOption<M> {
      * @return
      */
     public AVGOption orderBy(Specifier<M, ?> specifier) {
-        this.orderBy = specifier.propertyName();
+        this.orderBy = specifier.propertyName(dialect);
         return this;
     }
 }

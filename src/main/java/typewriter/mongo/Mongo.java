@@ -169,7 +169,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
     public <V> Signal<V> distinct(Specifier<M, V> specifier) {
         return new Signal<>((observer, disposer) -> {
             try {
-                Property property = model.property(specifier.propertyName());
+                Property property = model.property(specifier.propertyName(null));
 
                 DistinctIterable<V> founds = collection.distinct(property.name, (Class<V>) property.model.type);
                 for (V found : founds) {
@@ -190,7 +190,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      */
     @Override
     public <C extends Comparable> C min(Specifier<M, C> specifier) {
-        return (C) collection.aggregate(List.of(group(null, Accumulators.min("R", "$" + specifier.propertyName())))).first().get("R");
+        return (C) collection.aggregate(List.of(group(null, Accumulators.min("R", "$" + specifier.propertyName(null))))).first().get("R");
     }
 
     /**
@@ -198,7 +198,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      */
     @Override
     public <C extends Comparable> C max(Specifier<M, C> specifier) {
-        return (C) collection.aggregate(List.of(group(null, Accumulators.max("R", "$" + specifier.propertyName())))).first().get("R");
+        return (C) collection.aggregate(List.of(group(null, Accumulators.max("R", "$" + specifier.propertyName(null))))).first().get("R");
     }
 
     /**
@@ -206,7 +206,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      */
     @Override
     public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption<M>> option) {
-        return I.signal(collection.aggregate(List.of(group(null, Accumulators.avg("R", "$" + specifier.propertyName()))))
+        return I.signal(collection.aggregate(List.of(group(null, Accumulators.avg("R", "$" + specifier.propertyName(null)))))
                 .first()
                 .getDouble("R"));
     }
@@ -216,7 +216,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      */
     @Override
     public <N extends Number> N sum(Specifier<M, N> specifier) {
-        return (N) collection.aggregate(List.of(group(null, Accumulators.sum("R", "$" + specifier.propertyName())))).first().get("R");
+        return (N) collection.aggregate(List.of(group(null, Accumulators.sum("R", "$" + specifier.propertyName(null))))).first().get("R");
     }
 
     /**
@@ -268,7 +268,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
     public Signal<M> restore(M model, Specifier<M, ?>... specifiers) {
         return new Signal<M>((observer, disposer) -> {
             try {
-                List<String> names = names(specifiers).toList();
+                List<String> names = names(null, specifiers).toList();
 
                 Document doc = collection.find(identify(model)).projection(names.isEmpty() ? null : Projections.include(names)).first();
 
@@ -300,7 +300,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
             List<Bson> operations = new ArrayList();
             for (Specifier<M, ?> specifier : specifiers) {
                 if (specifier != null) {
-                    operations.add(Updates.unset(specifier.propertyName()));
+                    operations.add(Updates.unset(specifier.propertyName(null)));
                 }
             }
             collection.updateOne(identify(model), Updates.combine(operations));
@@ -325,7 +325,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
             List<Bson> operations = new ArrayList();
             for (Specifier<M, ?> specifier : specifiers) {
                 if (specifier != null) {
-                    String name = specifier.propertyName();
+                    String name = specifier.propertyName(null);
                     Property property = m.property(name);
 
                     operations.add(Updates.set(name, m.get(model, property)));

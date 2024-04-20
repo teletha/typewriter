@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.function.Function;
 
 import kiss.I;
+import reincarnation.Reincarnation;
+import typewriter.query.SQLCoder;
+import typewriter.rdb.Dialect;
 
 /**
  * Generic property specifier.
@@ -55,19 +58,27 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
      * 
      * @return
      */
-    default String propertyName() {
+    default String propertyName(Dialect dialect) {
         Method method = method();
-        String name = method.getName();
-        if (method.getReturnType() == boolean.class) {
-            if (name.startsWith("is")) {
-                name = name.substring(2);
-            }
+        if (method.isSynthetic()) {
+            // lambda expression
+            SQLCoder coder = new SQLCoder(method);
+            Reincarnation.exhume(method.getDeclaringClass()).rebirth(coder);
+            return coder.write(dialect);
         } else {
-            if (name.startsWith("get")) {
-                name = name.substring(3);
+            // method reference
+            String name = method.getName();
+            if (method.getReturnType() == boolean.class) {
+                if (name.startsWith("is")) {
+                    name = name.substring(2);
+                }
+            } else {
+                if (name.startsWith("get")) {
+                    name = name.substring(3);
+                }
             }
+            return Introspector.decapitalize(name);
         }
-        return Introspector.decapitalize(name);
     }
 
     /**
