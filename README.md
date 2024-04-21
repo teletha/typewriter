@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://docs.oracle.com/en/java/javase/19/"><img src="https://img.shields.io/badge/Java-Release%2019-green"/></a>
+    <a href="https://docs.oracle.com/en/java/javase/21/"><img src="https://img.shields.io/badge/Java-Release%2021-green"/></a>
     <span>&nbsp;</span>
     <a href="https://jitpack.io/#teletha/typewriter"><img src="https://img.shields.io/jitpack/v/github/teletha/typewriter?label=Repository&color=green"></a>
     <span>&nbsp;</span>
@@ -23,7 +23,7 @@ Provides a general-purpose, type-safe DAO. Currently supported databases are the
 
 
 ## Prerequisites
-Typewriter runs on all major operating systems and requires only [Java version 19](https://docs.oracle.com/en/java/javase/19/) or later to run.
+Typewriter runs on all major operating systems and requires only [Java version 21](https://docs.oracle.com/en/java/javase/21/) or later to run.
 To check, please run `java -version` from the command line interface. You should see something like this:
 ```
 > java -version
@@ -113,7 +113,18 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Typewriter depends on the following products on runtime.
+* [analysis-2.0.2](https://mvnrepository.com/artifact/org.jinq/analysis/2.0.2)
+* [api-2.0.2](https://mvnrepository.com/artifact/org.jinq/api/2.0.2)
+* [asm-9.7](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.7)
+* [jinq-asm-rebased-2.0.2](https://mvnrepository.com/artifact/org.jinq/jinq-asm-rebased/2.0.2)
+* [jinq-jooq-2.0.2](https://mvnrepository.com/artifact/org.jinq/jinq-jooq/2.0.2)
+* [jooq-3.19.7](https://mvnrepository.com/artifact/org.jooq/jooq/3.19.7)
+* [psychopath-1.12.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.12.1)
+* [r2dbc-spi-1.0.0.RELEASE](https://mvnrepository.com/artifact/io.r2dbc/r2dbc-spi/1.0.0.RELEASE)
+* [reactive-streams-1.0.3](https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams/1.0.3)
+* [reincarnation-1.6.0](https://mvnrepository.com/artifact/com.github.teletha/reincarnation/1.6.0)
 * [sinobu-3.11.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.11.0)
+* [vineflower-1.10.1](https://mvnrepository.com/artifact/org.vineflower/vineflower/1.10.1)
 <p align="right"><a href="#top">back to top</a></p>
 
 
