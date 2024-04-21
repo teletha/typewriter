@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
 import typewriter.api.model.DerivableModel;
+import typewriter.rdb.RDB;
 
 public interface AccumulableTestSet extends Testable {
 
@@ -97,7 +98,7 @@ public interface AccumulableTestSet extends Testable {
         Person model2 = new Person("B", 10);
         Person model3 = new Person("C", 30);
 
-        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        RDB<Person> dao = createEmptyDB(Person.class);
         dao.update(model1);
         dao.update(model2);
         dao.update(model3);
@@ -114,7 +115,7 @@ public interface AccumulableTestSet extends Testable {
         Person model4 = new Person("C", 40);
         Person model5 = new Person("C", 50);
 
-        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        RDB<Person> dao = createEmptyDB(Person.class);
         dao.updateAll(model1, model2, model3, model4, model5);
 
         List<Double> calculated = dao.avg(Person::getAge, o -> o.frame(-2, 0)).waitForTerminate().toList();
@@ -142,7 +143,7 @@ public interface AccumulableTestSet extends Testable {
         Person model4 = new Person("C", 40);
         Person model5 = new Person("C", 50);
 
-        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        RDB<Person> dao = createEmptyDB(Person.class);
         dao.updateAll(model1, model2, model3, model4, model5);
 
         List<Double> calculated = dao.avg(Person::getAge, o -> o.orderBy(Person::getAge)).toList();
