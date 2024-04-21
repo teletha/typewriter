@@ -113,18 +113,10 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Typewriter depends on the following products on runtime.
-* [analysis-2.0.2](https://mvnrepository.com/artifact/org.jinq/analysis/2.0.2)
-* [api-2.0.2](https://mvnrepository.com/artifact/org.jinq/api/2.0.2)
 * [asm-9.7](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.7)
-* [jinq-asm-rebased-2.0.2](https://mvnrepository.com/artifact/org.jinq/jinq-asm-rebased/2.0.2)
-* [jinq-jooq-2.0.2](https://mvnrepository.com/artifact/org.jinq/jinq-jooq/2.0.2)
-* [jooq-3.19.7](https://mvnrepository.com/artifact/org.jooq/jooq/3.19.7)
-* [psychopath-1.12.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.12.1)
-* [r2dbc-spi-1.0.0.RELEASE](https://mvnrepository.com/artifact/io.r2dbc/r2dbc-spi/1.0.0.RELEASE)
-* [reactive-streams-1.0.3](https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams/1.0.3)
+* [psychopath-1.12.2](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.12.2)
 * [reincarnation-1.6.0](https://mvnrepository.com/artifact/com.github.teletha/reincarnation/1.6.0)
 * [sinobu-3.11.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.11.0)
-* [vineflower-1.10.1](https://mvnrepository.com/artifact/org.vineflower/vineflower/1.10.1)
 <p align="right"><a href="#top">back to top</a></p>
 
 
