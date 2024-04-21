@@ -246,7 +246,7 @@ public class SQL<M extends Identifiable> {
      * Write FROM statement.
      * 
      */
-    public SQL<M> fromCurrentTable() {
+    public SQL<M> fromModelTable() {
         return from(rdb.tableName);
     }
 
@@ -325,6 +325,16 @@ public class SQL<M extends Identifiable> {
      */
     public SQL<M> select(String... specifiers) {
         text.append(" SELECT ").append(Stream.of(specifiers).collect(Collectors.joining(", ")));
+        return this;
+    }
+
+    /**
+     * Write SELECT * statement.
+     * 
+     * @return
+     */
+    public SQL<M> selectAll() {
+        text.append("SELECT *");
         return this;
     }
 
@@ -421,6 +431,16 @@ public class SQL<M extends Identifiable> {
     }
 
     /**
+     * Write WHERE statement.
+     * 
+     * @param condition
+     */
+    public SQL<M> where(Specifier<M, ?> condition) {
+        text.append(" WHERE ").append(condition.propertyName(rdb.dialect));
+        return this;
+    }
+
+    /**
      * Execute query.
      */
     public void execute() {
@@ -457,7 +477,6 @@ public class SQL<M extends Identifiable> {
         return new Signal<ResultSet>((observer, disposer) -> {
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
-                System.out.println(text.toString());
                 PreparedStatement prepared = connection.prepareStatement(text.toString());
                 for (Object variable : variables) {
                     prepared.setObject(index++, variable);

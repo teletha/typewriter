@@ -9,7 +9,7 @@
  */
 package typewriter.duck;
 
-import typewriter.api.QueryWriterTestSet;
+import typewriter.api.LinqTestSet;
 
-public class QueryWriterTest extends DuckTestBase implements QueryWriterTestSet {
+public class LinqTest extends DuckTestBase implements LinqTestSet {
 }

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import kiss.I;
+import kiss.Ⅱ;
 import reincarnation.Reincarnation;
 import typewriter.query.SQLCoder;
 import typewriter.rdb.Dialect;
@@ -37,17 +38,17 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
      * 
      * @return The implementation method of this lambda.
      */
-    default Method method() {
+    default Ⅱ<Method, SerializedLambda> method() {
         try {
             Method m = getClass().getDeclaredMethod("writeReplace");
             m.setAccessible(true);
             SerializedLambda s = (SerializedLambda) m.invoke(this);
 
-            return I.signal(I.type(s.getImplClass().replaceAll("/", ".")).getDeclaredMethods())
+            return I.pair(I.signal(I.type(s.getImplClass().replaceAll("/", ".")).getDeclaredMethods())
                     .take(x -> x.getName().equals(s.getImplMethodName()))
                     .first()
                     .to()
-                    .exact();
+                    .exact(), s);
         } catch (Exception e) {
             throw I.quiet(e);
         }
@@ -59,26 +60,36 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
      * @return
      */
     default String propertyName(Dialect dialect) {
-        Method method = method();
-        if (method.isSynthetic()) {
+        Ⅱ<Method, SerializedLambda> method = method();
+        if (method.ⅰ.isSynthetic()) {
             // lambda expression
-            SQLCoder coder = new SQLCoder(method);
-            Reincarnation.exhume(method.getDeclaringClass()).rebirth(coder);
-            return coder.write(dialect);
+            SQLCoder coder = new SQLCoder(method.ⅰ, method.ⅱ, dialect);
+            Reincarnation.exhume(method.ⅰ.getDeclaringClass()).rebirth(coder);
+            return coder.toString();
         } else {
             // method reference
-            String name = method.getName();
-            if (method.getReturnType() == boolean.class) {
-                if (name.startsWith("is")) {
-                    name = name.substring(2);
-                }
-            } else {
-                if (name.startsWith("get")) {
-                    name = name.substring(3);
-                }
-            }
-            return Introspector.decapitalize(name);
+            return inspectPropertyName(method.ⅰ);
         }
+    }
+
+    /**
+     * Utility method to inspect property name from {@link Method}.
+     * 
+     * @param method
+     * @return
+     */
+    static String inspectPropertyName(Method method) {
+        String name = method.getName();
+        if (method.getReturnType() == boolean.class) {
+            if (name.startsWith("is")) {
+                name = name.substring(2);
+            }
+        } else {
+            if (name.startsWith("get")) {
+                name = name.substring(3);
+            }
+        }
+        return Introspector.decapitalize(name);
     }
 
     /**

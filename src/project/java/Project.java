@@ -25,6 +25,7 @@ public class Project extends bee.api.Project {
                 """);
 
         require("com.github.teletha", "sinobu");
+        require("com.github.teletha", "reincarnation");
         require("org.jinq", "api");
         require("org.jinq", "jinq-jooq");
         require("org.jooq", "jooq");

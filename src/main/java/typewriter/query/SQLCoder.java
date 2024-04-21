@@ -9,34 +9,47 @@
  */
 package typewriter.query;
 
+import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import kiss.I;
+import kiss.Model;
+import kiss.Property;
 import kiss.Variable;
+import kiss.WiseTriConsumer;
 import kiss.Ⅲ;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
+import reincarnation.coder.DelegatableCoder;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
+import typewriter.api.Identifiable;
+import typewriter.api.Specifier;
 import typewriter.rdb.Dialect;
 
 public class SQLCoder extends Coder<SQLCodingOption> {
 
     private final Method method;
 
-    /**
-     * @param method
-     */
-    public SQLCoder(Method method) {
+    private final SerializedLambda lambda;
+
+    private final Dialect dialect;
+
+    public SQLCoder(Method method, SerializedLambda lambda, Dialect dialect) {
         this.method = method;
+        this.lambda = lambda;
+        this.dialect = dialect;
     }
 
     /**
@@ -141,7 +154,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeBoolean(boolean code) {
-        System.out.println("boolean " + code);
+        writeValue(code);
     }
 
     /**
@@ -149,6 +162,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeChar(char code) {
+        writeValue(code);
     }
 
     /**
@@ -156,7 +170,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeInt(int code) {
-        System.out.println("int " + code);
+        writeValue(code);
     }
 
     /**
@@ -164,6 +178,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeLong(long code) {
+        writeValue(code);
     }
 
     /**
@@ -171,6 +186,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeFloat(float code) {
+        writeValue(code);
     }
 
     /**
@@ -178,6 +194,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeDouble(double code) {
+        writeValue(code);
     }
 
     /**
@@ -185,6 +202,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeString(String code) {
+        writeValue(code);
     }
 
     /**
@@ -248,7 +266,16 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeBinaryOperation(Code left, BinaryOperator operator, Code right) {
-        write(left, space, operator, space, right);
+        String op = switch (operator) {
+        case EQUAL -> "=";
+        case NOT_EQUALS -> "!=";
+        case AND -> "AND";
+        case OR -> "OR";
+        case XOR -> "XOR";
+        default -> operator.toString();
+        };
+
+        write(left, space, op, space, right);
     }
 
     /**
@@ -256,6 +283,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writePositiveOperation(Code code) {
+        write(code);
     }
 
     /**
@@ -263,6 +291,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeNegativeOperation(Code code) {
+        write("!", code);
     }
 
     /**
@@ -283,7 +312,12 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Type type, String name) {
+    public void writeLocalVariable(Type type, int index, String name) {
+        if (index < lambda.getCapturedArgCount()) {
+            writeValue(lambda.getCapturedArg(index));
+        } else {
+            throw new UnsupportedOperationException("Non-captured local variable is not supported. [index: " + index + " name: " + name + "]");
+        }
     }
 
     /**
@@ -291,6 +325,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeAccessField(Field field, Code context, AccessMode mode) {
+        unsupportedSyntax("field access");
     }
 
     /**
@@ -305,6 +340,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeAccessArray(Code array, Code index) {
+        unsupportedSyntax("read array");
     }
 
     /**
@@ -312,6 +348,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeAccessArrayLength(Code array) {
+        unsupportedSyntax("array length");
     }
 
     /**
@@ -319,6 +356,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<Code> params) {
+        unsupportedSyntax("constructor call");
     }
 
     /**
@@ -326,6 +364,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<Code> params) {
+        unsupportedSyntax("super constructor call");
     }
 
     /**
@@ -333,6 +372,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeThisConstructorCall(Constructor constructor, List<Code> params) {
+        unsupportedSyntax("this constuctor call");
     }
 
     /**
@@ -340,8 +380,51 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
-        context.write(this);
-        params.forEach(p -> p.write(this));
+        Class<?> clazz = method.getDeclaringClass();
+        if (Identifiable.class.isAssignableFrom(clazz)) {
+            Model model = Model.of(clazz);
+            Property property = model.property(Specifier.inspectPropertyName(method));
+            if (property != null) {
+                write(property.name);
+            }
+        } else {
+            WiseTriConsumer<SQLCoder, Code, List<Code>> translator = searchTranslator(method.getDeclaringClass(), method.getName(), method
+                    .getParameterTypes());
+
+            if (translator != null) {
+                translator.accept(this, context, params);
+            } else {
+                context.write(this);
+                params.forEach(p -> p.write(this));
+            }
+        }
+    }
+
+    private WiseTriConsumer<SQLCoder, Code, List<Code>> searchTranslator(Class base, String name, Class[] paramTypes) {
+        for (Class type : Model.collectTypes(base)) {
+            WiseTriConsumer<SQLCoder, Code, List<Code>> translator = methods.get(I.pair(type, name, paramTypes));
+            if (translator != null) {
+                return translator;
+            }
+        }
+        return null;
+    }
+
+    private static final Map<Ⅲ<Class, String, Class[]>, WiseTriConsumer<SQLCoder, Code, List<Code>>> methods = new HashMap();
+
+    private static void registerTranslator(Class owner, String methodName, Class[] paramTypes, WiseTriConsumer<SQLCoder, Code, List<Code>> translator) {
+        methods.put(I.pair(owner, methodName, paramTypes), translator);
+    }
+
+    static {
+        registerTranslator(Object.class, "equals", new Class[] {Object.class}, (coder, context, params) -> {
+            coder.write(context, " = ");
+            params.forEach(coder::write);
+        });
+
+        registerTranslator(String.class, "contains", new Class[] {CharSequence.class}, (coder, context, params) -> {
+            coder.write(context, " LIKE '%", noquote(params), "%'");
+        });
     }
 
     /**
@@ -356,6 +439,7 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeStaticMethodReference(Method method) {
+        System.out.println(method);
     }
 
     /**
@@ -512,11 +596,39 @@ public class SQLCoder extends Coder<SQLCodingOption> {
     protected void writeDefaultCase(boolean statement, Code defaultBlock) {
     }
 
-    public String write(Dialect dialect) {
-        return toString();
+    /**
+     * Write some value.
+     * 
+     * @param value
+     */
+    private void writeValue(Object value) {
+        if (value instanceof String text) {
+            write("'", text, "'");
+        } else {
+            write(value);
+        }
     }
 
     private void unsupportedSyntax(String keyword) {
         throw new UnsupportedOperationException(keyword + " is not supported in query wirter.");
+    }
+
+    /**
+     * Delegate to NoQuotableCoder.
+     * 
+     * @param codes
+     * @return
+     */
+    private static Code noquote(List<Code> codes) {
+        return original -> {
+            Coder coder = new DelegatableCoder(original) {
+
+                @Override
+                public void writeString(String code) {
+                    write(code);
+                }
+            };
+            coder.write(codes.toArray());
+        };
     }
 }

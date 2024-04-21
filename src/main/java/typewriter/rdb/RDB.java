@@ -25,7 +25,6 @@ import kiss.Managed;
 import kiss.Model;
 import kiss.Property;
 import kiss.Signal;
-import kiss.WiseConsumer;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
@@ -39,7 +38,6 @@ import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
 import typewriter.maria.MariaModel;
 import typewriter.query.AVGOption;
-import typewriter.query.QueryWriter;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
 
@@ -333,14 +331,6 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     public SQL<M> query() {
         return new SQL<>(this);
-    }
-
-    public void writer(WiseConsumer<QueryWriter<M>> writer) {
-        QueryWriter w = new QueryWriter(dialect);
-        writer.accept(w);
-
-        String sql = w.build(dialect);
-        System.out.println("SQL: " + sql);
     }
 
     /**
