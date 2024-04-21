@@ -16,6 +16,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "AVGOption",
+			"packageName": "typewriter.query",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Accumulable",
 			"packageName": "typewriter.api",
 			"type": "Interface"
@@ -219,13 +226,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Query",
-			"packageName": "typewriter.query",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "QueryExecutor",
 			"packageName": "typewriter.api",
 			"type": "AbstractClass"
@@ -277,6 +277,20 @@ const root = {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "SQL",
 			"packageName": "typewriter.rdb",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "SQLCoder",
+			"packageName": "typewriter.query",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "SQLCodingOption",
+			"packageName": "typewriter.query",
 			"type": "Class"
 		},
 		{
