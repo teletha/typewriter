@@ -431,6 +431,13 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeConstructorReference(Constructor constructor) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeMethodReference(Method method, Code context) {
     }
 
