@@ -384,8 +384,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Object... qualifers) {
-        return of(type, null, qualifers);
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Object... qualifiers) {
+        return of(type, null, qualifiers);
     }
 
     /**
