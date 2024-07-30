@@ -405,6 +405,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 dialect = MariaDB;
             } else if (DuckModel.class.isAssignableFrom(type)) {
                 dialect = DuckDB;
+            } else if (I.env("typewriter.sqlite") != null) {
+                dialect = SQLite;
+            } else if (I.env("typewriter.h2") != null) {
+                dialect = H2;
+            } else if (I.env("typewriter.mariadb") != null) {
+                dialect = MariaDB;
+            } else if (I.env("typewriter.duckdb") != null) {
+                dialect = DuckDB;
             } else {
                 throw new Error("The suitable dialect is not found for" + type + ".");
             }
