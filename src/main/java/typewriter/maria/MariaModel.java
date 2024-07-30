@@ -19,6 +19,6 @@ public abstract class MariaModel<Self extends MariaModel<Self>> extends Backende
      */
     @Override
     protected RDB<Self> backend() {
-        return RDB.of((Class<Self>) getClass(), o -> o.dialect(RDB.MariaDB));
+        return RDB.of((Class<Self>) getClass(), RDB.MariaDB);
     }
 }

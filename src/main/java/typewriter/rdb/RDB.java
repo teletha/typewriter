@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.UnaryOperator;
 
@@ -383,8 +384,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type) {
-        return of(type, UnaryOperator.identity());
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Object... qualifers) {
+        return of(type, null, qualifers);
     }
 
     /**
@@ -394,28 +395,31 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, UnaryOperator<RDBOption> option) {
-        RDBOption o = option == null ? new RDBOption() : option.apply(new RDBOption());
-
-        if (o.dialect == null) {
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect, Object... qualifiers) {
+        if (dialect == null) {
             if (SQLiteModel.class.isAssignableFrom(type)) {
-                o.dialect = SQLite;
+                dialect = SQLite;
             } else if (H2Model.class.isAssignableFrom(type)) {
-                o.dialect = H2;
+                dialect = H2;
             } else if (MariaModel.class.isAssignableFrom(type)) {
-                o.dialect = MariaDB;
+                dialect = MariaDB;
             } else if (DuckModel.class.isAssignableFrom(type)) {
-                o.dialect = DuckDB;
+                dialect = DuckDB;
             } else {
                 throw new Error("The suitable dialect is not found for" + type + ".");
             }
         }
 
-        Dialect detected = o.dialect;
-        String name = o.renamer.apply(type.getName());
+        Dialect detected = dialect;
+        StringJoiner joiner = new StringJoiner("_");
+        joiner.add(type.getName());
+        for (Object qualifer : qualifiers) {
+            joiner.add(String.valueOf(qualifer));
+        }
+        String name = joiner.toString();
 
         return DAO.get(detected).computeIfAbsent(name, key -> {
-            return new RDB(type, name, detected, detected.configureLocation(o.location));
+            return new RDB(type, name, detected, detected.configureLocation(null));
         });
     }
 
@@ -426,8 +430,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type) {
-        return by(type, null);
+    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type, Object... quealifers) {
+        return by(type, null, quealifers);
     }
 
     /**
@@ -437,9 +441,9 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type, UnaryOperator<RDBOption> option) {
+    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type, Dialect dialect, Object... qualifiers) {
         return new Signal<>((observer, disposer) -> {
-            observer.accept(of(type, option));
+            observer.accept(of(type, dialect, qualifiers));
             observer.complete();
             return disposer;
         });
