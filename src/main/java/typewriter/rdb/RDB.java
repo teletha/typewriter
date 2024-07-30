@@ -59,11 +59,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     public static final Dialect DuckDB = I.make(DuckDB.class);
 
     /** The reusable DAO cache. */
-    private static final Map<Dialect, Map<Class, RDB>> DAO = Map
+    private static final Map<Dialect, Map<String, RDB>> DAO = Map
             .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap(), DuckDB, new ConcurrentHashMap());
 
     /** The document model. */
     protected final Model<M> model;
+
+    /** The model name. */
+    protected final String name;
 
     /** The table name. */
     protected final String tableName;
@@ -81,8 +84,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param dialect
      * @param url A user specified backend address.
      */
-    public RDB(Class<M> type, Dialect dialect, String url) {
-        this(Model.of(type), dialect, ConnectionPool.by(url));
+    public RDB(Class<M> type, String name, Dialect dialect, String url) {
+        this(Model.of(type), name, dialect, ConnectionPool.by(url));
 
         dialect.createDatabase(url);
 
@@ -118,14 +121,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param provider A user specified backend connection.
      * @param createTable Should I create table?
      */
-    private RDB(Model<M> model, Dialect dialect, WiseSupplier<Connection> provider) {
-        String name = model.type.getName();
+    private RDB(Model<M> model, String name, Dialect dialect, WiseSupplier<Connection> provider) {
         Managed managed = model.type.getAnnotation(Managed.class);
         if (managed != null && !managed.name().isEmpty()) {
             name = managed.name();
         }
 
         this.model = model;
+        this.name = name;
         this.tableName = dialect.quote() + name + dialect.quote();
         this.dialect = dialect;
         this.provider = provider;
@@ -305,7 +308,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         try {
             connection.setAutoCommit(false);
 
-            R result = operation.apply(new RDB<>(model, dialect, () -> connection));
+            R result = operation.apply(new RDB<>(model, name, dialect, () -> connection));
             connection.commit();
             return result;
         } catch (SQLException e) {
@@ -381,7 +384,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @return
      */
     public static <M extends IdentifiableModel> RDB<M> of(Class<M> type) {
-        return of(type, null);
+        return of(type, UnaryOperator.identity());
     }
 
     /**
@@ -391,25 +394,28 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect) {
-        if (dialect == null) {
+    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, UnaryOperator<RDBOption> option) {
+        RDBOption o = option == null ? new RDBOption() : option.apply(new RDBOption());
+
+        if (o.dialect == null) {
             if (SQLiteModel.class.isAssignableFrom(type)) {
-                dialect = SQLite;
+                o.dialect = SQLite;
             } else if (H2Model.class.isAssignableFrom(type)) {
-                dialect = H2;
+                o.dialect = H2;
             } else if (MariaModel.class.isAssignableFrom(type)) {
-                dialect = MariaDB;
+                o.dialect = MariaDB;
             } else if (DuckModel.class.isAssignableFrom(type)) {
-                dialect = DuckDB;
+                o.dialect = DuckDB;
             } else {
                 throw new Error("The suitable dialect is not found for" + type + ".");
             }
         }
 
-        Dialect detected = dialect;
+        Dialect detected = o.dialect;
+        String name = o.renamer.apply(type.getName());
 
-        return DAO.get(dialect).computeIfAbsent(type, key -> {
-            return new RDB(type, detected, detected.configureLocation(null));
+        return DAO.get(detected).computeIfAbsent(name, key -> {
+            return new RDB(type, name, detected, detected.configureLocation(o.location));
         });
     }
 
@@ -431,9 +437,9 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type, Dialect dialect) {
+    public static <M extends IdentifiableModel> Signal<RDB<M>> by(Class<M> type, UnaryOperator<RDBOption> option) {
         return new Signal<>((observer, disposer) -> {
-            observer.accept(of(type, dialect));
+            observer.accept(of(type, option));
             observer.complete();
             return disposer;
         });

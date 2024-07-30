@@ -19,6 +19,6 @@ public abstract class DuckModel<Self extends DuckModel<Self>> extends BackendedM
      */
     @Override
     protected RDB<Self> backend() {
-        return RDB.of((Class<Self>) getClass(), RDB.DuckDB);
+        return RDB.of((Class<Self>) getClass(), o -> o.dialect(RDB.DuckDB));
     }
 }

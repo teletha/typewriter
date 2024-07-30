@@ -37,6 +37,6 @@ public class DuckTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(type, RDB.DuckDB, db);
+        return (Q) new RDB(type, type.getName(), RDB.DuckDB, db);
     }
 }

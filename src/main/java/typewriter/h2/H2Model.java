@@ -19,6 +19,6 @@ public abstract class H2Model<Self extends H2Model<Self>> extends BackendedModel
      */
     @Override
     protected RDB<Self> backend() {
-        return RDB.of((Class<Self>) getClass(), RDB.H2);
+        return RDB.of((Class<Self>) getClass(), o -> o.dialect(RDB.H2));
     }
 }

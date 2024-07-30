@@ -19,6 +19,6 @@ public abstract class SQLiteModel<Self extends SQLiteModel<Self>> extends Backen
      */
     @Override
     protected RDB<Self> backend() {
-        return RDB.of((Class<Self>) getClass(), RDB.SQLite);
+        return RDB.of((Class<Self>) getClass(), o -> o.dialect(RDB.SQLite));
     }
 }
