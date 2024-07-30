@@ -261,13 +261,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "RDBOption",
-			"packageName": "typewriter.rdb",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "RDBQuery",
 			"packageName": "typewriter.rdb",
 			"type": "Class"
