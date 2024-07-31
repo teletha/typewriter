@@ -29,6 +29,7 @@ import kiss.Signal;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
+import typewriter.api.LazyBulkUpdater;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
@@ -77,6 +78,9 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
 
     /** The connection provider. */
     protected final WiseSupplier<Connection> provider;
+
+    /** The bulk updater. */
+    private LazyBulkUpdater bulk = new LazyBulkUpdater(256, 1000 * 60 * 3, this);
 
     /**
      * Data Access Object.
@@ -290,6 +294,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                     .where(instance)
                     .execute();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateLazy(M model) {
+        bulk.update(model);
     }
 
     /**

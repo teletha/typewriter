@@ -43,6 +43,13 @@ public interface Updatable<M extends Identifiable> {
     void update(M model, Specifier<M, ?>... specifiers);
 
     /**
+     * Update the specified model lazily.
+     * 
+     * @param model A target model.
+     */
+    void updateLazy(M model);
+
+    /**
      * Update the properties of all given models.
      * 
      * @param models
