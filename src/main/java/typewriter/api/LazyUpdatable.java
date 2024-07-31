@@ -16,31 +16,43 @@ import java.util.concurrent.TimeUnit;
 import kiss.Disposable;
 import kiss.I;
 
-public class LazyBulkUpdater<M extends Identifiable> {
+public abstract class LazyUpdatable<M extends Identifiable> implements Updatable<M> {
 
-    private final int max;
+    private int max = 256;
 
-    private final long delay;
+    private long delay = 1000 * 60 * 3;
 
-    private final Updatable<M> updatable;
-
-    private List<M> models;
+    private List<M> models = new ArrayList(max);
 
     private Disposable stop;
 
-    public LazyBulkUpdater(int max, long delay, Updatable<M> updatable) {
-        this.max = max;
-        this.delay = delay;
-        this.updatable = updatable;
-        this.models = new ArrayList(max);
+    /**
+     * Congifure the delay time of bulk update.
+     * 
+     * @param mills
+     */
+    public void setDelay(long mills) {
+        if (0 < mills) {
+            delay = mills;
+        }
     }
 
     /**
-     * Register updating model.
+     * Congifure the maximum size of bulk update.
      * 
-     * @param model
+     * @param size
      */
-    public synchronized void update(M model) {
+    public void setMax(int size) {
+        if (0 < size) {
+            max = size;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void updateLazy(M model) {
         if (model != null) {
             models.add(model);
 
@@ -58,7 +70,7 @@ public class LazyBulkUpdater<M extends Identifiable> {
     private void commit() {
         List<M> items = models;
         models = new ArrayList(max);
-        updatable.updateAll(items);
+        updateAll(items);
 
         if (stop != null) {
             stop.dispose();

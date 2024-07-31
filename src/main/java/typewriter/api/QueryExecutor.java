@@ -43,6 +43,7 @@ import typewriter.query.AVGOption;
 import typewriter.rdb.Dialect;
 
 public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryable<M, Q>, Self extends QueryExecutor<M, R, Q, Self>>
+        extends LazyUpdatable<M>
         implements Queryable<M, R>, Accumulable<M>, Updatable<M>, Deletable<M>, Restorable<M>, Transactional<Self> {
 
     /**

@@ -66,7 +66,6 @@ import kiss.Signal;
 import kiss.Singleton;
 import kiss.WiseFunction;
 import typewriter.api.Identifiable;
-import typewriter.api.LazyBulkUpdater;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
@@ -131,9 +130,6 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
 
     /** The associated collection. */
     private final MongoCollection<Document> collection;
-
-    /** The bulk updater. */
-    private LazyBulkUpdater bulk = new LazyBulkUpdater(254, 1000 * 60 * 3, this);
 
     /**
      * @param model
@@ -337,14 +333,6 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
             }
             collection.updateOne(identify(model), Updates.combine(operations), new UpdateOptions().upsert(true));
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateLazy(M model) {
-        bulk.update(model);
     }
 
     /**
