@@ -67,7 +67,7 @@ public abstract class LazyUpdatable<M extends Identifiable> implements Updatable
     /**
      * Force to update.
      */
-    private void commit() {
+    public void commit() {
         List<M> items = models;
         models = new ArrayList(max);
         updateAll(items);
