@@ -184,6 +184,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "LazyBulkUpdater",
+			"packageName": "typewriter.api",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "MariaDB",
 			"packageName": "typewriter.maria",
 			"type": "Class"
@@ -403,7 +410,7 @@ const root = {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Updatable",
 			"packageName": "typewriter.api",
-			"type": "Functional"
+			"type": "Interface"
 		}
 	]
 }
