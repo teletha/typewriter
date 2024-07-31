@@ -12,9 +12,9 @@
 		<link href="main.css" rel="stylesheet"/>
 	</head>
 	<body class="e">
-		<header class="S">
-			<h1 class="a" date="2023-08-26" ver="1.7.1"><code>Typewriter</code></h1>
-			<nav class="W"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+		<header class="H">
+			<h1 class="V" date="2023-08-26" ver="1.7.1"><code>Typewriter</code></h1>
+			<nav class="I"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -23,7 +23,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="O" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="l" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -31,113 +31,114 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="K">
-			<nav class="f">
+		<main class="N">
+			<nav class="W">
 				<div></div>
 			</nav>
-			<article class="U" id="Article">
-				<section class="i"><code class="j">typewriter.api</code>
-					<h2 class="Interface h"><code class="Z">Updatable</code><code class="c">&#60;<code>M</code>&#62;</code></h2>
-					<div class="T">
+			<article class="T" id="Article">
+				<section class="O"><code class="Q">typewriter.api</code>
+					<h2 class="Interface S"><code class="U">Updatable</code><code class="R">&#60;<code>M</code>&#62;</code></h2>
+					<div class="h">
 						<ul class="C D">
 							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.Identifiable.html">Identifiable</a></code></code></li>
 						</ul>
 						<ul class="C G">
+							<li><code><a href="api/typewriter.api.LazyUpdatable.html">LazyUpdatable</a><code class="parameters"><code>M</code></code></code></li>
 							<li><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></li>
 							<li><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>R</code>, <code>Q</code>, <code>Self</code></code></code></li>
 							<li><code><a href="api/typewriter.rdb.RDB.html">RDB</a><code class="parameters"><code>M</code></code></code></li>
 						</ul>
 					</div>
 				</section>
-				<section class="i" id="update(java.lang.Object)">
-					<h2 class="R"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="Z">update</code><code class="c">(<code>M</code> <code class="parameterName">model</code>)</code><i class="Q"><code>void</code></i></h2>
-					<table class="b">
-						<tr class="g">
+				<section class="O" id="update(java.lang.Object)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="U">update</code><code class="R">(<code>M</code> <code class="parameterName">model</code>)</code><i class="K"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="J">
 							<td><code>M</code> <code>model</code></td>
 							<td><span><p>A target model.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Update the specified model.</p>
 </span></section>
-				<section class="i" id="update(java.lang.Object,typewriter.api.Specifier)">
-					<h2 class="R"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="Z">update</code><code class="c">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="Q"><code>void</code></i></h2>
-					<table class="b">
-						<tr class="g">
+				<section class="O" id="update(java.lang.Object,typewriter.api.Specifier)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="U">update</code><code class="R">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="K"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="J">
 							<td><code>M</code> <code>model</code></td>
 							<td><span><p>A target model.</p>
 </span></td>
 						</tr>
-						<tr class="g">
+						<tr class="J">
 							<td><code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifier</code></td>
 							<td><span><p>A property <code><a href="api/typewriter.api.Specifier.html">Specifier</a></code>.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Update the property of the given model.</p>
 </span></section>
-				<section class="i" id="update(java.lang.Object,typewriter.api.Specifier...)">
-					<h2 class="R"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="Z">update</code><code class="c">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="Q"><code>void</code></i></h2>
-					<table class="b">
-						<tr class="g">
+				<section class="O" id="update(java.lang.Object,typewriter.api.Specifier...)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">update</code><code class="R">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="K"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="J">
 							<td><code>M</code> <code>model</code></td>
 							<td><span><p>A target model.</p>
 </span></td>
 						</tr>
-						<tr class="g">
+						<tr class="J">
 							<td><code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code>specifiers</code></td>
 							<td><span><p>A list of property <code><a href="api/typewriter.api.Specifier.html">Specifier</a></code>.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Update the properties of the given model.</p>
 </span></section>
-				<section class="i" id="updateLazy(java.lang.Object)">
-					<h2 class="R"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="Z">updateLazy</code><code class="c">(<code>M</code> <code class="parameterName">model</code>)</code><i class="Q"><code>void</code></i></h2>
-					<table class="b">
-						<tr class="g">
+				<section class="O" id="updateLazy(java.lang.Object)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">updateLazy</code><code class="R">(<code>M</code> <code class="parameterName">model</code>)</code><i class="K"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="J">
 							<td><code>M</code> <code>model</code></td>
 							<td><span><p>A target model.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Update the specified model lazily.</p>
 </span></section>
-				<section class="i" id="updateAll(java.lang.Object...)">
-					<h2 class="R"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="Z">updateAll</code><code class="c">(<code array="var">M</code> <code class="parameterName">models</code>)</code><i class="Q"><code>void</code></i></h2>
-					<table class="b">
-						<tr class="g">
+				<section class="O" id="updateAll(java.lang.Object...)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="U">updateAll</code><code class="R">(<code array="var">M</code> <code class="parameterName">models</code>)</code><i class="K"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="J">
 							<td><code array="var">M</code> <code>models</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Update the properties of all given models.</p>
 </span></section>
-				<section class="i" id="updateAll(java.lang.Iterable)">
-					<h2 class="R"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="Z">updateAll</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="Q"><code>void</code></i></h2>
-					<table class="b">
-						<tr class="g">
+				<section class="O" id="updateAll(java.lang.Iterable)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="U">updateAll</code><code class="R">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="K"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="J">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code>models</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Update the properties of all given models.</p>
 </span></section>
-				<section class="i" id="updateAll(kiss.Signal)">
-					<h2 class="R"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="Z">updateAll</code><code class="c">(<code>kiss.Signal<code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="Q"><code>void</code></i></h2>
-					<table class="b">
-						<tr class="g">
+				<section class="O" id="updateAll(kiss.Signal)">
+					<h2 class="L"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="U">updateAll</code><code class="R">(<code>kiss.Signal<code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="K"><code>void</code></i></h2>
+					<table class="d">
+						<tr class="J">
 							<td><code>kiss.Signal<code class="parameters"><code>M</code></code></code> <code>models</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Update the properties of all given models.</p>
 </span></section>
 			</article>
-			<aside class="k" id="SubNavi">
-				<div class="m">
-					<h5 class="L">Methods</h5>
+			<aside class="m" id="SubNavi">
+				<div class="Z">
+					<h5 class="f">Methods</h5>
 					<ul>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#update(java.lang.Object)">update</a></code><code class="c">(<code>M</code> <code class="parameterName">model</code>)</code><i class="X"><code>void</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#update(java.lang.Object,typewriter.api.Specifier)">update</a></code><code class="c">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="X"><code>void</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#update(java.lang.Object,typewriter.api.Specifier...)">update</a></code><code class="c">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="X"><code>void</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateLazy(java.lang.Object)">updateLazy</a></code><code class="c">(<code>M</code> <code class="parameterName">model</code>)</code><i class="X"><code>void</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateAll(java.lang.Object...)">updateAll</a></code><code class="c">(<code array="var">M</code> <code class="parameterName">models</code>)</code><i class="X"><code>void</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateAll(java.lang.Iterable)">updateAll</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="X"><code>void</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateAll(kiss.Signal)">updateAll</a></code><code class="c">(<code>kiss.Signal<code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="X"><code>void</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#update(java.lang.Object)">update</a></code><code class="R">(<code>M</code> <code class="parameterName">model</code>)</code><i class="P"><code>void</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#update(java.lang.Object,typewriter.api.Specifier)">update</a></code><code class="R">(<code>M</code> <code class="parameterName">model</code>, <code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifier</code>)</code><i class="P"><code>void</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#update(java.lang.Object,typewriter.api.Specifier...)">update</a></code><code class="R">(<code>M</code> <code class="parameterName">model</code>, <code array="var"><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>?</code></code></code> <code class="parameterName">specifiers</code>)</code><i class="P"><code>void</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateLazy(java.lang.Object)">updateLazy</a></code><code class="R">(<code>M</code> <code class="parameterName">model</code>)</code><i class="P"><code>void</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateAll(java.lang.Object...)">updateAll</a></code><code class="R">(<code array="var">M</code> <code class="parameterName">models</code>)</code><i class="P"><code>void</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateAll(java.lang.Iterable)">updateAll</a></code><code class="R">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="P"><code>void</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Updatable.html#updateAll(kiss.Signal)">updateAll</a></code><code class="R">(<code>kiss.Signal<code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="P"><code>void</code></i></li>
 					</ul>
 				</div>
 			</aside>

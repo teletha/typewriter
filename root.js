@@ -184,9 +184,9 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "LazyBulkUpdater",
+			"name": "LazyUpdatable",
 			"packageName": "typewriter.api",
-			"type": "Class"
+			"type": "AbstractClass"
 		},
 		{
 			"modifiers": {
