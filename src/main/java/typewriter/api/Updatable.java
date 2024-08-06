@@ -9,8 +9,7 @@
  */
 package typewriter.api;
 
-import java.util.List;
-
+import kiss.I;
 import kiss.Signal;
 
 public interface Updatable<M extends Identifiable> {
@@ -55,7 +54,7 @@ public interface Updatable<M extends Identifiable> {
      * @param models
      */
     default void updateAll(M... models) {
-        updateAll(List.of(models));
+        updateAll(I.list(models));
     }
 
     /**
