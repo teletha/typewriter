@@ -446,6 +446,7 @@ public class SQL<M extends Identifiable> {
     public void execute() {
         int index = 1;
         try (Connection connection = rdb.provider.get()) {
+            System.out.println(text);
             PreparedStatement prepared = connection.prepareStatement(text.toString());
             for (Object variable : variables) {
                 prepared.setObject(index++, variable);
