@@ -384,7 +384,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Object... qualifiers) {
+    public static <M extends Identifiable> RDB<M> of(Class<M> type, Object... qualifiers) {
         return of(type, null, qualifiers);
     }
 
@@ -395,7 +395,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect, Object... qualifiers) {
+    public static <M extends Identifiable> RDB<M> of(Class<M> type, Dialect dialect, Object... qualifiers) {
         if (dialect == null) {
             if (SQLiteModel.class.isAssignableFrom(type)) {
                 dialect = SQLite;
