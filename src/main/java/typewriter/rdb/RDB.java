@@ -413,8 +413,16 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 dialect = MariaDB;
             } else if (I.env("typewriter.duckdb") != null) {
                 dialect = DuckDB;
+            } else if (has("org.sqlite.JDBC")) {
+                dialect = SQLite;
+            } else if (has("org.h2.Driver")) {
+                dialect = H2;
+            } else if (has("ch.vorburger.mariadb4j.DB")) {
+                dialect = MariaDB;
+            } else if (has("org.duckdb.DuckDBDriver")) {
+                dialect = DuckDB;
             } else {
-                throw new Error("The suitable dialect is not found for" + type + ".");
+
             }
         }
 
@@ -429,6 +437,21 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         return DAO.get(detected).computeIfAbsent(name, key -> {
             return new RDB(type, name, detected, detected.configureLocation(null));
         });
+    }
+
+    /**
+     * Detect DB by class.
+     * 
+     * @param fqcn
+     * @return
+     */
+    private static boolean has(String fqcn) {
+        try {
+            ClassLoader.getSystemClassLoader().loadClass(fqcn);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     /**
