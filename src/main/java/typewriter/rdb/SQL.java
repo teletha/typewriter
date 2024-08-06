@@ -171,11 +171,13 @@ public class SQL<M extends Identifiable> {
         Mapper mapper = new Mapper();
         text.append("VALUES");
         for (M instance : instances) {
-            text.append('(');
-            for (Ⅱ<Property, RDBCodec> codec : codecs) {
-                codec.ⅱ.encode(mapper, codec.ⅰ.name, rdb.model.get(instance, codec.ⅰ));
+            if (instance != null) {
+                text.append('(');
+                for (Ⅱ<Property, RDBCodec> codec : codecs) {
+                    codec.ⅱ.encode(mapper, codec.ⅰ.name, rdb.model.get(instance, codec.ⅰ));
+                }
+                text.deleteCharAt(text.length() - 1).append("),");
             }
-            text.deleteCharAt(text.length() - 1).append("),");
         }
         text.deleteCharAt(text.length() - 1);
 
@@ -446,7 +448,6 @@ public class SQL<M extends Identifiable> {
     public void execute() {
         int index = 1;
         try (Connection connection = rdb.provider.get()) {
-            System.out.println(text);
             PreparedStatement prepared = connection.prepareStatement(text.toString());
             for (Object variable : variables) {
                 prepared.setObject(index++, variable);
