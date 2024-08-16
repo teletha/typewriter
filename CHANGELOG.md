@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.8.0](https://github.com/teletha/typewriter/compare/v1.7.1...v1.8.0) (2024-08-06)
+
+
+### Features
+
+* automatic model detection by data source ([3575b10](https://github.com/teletha/typewriter/commit/3575b1075628eefd190f2f364e003fd1c28137bf))
+* detect DB by class ([cc70fa2](https://github.com/teletha/typewriter/commit/cc70fa2adcb8ce684bfcfbc983ee7cad8a04ad2b))
+* enhance SQL ([ff8e1fd](https://github.com/teletha/typewriter/commit/ff8e1fd4664edbaae0c7b329b01d15f3fc3ce3c7))
+* Identifiable is interface now ([3abde50](https://github.com/teletha/typewriter/commit/3abde50c34892eb9fff9e3ee892f6062ff097b2c))
+* LINQ is available ([41909ae](https://github.com/teletha/typewriter/commit/41909aef895954cf6de2b272400e518602a58668))
+* Provide bulk updater. ([aa2ea53](https://github.com/teletha/typewriter/commit/aa2ea530d889a0a7c7c4ce16642c1384e1ffb5e5))
+* provide Identifiable interface ([e611cb0](https://github.com/teletha/typewriter/commit/e611cb033527346d9f57ed05a1a03a263810dd2a))
+* Provide option for RDB. ([4317dc0](https://github.com/teletha/typewriter/commit/4317dc041b5962700415669905bebae2b67df839))
+* RDB can build stream collection. ([1865eda](https://github.com/teletha/typewriter/commit/1865eda348cca7d7db7b16cf74c9163f17d199cf))
+* remove RDBOption ([b27ace9](https://github.com/teletha/typewriter/commit/b27ace9c4c9a5becb5f396c9b1303da7f128be8b))
+* support avg option (distinct and window range) ([f2ce8ec](https://github.com/teletha/typewriter/commit/f2ce8ec61b19a2f35553a28796cddcec35b1f218))
+* support BigDecimal and BigInteger ([09be090](https://github.com/teletha/typewriter/commit/09be0900f8da05419e7e1fe8d2a66b03361cb396))
+* support duckdb completely ([5d0742e](https://github.com/teletha/typewriter/commit/5d0742ed2574f4f8772277894100e6fc8d67eaff))
+* support duckdb partialy ([0981a4c](https://github.com/teletha/typewriter/commit/0981a4c0a8dffea106c55fc565c8dab9fa70f602))
+
+
+### Bug Fixes
+
+* auto model detection for DuckDB ([16bc732](https://github.com/teletha/typewriter/commit/16bc732daaf7e71725836f23aedcfde50a5341db))
+* avoid ClassNotFoundException ([c8065b7](https://github.com/teletha/typewriter/commit/c8065b70e3a999473f19b123346caf5ddcf9b103))
+* expand type restriction on RDB#of ([fe09fbf](https://github.com/teletha/typewriter/commit/fe09fbf70235bc687f449d95717ec294a9d802c1))
+* ignore null variable ([521f5ec](https://github.com/teletha/typewriter/commit/521f5ecc3b22d8bb902cf53484ea5b16f3a11cf2))
+* update ci process ([6bb2c06](https://github.com/teletha/typewriter/commit/6bb2c06a1a189ea859dae88da687389851cae50b))
+* update license ([94457e5](https://github.com/teletha/typewriter/commit/94457e589f3389c7bd6746d75e73588e73933fa0))
+* update reincarnation ([279b3fe](https://github.com/teletha/typewriter/commit/279b3fea6f62d0448a1d8c61595f080ce4568f3f))
+
 ## [1.7.1](https://github.com/teletha/typewriter/compare/v1.7.0...v1.7.1) (2023-08-26)
 
 
