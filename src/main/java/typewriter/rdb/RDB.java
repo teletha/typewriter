@@ -422,7 +422,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
             } else if (has("org.duckdb.DuckDBDriver")) {
                 dialect = DuckDB;
             } else {
-
+                throw new Error("The suitable dialect is not found for" + type + ".");
             }
         }
 
