@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/teletha/typewriter/compare/v1.8.0...v1.8.1) (2024-08-21)
+
+
+### Bug Fixes
+
+* throw error when dialect is not found ([12f9556](https://github.com/teletha/typewriter/commit/12f95568797d8584ede3638e88cdc670968deaff))
+
 ## [1.8.0](https://github.com/teletha/typewriter/compare/v1.7.1...v1.8.0) (2024-08-06)
 
 
