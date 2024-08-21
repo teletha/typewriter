@@ -77,7 +77,11 @@ public abstract class RDBCodec<T> implements Extensible {
         BULTINS.put(type, new GenericCodec<>(type, (result, name) -> {
             try {
                 T value = decoder.apply(result, name);
-                return result.wasNull() && !type.isPrimitive() ? null : value;
+                if (result.wasNull()) {
+                    return null;
+                } else {
+                    return value;
+                }
             } catch (Exception e) {
                 return null;
             }

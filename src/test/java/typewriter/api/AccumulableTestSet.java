@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
+import kiss.Variable;
 import typewriter.api.model.DerivableModel;
 import typewriter.rdb.RDB;
 
@@ -56,8 +57,16 @@ public interface AccumulableTestSet extends Testable {
         dao.update(model3);
         dao.update(model4);
 
-        int calculated = dao.min(Person::getAge);
-        assert calculated == 10;
+        Variable<Integer> calculated = dao.min(Person::getAge);
+        assert calculated.is(10);
+    }
+
+    @Test
+    default void minOnEmptyTable() {
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+
+        Variable<Integer> calculated = dao.min(Person::getAge);
+        assert calculated.isAbsent();
     }
 
     @Test
@@ -73,8 +82,16 @@ public interface AccumulableTestSet extends Testable {
         dao.update(model3);
         dao.update(model4);
 
-        int calculated = dao.max(Person::getAge);
-        assert calculated == 40;
+        Variable<Integer> calculated = dao.max(Person::getAge);
+        assert calculated.is(40);
+    }
+
+    @Test
+    default void maxOnEmptyTable() {
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+
+        Variable<Integer> calculated = dao.max(Person::getAge);
+        assert calculated.isAbsent();
     }
 
     @Test

@@ -26,6 +26,7 @@ import kiss.Managed;
 import kiss.Model;
 import kiss.Property;
 import kiss.Signal;
+import kiss.Variable;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
@@ -164,7 +165,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * {@inheritDoc}
      */
     @Override
-    public <C extends Comparable> C min(Specifier<M, C> specifier) {
+    public <C extends Comparable> Variable<C> min(Specifier<M, C> specifier) {
         Property property = model.property(specifier.propertyName(dialect));
         return new SQL<>(this).write("SELECT")
                 .func("min", property)
@@ -172,15 +173,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .from(tableName)
                 .qurey()
                 .map(result -> (C) decode(property, result))
-                .to()
-                .exact();
+                .to();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public <C extends Comparable> C max(Specifier<M, C> specifier) {
+    public <C extends Comparable> Variable<C> max(Specifier<M, C> specifier) {
         Property property = model.property(specifier.propertyName(dialect));
         return new SQL<>(this).write("SELECT")
                 .func("max", property)
@@ -188,8 +188,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .from(tableName)
                 .qurey()
                 .map(result -> (C) decode(property, result))
-                .to()
-                .exact();
+                .to();
     }
 
     /**

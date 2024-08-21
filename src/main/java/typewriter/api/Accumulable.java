@@ -12,6 +12,7 @@ package typewriter.api;
 import java.util.function.UnaryOperator;
 
 import kiss.Signal;
+import kiss.Variable;
 import typewriter.query.AVGOption;
 
 public interface Accumulable<M> {
@@ -38,7 +39,7 @@ public interface Accumulable<M> {
      * @param specifier A {@link Specifier} of the target property.
      * @return Calculated result.
      */
-    <C extends Comparable> C min(Specifier<M, C> specifier);
+    <C extends Comparable> Variable<C> min(Specifier<M, C> specifier);
 
     /**
      * Returns the highest expression value for each group.
@@ -46,7 +47,7 @@ public interface Accumulable<M> {
      * @param specifier A {@link Specifier} of the target property.
      * @return Calculated result.
      */
-    <C extends Comparable> C max(Specifier<M, C> specifier);
+    <C extends Comparable> Variable<C> max(Specifier<M, C> specifier);
 
     /**
      * Returns an average of numerical values. Ignores non-numeric values.

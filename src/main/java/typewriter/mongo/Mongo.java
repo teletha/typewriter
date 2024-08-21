@@ -64,6 +64,7 @@ import kiss.Model;
 import kiss.Property;
 import kiss.Signal;
 import kiss.Singleton;
+import kiss.Variable;
 import kiss.WiseFunction;
 import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
@@ -189,16 +190,18 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      * {@inheritDoc}
      */
     @Override
-    public <C extends Comparable> C min(Specifier<M, C> specifier) {
-        return (C) collection.aggregate(List.of(group(null, Accumulators.min("R", "$" + specifier.propertyName(null))))).first().get("R");
+    public <C extends Comparable> Variable<C> min(Specifier<M, C> specifier) {
+        Document doc = collection.aggregate(List.of(group(null, Accumulators.min("R", "$" + specifier.propertyName(null))))).first();
+        return doc == null ? Variable.empty() : Variable.of((C) doc.get("R"));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public <C extends Comparable> C max(Specifier<M, C> specifier) {
-        return (C) collection.aggregate(List.of(group(null, Accumulators.max("R", "$" + specifier.propertyName(null))))).first().get("R");
+    public <C extends Comparable> Variable<C> max(Specifier<M, C> specifier) {
+        Document doc = collection.aggregate(List.of(group(null, Accumulators.max("R", "$" + specifier.propertyName(null))))).first();
+        return doc == null ? Variable.empty() : Variable.of((C) doc.get("R"));
     }
 
     /**

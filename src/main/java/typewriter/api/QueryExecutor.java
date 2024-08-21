@@ -17,6 +17,7 @@ import java.util.function.UnaryOperator;
 import kiss.I;
 import kiss.Model;
 import kiss.Signal;
+import kiss.Variable;
 import kiss.WiseFunction;
 import typewriter.api.Constraint.DateConstraint;
 import typewriter.api.Constraint.ListConstraint;
@@ -214,7 +215,7 @@ public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryab
      * {@inheritDoc}
      */
     @Override
-    public <C extends Comparable> C min(Specifier<M, C> specifier) {
+    public <C extends Comparable> Variable<C> min(Specifier<M, C> specifier) {
         return null;
     }
 
@@ -222,7 +223,7 @@ public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryab
      * {@inheritDoc}
      */
     @Override
-    public <C extends Comparable> C max(Specifier<M, C> specifier) {
+    public <C extends Comparable> Variable<C> max(Specifier<M, C> specifier) {
         return null;
     }
 
