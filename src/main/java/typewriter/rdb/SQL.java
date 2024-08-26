@@ -438,7 +438,7 @@ public class SQL<M extends Identifiable> {
      * @param condition
      */
     public SQL<M> where(Specifier<M, ?> condition) {
-        text.append(" WHERE ").append(condition.propertyName(rdb.dialect));
+        text.append(" WHERE ").append(condition.propertyName(rdb.dialect, true));
         return this;
     }
 
