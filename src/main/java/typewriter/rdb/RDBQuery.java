@@ -101,7 +101,6 @@ public class RDBQuery<M extends Identifiable> implements Queryable<M, RDBQuery<M
      */
     @Override
     public <N extends Number> RDBQuery<M> findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
-        System.out.println(specifier.propertyName(dialect));
         return findBy(constraint.apply(new ForNumeric(specifier, dialect)));
     }
 
