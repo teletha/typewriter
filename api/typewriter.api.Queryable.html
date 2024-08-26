@@ -11,10 +11,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="k">
-		<header class="i">
-			<h1 class="c" date="2024-08-21" ver="1.8.1"><code>Typewriter</code></h1>
-			<nav class="H"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="h">
+		<header class="I">
+			<h1 class="j" date="2024-08-21" ver="1.8.2"><code>Typewriter</code></h1>
+			<nav class="T"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -23,7 +23,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="Q" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="c" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -31,14 +31,14 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="X">
-			<nav class="f">
+		<main class="l">
+			<nav class="L">
 				<div></div>
 			</nav>
-			<article class="I" id="Article">
-				<section class="T"><code class="l">typewriter.api</code>
-					<h2 class="Interface V"><code class="d">Queryable</code><code class="K">&#60;<code>M</code>, <code>R</code>&#62;</code></h2>
-					<div class="g">
+			<article class="H" id="Article">
+				<section class="d"><code class="g">typewriter.api</code>
+					<h2 class="Interface J"><code class="b">Queryable</code><code class="k">&#60;<code>M</code>, <code>R</code>&#62;</code></h2>
+					<div class="V">
 						<ul class="C D">
 							<li><code>M</code></li>
 							<li><code>R</code></li>
@@ -52,504 +52,504 @@
 						</ul>
 					</div>
 				</section>
-				<section class="T" id="findAll()">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">findAll</code><code class="K">()</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="m">
+				<section class="d" id="findAll()">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">findAll</code><code class="k">()</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Collect all items without any conditions.</p>
 </span></section>
-				<section class="T" id="query(java.util.function.Function)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">query</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>QUERYABLE</code>, <code>QUERYABLE</code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="e">
+				<section class="d" id="query(java.util.function.Function)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">query</code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>QUERYABLE</code>, <code>QUERYABLE</code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="U">
 							<td><code>QUERYABLE</code><code class="extends"><code><a href="api/typewriter.api.Queryable.html">Queryable</a><code class="parameters"><code>M</code>, <code>QUERYABLE</code></code></code></code></td>
 							<td></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>QUERYABLE</code>, <code>QUERYABLE</code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Constraint)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Constraint)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.NumericSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="e">
+				<section class="d" id="findBy(typewriter.api.Specifier.NumericSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="U">
 							<td><code>N</code><code class="extends"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Number.html">Number</a></code></code></td>
 							<td></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.CharSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.CharSpecifier.html">CharSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Character.html">Character</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.CharSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.CharSpecifier.html">CharSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Character.html">Character</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.CharSpecifier.html">CharSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Character.html">Character</a></code></code></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.BooleanSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.BooleanSpecifier.html">BooleanSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Boolean.html">Boolean</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.BooleanSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.BooleanSpecifier.html">BooleanSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Boolean.html">Boolean</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.BooleanSpecifier.html">BooleanSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Boolean.html">Boolean</a></code></code></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.StringSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.StringSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.DateSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.DateConstraint.html">DateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.DateSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.DateConstraint.html">DateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.DateConstraint.html">DateConstraint</a></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.LocalDateSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateConstraint.html">LocalDateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.LocalDateSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateConstraint.html">LocalDateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateConstraint.html">LocalDateConstraint</a></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.LocalTimeSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.LocalTimeSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.LocalDateTimeSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateTimeConstraint.html">LocalDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.LocalDateTimeSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateTimeConstraint.html">LocalDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateTimeConstraint.html">LocalDateTimeConstraint</a></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.OffsetDateTimeConstraint.html">OffsetDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.OffsetDateTimeConstraint.html">OffsetDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.OffsetDateTimeConstraint.html">OffsetDateTimeConstraint</a></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ZonedDateTimeConstraint.html">ZonedDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="findBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ZonedDateTimeConstraint.html">ZonedDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ZonedDateTimeConstraint.html">ZonedDateTimeConstraint</a></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="findBy(typewriter.api.Specifier.ListSpecifier,java.util.function.UnaryOperator)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">findBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="e">
+				<section class="d" id="findBy(typewriter.api.Specifier.ListSpecifier,java.util.function.UnaryOperator)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">findBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="U">
 							<td><code>N</code></td>
 							<td></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code>constraint</code></td>
 							<td><span><p>Describes conditions for the target property.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Specify search conditions for the specified property.</p>
 </span></section>
-				<section class="T" id="limit(long)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">limit</code><code class="K">(<code>long</code> <code class="parameterName">size</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="limit(long)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">limit</code><code class="k">(<code>long</code> <code class="parameterName">size</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code>long</code> <code>size</code></td>
 							<td></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Limit size of query result.</p>
 </span></section>
-				<section class="T" id="offset(long)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">offset</code><code class="K">(<code>long</code> <code class="parameterName">position</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="offset(long)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">offset</code><code class="k">(<code>long</code> <code class="parameterName">position</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code>long</code> <code>position</code></td>
 							<td></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Offset starting position of query result.</p>
 </span></section>
-				<section class="T" id="page(long,long)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">page</code><code class="K">(<code>long</code> <code class="parameterName">number</code>, <code>long</code> <code class="parameterName">size</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="page(long,long)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">page</code><code class="k">(<code>long</code> <code class="parameterName">number</code>, <code>long</code> <code class="parameterName">size</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code>long</code> <code>number</code></td>
 							<td><span><p>A page number.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>long</code> <code>size</code></td>
 							<td><span><p>A item size for each page.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Paging helper.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.NumericSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="e">
+				<section class="d" id="sortBy(typewriter.api.Specifier.NumericSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="U">
 							<td><code>N</code><code class="extends"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Number.html">Number</a></code></code></td>
 							<td></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.StringSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="sortBy(typewriter.api.Specifier.StringSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.DateSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="sortBy(typewriter.api.Specifier.DateSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.LocalDateSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="sortBy(typewriter.api.Specifier.LocalDateSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.LocalTimeSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="sortBy(typewriter.api.Specifier.LocalTimeSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.LocalDateTimeSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="sortBy(typewriter.api.Specifier.LocalDateTimeSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="sortBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,boolean)">
-					<h2 class="N"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="J">
+				<section class="d" id="sortBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,boolean)">
+					<h2 class="m"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
-				<section class="T" id="sortBy(typewriter.api.Specifier,boolean)">
-					<h2 class="N"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">sortBy</code><code class="K">(<code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="W"><code>R</code></i></h2>
-					<table class="b">
-						<tr class="e">
+				<section class="d" id="sortBy(typewriter.api.Specifier,boolean)">
+					<h2 class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">sortBy</code><code class="k">(<code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="i"><code>R</code></i></h2>
+					<table class="P">
+						<tr class="U">
 							<td><code>N</code></td>
 							<td></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code>specifier</code></td>
 							<td><span><p>Specify the target property type-safely.</p>
 </span></td>
 						</tr>
-						<tr class="J">
+						<tr class="e">
 							<td><code>boolean</code> <code>ascending</code></td>
 							<td><span><p>Ascending or descending.</p>
 </span></td>
 						</tr>
-						<tr class="m">
+						<tr class="a">
 							<td><code>R</code></td>
 							<td><span><p>Chainable API.</p>
 </span></td>
@@ -557,36 +557,36 @@
 					</table><span class="B"><p>Sort by the specified property.</p>
 </span></section>
 			</article>
-			<aside class="h" id="SubNavi">
-				<div class="P">
-					<h5 class="L">Methods</h5>
+			<aside class="W" id="SubNavi">
+				<div class="N">
+					<h5 class="K">Methods</h5>
 					<ul>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findAll()">findAll</a></code><code class="K">()</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#query(java.util.function.Function)">query</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>QUERYABLE</code>, <code>QUERYABLE</code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Constraint)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.NumericSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.CharSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.CharSpecifier.html">CharSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Character.html">Character</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.BooleanSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.BooleanSpecifier.html">BooleanSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Boolean.html">Boolean</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.StringSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.DateSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.DateConstraint.html">DateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.LocalDateSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateConstraint.html">LocalDateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.LocalTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.LocalDateTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateTimeConstraint.html">LocalDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.OffsetDateTimeConstraint.html">OffsetDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ZonedDateTimeConstraint.html">ZonedDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.ListSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#limit(long)">limit</a></code><code class="K">(<code>long</code> <code class="parameterName">size</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#offset(long)">offset</a></code><code class="K">(<code>long</code> <code class="parameterName">position</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#page(long,long)">page</a></code><code class="K">(<code>long</code> <code class="parameterName">number</code>, <code>long</code> <code class="parameterName">size</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.NumericSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.StringSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.DateSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.LocalDateSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.LocalTimeSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.LocalDateTimeSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier,boolean)">sortBy</a></code><code class="K">(<code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="R"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findAll()">findAll</a></code><code class="k">()</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#query(java.util.function.Function)">query</a></code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>QUERYABLE</code>, <code>QUERYABLE</code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Constraint)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.NumericSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.CharSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.CharSpecifier.html">CharSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Character.html">Character</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.BooleanSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.BooleanSpecifier.html">BooleanSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">TypeConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Boolean.html">Boolean</a></code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.StringSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.StringConstraint.html">StringConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.DateSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.DateConstraint.html">DateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.LocalDateSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateConstraint.html">LocalDateConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.LocalTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.LocalDateTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.LocalDateTimeConstraint.html">LocalDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.OffsetDateTimeConstraint.html">OffsetDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ZonedDateTimeConstraint.html">ZonedDateTimeConstraint</a></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#findBy(typewriter.api.Specifier.ListSpecifier,java.util.function.UnaryOperator)">findBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></code></code> <code class="parameterName">constraint</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#limit(long)">limit</a></code><code class="k">(<code>long</code> <code class="parameterName">size</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#offset(long)">offset</a></code><code class="k">(<code>long</code> <code class="parameterName">position</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#page(long,long)">page</a></code><code class="k">(<code>long</code> <code class="parameterName">number</code>, <code>long</code> <code class="parameterName">size</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.NumericSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">NumericSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.StringSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.StringSpecifier.html">StringSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.DateSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.DateSpecifier.html">DateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.LocalDateSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">LocalDateSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.LocalTimeSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">LocalTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.LocalDateTimeSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">LocalDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.OffsetDateTimeSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">OffsetDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier.ZonedDateTimeSpecifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">ZonedDateTimeSpecifier</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Queryable.html#sortBy(typewriter.api.Specifier,boolean)">sortBy</a></code><code class="k">(<code><a href="api/typewriter.api.Specifier.html">Specifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>, <code>boolean</code> <code class="parameterName">ascending</code>)</code><i class="X"><code>R</code></i></li>
 					</ul>
 				</div>
 			</aside>
