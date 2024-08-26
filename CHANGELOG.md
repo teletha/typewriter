@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/teletha/typewriter/compare/v1.8.1...v1.8.2) (2024-08-26)
+
+
+### Bug Fixes
+
+* skip test on jitpack ([94b095b](https://github.com/teletha/typewriter/commit/94b095b1ef9bb1bb6768abd67cbbe3f8b65fc8f8))
+
 ## [1.8.1](https://github.com/teletha/typewriter/compare/v1.8.0...v1.8.1) (2024-08-21)
 
 
