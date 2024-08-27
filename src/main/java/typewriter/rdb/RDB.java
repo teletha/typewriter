@@ -173,7 +173,6 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .from(tableName)
                 .qurey()
                 .map(result -> (C) decode(property, result))
-                .first()
                 .to();
     }
 
@@ -189,7 +188,6 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .from(tableName)
                 .qurey()
                 .map(result -> (C) decode(property, result))
-                .first()
                 .to();
     }
 
