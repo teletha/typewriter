@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/teletha/typewriter/compare/v1.8.4...v1.9.0) (2024-08-27)
+
+
+### Features
+
+* disable default singleton mode on sqlite ([5936a09](https://github.com/teletha/typewriter/commit/5936a093c9c04222bf2887bb766991dd7cc1f86a))
+
 ## [1.8.4](https://github.com/teletha/typewriter/compare/v1.8.3...v1.8.4) (2024-08-27)
 
 
