@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.4](https://github.com/teletha/typewriter/compare/v1.8.3...v1.8.4) (2024-08-27)
+
+
+### Bug Fixes
+
+* revert Linq setting ([385d6f5](https://github.com/teletha/typewriter/commit/385d6f5dbed995a682ea3784a2d88edd198e5c94))
+
 ## [1.8.3](https://github.com/teletha/typewriter/compare/v1.8.2...v1.8.3) (2024-08-26)
 
 
