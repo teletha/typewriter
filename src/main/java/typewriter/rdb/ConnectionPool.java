@@ -72,8 +72,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
     /** The actual connection pool. */
     private final Set<ManagedConnection> busy;
 
-    /** The singleton connection. */
-    private final ManagedConnection singleton;
+    /** The singleton connection per thread. */
+    private final ThreadLocal<ManagedConnection> singleton;
 
     private ConnectionPool(String url) {
         this.url = url;
@@ -86,7 +86,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
         this.isolation = config("typewriter.connection.isolation", -1);
         this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
-        this.singleton = config("typewriter.connection.singleton", false) ? new ManagedConnection() : null;
+        this.singleton = config("typewriter.connection.singleton", false) ? ThreadLocal.withInitial(ManagedConnection::new) : null;
 
     }
 
@@ -155,7 +155,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
     @Override
     public Connection call() throws Exception {
         if (singleton != null) {
-            return singleton;
+            return singleton.get();
         }
 
         ManagedConnection connection = idles.poll();
@@ -240,6 +240,10 @@ class ConnectionPool implements WiseSupplier<Connection> {
             }
         }
 
+        private ManagedConnection(Connection delegation) {
+            this.delegation = delegation;
+        }
+
         /**
          * Manage any resource.
          * 
@@ -288,9 +292,9 @@ class ConnectionPool implements WiseSupplier<Connection> {
                     I.error(e);
                 }
             }
+            resources.clear();
 
             if (singleton == null) {
-                resources.clear();
                 idles.offer(this);
                 busy.remove(this);
                 processing = false;

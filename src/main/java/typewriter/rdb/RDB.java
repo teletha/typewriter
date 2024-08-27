@@ -97,12 +97,12 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         Map<String, String> rows = new HashMap();
         try (Connection connection = provider.get()) {
             DatabaseMetaData meta = connection.getMetaData();
-            ResultSet columns = meta.getColumns(null, null, tableName.replaceAll(dialect.quote(), ""), null);
-
-            while (columns.next()) {
-                rows.put(columns.getString("COLUMN_NAME"), columns.getString("TYPE_NAME"));
+            try (ResultSet columns = meta.getColumns(null, null, tableName.replaceAll(dialect.quote(), ""), null)) {
+                while (columns.next()) {
+                    rows.put(columns.getString("COLUMN_NAME"), columns.getString("TYPE_NAME"));
+                }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw I.quiet(e);
         }
 
@@ -173,6 +173,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .from(tableName)
                 .qurey()
                 .map(result -> (C) decode(property, result))
+                .first()
                 .to();
     }
 
@@ -188,6 +189,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .from(tableName)
                 .qurey()
                 .map(result -> (C) decode(property, result))
+                .first()
                 .to();
     }
 
@@ -304,26 +306,29 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public synchronized <R> R transactWith(WiseFunction<RDB<M>, R> operation) {
-        Connection connection = provider.get();
-        try {
-            connection.setAutoCommit(false);
+        try (Connection connection = provider.get()) {
+            try {
+                connection.setAutoCommit(false);
 
-            R result = operation.apply(new RDB<>(model, name, dialect, () -> connection));
-            connection.commit();
-            return result;
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException x) {
-                throw I.quiet(x);
-            }
-            throw I.quiet(e);
-        } finally {
-            try {
-                connection.setAutoCommit(true);
+                R result = operation.apply(new RDB<>(model, name, dialect, () -> connection));
+                connection.commit();
+                return result;
             } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException x) {
+                    throw I.quiet(x);
+                }
                 throw I.quiet(e);
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    throw I.quiet(e);
+                }
             }
+        } catch (SQLException e) {
+            throw I.quiet(e);
         }
     }
 
@@ -394,7 +399,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param type The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect, Object... qualifiers) {
+    public static synchronized <M extends IdentifiableModel> RDB<M> of(Class<M> type, Dialect dialect, Object... qualifiers) {
         if (dialect == null) {
             if (SQLiteModel.class.isAssignableFrom(type)) {
                 dialect = SQLite;

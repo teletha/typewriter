@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,9 +86,8 @@ public class MariaDB extends Dialect {
             String baseURL = matcher.group(1);
             String databaseName = matcher.group(2);
 
-            try (Connection connection = DriverManager.getConnection(baseURL)) {
-                connection.createStatement()
-                        .executeUpdate("CREATE DATABASE IF NOT EXISTS " + databaseName + " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin");
+            try (Connection con = DriverManager.getConnection(baseURL); Statement stmt = con.createStatement()) {
+                stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + databaseName + " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin");
             } catch (SQLException e) {
                 throw I.quiet(e);
             }

@@ -37,6 +37,11 @@ public class SQLite extends Dialect {
     private static final Map<Class, String> TYPES = new HashMap();
 
     static {
+        // Since the SQLite developers seem to think that threads are evil, you would be better off
+        // having one thread handle all your database operations and serialize DB tasks on your own
+        // using Java code
+        // I.env("typewriter.connection.singleton.sqlite", true);
+
         TYPES.put(int.class, "integer");
         TYPES.put(long.class, "integer");
         TYPES.put(float.class, "real");

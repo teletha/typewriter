@@ -448,13 +448,13 @@ public class SQL<M extends Identifiable> {
     public void execute() {
         int index = 1;
         try (Connection connection = rdb.provider.get()) {
-            PreparedStatement prepared = connection.prepareStatement(text.toString());
-            for (Object variable : variables) {
-                prepared.setObject(index++, variable);
+            try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
+                for (Object variable : variables) {
+                    prepared.setObject(index++, variable);
+                }
+                prepared.execute();
+                log(null);
             }
-            prepared.execute();
-
-            log(null);
         } catch (SQLException e) {
             log(e);
             throw I.quiet(e);
@@ -479,21 +479,25 @@ public class SQL<M extends Identifiable> {
         return new Signal<ResultSet>((observer, disposer) -> {
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
-                PreparedStatement prepared = connection.prepareStatement(text.toString());
-                for (Object variable : variables) {
-                    prepared.setObject(index++, variable);
+                try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
+                    for (Object variable : variables) {
+                        prepared.setObject(index++, variable);
+                    }
+
+                    try (ResultSet result = prepared.executeQuery()) {
+                        while (!disposer.isDisposed() && !result.isClosed() && result.next()) {
+                            observer.accept(result);
+                        }
+                        observer.complete();
+                        log(null);
+                    }
                 }
-                ResultSet result = prepared.executeQuery();
-                while (!disposer.isDisposed() && !result.isClosed() && result.next()) {
-                    observer.accept(result);
-                }
-                observer.complete();
-                log(null);
             } catch (SQLException e) {
+                log(e);
                 observer.error(new SQLException(text.toString(), e));
             }
             return disposer;
-        }).map(process).effectOnError(this::log);
+        }).map(process);
     }
 
     /**

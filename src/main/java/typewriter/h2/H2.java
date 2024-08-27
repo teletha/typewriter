@@ -69,8 +69,7 @@ public class H2 extends Dialect {
     public Connection createConnection(String url, Properties properties) throws Exception {
         Connection con = super.createConnection(url + ";database_to_upper=false", properties);
 
-        try {
-            Statement stat = con.createStatement();
+        try (Statement stat = con.createStatement()) {
             stat.execute("CREATE ALIAS json_array_length FOR '" + Functions.class.getName() + ".jsonArrayLength'");
             stat.execute("CREATE ALIAS json_array_contains FOR '" + Functions.class.getName() + ".jsonArrayContains'");
         } catch (SQLException e) {
