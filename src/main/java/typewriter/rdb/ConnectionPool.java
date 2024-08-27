@@ -42,10 +42,6 @@ import kiss.WiseSupplier;
 
 class ConnectionPool implements WiseSupplier<Connection> {
 
-    static {
-        I.env("typewriter.connection.singleton.sqlite", true);
-    }
-
     /** The address. */
     private final String url;
 
@@ -285,17 +281,20 @@ class ConnectionPool implements WiseSupplier<Connection> {
          */
         @Override
         public void close() throws SQLException {
-            if (singleton != null) {
-                return;
+            for (AutoCloseable resource : resources) {
+                try {
+                    resource.close();
+                } catch (Exception e) {
+                    I.error(e);
+                }
             }
 
-            for (AutoCloseable resource : resources) {
-                I.quiet(resource);
+            if (singleton == null) {
+                resources.clear();
+                idles.offer(this);
+                busy.remove(this);
+                processing = false;
             }
-            resources.clear();
-            idles.offer(this);
-            busy.remove(this);
-            processing = false;
         }
 
         /**
