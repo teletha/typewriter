@@ -60,17 +60,8 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
      * @return
      */
     default String propertyName(Dialect dialect) {
-        return propertyName(dialect, false);
-    }
-
-    /**
-     * Estimate the property name.
-     * 
-     * @return
-     */
-    default String propertyName(Dialect dialect, boolean enableLinq) {
         Ⅱ<Method, SerializedLambda> method = method();
-        if (enableLinq) {
+        if (method.ⅰ.isSynthetic()) {
             // lambda expression
             SQLCoder coder = new SQLCoder(method.ⅰ, method.ⅱ, dialect);
             Reincarnation.exhume(method.ⅰ.getDeclaringClass()).rebirth(coder);
