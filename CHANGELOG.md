@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/teletha/typewriter/compare/v1.9.0...v1.9.1) (2024-08-27)
+
+
+### Bug Fixes
+
+* cache the computed property name ([47a9f53](https://github.com/teletha/typewriter/commit/47a9f532dec0fbf8f71249587fef47647527f508))
+
 ## [1.9.0](https://github.com/teletha/typewriter/compare/v1.8.4...v1.9.0) (2024-08-27)
 
 
