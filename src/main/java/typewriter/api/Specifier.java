@@ -34,11 +34,31 @@ import typewriter.rdb.Dialect;
 public interface Specifier<S, T> extends Function<S, T>, Serializable {
 
     /**
+     * Estimate the property name.
+     * 
+     * @return
+     */
+    default String propertyName(Dialect dialect) {
+        return SpecifierCache.NAME.computeIfAbsent(this, key -> {
+            Ⅱ<Method, SerializedLambda> method = method();
+            if (method.ⅰ.isSynthetic()) {
+                // lambda expression
+                SQLCoder coder = new SQLCoder(method.ⅰ, method.ⅱ, dialect);
+                Reincarnation.exhume(method.ⅰ.getDeclaringClass()).rebirth(coder);
+                return coder.toString();
+            } else {
+                // method reference
+                return inspectPropertyName(method.ⅰ);
+            }
+        });
+    }
+
+    /**
      * Get the implementation of this lambda.
      * 
      * @return The implementation method of this lambda.
      */
-    default Ⅱ<Method, SerializedLambda> method() {
+    private Ⅱ<Method, SerializedLambda> method() {
         try {
             Method m = getClass().getDeclaredMethod("writeReplace");
             m.setAccessible(true);
@@ -51,24 +71,6 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
                     .exact(), s);
         } catch (Exception e) {
             throw I.quiet(e);
-        }
-    }
-
-    /**
-     * Estimate the property name.
-     * 
-     * @return
-     */
-    default String propertyName(Dialect dialect) {
-        Ⅱ<Method, SerializedLambda> method = method();
-        if (method.ⅰ.isSynthetic()) {
-            // lambda expression
-            SQLCoder coder = new SQLCoder(method.ⅰ, method.ⅱ, dialect);
-            Reincarnation.exhume(method.ⅰ.getDeclaringClass()).rebirth(coder);
-            return coder.toString();
-        } else {
-            // method reference
-            return inspectPropertyName(method.ⅰ);
         }
     }
 
