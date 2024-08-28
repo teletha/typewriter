@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.9.2](https://github.com/teletha/typewriter/compare/v1.9.1...v1.9.2) (2024-08-28)
+
+
+### Bug Fixes
+
+* SQLite connection must be singleton. ([a230183](https://github.com/teletha/typewriter/commit/a2301831c183833611a1c2abad61463c50c6deb2))
+* support abnormal table name ([11457f0](https://github.com/teletha/typewriter/commit/11457f018d50885735f74196bbe4486f52cc2456))
+* table name pattern ([355afca](https://github.com/teletha/typewriter/commit/355afca51388a9648deb2ee914573d210fb65fbc))
+* use try-catch-resource more ([0bfbcd5](https://github.com/teletha/typewriter/commit/0bfbcd5d7ef94016e0f7b539d90b55053a8c5358))
+
 ## [1.9.1](https://github.com/teletha/typewriter/compare/v1.9.0...v1.9.1) (2024-08-27)
 
 
