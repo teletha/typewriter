@@ -97,7 +97,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         Map<String, String> rows = new HashMap();
         try (Connection connection = provider.get()) {
             DatabaseMetaData meta = connection.getMetaData();
-            try (ResultSet columns = meta.getColumns(null, null, tableName.replaceAll(dialect.quote(), ""), null)) {
+            try (ResultSet columns = meta.getColumns(null, null, this.name, null)) {
                 while (columns.next()) {
                     rows.put(columns.getString("COLUMN_NAME"), columns.getString("TYPE_NAME"));
                 }
@@ -130,8 +130,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         }
 
         this.model = model;
-        this.name = name;
-        this.tableName = dialect.quote() + name.replaceAll("[$\\.\s]+", "_") + dialect.quote();
+        this.name = name.replaceAll("['\"\\s]+", "_");
+        this.tableName = dialect.quote() + this.name + dialect.quote();
         this.dialect = dialect;
         this.provider = provider;
     }

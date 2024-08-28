@@ -36,7 +36,7 @@ public class H2TestBase implements Testable {
      * {@inheritDoc}
      */
     @Override
-    public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return (Q) new RDB(type, type.getName(), RDB.H2, db);
+    public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
+        return (Q) new RDB(type, name, RDB.H2, db);
     }
 }

@@ -58,6 +58,14 @@ public class H2 extends Dialect {
      * {@inheritDoc}
      */
     @Override
+    public String quote() {
+        return "\"";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String types(Class type) {
         return TYPES.get(type);
     }

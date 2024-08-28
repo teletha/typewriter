@@ -21,7 +21,18 @@ public interface Testable {
      * @param type
      * @return
      */
-    <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type);
+    default <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
+        return createEmptyDB(type, type.getName());
+    }
+
+    /**
+     * Create the {@link QueryExecutor} for test.
+     * 
+     * @param <M>
+     * @param type
+     * @return
+     */
+    <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name);
 
     /**
      * Create the {@link QueryExecutor} for test with initial models.
