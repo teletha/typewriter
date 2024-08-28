@@ -38,9 +38,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import kiss.I;
+import kiss.WiseFunction;
 import kiss.WiseSupplier;
 
 class ConnectionPool implements WiseSupplier<Connection> {
+
+    /** The cached connections for each url. */
+    private static final Map<String, Connection> SINGLETONS = new ConcurrentHashMap();
 
     /** The address. */
     private final String url;
@@ -72,6 +76,9 @@ class ConnectionPool implements WiseSupplier<Connection> {
     /** The actual connection pool. */
     private final Set<ManagedConnection> busy;
 
+    /** The connection type. */
+    private final boolean singleton;
+
     private ConnectionPool(String url) {
         this.url = url;
         this.dialect = detectDialect(url);
@@ -81,6 +88,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
         this.readOnly = config("typewriter.connection.readOnly", false);
         this.timeout = config("typewriter.connection.timeout", 1000 * 30L);
         this.isolation = config("typewriter.connection.isolation", -1);
+        this.singleton = config("typewriter.connection.singleton", false);
         this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
 
@@ -221,19 +229,17 @@ class ConnectionPool implements WiseSupplier<Connection> {
          * @param delegation
          * @throws SQLException
          */
+        @SuppressWarnings("resource")
         private ManagedConnection() {
             try {
-                this.delegation = dialect.createConnection(url, null);
+                this.delegation = !singleton ? dialect.createConnection(url, null)
+                        : SINGLETONS.computeIfAbsent(url, (WiseFunction<String, Connection>) key -> dialect.createConnection(key, null));
                 this.delegation.setAutoCommit(autoCommit);
                 this.delegation.setReadOnly(readOnly);
                 if (0 <= isolation) this.delegation.setTransactionIsolation(isolation);
             } catch (Exception e) {
                 throw I.quiet(e);
             }
-        }
-
-        private ManagedConnection(Connection delegation) {
-            this.delegation = delegation;
         }
 
         /**
