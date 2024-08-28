@@ -25,10 +25,20 @@ import java.util.regex.Pattern;
 import org.sqlite.Function;
 import org.sqlite.SQLiteConfig;
 
+import kiss.I;
 import typewriter.rdb.Dialect;
 import typewriter.rdb.SQL;
 
 public class SQLite extends Dialect {
+
+    /**
+     * The cached connections for each url.
+     * 
+     * Since the SQLite developers seem to think that threads are evil, you would be better off
+     * having one thread handle all your database operations and serialize DB tasks on your own
+     * using Java code.
+     */
+    private static final Map<String, Connection> CONNECTIONS = new ConcurrentHashMap();
 
     /** The compiled regular expression manager. */
     private static final Map<String, Pattern> REGEX = new ConcurrentHashMap();
@@ -37,11 +47,6 @@ public class SQLite extends Dialect {
     private static final Map<Class, String> TYPES = new HashMap();
 
     static {
-        // Since the SQLite developers seem to think that threads are evil, you would be better off
-        // having one thread handle all your database operations and serialize DB tasks on your own
-        // using Java code
-        // I.env("typewriter.connection.singleton.sqlite", true);
-
         TYPES.put(int.class, "integer");
         TYPES.put(long.class, "integer");
         TYPES.put(float.class, "real");
@@ -89,12 +94,18 @@ public class SQLite extends Dialect {
      */
     @Override
     public Connection createConnection(String url, Properties properties) throws Exception {
-        Connection connection = super.createConnection(url, Lazy.CONFIG.toProperties());
+        return CONNECTIONS.computeIfAbsent(url, key -> {
+            try {
+                Connection connection = super.createConnection(url, Lazy.CONFIG.toProperties());
 
-        // register extra functions
-        Function.create(connection, "REGEXP", Lazy.REGEXP_FUNCTION);
+                // register extra functions
+                Function.create(connection, "REGEXP", Lazy.REGEXP_FUNCTION);
 
-        return connection;
+                return connection;
+            } catch (Exception e) {
+                throw I.quiet(e);
+            }
+        });
     }
 
     /**
