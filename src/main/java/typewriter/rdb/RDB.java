@@ -131,7 +131,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
 
         this.model = model;
         this.name = name;
-        this.tableName = dialect.quote() + name + dialect.quote();
+        this.tableName = dialect.quote() + name.replaceAll("[$\\.\s]+", "_") + dialect.quote();
         this.dialect = dialect;
         this.provider = provider;
     }
@@ -434,10 +434,9 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         for (Object qualifer : qualifiers) {
             joiner.add(String.valueOf(qualifer));
         }
-        String name = joiner.toString();
 
-        return DAO.get(detected).computeIfAbsent(name, key -> {
-            return new RDB(type, name, detected, detected.configureLocation(null));
+        return DAO.get(detected).computeIfAbsent(joiner.toString(), key -> {
+            return new RDB(type, key, detected, detected.configureLocation(null));
         });
     }
 
