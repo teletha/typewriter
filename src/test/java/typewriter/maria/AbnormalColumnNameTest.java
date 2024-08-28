@@ -7,9 +7,9 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package typewriter.sqlite;
+package typewriter.maria;
 
-import typewriter.api.ReservedWordTestSet;
+import typewriter.api.AbnormalColumnNameTestSet;
 
-public class ReservedWordTest extends SQLiteTestBase implements ReservedWordTestSet {
+public class AbnormalColumnNameTest extends MariaDBTestBase implements AbnormalColumnNameTestSet {
 }

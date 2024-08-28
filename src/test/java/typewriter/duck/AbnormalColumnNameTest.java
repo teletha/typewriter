@@ -9,7 +9,7 @@
  */
 package typewriter.duck;
 
-import typewriter.api.ReservedWordTestSet;
+import typewriter.api.AbnormalColumnNameTestSet;
 
-public class ReservedWordTest extends DuckTestBase implements ReservedWordTestSet {
+public class AbnormalColumnNameTest extends DuckTestBase implements AbnormalColumnNameTestSet {
 }

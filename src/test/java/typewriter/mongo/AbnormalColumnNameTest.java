@@ -9,7 +9,7 @@
  */
 package typewriter.mongo;
 
-import typewriter.api.ReservedWordTestSet;
+import typewriter.api.AbnormalColumnNameTestSet;
 
-public class ReservedWordTest extends MongoTestBase implements ReservedWordTestSet {
+public class AbnormalColumnNameTest extends MongoTestBase implements AbnormalColumnNameTestSet {
 }

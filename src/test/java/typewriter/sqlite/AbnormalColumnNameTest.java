@@ -7,9 +7,9 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package typewriter.h2;
+package typewriter.sqlite;
 
-import typewriter.api.ReservedWordTestSet;
+import typewriter.api.AbnormalColumnNameTestSet;
 
-public class ReservedWordTest extends H2TestBase implements ReservedWordTestSet {
+public class AbnormalColumnNameTest extends SQLiteTestBase implements AbnormalColumnNameTestSet {
 }

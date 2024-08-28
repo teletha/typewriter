@@ -7,9 +7,9 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package typewriter.maria;
+package typewriter.h2;
 
-import typewriter.api.ReservedWordTestSet;
+import typewriter.api.AbnormalColumnNameTestSet;
 
-public class ReservedWordTest extends MariaDBTestBase implements ReservedWordTestSet {
+public class AbnormalColumnNameTest extends H2TestBase implements AbnormalColumnNameTestSet {
 }
