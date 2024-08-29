@@ -341,8 +341,10 @@ public abstract class RDBCodec<T> implements Extensible {
      */
     static class OffsetDateTimeCodec extends RDBCodec<OffsetDateTime> {
 
+        static final String POSTFIX = "_date";
+
         OffsetDateTimeCodec() {
-            super(long.class, "DATE", int.class, "OFFSET");
+            super(long.class, POSTFIX, int.class, "_offset");
         }
 
         /**
@@ -350,8 +352,8 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public void encode(Map<String, Object> result, String name, OffsetDateTime value) {
-            result.put(name + "DATE", value.toInstant().toEpochMilli());
-            result.put(name + "OFFSET", value.getOffset().getTotalSeconds());
+            result.put(name + POSTFIX, value.toInstant().toEpochMilli());
+            result.put(name + "_offset", value.getOffset().getTotalSeconds());
         }
 
         /**
@@ -361,8 +363,8 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public OffsetDateTime decode(ResultSet result, String name) throws SQLException {
-            Instant date = Instant.ofEpochMilli(result.getLong(name + "DATE"));
-            ZoneOffset offset = ZoneOffset.ofTotalSeconds(result.getInt(name + "OFFSET"));
+            Instant date = Instant.ofEpochMilli(result.getLong(name + POSTFIX));
+            ZoneOffset offset = ZoneOffset.ofTotalSeconds(result.getInt(name + "_offset"));
             return OffsetDateTime.ofInstant(date, offset);
         }
     }
@@ -372,8 +374,10 @@ public abstract class RDBCodec<T> implements Extensible {
      */
     static class ZonedDateTimeCodec extends RDBCodec<ZonedDateTime> {
 
+        static final String POSTFIX = "_date";
+
         ZonedDateTimeCodec() {
-            super(long.class, "DATE", String.class, "ZONE");
+            super(long.class, POSTFIX, String.class, "_zone");
         }
 
         /**
@@ -381,8 +385,8 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public void encode(Map<String, Object> result, String name, ZonedDateTime value) {
-            result.put(name + "DATE", value.withZoneSameInstant(ZonedDateTimeConstraint.UTC).toInstant().toEpochMilli());
-            result.put(name + "ZONE", value.getZone().getId());
+            result.put(name + POSTFIX, value.withZoneSameInstant(ZonedDateTimeConstraint.UTC).toInstant().toEpochMilli());
+            result.put(name + "_zone", value.getZone().getId());
         }
 
         /**
@@ -392,8 +396,8 @@ public abstract class RDBCodec<T> implements Extensible {
          */
         @Override
         public ZonedDateTime decode(ResultSet result, String name) throws SQLException {
-            Instant date = Instant.ofEpochMilli(result.getLong(name + "DATE"));
-            ZoneId zone = ZoneId.of(result.getString(name + "ZONE"));
+            Instant date = Instant.ofEpochMilli(result.getLong(name + POSTFIX));
+            ZoneId zone = ZoneId.of(result.getString(name + "_zone"));
             return ZonedDateTime.ofInstant(date, zone);
         }
     }

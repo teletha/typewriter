@@ -32,6 +32,7 @@ public class Project extends bee.api.Project {
         require("org.duckdb", "duckdb_jdbc").atProvided();
         require("org.mariadb.jdbc", "mariadb-java-client").atProvided();
         require("ch.vorburger.mariaDB4j", "mariaDB4j").atProvided();
+        require("de.softwareforge.testing", "pg-embedded").atProvided();
         require("com.github.teletha", "antibug").atTest();
         require("de.bwaldvogel", "mongo-java-server").atTest();
         require("com.github.teletha", "psychopath").atTest();

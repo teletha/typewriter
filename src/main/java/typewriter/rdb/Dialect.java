@@ -74,6 +74,15 @@ public abstract class Dialect {
     }
 
     /**
+     * Normalize the given column name.
+     * 
+     * @param name
+     */
+    public String normalizeColumnName(String name) {
+        return name;
+    }
+
+    /**
      * Create new {@link Connection}.
      * 
      * @param url A database URL.

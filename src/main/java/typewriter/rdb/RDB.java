@@ -39,6 +39,7 @@ import typewriter.h2.H2;
 import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
 import typewriter.maria.MariaModel;
+import typewriter.postgres.Postgresql;
 import typewriter.query.AVGOption;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
@@ -58,11 +59,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     public static final Dialect MariaDB = I.make(MariaDB.class);
 
     /** The supported RDBMS. */
+    public static final Dialect Postgres = I.make(Postgresql.class);
+
+    /** The supported RDBMS. */
     public static final Dialect DuckDB = I.make(DuckDB.class);
 
     /** The reusable DAO cache. */
     private static final Map<Dialect, Map<String, RDB>> DAO = Map
-            .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap(), DuckDB, new ConcurrentHashMap());
+            .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap(), DuckDB, new ConcurrentHashMap(), Postgres, new ConcurrentHashMap());
 
     /** The document model. */
     protected final Model<M> model;
@@ -83,11 +87,25 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * Data Access Object.
      * 
      * @param type A target model type.
-     * @param dialect
+     * @param name A table name.
+     * @param dialect A dialect for database.
      * @param url A user specified backend address.
      */
     public RDB(Class<M> type, String name, Dialect dialect, String url) {
-        this(Model.of(type), name, dialect, ConnectionPool.by(url));
+        this(type, name, dialect, url, ConnectionPool.by(url));
+    }
+
+    /**
+     * Data Access Object.
+     * 
+     * @param type A target model type.
+     * @param name A table name.
+     * @param dialect A dialect for database.
+     * @param url A user specified backend address.
+     * @param provider A connection provider.
+     */
+    public RDB(Class<M> type, String name, Dialect dialect, String url, WiseSupplier<Connection> provider) {
+        this(Model.of(type), name, dialect, provider);
 
         dialect.createDatabase(url);
 
@@ -108,7 +126,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
 
         // validate property
         I.signal(model.properties())
-                .flatIterable(x -> RDBCodec.by((Model<?>) x.model).info(x.name))
+                .flatIterable(x -> RDBCodec.by((Model<?>) x.model).info(dialect.normalizeColumnName(x.name)))
                 .take(x -> rows.get(x.ⅰ) == null)
                 .to(x -> {
                     new SQL<>(this).write(dialect.commandAddRow(tableName, x.ⅰ, x.ⅱ)).execute();

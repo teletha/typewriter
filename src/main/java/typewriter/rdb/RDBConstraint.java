@@ -413,7 +413,7 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         protected String build(String operator, OffsetDateTime date) {
-            return propertyName + "DATE" + operator + date.toInstant().toEpochMilli();
+            return propertyName + RDBCodec.OffsetDateTimeCodec.POSTFIX + operator + date.toInstant().toEpochMilli();
         }
     }
 
@@ -431,7 +431,7 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
          */
         @Override
         protected String build(String operator, ZonedDateTime date) {
-            return propertyName + "DATE" + operator + date.toInstant().toEpochMilli();
+            return propertyName + RDBCodec.ZonedDateTimeCodec.POSTFIX + operator + date.toInstant().toEpochMilli();
         }
     }
 
