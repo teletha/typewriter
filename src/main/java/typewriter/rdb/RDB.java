@@ -39,7 +39,7 @@ import typewriter.h2.H2;
 import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
 import typewriter.maria.MariaModel;
-import typewriter.postgres.Postgresql;
+import typewriter.postgres.PostgreSQL;
 import typewriter.postgres.PostgresModel;
 import typewriter.query.AVGOption;
 import typewriter.sqlite.SQLite;
@@ -60,7 +60,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     public static final Dialect MariaDB = I.make(MariaDB.class);
 
     /** The supported RDBMS. */
-    public static final Dialect PostgreSQL = I.make(Postgresql.class);
+    public static final Dialect PostgreSQL = I.make(PostgreSQL.class);
 
     /** The supported RDBMS. */
     public static final Dialect DuckDB = I.make(DuckDB.class);
