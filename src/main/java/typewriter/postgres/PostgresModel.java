@@ -19,6 +19,6 @@ public abstract class PostgresModel<Self extends PostgresModel<Self>> extends Ba
      */
     @Override
     protected RDB<Self> backend() {
-        return RDB.of((Class<Self>) getClass(), RDB.Postgres);
+        return RDB.of((Class<Self>) getClass(), RDB.PostgreSQL);
     }
 }

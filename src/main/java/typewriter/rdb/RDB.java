@@ -39,7 +39,8 @@ import typewriter.h2.H2;
 import typewriter.h2.H2Model;
 import typewriter.maria.MariaDB;
 import typewriter.maria.MariaModel;
-import typewriter.postgres.Postgresql;
+import typewriter.postgres.PostgreSQL;
+import typewriter.postgres.PostgresModel;
 import typewriter.query.AVGOption;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
@@ -59,14 +60,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     public static final Dialect MariaDB = I.make(MariaDB.class);
 
     /** The supported RDBMS. */
-    public static final Dialect Postgres = I.make(Postgresql.class);
+    public static final Dialect PostgreSQL = I.make(PostgreSQL.class);
 
     /** The supported RDBMS. */
     public static final Dialect DuckDB = I.make(DuckDB.class);
 
     /** The reusable DAO cache. */
     private static final Map<Dialect, Map<String, RDB>> DAO = Map
-            .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap(), DuckDB, new ConcurrentHashMap(), Postgres, new ConcurrentHashMap());
+            .of(H2, new ConcurrentHashMap(), SQLite, new ConcurrentHashMap(), MariaDB, new ConcurrentHashMap(), DuckDB, new ConcurrentHashMap(), PostgreSQL, new ConcurrentHashMap());
 
     /** The document model. */
     protected final Model<M> model;
@@ -323,25 +324,23 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     @Override
     public synchronized <R> R transactWith(WiseFunction<RDB<M>, R> operation) {
         try (Connection connection = provider.get()) {
-            try {
-                connection.setAutoCommit(false);
+            connection.setAutoCommit(false);
 
+            try {
+                System.out.println(connection.isClosed());
                 R result = operation.apply(new RDB<>(model, name, dialect, () -> connection));
                 connection.commit();
+                connection.setAutoCommit(true);
                 return result;
             } catch (SQLException e) {
+                System.out.println(connection.isClosed());
                 try {
                     connection.rollback();
+                    connection.setAutoCommit(true);
                 } catch (SQLException x) {
                     throw I.quiet(x);
                 }
                 throw I.quiet(e);
-            } finally {
-                try {
-                    connection.setAutoCommit(true);
-                } catch (SQLException e) {
-                    throw I.quiet(e);
-                }
             }
         } catch (SQLException e) {
             throw I.quiet(e);
@@ -423,6 +422,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 dialect = H2;
             } else if (MariaModel.class.isAssignableFrom(type)) {
                 dialect = MariaDB;
+            } else if (PostgresModel.class.isAssignableFrom(type)) {
+                dialect = PostgreSQL;
             } else if (DuckModel.class.isAssignableFrom(type)) {
                 dialect = DuckDB;
             } else if (I.env("typewriter.sqlite") != null) {
@@ -431,6 +432,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 dialect = H2;
             } else if (I.env("typewriter.mariadb") != null) {
                 dialect = MariaDB;
+            } else if (I.env("typewriter.postgres") != null) {
+                dialect = PostgreSQL;
             } else if (I.env("typewriter.duckdb") != null) {
                 dialect = DuckDB;
             } else if (has("org.sqlite.JDBC")) {
@@ -439,6 +442,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 dialect = H2;
             } else if (has("ch.vorburger.mariadb4j.DB")) {
                 dialect = MariaDB;
+            } else if (has("org.postgresql.Driver")) {
+                dialect = PostgreSQL;
             } else if (has("org.duckdb.DuckDBDriver")) {
                 dialect = DuckDB;
             } else {

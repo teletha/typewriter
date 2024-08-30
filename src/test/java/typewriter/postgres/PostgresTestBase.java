@@ -40,6 +40,6 @@ public class PostgresTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
-        return (Q) new RDB(type, RandomStringUtils.randomAlphanumeric(20), RDB.Postgres, source.getURL(), () -> source.getConnection());
+        return (Q) new RDB(type, RandomStringUtils.randomAlphanumeric(20), RDB.PostgreSQL, source.getURL(), () -> source.getConnection());
     }
 }

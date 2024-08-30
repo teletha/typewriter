@@ -121,8 +121,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
             return RDB.SQLite;
         } else if (RDB.MariaDB.kind.equals(kind)) {
             return RDB.MariaDB;
-        } else if (RDB.Postgres.kind.equals(kind)) {
-            return RDB.Postgres;
+        } else if (RDB.PostgreSQL.kind.equals(kind)) {
+            return RDB.PostgreSQL;
         } else if (RDB.DuckDB.kind.equals(kind)) {
             return RDB.DuckDB;
         } else {
