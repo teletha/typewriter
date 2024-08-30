@@ -19,6 +19,7 @@ import kiss.Model;
 import kiss.Property;
 import kiss.Singleton;
 import typewriter.api.Constraint.ListConstraint;
+import typewriter.api.Identifiable;
 import typewriter.api.Specifier.ListSpecifier;
 import typewriter.rdb.RDBConstraint.ForList;
 
@@ -148,6 +149,10 @@ public abstract class Dialect {
      */
     public String commandUpdate() {
         return "UPDATE";
+    }
+
+    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models) {
+        return sql.write(commandReplace(), sql.tableName).write("(").names(sql.model.properties()).write(")").values(models);
     }
 
     /**

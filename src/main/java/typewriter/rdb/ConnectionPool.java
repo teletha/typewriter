@@ -37,17 +37,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
+import javax.sql.DataSource;
+
 import kiss.I;
-import kiss.WiseFunction;
 import kiss.WiseSupplier;
 
-class ConnectionPool implements WiseSupplier<Connection> {
+public class ConnectionPool implements WiseSupplier<Connection> {
 
     /** The cached connections for each url. */
     private static final Map<String, Connection> SINGLETONS = new ConcurrentHashMap();
 
     /** The address. */
-    private final String url;
+    private String url;
+
+    private DataSource source;
 
     /** The dialect. */
     private final Dialect dialect;
@@ -79,7 +82,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
     /** The connection type. */
     private final boolean singleton;
 
-    private ConnectionPool(String url) {
+    public ConnectionPool(String url) {
         this.url = url;
         this.dialect = detectDialect(url);
         this.max = config("typewriter.connection.maxPool", 8);
@@ -91,7 +94,20 @@ class ConnectionPool implements WiseSupplier<Connection> {
         this.singleton = config("typewriter.connection.singleton", false);
         this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
+    }
 
+    public ConnectionPool(DataSource source, Dialect dialect) {
+        this.source = source;
+        this.dialect = dialect;
+        this.max = config("typewriter.connection.maxPool", 8);
+        this.min = config("typewriter.connection.minPool", 2);
+        this.autoCommit = config("typewriter.connection.autoCommit", true);
+        this.readOnly = config("typewriter.connection.readOnly", false);
+        this.timeout = config("typewriter.connection.timeout", 1000 * 30L);
+        this.isolation = config("typewriter.connection.isolation", -1);
+        this.singleton = config("typewriter.connection.singleton", false);
+        this.idles = new ArrayBlockingQueue(max);
+        this.busy = ConcurrentHashMap.newKeySet();
     }
 
     /**
@@ -234,11 +250,22 @@ class ConnectionPool implements WiseSupplier<Connection> {
         @SuppressWarnings("resource")
         private ManagedConnection() {
             try {
-                this.delegation = !singleton ? dialect.createConnection(url, null)
-                        : SINGLETONS.computeIfAbsent(url, (WiseFunction<String, Connection>) key -> dialect.createConnection(key, null));
+                this.delegation = !singleton ? connect() : SINGLETONS.computeIfAbsent(url, key -> connect());
                 this.delegation.setAutoCommit(autoCommit);
                 this.delegation.setReadOnly(readOnly);
                 if (0 <= isolation) this.delegation.setTransactionIsolation(isolation);
+            } catch (Exception e) {
+                throw I.quiet(e);
+            }
+        }
+
+        private Connection connect() {
+            try {
+                if (source == null) {
+                    return dialect.createConnection(url, null);
+                } else {
+                    return source.getConnection();
+                }
             } catch (Exception e) {
                 throw I.quiet(e);
             }

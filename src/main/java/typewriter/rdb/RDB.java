@@ -315,7 +315,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public void updateAll(Iterable<M> models) {
-        new SQL<>(this).write(dialect.commandReplace(), tableName).write("(").names(model.properties()).write(")").values(models).execute();
+        dialect.commandUpsert(new SQL<>(this), models).execute();;
     }
 
     /**

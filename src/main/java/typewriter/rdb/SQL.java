@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import kiss.I;
+import kiss.Model;
 import kiss.Property;
 import kiss.Signal;
 import kiss.WiseFunction;
@@ -36,6 +37,12 @@ import typewriter.api.Specifier;
 import typewriter.query.AVGOption;
 
 public class SQL<M extends Identifiable> {
+
+    /** The target table name. */
+    public final String tableName;
+
+    /** The target model. */
+    public final Model<M> model;
 
     /** The database layer. */
     private final RDB<M> rdb;
@@ -51,6 +58,8 @@ public class SQL<M extends Identifiable> {
      */
     SQL(RDB<M> rdb) {
         this.rdb = rdb;
+        this.tableName = rdb.tableName;
+        this.model = rdb.model;
     }
 
     /**
@@ -201,6 +210,25 @@ public class SQL<M extends Identifiable> {
         for (Entry<String, Object> entry : result.entrySet()) {
             text.append(count++ == 0 ? " SET " : ",").append(entry.getKey()).append("=?");
             variables.add(entry.getValue());
+        }
+        return this;
+    }
+
+    /**
+     * Write SET properties by excluded.
+     * 
+     * @param properties
+     */
+    public SQL<M> setExcluded(Collection<Property> properties) {
+        Map<String, Object> result = new HashMap();
+        for (Property property : properties) {
+            RDBCodec codec = RDBCodec.by(property.model);
+            codec.encode(result, property.name, "EXCLUDED");
+        }
+
+        int count = 0;
+        for (Entry<String, Object> entry : result.entrySet()) {
+            text.append(count++ == 0 ? " SET " : ",").append(entry.getKey()).append("=EXCLUDED.").append(entry.getKey());
         }
         return this;
     }
@@ -439,6 +467,16 @@ public class SQL<M extends Identifiable> {
      */
     public SQL<M> where(Specifier<M, ?> condition) {
         text.append(" WHERE ").append(condition.propertyName(rdb.dialect));
+        return this;
+    }
+
+    /**
+     * Write ON CONFLICT (id) DO UPDATE statement.
+     * 
+     * @return
+     */
+    public SQL<M> onConflictDoUpdate() {
+        text.append("ON CONFLICT (id) DO UPDATE ");
         return this;
     }
 

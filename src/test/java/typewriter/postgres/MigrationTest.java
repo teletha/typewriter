@@ -9,7 +9,55 @@
  */
 package typewriter.postgres;
 
+import org.junit.jupiter.api.Test;
+
 import typewriter.api.MigrationTestSet;
 
 public class MigrationTest extends PostgresTestBase implements MigrationTestSet {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Test
+    public void addProperty() {
+        MigrationTestSet.super.addProperty();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Test
+    public void addMultiColumnProperty() {
+        MigrationTestSet.super.addMultiColumnProperty();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Test
+    public void addMultiProperties() {
+        MigrationTestSet.super.addMultiProperties();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Test
+    public void deleteProperty() {
+        MigrationTestSet.super.deleteProperty();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Test
+    public void changeProeprtyType() {
+        MigrationTestSet.super.changeProeprtyType();
+    }
+
 }
