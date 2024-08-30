@@ -17,7 +17,7 @@ import java.util.Map;
 
 import typewriter.rdb.Dialect;
 
-public class PostgreSQL extends Dialect {
+public class Postgresql extends Dialect {
 
     /** The JAVA-SQL type mapping. */
     private static final Map<Class, String> TYPES = new HashMap();
@@ -46,7 +46,7 @@ public class PostgreSQL extends Dialect {
     /**
      * Hide constructor.
      */
-    private PostgreSQL() {
+    private Postgresql() {
     }
 
     /**
