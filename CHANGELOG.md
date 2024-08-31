@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.10.0](https://github.com/teletha/typewriter/compare/v1.9.2...v1.10.0) (2024-08-31)
+
+
+### Features
+
+* support postgres ([753d118](https://github.com/teletha/typewriter/commit/753d1187e51ce2a7edacf96c00788429d0d5ce72))
+
+
+### Bug Fixes
+
+* clean up tests on postgres ([f8c80bb](https://github.com/teletha/typewriter/commit/f8c80bb8f174213073cf169a72ecc1bc5fe4dea5))
+* rename tests ([561ffc8](https://github.com/teletha/typewriter/commit/561ffc8db62ee8622ce4cfcd2bd1029140b3286c))
+* rename to PostgreSQL ([bcd4b3a](https://github.com/teletha/typewriter/commit/bcd4b3a3c2c2627da2a41f268f33baa43cf52f76))
+* revert env variable 'typewriter.connection.singleton' ([40e6a53](https://github.com/teletha/typewriter/commit/40e6a5303b9d41e3a7334ca4d188a63e58bd0352))
+
 ## [1.9.2](https://github.com/teletha/typewriter/compare/v1.9.1...v1.9.2) (2024-08-28)
 
 
