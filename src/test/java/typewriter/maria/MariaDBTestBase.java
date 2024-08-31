@@ -11,7 +11,6 @@ package typewriter.maria;
 
 import java.io.IOException;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -25,9 +24,9 @@ import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import kiss.Signal;
 import psychopath.Directory;
 import psychopath.Locator;
+import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
-import typewriter.api.model.IdentifiableModel;
 import typewriter.rdb.RDB;
 
 @PowerAssertOff
@@ -70,8 +69,8 @@ public class MariaDBTestBase implements Testable {
 
     @BeforeEach
     void init() throws IOException, ManagedProcessException {
-        url = "jdbc:mariadb://localhost:" + db.getConfiguration().getPort() + "/" + RandomStringUtils
-                .randomAlphabetic(32) + "?useUnicode=true&characterEncoding=utf8";
+        url = "jdbc:mariadb://localhost:" + db.getConfiguration().getPort() + "/" + Testable
+                .random() + "?useUnicode=true&characterEncoding=utf8";
     }
 
     @AfterEach
@@ -84,7 +83,7 @@ public class MariaDBTestBase implements Testable {
      * {@inheritDoc}
      */
     @Override
-    public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
+    public <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
         return (Q) new RDB(type, name, RDB.MariaDB, url);
     }
 }

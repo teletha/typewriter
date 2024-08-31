@@ -10,9 +10,9 @@
 package typewriter.api;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import kiss.Signal;
-import typewriter.api.model.IdentifiableModel;
 
 public interface Testable {
 
@@ -23,7 +23,7 @@ public interface Testable {
      * @param type
      * @return
      */
-    default <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
+    default <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
         return createEmptyDB(type, type.getName());
     }
 
@@ -34,7 +34,7 @@ public interface Testable {
      * @param type
      * @return
      */
-    <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name);
+    <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name);
 
     /**
      * Create the {@link QueryExecutor} for test with initial models.
@@ -44,7 +44,7 @@ public interface Testable {
      * @param models
      * @return
      */
-    default <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createDB(M... models) {
+    default <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createDB(M... models) {
         Q db = createEmptyDB((Class<M>) models.getClass().getComponentType());
         db.updateAll(models);
         return db;
@@ -57,5 +57,14 @@ public interface Testable {
      */
     static String random() {
         return RandomStringUtils.secure().nextAlphabetic(15);
+    }
+
+    /**
+     * Helper method to generate random name.
+     * 
+     * @return
+     */
+    static int randomInt() {
+        return RandomUtils.secure().randomInt();
     }
 }

@@ -21,9 +21,9 @@ import org.junit.jupiter.api.BeforeEach;
 import de.softwareforge.testing.postgres.embedded.EmbeddedPostgres;
 import kiss.I;
 import kiss.Signal;
+import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
-import typewriter.api.model.IdentifiableModel;
 import typewriter.rdb.RDB;
 
 public class PostgresTestBase implements Testable {
@@ -58,7 +58,7 @@ public class PostgresTestBase implements Testable {
      * {@inheritDoc}
      */
     @Override
-    public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
+    public <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
         return (Q) new RDB(type, name, RDB.PostgreSQL, url);
     }
 }

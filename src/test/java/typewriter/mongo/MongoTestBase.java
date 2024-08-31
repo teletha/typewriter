@@ -18,9 +18,9 @@ import com.mongodb.client.MongoClients;
 import de.bwaldvogel.mongo.MongoServer;
 import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
 import kiss.Signal;
+import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
-import typewriter.api.model.IdentifiableModel;
 
 public class MongoTestBase implements Testable {
 
@@ -46,7 +46,7 @@ public class MongoTestBase implements Testable {
      * {@inheritDoc}
      */
     @Override
-    public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
+    public <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
         return (Q) new Mongo(type, client);
     }
 
