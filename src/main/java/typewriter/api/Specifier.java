@@ -159,4 +159,9 @@ public interface Specifier<S, T> extends Function<S, T>, Serializable {
      */
     interface ListSpecifier<S, X> extends Specifier<S, List<X>> {
     }
+
+    interface ConditionSpecifier<S, T> extends Specifier<S, T> {
+
+        boolean test(S one, T other);
+    }
 }
