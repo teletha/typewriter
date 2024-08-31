@@ -93,20 +93,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param url A user specified backend address.
      */
     public RDB(Class<M> type, String name, Dialect dialect, String url) {
-        this(type, name, dialect, url, ConnectionPool.by(url));
-    }
-
-    /**
-     * Data Access Object.
-     * 
-     * @param type A target model type.
-     * @param name A table name.
-     * @param dialect A dialect for database.
-     * @param url A user specified backend address.
-     * @param provider A connection provider.
-     */
-    public RDB(Class<M> type, String name, Dialect dialect, String url, WiseSupplier<Connection> provider) {
-        this(Model.of(type), name, dialect, provider);
+        this(Model.of(type), name, dialect, ConnectionPool.by(url));
 
         dialect.createDatabase(url);
 
@@ -327,13 +314,11 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
             connection.setAutoCommit(false);
 
             try {
-                System.out.println(connection.isClosed());
                 R result = operation.apply(new RDB<>(model, name, dialect, () -> connection));
                 connection.commit();
                 connection.setAutoCommit(true);
                 return result;
             } catch (SQLException e) {
-                System.out.println(connection.isClosed());
                 try {
                     connection.rollback();
                     connection.setAutoCommit(true);

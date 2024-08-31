@@ -37,8 +37,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
-import javax.sql.DataSource;
-
 import kiss.I;
 import kiss.WiseSupplier;
 
@@ -49,8 +47,6 @@ public class ConnectionPool implements WiseSupplier<Connection> {
 
     /** The address. */
     private String url;
-
-    private DataSource source;
 
     /** The dialect. */
     private final Dialect dialect;
@@ -85,20 +81,6 @@ public class ConnectionPool implements WiseSupplier<Connection> {
     public ConnectionPool(String url) {
         this.url = url;
         this.dialect = detectDialect(url);
-        this.max = config("typewriter.connection.maxPool", 8);
-        this.min = config("typewriter.connection.minPool", 2);
-        this.autoCommit = config("typewriter.connection.autoCommit", true);
-        this.readOnly = config("typewriter.connection.readOnly", false);
-        this.timeout = config("typewriter.connection.timeout", 1000 * 30L);
-        this.isolation = config("typewriter.connection.isolation", -1);
-        this.singleton = config("typewriter.connection.singleton", false);
-        this.idles = new ArrayBlockingQueue(max);
-        this.busy = ConcurrentHashMap.newKeySet();
-    }
-
-    public ConnectionPool(DataSource source, Dialect dialect) {
-        this.source = source;
-        this.dialect = dialect;
         this.max = config("typewriter.connection.maxPool", 8);
         this.min = config("typewriter.connection.minPool", 2);
         this.autoCommit = config("typewriter.connection.autoCommit", true);
@@ -261,11 +243,7 @@ public class ConnectionPool implements WiseSupplier<Connection> {
 
         private Connection connect() {
             try {
-                if (source == null) {
-                    return dialect.createConnection(url, null);
-                } else {
-                    return source.getConnection();
-                }
+                return dialect.createConnection(url, null);
             } catch (Exception e) {
                 throw I.quiet(e);
             }

@@ -9,6 +9,8 @@
  */
 package typewriter.api;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import kiss.Signal;
 import typewriter.api.model.IdentifiableModel;
 
@@ -46,5 +48,14 @@ public interface Testable {
         Q db = createEmptyDB((Class<M>) models.getClass().getComponentType());
         db.updateAll(models);
         return db;
+    }
+
+    /**
+     * Helper method to generate random name.
+     * 
+     * @return
+     */
+    static String random() {
+        return RandomStringUtils.secure().nextAlphabetic(15);
     }
 }

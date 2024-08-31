@@ -9,8 +9,14 @@
  */
 package typewriter.postgres;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.postgresql.ds.PGSimpleDataSource;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.BeforeEach;
 
 import de.softwareforge.testing.postgres.embedded.EmbeddedPostgres;
 import kiss.I;
@@ -18,20 +24,32 @@ import kiss.Signal;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.api.model.IdentifiableModel;
-import typewriter.rdb.ConnectionPool;
 import typewriter.rdb.RDB;
 
 public class PostgresTestBase implements Testable {
 
-    private static final EmbeddedPostgres host;
-
-    private static final PGSimpleDataSource source;
+    /** The test database. */
+    private static EmbeddedPostgres db;
 
     static {
         try {
-            host = EmbeddedPostgres.defaultInstance();
-            source = (PGSimpleDataSource) host.createDefaultDataSource();
-        } catch (Exception e) {
+            db = EmbeddedPostgres.defaultInstance();
+        } catch (IOException e) {
+            throw I.quiet(e);
+        }
+    }
+
+    private String url;
+
+    @BeforeEach
+    void setup() throws SQLException {
+        String databaseName = Testable.random().toLowerCase();
+        url = "jdbc:postgresql://localhost:" + db.getPort() + "/" + databaseName + "?user=postgres";
+
+        DataSource source = db.createDefaultDataSource();
+        try (Connection con = source.getConnection(); Statement stmt = con.createStatement()) {
+            stmt.execute("CREATE DATABASE " + databaseName);
+        } catch (SQLException e) {
             throw I.quiet(e);
         }
     }
@@ -41,7 +59,6 @@ public class PostgresTestBase implements Testable {
      */
     @Override
     public <M extends IdentifiableModel, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
-        return (Q) new RDB(type, RandomStringUtils.randomAlphanumeric(10), RDB.PostgreSQL, source
-                .getURL(), new ConnectionPool(source, RDB.PostgreSQL));
+        return (Q) new RDB(type, name, RDB.PostgreSQL, url);
     }
 }
