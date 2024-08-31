@@ -93,17 +93,6 @@ public class SQL<M extends Identifiable> {
      * @param value
      * @return
      */
-    public SQL<M> write(int value) {
-        text.append(' ').append(value);
-        return this;
-    }
-
-    /**
-     * Write statement.
-     * 
-     * @param value
-     * @return
-     */
     public SQL<M> write(long value) {
         text.append(' ').append(value);
         return this;
@@ -278,14 +267,6 @@ public class SQL<M extends Identifiable> {
     /**
      * Write FROM statement.
      * 
-     */
-    public SQL<M> fromModelTable() {
-        return from(rdb.tableName);
-    }
-
-    /**
-     * Write FROM statement.
-     * 
      * @param table A name of table.
      */
     public SQL<M> from(String table) {
@@ -368,17 +349,6 @@ public class SQL<M extends Identifiable> {
      */
     public SQL<M> selectAll() {
         text.append("SELECT *");
-        return this;
-    }
-
-    /**
-     * Write SELECT statement.
-     * 
-     * @param specifiers
-     * @return
-     */
-    public SQL<M> select(Specifier<M, ?>... specifiers) {
-        text.append(" SELECT ").append(Stream.of(specifiers).map(s -> s.propertyName(rdb.dialect)).collect(Collectors.joining(", ")));
         return this;
     }
 
