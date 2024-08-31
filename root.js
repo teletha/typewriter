@@ -8,6 +8,7 @@ const root = {
 		"typewriter.h2",
 		"typewriter.maria",
 		"typewriter.mongo",
+		"typewriter.postgres",
 		"typewriter.query",
 		"typewriter.rdb",
 		"typewriter.sqlite"
@@ -33,6 +34,13 @@ const root = {
 			"name": "BackendedModel",
 			"packageName": "typewriter.api.model",
 			"type": "AbstractClass"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "ConnectionPool",
+			"packageName": "typewriter.rdb",
+			"type": "Class"
 		},
 		{
 			"modifiers": {
@@ -229,6 +237,20 @@ const root = {
 			"name": "MongoQuery",
 			"packageName": "typewriter.mongo",
 			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "PostgreSQL",
+			"packageName": "typewriter.postgres",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "PostgresModel",
+			"packageName": "typewriter.postgres",
+			"type": "AbstractClass"
 		},
 		{
 			"modifiers": {
