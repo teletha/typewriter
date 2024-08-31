@@ -123,7 +123,6 @@ public class SQL<M extends Identifiable> {
                 }
             }
         }
-
         return this;
     }
 

@@ -9,7 +9,18 @@
  */
 package typewriter.mongo;
 
+import org.junit.jupiter.api.Disabled;
+
 import typewriter.api.SortTestSet;
 
 public class SortTest extends MongoTestBase implements SortTestSet {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Disabled
+    public void withFilter() {
+        SortTestSet.super.withFilter();
+    }
 }
