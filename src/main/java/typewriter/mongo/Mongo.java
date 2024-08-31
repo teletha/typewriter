@@ -437,7 +437,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
                 } else {
                     value = decoders.getOrDefault(type, defaultDecoder).apply(doc, key);
                 }
-                model.set(object, property, value);
+                object = model.set(object, property, value);
             }
         }
         return object;

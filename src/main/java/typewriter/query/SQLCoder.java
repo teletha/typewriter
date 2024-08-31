@@ -325,7 +325,15 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      */
     @Override
     public void writeAccessField(Field field, Code context, AccessMode mode) {
-        unsupportedSyntax("field access");
+        switch (mode) {
+        case THIS:
+            write(field.getName());
+            break;
+
+        default:
+            unsupportedSyntax("field access");
+            break;
+        }
     }
 
     /**

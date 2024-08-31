@@ -32,6 +32,7 @@ import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
+import typewriter.api.Specifier.ConditionSpecifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.duck.DuckDB;
 import typewriter.duck.DuckModel;
@@ -332,6 +333,10 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         }
     }
 
+    public <O extends Identifiable> void innerJoin(RDB<O> other, ConditionSpecifier<M, O> condition) {
+        System.out.println(condition.propertyName(dialect));
+    }
+
     /**
      * Execute raw query.
      * 
@@ -369,11 +374,11 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param result
      * @return
      */
-    private <V> V decode(Model model, Collection<Property> properties, V instance, ResultSet result) throws SQLException {
+    private <V> V decode(Model<V> model, Collection<Property> properties, V instance, ResultSet result) throws SQLException {
         for (Property property : properties) {
             try {
                 RDBCodec codec = RDBCodec.by(property.model);
-                model.set(instance, property, codec.decode(result, property.name));
+                instance = model.set(instance, property, codec.decode(result, property.name));
             } catch (Throwable e) {
                 // ignore
             }
