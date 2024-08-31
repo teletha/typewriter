@@ -12,6 +12,7 @@ Provides a general-purpose, type-safe DAO. Currently supported databases are the
 * [H2](https://github.com/h2database/h2database)
 * [SQLite](https://github.com/sqlite/sqlite)
 * [MariaDB](https://github.com/MariaDB/)
+* [PostgreSQL](https://www.postgresql.org/)
 * [MongoDB](https://github.com/mongodb/mongo)
 * [DuckDB](https://duckdb.org/)
 <p align="right"><a href="#top">back to top</a></p>
