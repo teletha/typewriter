@@ -70,6 +70,14 @@ public interface Queryable<M, R> {
     /**
      * Specify search conditions for the specified property.
      * 
+     * @param constraint Describes conditions for the target property.
+     * @return Chainable API.
+     */
+    R findBy(BooleanSpecifier<M> constraint);
+
+    /**
+     * Specify search conditions for the specified property.
+     * 
      * @param specifier Specify the target property type-safely.
      * @param constraint Describes conditions for the target property.
      * @return Chainable API.

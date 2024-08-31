@@ -81,6 +81,14 @@ public abstract class QueryExecutor<M extends Identifiable, R, Q extends Queryab
      * {@inheritDoc}
      */
     @Override
+    public R findBy(BooleanSpecifier<M> constraint) {
+        return findBy(createQueryable().findBy(constraint));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public <N extends Number> R findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
         return findBy(createQueryable().findBy(specifier, constraint));
     }

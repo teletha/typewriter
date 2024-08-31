@@ -109,6 +109,18 @@ public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
     }
 
     /**
+     * LINQ style {@link Constraint}.
+     * 
+     */
+    static class LINQ<V> extends RDBConstraint<V, LINQ<V>> {
+
+        protected LINQ(Specifier specifier, Dialect dialect) {
+            super(specifier, dialect);
+            expression.add(propertyName);
+        }
+    }
+
+    /**
      * The specialized {@link Constraint} for {@link Number}.
      */
     static class ForNumeric<V extends Number> extends RDBConstraint<V, NumericConstraint<V>> implements NumericConstraint<V> {

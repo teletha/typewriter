@@ -27,7 +27,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getName().equals("A")).qurey().toList().size() == 2;
+        assert dao.findBy(m -> m.getName() == "A").toList().size() == 2;
     }
 
     @Test
@@ -41,7 +41,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getName().contains("A")).qurey().toList().size() == 4;
+        assert dao.findBy(m -> m.getName().contains("A")).toList().size() == 4;
     }
 
     @Test
@@ -55,7 +55,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() == 20).qurey().toList().size() == 1;
+        assert dao.findBy(m -> m.getAge() == 20).toList().size() == 1;
     }
 
     @Test
@@ -70,7 +70,7 @@ public interface LinqTestSet extends Testable {
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
         int param = 20;
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() == param).qurey().toList().size() == 1;
+        assert dao.findBy(m -> m.getAge() == param).toList().size() == 1;
     }
 
     @Test
@@ -84,7 +84,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() != 20).qurey().toList().size() == 5;
+        assert dao.findBy(m -> m.getAge() != 20).toList().size() == 5;
     }
 
     @Test
@@ -98,7 +98,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() < 40).qurey().toList().size() == 3;
+        assert dao.findBy(m -> m.getAge() < 40).toList().size() == 3;
     }
 
     @Test
@@ -112,7 +112,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() <= 40).qurey().toList().size() == 4;
+        assert dao.findBy(m -> m.getAge() <= 40).toList().size() == 4;
     }
 
     @Test
@@ -126,7 +126,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() > 40).qurey().toList().size() == 2;
+        assert dao.findBy(m -> m.getAge() > 40).toList().size() == 2;
     }
 
     @Test
@@ -140,7 +140,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() >= 40).qurey().toList().size() == 3;
+        assert dao.findBy(m -> m.getAge() >= 40).toList().size() == 3;
     }
 
     @Test
@@ -154,7 +154,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query().selectAll().fromModelTable().where(m -> m.getAge() <= 20 || 50 <= m.getAge()).qurey().toList().size() == 4;
+        assert dao.findBy(m -> m.getAge() <= 20 || 50 <= m.getAge()).toList().size() == 4;
     }
 
     @Test
@@ -168,13 +168,7 @@ public interface LinqTestSet extends Testable {
 
         RDB<Person> dao = createDB(model1, model2, model3, model4, model5, model6);
 
-        assert dao.query()
-                .selectAll()
-                .fromModelTable()
-                .where(m -> m.getAge() <= 10 && m.getName().equals("A"))
-                .qurey()
-                .toList()
-                .size() == 1;
+        assert dao.findBy(m -> m.getAge() <= 10 && m.getName().equals("A")).toList().size() == 1;
     }
 
     /**

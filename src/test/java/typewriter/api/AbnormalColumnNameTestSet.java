@@ -18,9 +18,6 @@ public interface AbnormalColumnNameTestSet extends Testable {
     @Test
     default void reservedWordProperty() {
         // createEmptyDB(Reserved.class);
-
-        // List<Reserved> list = db.findBy(Reserved::getSelect, x -> x.isLessThan(20)).toList();
-        // assert list.isEmpty();
     }
 
     class Reserved extends DerivableModel {

@@ -36,6 +36,9 @@ import typewriter.api.Identifiable;
 import typewriter.api.Specifier;
 import typewriter.query.AVGOption;
 
+/**
+ * SQL writer.
+ */
 public class SQL<M extends Identifiable> {
 
     /** The target table name. */

@@ -50,9 +50,10 @@ import typewriter.rdb.RDBConstraint.ForOffsetDateTime;
 import typewriter.rdb.RDBConstraint.ForString;
 import typewriter.rdb.RDBConstraint.ForZonedDateTime;
 import typewriter.rdb.RDBConstraint.GenericType;
+import typewriter.rdb.RDBConstraint.LINQ;
 
 /**
- * {@link Queryable} for mongodb.
+ * {@link Queryable} for RDB.
  */
 public class RDBQuery<M extends Identifiable> implements Queryable<M, RDBQuery<M>> {
 
@@ -92,6 +93,17 @@ public class RDBQuery<M extends Identifiable> implements Queryable<M, RDBQuery<M
     public RDBQuery<M> findBy(Constraint constraint) {
         if (constraint != null) {
             constraints.add((RDBConstraint<?, ?>) constraint);
+        }
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RDBQuery<M> findBy(BooleanSpecifier<M> constraint) {
+        if (constraint != null) {
+            constraints.add(new LINQ(constraint, dialect));
         }
         return this;
     }

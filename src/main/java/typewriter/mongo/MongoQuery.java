@@ -109,6 +109,17 @@ public class MongoQuery<M> implements Queryable<M, MongoQuery<M>> {
      * {@inheritDoc}
      */
     @Override
+    public MongoQuery<M> findBy(BooleanSpecifier<M> constraint) {
+        if (constraint != null) {
+            constraints.add((MongoConstraint<?, ?>) constraint);
+        }
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public <N extends Number> MongoQuery<M> findBy(NumericSpecifier<M, N> specifier, UnaryOperator<NumericConstraint<N>> constraint) {
         return findBy(constraint.apply(new ForNumeric(specifier)));
     }
