@@ -360,6 +360,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Specifier.ConditionSpecifier",
+			"packageName": "typewriter.api",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Specifier.DateSpecifier",
 			"packageName": "typewriter.api",
 			"type": "Functional"
