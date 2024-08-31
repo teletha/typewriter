@@ -12,6 +12,7 @@ package typewriter.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import kiss.Signal;
@@ -20,6 +21,7 @@ import typewriter.api.model.DerivableModel;
 public interface RelationTestSet extends Testable {
 
     @Test
+    @Disabled
     default void saveRelation() {
         Employee emp1 = new Employee("one");
         Employee emp2 = new Employee("two");

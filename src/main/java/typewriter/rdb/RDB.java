@@ -32,7 +32,6 @@ import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
-import typewriter.api.Specifier.ConditionSpecifier;
 import typewriter.api.model.IdentifiableModel;
 import typewriter.duck.DuckDB;
 import typewriter.duck.DuckModel;
@@ -331,19 +330,6 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         } catch (SQLException e) {
             throw I.quiet(e);
         }
-    }
-
-    public <O extends Identifiable> void innerJoin(RDB<O> other, ConditionSpecifier<M, O> condition) {
-        System.out.println(condition.propertyName(dialect));
-    }
-
-    /**
-     * Execute raw query.
-     * 
-     * @return
-     */
-    public SQL<M> query() {
-        return new SQL<>(this);
     }
 
     /**
