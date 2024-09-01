@@ -29,9 +29,7 @@ import kiss.Signal;
 import kiss.Variable;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
-import typewriter.api.Fetchable;
 import typewriter.api.Identifiable;
-import typewriter.api.QueryDSL;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
@@ -50,7 +48,7 @@ import typewriter.sqlite.SQLiteModel;
 /**
  * Data Access Object for RDBMS.
  */
-public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDBQuery<M>, RDB<M>> implements Fetchable<M> {
+public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDBQuery<M>, RDB<M>> {
 
     /** The supported RDBMS. */
     public static final Dialect H2 = I.make(H2.class);
@@ -332,18 +330,6 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         } catch (SQLException e) {
             throw I.quiet(e);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Signal<M> fetch(QueryDSL<M> query) {
-        String sql = query.propertyName(dialect);
-
-        return new SQL<>(this).write(sql).qurey(result -> {
-            return decode(model, model.properties(), I.make(model.type), result);
-        });
     }
 
     /**
