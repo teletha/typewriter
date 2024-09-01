@@ -13,6 +13,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import kiss.Signal;
+import typewriter.rdb.RDB;
 
 public interface Testable {
 
@@ -46,6 +47,31 @@ public interface Testable {
      */
     default <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createDB(M... models) {
         Q db = createEmptyDB((Class<M>) models.getClass().getComponentType());
+        db.updateAll(models);
+        return db;
+    }
+
+    /**
+     * Create the {@link QueryExecutor} for test.
+     * 
+     * @param <M>
+     * @param type
+     * @return
+     */
+    default <M extends Identifiable, Q extends RDB<M>> Q createEmptyRDB(Class<M> type) {
+        return (Q) (Object) createEmptyDB(type, type.getName());
+    }
+
+    /**
+     * Create the {@link QueryExecutor} for test with initial models.
+     * 
+     * @param <M>
+     * @param <Q>
+     * @param models
+     * @return
+     */
+    default <M extends Identifiable, Q extends RDB<M>> Q createRDB(M... models) {
+        Q db = createEmptyRDB((Class<M>) models.getClass().getComponentType());
         db.updateAll(models);
         return db;
     }
