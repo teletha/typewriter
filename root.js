@@ -38,13 +38,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "ConnectionPool",
-			"packageName": "typewriter.rdb",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Constraint",
 			"packageName": "typewriter.api",
 			"type": "Interface"
@@ -279,20 +272,6 @@ const root = {
 			"name": "RDBCodec",
 			"packageName": "typewriter.rdb",
 			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "RDBConstraint",
-			"packageName": "typewriter.rdb",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "RDBQuery",
-			"packageName": "typewriter.rdb",
-			"type": "Class"
 		},
 		{
 			"modifiers": {
