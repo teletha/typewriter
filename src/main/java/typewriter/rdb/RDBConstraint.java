@@ -26,7 +26,7 @@ import typewriter.api.Specifier;
 /**
  * {@link Constraint} for mongdb.
  */
-public abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
+abstract class RDBConstraint<V, Self> implements Constraint<V, Self> {
 
     /** The name of target property. */
     protected final String propertyName;

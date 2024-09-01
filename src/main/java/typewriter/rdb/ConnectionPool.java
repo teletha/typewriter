@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 import kiss.I;
 import kiss.WiseSupplier;
 
-public class ConnectionPool implements WiseSupplier<Connection> {
+class ConnectionPool implements WiseSupplier<Connection> {
 
     /** The cached connections for each url. */
     private static final Map<String, Connection> SINGLETONS = new ConcurrentHashMap();

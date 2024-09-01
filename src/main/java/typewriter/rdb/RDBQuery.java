@@ -55,7 +55,7 @@ import typewriter.rdb.RDBConstraint.LINQ;
 /**
  * {@link Queryable} for RDB.
  */
-public class RDBQuery<M extends Identifiable> implements Queryable<M, RDBQuery<M>> {
+class RDBQuery<M extends Identifiable> implements Queryable<M, RDBQuery<M>> {
 
     /** The all constraint set. */
     protected final List<RDBConstraint<?, ?>> constraints = new ArrayList();
