@@ -458,7 +458,6 @@ public class SQL<M extends Identifiable> {
     public void execute() {
         int index = 1;
         try (Connection connection = rdb.provider.get()) {
-            System.out.println(text + " " + variables);
             try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
                 for (Object variable : variables) {
                     prepared.setObject(index++, variable);
@@ -490,7 +489,6 @@ public class SQL<M extends Identifiable> {
         return new Signal<ResultSet>((observer, disposer) -> {
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
-                System.out.println(text + "  " + variables);
                 try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
                     for (Object variable : variables) {
                         prepared.setObject(index++, variable);
