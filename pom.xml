@@ -111,6 +111,13 @@
 			<scope>provided</scope>
 			<exclusions/>
 		</dependency>
+		<dependency>
+			<groupId>com.surrealdb</groupId>
+			<artifactId>surrealdb-driver</artifactId>
+			<version>0.1.0</version>
+			<scope>provided</scope>
+			<exclusions/>
+		</dependency>
 	</dependencies>
 	<licenses>
 		<license>
