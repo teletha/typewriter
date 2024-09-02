@@ -23,6 +23,20 @@ import typewriter.api.model.DerivableModel;
 public interface LocalTimeConstraintTestSet extends Testable {
 
     @Test
+    default void nullProperty() {
+        Event model = new Event();
+
+        QueryExecutor<Event, Signal<Event>, ?, ?> dao = createEmptyDB(Event.class);
+        dao.update(model);
+
+        List<Event> founds = dao.findAll().toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model);
+        assert founds.get(0).name == null;
+        assert founds.get(0).start == null;
+    }
+
+    @Test
     default void is() {
         Event model1 = new Event("First", 11, 0);
         Event model2 = new Event("Second", 13, 30);

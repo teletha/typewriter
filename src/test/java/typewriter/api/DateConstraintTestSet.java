@@ -26,6 +26,20 @@ import typewriter.api.model.DerivableModel;
 public interface DateConstraintTestSet extends Testable {
 
     @Test
+    default void nullProperty() {
+        Person model = new Person();
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
+
+        List<Person> founds = dao.findAll().toList();
+        assert founds.size() == 1;
+        assert founds.get(0).equals(model);
+        assert founds.get(0).name == null;
+        assert founds.get(0).birthday == null;
+    }
+
+    @Test
     default void is() {
         Person model1 = new Person("Ema", 2011, 6, 23);
         Person model2 = new Person("Diana", 2004, 11, 25);

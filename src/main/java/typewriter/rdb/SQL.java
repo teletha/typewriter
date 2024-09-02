@@ -169,7 +169,7 @@ public class SQL<M extends Identifiable> {
         }
 
         Mapper mapper = new Mapper();
-        text.append("VALUES");
+        text.append(" VALUES ");
         for (M instance : instances) {
             if (instance != null) {
                 text.append('(');
@@ -214,7 +214,7 @@ public class SQL<M extends Identifiable> {
         Map<String, Object> result = new HashMap();
         for (Property property : properties) {
             RDBCodec codec = RDBCodec.by(property.model);
-            codec.encode(result, property.name, "EXCLUDED");
+            codec.encode(result, property.name, null);
         }
 
         int count = 0;
@@ -448,7 +448,7 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> onConflictDoUpdate() {
-        text.append("ON CONFLICT (id) DO UPDATE ");
+        text.append(" ON CONFLICT (id) DO UPDATE ");
         return this;
     }
 

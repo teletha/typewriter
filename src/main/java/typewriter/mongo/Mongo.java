@@ -484,9 +484,13 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
         @Override
         public OffsetDateTime apply(Document doc, String key) {
             Document sub = doc.get(key, Document.class);
-            Instant date = sub.getDate("date").toInstant();
-            ZoneOffset zone = ZoneOffset.ofTotalSeconds(sub.getInteger("offset"));
-            return OffsetDateTime.ofInstant(date, zone);
+            if (sub == null) {
+                return null;
+            } else {
+                Instant date = sub.getDate("date").toInstant();
+                ZoneOffset zone = ZoneOffset.ofTotalSeconds(sub.getInteger("offset"));
+                return OffsetDateTime.ofInstant(date, zone);
+            }
         }
 
         /**
@@ -529,9 +533,13 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
         @Override
         public ZonedDateTime apply(Document doc, String key) {
             Document sub = doc.get(key, Document.class);
-            Instant date = sub.getDate("date").toInstant();
-            ZoneId zone = ZoneId.of(sub.getString("zone"));
-            return ZonedDateTime.ofInstant(date, UTC).withZoneSameInstant(zone);
+            if (sub == null) {
+                return null;
+            } else {
+                Instant date = sub.getDate("date").toInstant();
+                ZoneId zone = ZoneId.of(sub.getString("zone"));
+                return ZonedDateTime.ofInstant(date, UTC).withZoneSameInstant(zone);
+            }
         }
 
         /**

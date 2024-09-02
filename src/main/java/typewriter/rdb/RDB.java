@@ -282,12 +282,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
 
         if (specifiers == null || specifiers.length == 0) {
             // update model
-            new SQL<>(this).write(dialect.commandReplace(), tableName)
-                    .write("(")
-                    .names(model.properties())
-                    .write(")")
-                    .values(instance)
-                    .execute();
+            dialect.commandUpsert(new SQL<>(this), List.of(instance)).execute();
         } else {
             // update properties
             new SQL<>(this).write(dialect.commandUpdate(), tableName)
@@ -302,7 +297,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public void updateAll(Iterable<M> models) {
-        dialect.commandUpsert(new SQL<>(this), models).execute();;
+        dialect.commandUpsert(new SQL<>(this), models).execute();
     }
 
     /**

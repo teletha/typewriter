@@ -27,6 +27,15 @@ public interface EnumTestSet extends Testable {
         assert person.policy.equals(RetentionPolicy.CLASS);
     }
 
+    @Test
+    default void nullProperty() {
+        QueryExecutor<EnumValue, Signal<EnumValue>, ?, ?> dao = createEmptyDB(EnumValue.class);
+        dao.update(new EnumValue(null));
+
+        EnumValue person = dao.limit(1).waitForTerminate().to().v;
+        assert person.policy == null;
+    }
+
     static class EnumValue extends DerivableModel {
 
         public RetentionPolicy policy;
