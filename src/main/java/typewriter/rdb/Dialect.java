@@ -155,6 +155,10 @@ public abstract class Dialect {
         return sql.write(commandReplace(), sql.tableName).write("(").names(sql.model.properties()).write(")").values(models);
     }
 
+    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models, Iterable<Property> properties) {
+        return sql.write(commandReplace(), sql.tableName).write("(").names(properties).write(")").values(models, properties);
+    }
+
     /**
      * Define SQL for LIMIT and OFFSET.
      * 
@@ -188,6 +192,10 @@ public abstract class Dialect {
      * @return
      */
     public abstract String commnadListContains(String propertyName, Object value);
+
+    public String commandOnConflict() {
+        return "ON CONFLICT (id) DO UPDATE";
+    }
 
     /**
      * Helper to write column definitions.

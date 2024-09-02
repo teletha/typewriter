@@ -185,6 +185,35 @@ public class SQL<M extends Identifiable> {
     }
 
     /**
+     * Write VALUES statement.
+     * 
+     * @param instances
+     * @return
+     */
+    public SQL<M> values(Iterable<M> instances, Iterable<Property> properties) {
+        // prepare RDB codecs
+        List<Ⅱ<Property, RDBCodec>> codecs = new ArrayList();
+        for (Property property : properties) {
+            codecs.add(I.pair(property, RDBCodec.by(property.model)));
+        }
+
+        Mapper mapper = new Mapper();
+        text.append(" VALUES ");
+        for (M instance : instances) {
+            if (instance != null) {
+                text.append('(');
+                for (Ⅱ<Property, RDBCodec> codec : codecs) {
+                    codec.ⅱ.encode(mapper, codec.ⅰ.name, rdb.model.get(instance, codec.ⅰ));
+                }
+                text.deleteCharAt(text.length() - 1).append("),");
+            }
+        }
+        text.deleteCharAt(text.length() - 1);
+
+        return this;
+    }
+
+    /**
      * Write SET properties.
      * 
      * @param properties
@@ -210,7 +239,7 @@ public class SQL<M extends Identifiable> {
      * 
      * @param properties
      */
-    public SQL<M> setExcluded(Collection<Property> properties) {
+    public SQL<M> setExcluded(Iterable<Property> properties) {
         Map<String, Object> result = new HashMap();
         for (Property property : properties) {
             RDBCodec codec = RDBCodec.by(property.model);
@@ -220,6 +249,25 @@ public class SQL<M extends Identifiable> {
         int count = 0;
         for (Entry<String, Object> entry : result.entrySet()) {
             text.append(count++ == 0 ? " SET " : ",").append(entry.getKey()).append("=EXCLUDED.").append(entry.getKey());
+        }
+        return this;
+    }
+
+    /**
+     * Write SET properties by excluded.
+     * 
+     * @param properties
+     */
+    public SQL<M> setExcluded2(Iterable<Property> properties) {
+        Map<String, Object> result = new HashMap();
+        for (Property property : properties) {
+            RDBCodec codec = RDBCodec.by(property.model);
+            codec.encode(result, property.name, null);
+        }
+
+        int count = 0;
+        for (Entry<String, Object> entry : result.entrySet()) {
+            text.append(count++ == 0 ? "" : ",").append(entry.getKey()).append("=VALUES(").append(entry.getKey()).append(")");
         }
         return this;
     }
@@ -448,7 +496,7 @@ public class SQL<M extends Identifiable> {
      * @return
      */
     public SQL<M> onConflictDoUpdate() {
-        text.append(" ON CONFLICT (id) DO UPDATE ");
+        text.append("  ").append(rdb.dialect.commandOnConflict()).append(" ");
         return this;
     }
 

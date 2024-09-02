@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.UnaryOperator;
@@ -285,10 +286,10 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
             dialect.commandUpsert(new SQL<>(this), List.of(instance)).execute();
         } else {
             // update properties
-            new SQL<>(this).write(dialect.commandUpdate(), tableName)
-                    .set(names(dialect, specifiers).map(model::property).toList(), instance)
-                    .where(instance)
-                    .execute();
+            Set<Property> properties = names(dialect, specifiers).startWith("id").map(model::property).toSet();
+
+            // update model
+            dialect.commandUpsert(new SQL<>(this), List.of(instance), properties).execute();
         }
     }
 

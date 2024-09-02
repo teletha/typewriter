@@ -22,6 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import kiss.I;
+import kiss.Property;
+import typewriter.api.Identifiable;
 import typewriter.rdb.Dialect;
 import typewriter.rdb.SQL;
 
@@ -122,6 +124,28 @@ public class MariaDB extends Dialect {
     @Override
     public String commnadListContains(String propertyName, Object value) {
         return "JSON_CONTAINS(" + propertyName + ", " + convert(value) + ", '$')";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models, Iterable<Property> properties) {
+        return sql.write("INSERT INTO ", sql.tableName)
+                .write("(")
+                .names(properties)
+                .write(")")
+                .values(models, properties)
+                .onConflictDoUpdate()
+                .setExcluded2(properties);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String commandOnConflict() {
+        return "ON DUPLICATE KEY UPDATE";
     }
 
     private String convert(Object value) {

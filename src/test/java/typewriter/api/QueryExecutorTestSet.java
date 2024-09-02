@@ -52,22 +52,6 @@ public interface QueryExecutorTestSet extends Testable {
     }
 
     @Test
-    default void updateSpecifedPropertyOnly() {
-        Person model = new Person("one", 10);
-
-        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
-        dao.update(model);
-
-        model.age = 20;
-        model.name = "don't update";
-        dao.update(model, Person::getAge);
-
-        Person found = dao.findBy(model.getId()).to().exact();
-        assert found.age == 20;
-        assert found.name.equals("one");
-    }
-
-    @Test
     default void findAll() {
         Person model1 = new Person("one", 10);
         Person model2 = new Person("two", 20);

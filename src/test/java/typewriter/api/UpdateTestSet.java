@@ -19,7 +19,7 @@ import typewriter.api.model.DerivableModel;
 public interface UpdateTestSet extends Testable {
 
     @Test
-    default void update() {
+    default void insert() {
         Person model1 = new Person("one", 10);
         Person model2 = new Person("two", 20);
 
@@ -32,20 +32,23 @@ public interface UpdateTestSet extends Testable {
     }
 
     @Test
-    default void updateDuplicate() {
-        Person model1 = new Person("one", 10);
-        Person model2 = new Person("two", 20);
+    default void update() {
+        Person model = new Person("one", 10);
 
         QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
-        dao.update(model1);
-        dao.update(model2);
-        assert dao.count() == 2;
+        dao.update(model);
+        Person restored = dao.findBy(model.getId()).to().exact();
+        assert restored.name.equals("one");
+        assert restored.age == 10;
 
-        dao.update(model1);
-        assert dao.count() == 2;
+        // update
+        model.name = "updated";
+        model.age = 20;
+        dao.update(model);
 
-        dao.update(model2);
-        assert dao.count() == 2;
+        restored = dao.findBy(model.getId()).to().exact();
+        assert restored.name.equals("updated");
+        assert restored.age == 20;
     }
 
     @Test
@@ -86,7 +89,7 @@ public interface UpdateTestSet extends Testable {
     }
 
     @Test
-    default void updateSpecifier() {
+    default void insertSpecifiedPropertyOnly() {
         Person model1 = new Person("one", 10);
         Person model2 = new Person("two", 20);
 
@@ -97,10 +100,26 @@ public interface UpdateTestSet extends Testable {
         List<Person> list = dao.findAll().toList();
         model1 = list.get(0);
         model2 = list.get(1);
-        assert model1.age == 15;
+        assert model1.age == 10;
         assert model1.name == null;
         assert model2.age == 0;
         assert model2.name.equals("two");
+    }
+
+    @Test
+    default void updateSpecifedPropertyOnly() {
+        Person model = new Person("one", 10);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.update(model);
+
+        model.age = 20;
+        model.name = "don't update";
+        dao.update(model, Person::getAge);
+
+        Person found = dao.findBy(model.getId()).to().exact();
+        assert found.age == 20;
+        assert found.name.equals("one");
     }
 
     /**
