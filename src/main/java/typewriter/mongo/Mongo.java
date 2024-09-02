@@ -69,7 +69,6 @@ import kiss.WiseFunction;
 import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
-import typewriter.api.model.IdentifiableModel;
 import typewriter.query.AVGOption;
 
 public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, MongoQuery<M>, Mongo<M>> {
@@ -450,7 +449,7 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      * @param model The model type.
      * @return
      */
-    public static <M extends IdentifiableModel> Mongo<M> of(Class<M> model) {
+    public static <M extends Identifiable> Mongo<M> of(Class<M> model) {
         return Cache.computeIfAbsent(model, key -> new Mongo(key));
     }
 
