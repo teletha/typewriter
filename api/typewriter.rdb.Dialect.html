@@ -11,10 +11,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="Q">
-		<header class="Z">
-			<h1 class="Y" date="2024-08-31" ver="1.10.0"><code>Typewriter</code></h1>
-			<nav class="X"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="T">
+		<header class="Q">
+			<h1 class="I" date="2024-08-31" ver="1.10.0"><code>Typewriter</code></h1>
+			<nav class="a"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -23,7 +23,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="T" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="h" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -31,14 +31,14 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="h">
-			<nav class="c">
+		<main class="m">
+			<nav class="K">
 				<div></div>
 			</nav>
-			<article class="l" id="Article">
-				<section class="R"><code class="b">typewriter.rdb</code>
-					<h2 class="AbstractClass m"><code class="M">Dialect</code></h2>
-					<div class="j">
+			<article class="J" id="Article">
+				<section class="H"><code class="P">typewriter.rdb</code>
+					<h2 class="AbstractClass b"><code class="W">Dialect</code></h2>
+					<div class="M">
 						<ul class="C G">
 							<li><code><a href="api/typewriter.duck.DuckDB.html">DuckDB</a></code></li>
 							<li><code><a href="api/typewriter.h2.H2.html">H2</a></code></li>
@@ -48,344 +48,306 @@
 						</ul>
 					</div>
 				</section>
-				<section class="R" id="kind">
-					<h2 class="a"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">kind</code><i class="i"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2><span class="B"><p>The kind of RDMS.</p>
+				<section class="H" id="kind">
+					<h2 class="L"><i class="FINAL"><i class="PUBLIC"></i></i><code class="W">kind</code><i class="V"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2><span class="B"><p>The kind of RDMS.</p>
 </span></section>
-				<section class="R" id="Dialect()">
-					<h2 class="a"><i class="PROTECTED"></i><code class="M">Dialect</code><code class="e">()</code></h2><span class="B"><p>Hide constructor.</p>
+				<section class="H" id="Dialect()">
+					<h2 class="L"><i class="PROTECTED"></i><code class="W">Dialect</code><code class="S">()</code></h2><span class="B"><p>Hide constructor.</p>
 </span></section>
-				<section class="R" id="types(java.lang.Class)">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="M">types</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="types(java.lang.Class)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="W">types</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
 							<td><span><p>Java type.</p>
 </span></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td><span><p>SQL type.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Define the type mapping between Java and SQL.</p>
 </span></section>
-				<section class="R" id="configureLocation(java.lang.String)">
-					<h2 class="a"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">configureLocation</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">userLocation</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="configureLocation(java.lang.String)">
+					<h2 class="L"><i class="FINAL"><i class="PUBLIC"></i></i><code class="W">configureLocation</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">userLocation</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>userLocation</code></td>
 							<td><span><p>A user specified location.</p>
 </span></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td><span><p>A detected database location.</p>
 </span></td>
 						</tr>
 					</table><span class="B"><p>Define the user-defined database location.</p>
 </span></section>
-				<section class="R" id="defaultLocation()">
-					<h2 class="a"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code class="M">defaultLocation</code><code class="e">()</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="U">
+				<section class="H" id="defaultLocation()">
+					<h2 class="L"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code class="W">defaultLocation</code><code class="S">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define the default database location.</p>
 </span></section>
-				<section class="R" id="quote()">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">quote</code><code class="e">()</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="U">
+				<section class="H" id="quote()">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">quote</code><code class="S">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define table name quotation character.</p>
 </span></section>
-				<section class="R" id="normalizeColumnName(java.lang.String)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">normalizeColumnName</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="normalizeColumnName(java.lang.String)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">normalizeColumnName</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>name</code></td>
 							<td></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Normalize the given column name.</p>
 </span></section>
-				<section class="R" id="createConnection(java.lang.String,java.util.Properties)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">createConnection</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code class="parameterName">properties</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="createConnection(java.lang.String,java.util.Properties)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">createConnection</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code class="parameterName">properties</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>url</code></td>
 							<td><span><p>A database URL.</p>
 </span></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code>properties</code></td>
 							<td><span><p>JDBC options</p>
 </span></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></td>
 							<td></td>
 						</tr>
-						<tr class="H">
+						<tr class="i">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Exception.html">Exception</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Create new <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code>.</p>
 </span></section>
-				<section class="R" id="createDatabase(java.lang.String)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">createDatabase</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code><i class="i"><code>void</code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="createDatabase(java.lang.String)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">createDatabase</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code><i class="V"><code>void</code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>url</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Create new database.</p>
 </span></section>
-				<section class="R" id="createListConstraint(typewriter.api.Specifier.ListSpecifier)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">createListConstraint</code><code class="e">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>)</code><i class="i"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></i></h2>
-					<table class="P">
-						<tr class="f">
+				<section class="H" id="createListConstraint(typewriter.api.Specifier.ListSpecifier)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">createListConstraint</code><code class="S">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>)</code><i class="V"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></i></h2>
+					<table class="f">
+						<tr class="Y">
 							<td><code>M</code></td>
 							<td></td>
 						</tr>
-						<tr class="f">
+						<tr class="Y">
 							<td><code>N</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code>specifier</code></td>
 							<td></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="R" id="commandCreateTable(java.lang.String,kiss.Model)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandCreateTable</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code>kiss.Model</code> <code class="parameterName">model</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="commandCreateTable(java.lang.String,kiss.Model)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">commandCreateTable</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code>kiss.Model</code> <code class="parameterName">model</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>tableName</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code>kiss.Model</code> <code>model</code></td>
 							<td></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define SQL for creating new table.</p>
 </span></section>
-				<section class="R" id="commandAddRow(java.lang.String,java.lang.String,java.lang.Class)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandAddRow</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">columnName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="commandAddRow(java.lang.String,java.lang.String,java.lang.Class)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">commandAddRow</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">columnName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>tableName</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>columnName</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
 							<td></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define SQL for adding new column.</p>
 </span></section>
-				<section class="R" id="commandReplace()">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandReplace</code><code class="e">()</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="U">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Define SQL for replacing column.</p>
-</span></section>
-				<section class="R" id="commandUpdate()">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandUpdate</code><code class="e">()</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="U">
+				<section class="H" id="commandUpdate()">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">commandUpdate</code><code class="S">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define SQL for updating values.</p>
 </span></section>
-				<section class="R" id="commandUpsert(typewriter.rdb.SQL,java.lang.Iterable)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandUpsert</code><code class="e">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">sql</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="i"><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></i></h2>
-					<table class="P">
-						<tr class="f">
+				<section class="H" id="commandUpsert(typewriter.rdb.SQL,java.lang.Iterable,java.lang.Iterable)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">commandUpsert</code><code class="S">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">sql</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>kiss.Property</code></code></code> <code class="parameterName">properties</code>)</code><i class="V"><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></i></h2>
+					<table class="f">
+						<tr class="Y">
 							<td><code>M</code><code class="extends"><code><a href="api/typewriter.api.Identifiable.html">Identifiable</a></code></code></td>
-							<td></td>
+							<td><span><p>The target model type.</p>
+</span></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code>sql</code></td>
-							<td></td>
+							<td><span><p>A code writer.</p>
+</span></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code>models</code></td>
-							<td></td>
+							<td><span><p>Target model instances.</p>
+</span></td>
 						</tr>
-						<tr class="U">
-							<td><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="R" id="commandUpsert(typewriter.rdb.SQL,java.lang.Iterable,java.lang.Iterable)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandUpsert</code><code class="e">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">sql</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>kiss.Property</code></code></code> <code class="parameterName">properties</code>)</code><i class="i"><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></i></h2>
-					<table class="P">
-						<tr class="f">
-							<td><code>M</code><code class="extends"><code><a href="api/typewriter.api.Identifiable.html">Identifiable</a></code></code></td>
-							<td></td>
-						</tr>
-						<tr class="N">
-							<td><code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code>sql</code></td>
-							<td></td>
-						</tr>
-						<tr class="N">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code>models</code></td>
-							<td></td>
-						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>kiss.Property</code></code></code> <code>properties</code></td>
-							<td></td>
+							<td><span><p>Target properties.</p>
+</span></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></td>
 							<td></td>
 						</tr>
-					</table>
-				</section>
-				<section class="R" id="commandLimitAndOffset(typewriter.rdb.SQL,long,long)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandLimitAndOffset</code><code class="e">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code class="parameterName">sql</code>, <code>long</code> <code class="parameterName">limit</code>, <code>long</code> <code class="parameterName">offset</code>)</code><i class="i"><code>void</code></i></h2>
-					<table class="P">
-						<tr class="N">
+					</table><span class="B"><p>Define SQL for upsert values.</p>
+</span></section>
+				<section class="H" id="commandLimitAndOffset(typewriter.rdb.SQL,long,long)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">commandLimitAndOffset</code><code class="S">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code class="parameterName">sql</code>, <code>long</code> <code class="parameterName">limit</code>, <code>long</code> <code class="parameterName">offset</code>)</code><i class="V"><code>void</code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code>sql</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code>long</code> <code>limit</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code>long</code> <code>offset</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define SQL for LIMIT and OFFSET.</p>
 </span></section>
-				<section class="R" id="commandRegex(java.lang.String,java.lang.String)">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandRegex</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="commandRegex(java.lang.String,java.lang.String)">
+					<h2 class="L"><i class="PUBLIC"></i><code class="W">commandRegex</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>propertyName</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>regex</code></td>
 							<td></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="R" id="commnadListLength()">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="M">commnadListLength</code><code class="e">()</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="U">
+				<section class="H" id="commnadListLength()">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="W">commnadListLength</code><code class="S">()</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define function for length of list.</p>
 </span></section>
-				<section class="R" id="commnadListContains(java.lang.String,java.lang.Object)">
-					<h2 class="a"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="M">commnadListContains</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">value</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="commnadListContains(java.lang.String,java.lang.Object)">
+					<h2 class="L"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="W">commnadListContains</code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">value</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>propertyName</code></td>
 							<td></td>
 						</tr>
-						<tr class="N">
+						<tr class="R">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>value</code></td>
 							<td></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Define function for length of list.</p>
 </span></section>
-				<section class="R" id="commandOnConflict()">
-					<h2 class="a"><i class="PUBLIC"></i><code class="M">commandOnConflict</code><code class="e">()</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="P">
-						<tr class="U">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="R" id="defineColumns(kiss.Model)">
-					<h2 class="a"><i class="PROTECTED"></i><code class="M">defineColumns</code><code class="e">(<code>kiss.Model<code class="parameters"><code>?</code></code></code> <code class="parameterName">model</code>)</code><i class="i"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
-					<table class="P">
-						<tr class="N">
+				<section class="H" id="defineColumns(kiss.Model)">
+					<h2 class="L"><i class="PROTECTED"></i><code class="W">defineColumns</code><code class="S">(<code>kiss.Model<code class="parameters"><code>?</code></code></code> <code class="parameterName">model</code>)</code><i class="V"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></h2>
+					<table class="f">
+						<tr class="R">
 							<td><code>kiss.Model<code class="parameters"><code>?</code></code></code> <code>model</code></td>
 							<td><span><p>A processing model.</p>
 </span></td>
 						</tr>
-						<tr class="U">
+						<tr class="c">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Helper to write column definitions.</p>
 </span></section>
 			</article>
-			<aside class="I" id="SubNavi">
-				<div class="O">
-					<h5 class="S">Constructors</h5>
+			<aside class="k" id="SubNavi">
+				<div class="Z">
+					<h5 class="e">Constructors</h5>
 					<ul>
-						<li><i class="PROTECTED"></i><code><a href="api/typewriter.rdb.Dialect.html#Dialect()">Dialect</a></code><code class="e">()</code></li>
+						<li><i class="PROTECTED"></i><code><a href="api/typewriter.rdb.Dialect.html#Dialect()">Dialect</a></code><code class="S">()</code></li>
 					</ul>
-					<h5 class="S">Fields</h5>
+					<h5 class="e">Fields</h5>
 					<ul>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#kind">kind</a></code><i class="J"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#kind">kind</a></code><i class="l"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 					</ul>
-					<h5 class="S">Methods</h5>
+					<h5 class="e">Methods</h5>
 					<ul>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#types(java.lang.Class)">types</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#configureLocation(java.lang.String)">configureLocation</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">userLocation</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.Dialect.html#defaultLocation()">defaultLocation</a></code><code class="e">()</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#quote()">quote</a></code><code class="e">()</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#normalizeColumnName(java.lang.String)">normalizeColumnName</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#createConnection(java.lang.String,java.util.Properties)">createConnection</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code class="parameterName">properties</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#createDatabase(java.lang.String)">createDatabase</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code><i class="J"><code>void</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#createListConstraint(typewriter.api.Specifier.ListSpecifier)">createListConstraint</a></code><code class="e">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>)</code><i class="J"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandCreateTable(java.lang.String,kiss.Model)">commandCreateTable</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code>kiss.Model</code> <code class="parameterName">model</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandAddRow(java.lang.String,java.lang.String,java.lang.Class)">commandAddRow</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">columnName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandReplace()">commandReplace</a></code><code class="e">()</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandUpdate()">commandUpdate</a></code><code class="e">()</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandUpsert(typewriter.rdb.SQL,java.lang.Iterable)">commandUpsert</a></code><code class="e">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">sql</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>)</code><i class="J"><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandUpsert(typewriter.rdb.SQL,java.lang.Iterable,java.lang.Iterable)">commandUpsert</a></code><code class="e">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">sql</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>kiss.Property</code></code></code> <code class="parameterName">properties</code>)</code><i class="J"><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandLimitAndOffset(typewriter.rdb.SQL,long,long)">commandLimitAndOffset</a></code><code class="e">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code class="parameterName">sql</code>, <code>long</code> <code class="parameterName">limit</code>, <code>long</code> <code class="parameterName">offset</code>)</code><i class="J"><code>void</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandRegex(java.lang.String,java.lang.String)">commandRegex</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#commnadListLength()">commnadListLength</a></code><code class="e">()</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#commnadListContains(java.lang.String,java.lang.Object)">commnadListContains</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">value</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandOnConflict()">commandOnConflict</a></code><code class="e">()</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="PROTECTED"></i><code><a href="api/typewriter.rdb.Dialect.html#defineColumns(kiss.Model)">defineColumns</a></code><code class="e">(<code>kiss.Model<code class="parameters"><code>?</code></code></code> <code class="parameterName">model</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#types(java.lang.Class)">types</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#configureLocation(java.lang.String)">configureLocation</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">userLocation</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PROTECTED"></i></i><code><a href="api/typewriter.rdb.Dialect.html#defaultLocation()">defaultLocation</a></code><code class="S">()</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#quote()">quote</a></code><code class="S">()</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#normalizeColumnName(java.lang.String)">normalizeColumnName</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#createConnection(java.lang.String,java.util.Properties)">createConnection</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Properties.html">Properties</a></code> <code class="parameterName">properties</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.sql/java/sql/Connection.html">Connection</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#createDatabase(java.lang.String)">createDatabase</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">url</code>)</code><i class="l"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#createListConstraint(typewriter.api.Specifier.ListSpecifier)">createListConstraint</a></code><code class="S">(<code><a href="api/typewriter.api.Specifier.ListSpecifier.html">ListSpecifier</a><code class="parameters"><code>M</code>, <code>N</code></code></code> <code class="parameterName">specifier</code>)</code><i class="l"><code><a href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>N</code></code></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandCreateTable(java.lang.String,kiss.Model)">commandCreateTable</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code>kiss.Model</code> <code class="parameterName">model</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandAddRow(java.lang.String,java.lang.String,java.lang.Class)">commandAddRow</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">tableName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">columnName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandUpdate()">commandUpdate</a></code><code class="S">()</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandUpsert(typewriter.rdb.SQL,java.lang.Iterable,java.lang.Iterable)">commandUpsert</a></code><code class="S">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">sql</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>M</code></code></code> <code class="parameterName">models</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>kiss.Property</code></code></code> <code class="parameterName">properties</code>)</code><i class="l"><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandLimitAndOffset(typewriter.rdb.SQL,long,long)">commandLimitAndOffset</a></code><code class="S">(<code><a href="api/typewriter.rdb.SQL.html">SQL</a></code> <code class="parameterName">sql</code>, <code>long</code> <code class="parameterName">limit</code>, <code>long</code> <code class="parameterName">offset</code>)</code><i class="l"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/typewriter.rdb.Dialect.html#commandRegex(java.lang.String,java.lang.String)">commandRegex</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">regex</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#commnadListLength()">commnadListLength</a></code><code class="S">()</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.rdb.Dialect.html#commnadListContains(java.lang.String,java.lang.Object)">commnadListContains</a></code><code class="S">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">propertyName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">value</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="PROTECTED"></i><code><a href="api/typewriter.rdb.Dialect.html#defineColumns(kiss.Model)">defineColumns</a></code><code class="S">(<code>kiss.Model<code class="parameters"><code>?</code></code></code> <code class="parameterName">model</code>)</code><i class="l"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code></i></li>
 					</ul>
 				</div>
 			</aside>
