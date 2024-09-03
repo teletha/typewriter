@@ -9,12 +9,10 @@
  */
 package typewriter.rdb;
 
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +20,6 @@ import java.util.Map;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.UnaryOperator;
-import java.util.logging.Logger;
-
-import javax.sql.DataSource;
 
 import kiss.I;
 import kiss.Managed;
@@ -33,6 +28,7 @@ import kiss.Property;
 import kiss.Signal;
 import kiss.Variable;
 import kiss.WiseFunction;
+import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
@@ -86,7 +82,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     protected final Dialect dialect;
 
     /** The connection provider. */
-    protected final DataSource provider;
+    protected final WiseSupplier<Connection> provider;
 
     /**
      * Data Access Object.
@@ -105,7 +101,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
 
         // collect table metadata
         Map<String, String> rows = new HashMap();
-        try (Connection connection = provider.getConnection()) {
+        try (Connection connection = provider.get()) {
             DatabaseMetaData meta = connection.getMetaData();
             try (ResultSet columns = meta.getColumns(null, null, this.name, null)) {
                 while (columns.next()) {
@@ -133,7 +129,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param provider A user specified backend connection.
      * @param createTable Should I create table?
      */
-    private RDB(Model<M> model, String name, Dialect dialect, DataSource provider) {
+    private RDB(Model<M> model, String name, Dialect dialect, WiseSupplier<Connection> provider) {
         Managed managed = model.type.getAnnotation(Managed.class);
         if (managed != null && !managed.name().isEmpty()) {
             name = managed.name();
@@ -144,23 +140,6 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         this.tableName = dialect.quote() + this.name + dialect.quote();
         this.dialect = dialect;
         this.provider = provider;
-    }
-
-    /**
-     * Create copy for transaction.
-     * 
-     * @param model
-     * @param name
-     * @param tableName
-     * @param dialect
-     * @param source
-     */
-    private RDB(Model<M> model, String name, String tableName, Dialect dialect, DataSource source) {
-        this.model = model;
-        this.name = name;
-        this.tableName = tableName;
-        this.dialect = dialect;
-        this.provider = source;
     }
 
     /**
@@ -323,107 +302,25 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public synchronized <R> R transactWith(WiseFunction<RDB<M>, R> operation) {
-        try (Connection connection = provider.getConnection()) {
+        try (Connection connection = provider.get()) {
             connection.setAutoCommit(false);
 
             try {
-                R result = operation.apply(new RDB<>(model, name, tableName, dialect, new SingleSource(connection)));
+                R result = operation.apply(new RDB<>(model, name, dialect, () -> connection));
                 connection.commit();
+                connection.setAutoCommit(true);
                 return result;
             } catch (SQLException e) {
                 try {
                     connection.rollback();
+                    connection.setAutoCommit(true);
                 } catch (SQLException x) {
                     throw I.quiet(x);
                 }
                 throw I.quiet(e);
-            } finally {
-                connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             throw I.quiet(e);
-        }
-    }
-
-    private static class SingleSource implements DataSource {
-
-        private Connection connection;
-
-        /**
-         * @param connection
-         */
-        SingleSource(Connection connection) {
-            this.connection = connection;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public <T> T unwrap(Class<T> iface) throws SQLException {
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean isWrapperFor(Class<?> iface) throws SQLException {
-            return false;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Connection getConnection() throws SQLException {
-            return connection;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Connection getConnection(String username, String password) throws SQLException {
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public PrintWriter getLogWriter() throws SQLException {
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setLogWriter(PrintWriter out) throws SQLException {
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void setLoginTimeout(int seconds) throws SQLException {
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int getLoginTimeout() throws SQLException {
-            return 0;
         }
     }
 

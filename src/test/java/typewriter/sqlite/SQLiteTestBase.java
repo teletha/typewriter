@@ -20,7 +20,7 @@ import typewriter.rdb.RDB;
 public class SQLiteTestBase implements Testable {
 
     /** The temporary database address. */
-    private final String db = "jdbc:sqlite:file:memdb" + Testable.randomInt() + "?mode=memory";
+    private final String db = "jdbc:sqlite:file:memdb" + Testable.randomInt() + "?mode=memory&cache=shared";
 
     @AfterEach
     void release() {

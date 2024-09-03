@@ -25,7 +25,7 @@ public interface Testable {
      * @return
      */
     default <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type) {
-        return createEmptyDB(type, random());
+        return createEmptyDB(type, type.getName());
     }
 
     /**
@@ -59,7 +59,7 @@ public interface Testable {
      * @return
      */
     default <M extends Identifiable, Q extends RDB<M>> Q createEmptyRDB(Class<M> type) {
-        return (Q) (Object) createEmptyDB(type, random());
+        return (Q) (Object) createEmptyDB(type, type.getName());
     }
 
     /**
