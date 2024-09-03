@@ -9,6 +9,7 @@
  */
 package typewriter.rdb;
 
+import java.io.PrintWriter;
 import java.sql.Array;
 import java.sql.Blob;
 import java.sql.CallableStatement;
@@ -19,6 +20,7 @@ import java.sql.NClob;
 import java.sql.PreparedStatement;
 import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.sql.SQLWarning;
 import java.sql.SQLXML;
 import java.sql.Savepoint;
@@ -36,11 +38,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
+import javax.sql.DataSource;
 
 import kiss.I;
-import kiss.WiseSupplier;
 
-class ConnectionPool implements WiseSupplier<Connection> {
+class ConnectionPool implements DataSource {
 
     /** The cached connections for each url. */
     private static final Map<String, Connection> SINGLETONS = new ConcurrentHashMap();
@@ -152,25 +156,91 @@ class ConnectionPool implements WiseSupplier<Connection> {
     }
 
     /**
-     * Get the idled connection.
-     * 
-     * @return
+     * {@inheritDoc}
      */
     @Override
-    public Connection call() throws Exception {
-        ManagedConnection connection = idles.poll();
-        if (connection == null) {
-            if (max <= busy.size()) {
-                connection = idles.poll(timeout, TimeUnit.MILLISECONDS);
-            } else {
-                connection = new ManagedConnection();
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Connection getConnection() throws SQLException {
+        return getConnection(null, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        try {
+            ManagedConnection connection = idles.poll();
+            if (connection == null) {
+                if (max <= busy.size()) {
+                    connection = idles.poll(timeout, TimeUnit.MILLISECONDS);
+                } else {
+                    connection = new ManagedConnection();
+                }
             }
+
+            connection.processing = true;
+            busy.add(connection);
+
+            return connection;
+        } catch (Exception e) {
+            throw I.quiet(e);
         }
+    }
 
-        connection.processing = true;
-        busy.add(connection);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PrintWriter getLogWriter() throws SQLException {
+        throw new UnsupportedOperationException();
+    }
 
-        return connection;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLogWriter(PrintWriter out) throws SQLException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLoginTimeout(int seconds) throws SQLException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getLoginTimeout() throws SQLException {
+        throw new UnsupportedOperationException();
     }
 
     /** The connnection pool manager. */

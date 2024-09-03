@@ -9,8 +9,6 @@
  */
 package typewriter.h2;
 
-import java.util.Random;
-
 import org.junit.jupiter.api.AfterEach;
 
 import kiss.Signal;
@@ -21,11 +19,8 @@ import typewriter.rdb.RDB;
 
 public class H2TestBase implements Testable {
 
-    /** The postfix generator. */
-    private static final Random RANDOM = new Random();
-
     /** The temporary database address. */
-    private final String db = "jdbc:h2:mem:test" + RANDOM.nextInt();
+    private final String db = "jdbc:h2:mem:test" + Testable.randomInt();
 
     @AfterEach
     void release() {

@@ -9,8 +9,6 @@
  */
 package typewriter.sqlite;
 
-import java.util.Random;
-
 import org.junit.jupiter.api.AfterEach;
 
 import kiss.Signal;
@@ -21,11 +19,8 @@ import typewriter.rdb.RDB;
 
 public class SQLiteTestBase implements Testable {
 
-    /** The postfix generator. */
-    private static final Random RANDOM = new Random();
-
     /** The temporary database address. */
-    private final String db = "jdbc:sqlite:file:memdb" + Math.abs(RANDOM.nextInt()) + "?mode=memory&cache=shared";
+    private final String db = "jdbc:sqlite:file:memdb" + Testable.randomInt() + "?mode=memory";
 
     @AfterEach
     void release() {
