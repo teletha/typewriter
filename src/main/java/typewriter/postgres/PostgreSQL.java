@@ -15,10 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kiss.Property;
-import typewriter.api.Identifiable;
 import typewriter.rdb.Dialect;
-import typewriter.rdb.SQL;
 
 public class PostgreSQL extends Dialect {
 
@@ -104,38 +101,7 @@ public class PostgreSQL extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public String commandReplace() {
-        return "INSERT INTO";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String commandRegex(String propertyName, String regex) {
         return propertyName + " ~ '" + regex + "'";
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models) {
-        return sql.write("INSERT INTO", sql.tableName).values(models).onConflictDoUpdate().setExcluded(sql.model.properties());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models, Iterable<Property> properties) {
-        return sql.write("INSERT INTO ", sql.tableName)
-                .write("(")
-                .names(properties)
-                .write(")")
-                .values(models, properties)
-                .onConflictDoUpdate()
-                .setExcluded(properties);
-    }
-
 }

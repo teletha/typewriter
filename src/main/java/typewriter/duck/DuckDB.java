@@ -78,14 +78,6 @@ public class DuckDB extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public String commandReplace() {
-        return "INSERT OR REPLACE INTO";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String commandRegex(String propertyName, String regex) {
         return "regexp_matches(" + propertyName + ", '" + regex + "')";
     }

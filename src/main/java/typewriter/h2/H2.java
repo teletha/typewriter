@@ -20,7 +20,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import kiss.I;
+import kiss.Property;
+import typewriter.api.Identifiable;
 import typewriter.rdb.Dialect;
+import typewriter.rdb.SQL;
 
 public class H2 extends Dialect {
 
@@ -99,14 +102,6 @@ public class H2 extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public String commandReplace() {
-        return "MERGE INTO";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String commnadListLength() {
         return "json_array_length";
     }
@@ -117,5 +112,13 @@ public class H2 extends Dialect {
     @Override
     public String commnadListContains(String propertyName, Object value) {
         return "json_array_contains(" + propertyName + ", '" + I.transform(value, String.class) + "')";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models, Iterable<Property> properties) {
+        return sql.write("MERGE INTO ", sql.tableName).write("(").names(properties).write(")").values(models, properties);
     }
 }

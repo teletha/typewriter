@@ -134,15 +134,6 @@ public abstract class Dialect {
     }
 
     /**
-     * Define SQL for replacing column.
-     * 
-     * @return
-     */
-    public String commandReplace() {
-        return "REPLACE INTO";
-    }
-
-    /**
      * Define SQL for updating values.
      * 
      * @return
@@ -151,12 +142,24 @@ public abstract class Dialect {
         return "UPDATE";
     }
 
-    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models) {
-        return sql.write(commandReplace(), sql.tableName).write("(").names(sql.model.properties()).write(")").values(models);
-    }
-
+    /**
+     * Define SQL for upsert values.
+     * 
+     * @param <M> The target model type.
+     * @param sql A code writer.
+     * @param models Target model instances.
+     * @param properties Target properties.
+     * @return
+     */
     public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models, Iterable<Property> properties) {
-        return sql.write(commandReplace(), sql.tableName).write("(").names(properties).write(")").values(models, properties);
+        Iterable<Property> exceptId = I.signal(properties).skip(x -> x.name.equals("id")).toList();
+
+        return sql.write("INSERT INTO ", sql.tableName)
+                .write("(")
+                .names(properties)
+                .write(")")
+                .values(models, properties)
+                .properties("ON CONFLICT (id) DO UPDATE SET", exceptId, name -> name + "=EXCLUDED." + name);
     }
 
     /**
@@ -192,10 +195,6 @@ public abstract class Dialect {
      * @return
      */
     public abstract String commnadListContains(String propertyName, Object value);
-
-    public String commandOnConflict() {
-        return "ON CONFLICT (id) DO UPDATE";
-    }
 
     /**
      * Helper to write column definitions.

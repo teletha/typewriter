@@ -136,16 +136,7 @@ public class MariaDB extends Dialect {
                 .names(properties)
                 .write(")")
                 .values(models, properties)
-                .onConflictDoUpdate()
-                .setExcluded2(properties);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String commandOnConflict() {
-        return "ON DUPLICATE KEY UPDATE";
+                .properties("ON DUPLICATE KEY UPDATE", properties, name -> name + "=VALUES(" + name + ")");
     }
 
     private String convert(Object value) {

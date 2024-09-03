@@ -26,8 +26,6 @@ import org.sqlite.Function;
 import org.sqlite.SQLiteConfig;
 
 import kiss.I;
-import kiss.Property;
-import typewriter.api.Identifiable;
 import typewriter.rdb.Dialect;
 import typewriter.rdb.SQL;
 
@@ -91,7 +89,7 @@ public class SQLite extends Dialect {
      * {@inheritDoc}
      */
     @Override
-    public Connection createConnection(String url, Properties properties) throws Exception {
+    public synchronized Connection createConnection(String url, Properties properties) throws Exception {
         Connection connection = super.createConnection(url, Lazy.CONFIG.toProperties());
 
         // register extra functions
@@ -126,20 +124,6 @@ public class SQLite extends Dialect {
     @Override
     public String commnadListContains(String propertyName, Object value) {
         return "(SELECT key FROM json_each(alias) WHERE json_each.value = '" + value + "') IS NOT NULL ";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public <M extends Identifiable> SQL commandUpsert(SQL<M> sql, Iterable<M> models, Iterable<Property> properties) {
-        return sql.write("INSERT INTO ", sql.tableName)
-                .write("(")
-                .names(properties)
-                .write(")")
-                .values(models, properties)
-                .onConflictDoUpdate()
-                .setExcluded(properties);
     }
 
     /**

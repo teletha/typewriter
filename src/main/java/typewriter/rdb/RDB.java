@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.UnaryOperator;
@@ -281,16 +280,13 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
             return;
         }
 
+        Collection<Property> properties;
         if (specifiers == null || specifiers.length == 0) {
-            // update model
-            dialect.commandUpsert(new SQL<>(this), List.of(instance)).execute();
+            properties = model.properties();
         } else {
-            // update properties
-            Set<Property> properties = names(dialect, specifiers).startWith("id").map(model::property).toSet();
-
-            // update model
-            dialect.commandUpsert(new SQL<>(this), List.of(instance), properties).execute();
+            properties = names(dialect, specifiers).startWith("id").map(model::property).toSet();
         }
+        dialect.commandUpsert(new SQL<>(this), List.of(instance), properties).execute();
     }
 
     /**
@@ -298,7 +294,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public void updateAll(Iterable<M> models) {
-        dialect.commandUpsert(new SQL<>(this), models).execute();
+        dialect.commandUpsert(new SQL<>(this), models, model.properties()).execute();
     }
 
     /**

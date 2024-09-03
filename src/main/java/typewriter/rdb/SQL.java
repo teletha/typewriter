@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -214,6 +215,27 @@ public class SQL<M extends Identifiable> {
     }
 
     /**
+     * Write property-based processing.
+     * 
+     * @return
+     */
+    public SQL<M> properties(String command, Iterable<Property> properties, Function<String, String> propertyNameProcessor) {
+        text.append("  ").append(command).append(" ");
+
+        Map<String, Object> result = new HashMap();
+        for (Property property : properties) {
+            RDBCodec codec = RDBCodec.by(property.model);
+            codec.encode(result, property.name, null);
+        }
+
+        int count = 0;
+        for (Entry<String, Object> entry : result.entrySet()) {
+            text.append(count++ == 0 ? " " : ",").append(propertyNameProcessor.apply(entry.getKey()));
+        }
+        return this;
+    }
+
+    /**
      * Write SET properties.
      * 
      * @param properties
@@ -230,44 +252,6 @@ public class SQL<M extends Identifiable> {
         for (Entry<String, Object> entry : result.entrySet()) {
             text.append(count++ == 0 ? " SET " : ",").append(entry.getKey()).append("=?");
             variables.add(entry.getValue());
-        }
-        return this;
-    }
-
-    /**
-     * Write SET properties by excluded.
-     * 
-     * @param properties
-     */
-    public SQL<M> setExcluded(Iterable<Property> properties) {
-        Map<String, Object> result = new HashMap();
-        for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model);
-            codec.encode(result, property.name, null);
-        }
-
-        int count = 0;
-        for (Entry<String, Object> entry : result.entrySet()) {
-            text.append(count++ == 0 ? " SET " : ",").append(entry.getKey()).append("=EXCLUDED.").append(entry.getKey());
-        }
-        return this;
-    }
-
-    /**
-     * Write SET properties by excluded.
-     * 
-     * @param properties
-     */
-    public SQL<M> setExcluded2(Iterable<Property> properties) {
-        Map<String, Object> result = new HashMap();
-        for (Property property : properties) {
-            RDBCodec codec = RDBCodec.by(property.model);
-            codec.encode(result, property.name, null);
-        }
-
-        int count = 0;
-        for (Entry<String, Object> entry : result.entrySet()) {
-            text.append(count++ == 0 ? "" : ",").append(entry.getKey()).append("=VALUES(").append(entry.getKey()).append(")");
         }
         return this;
     }
@@ -487,16 +471,6 @@ public class SQL<M extends Identifiable> {
      */
     public SQL<M> where(Specifier<M, ?> condition) {
         text.append(" WHERE ").append(condition.propertyName(rdb.dialect));
-        return this;
-    }
-
-    /**
-     * Write ON CONFLICT (id) DO UPDATE statement.
-     * 
-     * @return
-     */
-    public SQL<M> onConflictDoUpdate() {
-        text.append("  ").append(rdb.dialect.commandOnConflict()).append(" ");
         return this;
     }
 
