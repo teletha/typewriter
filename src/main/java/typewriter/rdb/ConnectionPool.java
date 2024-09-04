@@ -42,9 +42,6 @@ import kiss.WiseSupplier;
 
 class ConnectionPool implements WiseSupplier<Connection> {
 
-    /** The cached connections for each url. */
-    private static final Map<String, Connection> SINGLETONS = new ConcurrentHashMap();
-
     /** The address. */
     private String url;
 
@@ -76,7 +73,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
     private final Set<ManagedConnection> busy;
 
     /** The connection type. */
-    private final boolean singleton;
+    private ThreadLocal<ManagedConnection> threads;
 
     public ConnectionPool(String url) {
         this.url = url;
@@ -87,7 +84,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
         this.readOnly = config("typewriter.connection.readOnly", false);
         this.timeout = config("typewriter.connection.timeout", 1000 * 30L);
         this.isolation = config("typewriter.connection.isolation", -1);
-        this.singleton = config("typewriter.connection.singleton", false);
+        this.threads = config("typewriter.connection.perThread", false) ? ThreadLocal.withInitial(ManagedConnection::new) : null;
         this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
     }
@@ -157,20 +154,24 @@ class ConnectionPool implements WiseSupplier<Connection> {
      * @return
      */
     @Override
-    public Connection call() throws Exception {
-        ManagedConnection connection = idles.poll();
-        if (connection == null) {
-            if (max <= busy.size()) {
-                connection = idles.poll(timeout, TimeUnit.MILLISECONDS);
-            } else {
-                connection = new ManagedConnection();
+    public synchronized Connection call() throws Exception {
+        if (threads != null) {
+            return threads.get();
+        } else {
+            ManagedConnection connection = idles.poll();
+            if (connection == null) {
+                if (max <= busy.size()) {
+                    connection = idles.poll(timeout, TimeUnit.MILLISECONDS);
+                } else {
+                    connection = new ManagedConnection();
+                }
             }
+
+            connection.processing = true;
+            busy.add(connection);
+
+            return connection;
         }
-
-        connection.processing = true;
-        busy.add(connection);
-
-        return connection;
     }
 
     /** The connnection pool manager. */
@@ -229,10 +230,9 @@ class ConnectionPool implements WiseSupplier<Connection> {
          * @param delegation
          * @throws SQLException
          */
-        @SuppressWarnings("resource")
         private ManagedConnection() {
             try {
-                this.delegation = !singleton ? connect() : SINGLETONS.computeIfAbsent(url, key -> connect());
+                this.delegation = connect();
                 this.delegation.setAutoCommit(autoCommit);
                 this.delegation.setReadOnly(readOnly);
                 if (0 <= isolation) this.delegation.setTransactionIsolation(isolation);
