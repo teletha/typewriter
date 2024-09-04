@@ -25,6 +25,7 @@ public class PostgreSQL extends Dialect {
 
     static {
         I.env("typewriter.connection.perThread.postgresql", true);
+
         TYPES.put(int.class, "int");
         TYPES.put(long.class, "bigint");
         TYPES.put(float.class, "real");

@@ -10,6 +10,7 @@
 package typewriter.sqlite;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import kiss.Signal;
 import typewriter.api.Identifiable;
@@ -20,10 +21,15 @@ import typewriter.rdb.RDB;
 public class SQLiteTestBase implements Testable {
 
     /** The temporary database address. */
-    private final String db = "jdbc:sqlite:file:memdb" + Testable.randomInt() + "?mode=memory&cache=shared";
+    private String db;
+
+    @BeforeEach
+    void setup() {
+        db = "jdbc:sqlite:file:memdb" + Testable.randomInt() + "?mode=memory&cache=shared";
+    }
 
     @AfterEach
-    void release() {
+    void cleanup() {
         RDB.release(db);
     }
 

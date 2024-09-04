@@ -10,6 +10,7 @@
 package typewriter.h2;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import kiss.Signal;
 import typewriter.api.Identifiable;
@@ -20,10 +21,15 @@ import typewriter.rdb.RDB;
 public class H2TestBase implements Testable {
 
     /** The temporary database address. */
-    private final String db = "jdbc:h2:mem:test" + Testable.randomInt();
+    private String db;
+
+    @BeforeEach
+    void setup() {
+        db = "jdbc:h2:mem:test" + Testable.randomInt();
+    }
 
     @AfterEach
-    void release() {
+    void cleanup() {
         RDB.release(db);
     }
 

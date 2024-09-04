@@ -17,7 +17,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import antibug.powerassert.PowerAssertOff;
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
@@ -29,7 +28,6 @@ import typewriter.api.QueryExecutor;
 import typewriter.api.Testable;
 import typewriter.rdb.RDB;
 
-@PowerAssertOff
 public class MariaDBTestBase implements Testable {
 
     /** The invoked test manager. */
@@ -50,7 +48,7 @@ public class MariaDBTestBase implements Testable {
             dir = Locator.temporaryDirectory();
 
             DBConfigurationBuilder builder = DBConfigurationBuilder.newBuilder()
-                    .setPort(RandomUtils.nextInt(1024, 49151))
+                    .setPort(RandomUtils.secure().randomInt(1024, 49151))
                     .setDataDir(dir.toString())
                     .setDeletingTemporaryBaseAndDataDirsOnShutdown(true);
 
@@ -76,7 +74,6 @@ public class MariaDBTestBase implements Testable {
     @AfterEach
     void release() throws ManagedProcessException {
         RDB.release(url);
-
     }
 
     /**
