@@ -9,15 +9,6 @@
  */
 package typewriter.postgres;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.sql.DataSource;
-
-import org.junit.jupiter.api.BeforeEach;
-
 import de.softwareforge.testing.postgres.embedded.EmbeddedPostgres;
 import kiss.I;
 import kiss.Signal;
@@ -31,25 +22,13 @@ public class PostgresTestBase implements Testable {
     /** The test database. */
     private static EmbeddedPostgres db;
 
+    private static String url;
+
     static {
         try {
             db = EmbeddedPostgres.defaultInstance();
-        } catch (IOException e) {
-            throw I.quiet(e);
-        }
-    }
-
-    private String url;
-
-    @BeforeEach
-    void setup() throws SQLException {
-        String databaseName = Testable.random().toLowerCase();
-        url = "jdbc:postgresql://localhost:" + db.getPort() + "/" + databaseName + "?user=postgres";
-
-        DataSource source = db.createDefaultDataSource();
-        try (Connection con = source.getConnection(); Statement stmt = con.createStatement()) {
-            stmt.execute("CREATE DATABASE " + databaseName);
-        } catch (SQLException e) {
+            url = "jdbc:postgresql://localhost:" + db.getPort() + "/postgres?user=postgres";
+        } catch (Exception e) {
             throw I.quiet(e);
         }
     }

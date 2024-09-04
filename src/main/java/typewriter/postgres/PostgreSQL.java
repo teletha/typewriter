@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kiss.I;
 import typewriter.rdb.Dialect;
 
 public class PostgreSQL extends Dialect {
@@ -23,6 +24,7 @@ public class PostgreSQL extends Dialect {
     private static final Map<Class, String> TYPES = new HashMap();
 
     static {
+        I.env("typewriter.connection.perThread.postgresql", true);
         TYPES.put(int.class, "int");
         TYPES.put(long.class, "bigint");
         TYPES.put(float.class, "real");

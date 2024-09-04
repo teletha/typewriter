@@ -47,7 +47,7 @@ public class MongoTestBase implements Testable {
      */
     @Override
     public <M extends Identifiable, Q extends QueryExecutor<M, Signal<M>, ?, Q>> Q createEmptyDB(Class<M> type, String name) {
-        return (Q) new Mongo(type, client);
+        return (Q) new Mongo(type, client, name);
     }
 
 }

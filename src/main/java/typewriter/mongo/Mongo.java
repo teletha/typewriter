@@ -135,15 +135,14 @@ public class Mongo<M extends Identifiable> extends QueryExecutor<M, Signal<M>, M
      * @param model
      */
     private Mongo(Class<M> model) {
-        this(model, null);
+        this(model, null, model.getName());
     }
 
     /**
      * @param model
      * @param client
      */
-    Mongo(Class<M> model, MongoClient client) {
-        String name = model.getName();
+    Mongo(Class<M> model, MongoClient client, String name) {
         Managed managed = model.getAnnotation(Managed.class);
         if (managed != null && !managed.name().isEmpty()) {
             name = managed.name();

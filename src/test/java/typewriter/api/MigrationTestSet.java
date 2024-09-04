@@ -11,9 +11,9 @@ package typewriter.api;
 
 import java.time.ZonedDateTime;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import kiss.Managed;
 import kiss.Signal;
 import typewriter.api.model.DerivableModel;
 
@@ -21,12 +21,14 @@ public interface MigrationTestSet extends Testable {
 
     @Test
     default void addProperty() {
+        String name = Testable.random();
+
         Person model = new Person("one");
-        QueryExecutor<Person, Signal<Person>, ?, ?> old = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> old = createEmptyDB(Person.class, name);
         old.update(model);
         assert old.count() == 1;
 
-        QueryExecutor<AgePerson, Signal<AgePerson>, ?, ?> latest = createEmptyDB(AgePerson.class);
+        QueryExecutor<AgePerson, Signal<AgePerson>, ?, ?> latest = createEmptyDB(AgePerson.class, name);
         assert latest.count() == 1;
         AgePerson newModel = latest.findBy(model.getId()).to().exact();
         assert newModel.name.equals("one");
@@ -35,12 +37,14 @@ public interface MigrationTestSet extends Testable {
 
     @Test
     default void addMultiColumnProperty() {
+        String name = Testable.random();
+
         Person model = new Person("one");
-        QueryExecutor<Person, Signal<Person>, ?, ?> old = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> old = createEmptyDB(Person.class, name);
         old.update(model);
         assert old.count() == 1;
 
-        QueryExecutor<ZonedDateTimePerson, Signal<ZonedDateTimePerson>, ?, ?> latest = createEmptyDB(ZonedDateTimePerson.class);
+        QueryExecutor<ZonedDateTimePerson, Signal<ZonedDateTimePerson>, ?, ?> latest = createEmptyDB(ZonedDateTimePerson.class, name);
         assert latest.count() == 1;
         ZonedDateTimePerson newModel = latest.findBy(model.getId()).to().exact();
         assert newModel.name.equals("one");
@@ -49,12 +53,14 @@ public interface MigrationTestSet extends Testable {
 
     @Test
     default void addMultiProperties() {
+        String name = Testable.random();
+
         Person model = new Person("one");
-        QueryExecutor<Person, Signal<Person>, ?, ?> old = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> old = createEmptyDB(Person.class, name);
         old.update(model);
         assert old.count() == 1;
 
-        QueryExecutor<AgeGenderPerson, Signal<AgeGenderPerson>, ?, ?> latest = createEmptyDB(AgeGenderPerson.class);
+        QueryExecutor<AgeGenderPerson, Signal<AgeGenderPerson>, ?, ?> latest = createEmptyDB(AgeGenderPerson.class, name);
         assert latest.count() == 1;
         AgeGenderPerson newModel = latest.findBy(model.getId()).to().exact();
         assert newModel.name.equals("one");
@@ -63,31 +69,36 @@ public interface MigrationTestSet extends Testable {
 
     @Test
     default void deleteProperty() {
+        String name = Testable.random();
+
         AgePerson model = new AgePerson("one", 10);
-        QueryExecutor<AgePerson, Signal<AgePerson>, ?, ?> old = createEmptyDB(AgePerson.class);
+        QueryExecutor<AgePerson, Signal<AgePerson>, ?, ?> old = createEmptyDB(AgePerson.class, name);
         old.update(model);
         assert old.count() == 1;
 
-        QueryExecutor<Person, Signal<Person>, ?, ?> latest = createEmptyDB(Person.class);
+        QueryExecutor<Person, Signal<Person>, ?, ?> latest = createEmptyDB(Person.class, name);
         assert latest.count() == 1;
         Person newModel = latest.findBy(model.getId()).to().exact();
         assert newModel.name.equals("one");
     }
 
+    @Test
+    @Disabled
     default void changeProeprtyType() {
+        String name = Testable.random();
+
         AgePerson model = new AgePerson("one", 10);
-        QueryExecutor<AgePerson, Signal<AgePerson>, ?, ?> old = createEmptyDB(AgePerson.class);
+        QueryExecutor<AgePerson, Signal<AgePerson>, ?, ?> old = createEmptyDB(AgePerson.class, name);
         old.update(model);
         assert old.count() == 1;
 
-        QueryExecutor<StringAgePerson, Signal<StringAgePerson>, ?, ?> latest = createEmptyDB(StringAgePerson.class);
+        QueryExecutor<StringAgePerson, Signal<StringAgePerson>, ?, ?> latest = createEmptyDB(StringAgePerson.class, name);
         assert latest.count() == 1;
         StringAgePerson newModel = latest.findBy(model.getId()).to().exact();
         assert newModel.name.equals("one");
         assert newModel.age.equals("10");
     }
 
-    @Managed(name = "Person")
     class Person extends DerivableModel {
 
         public String name;
@@ -106,7 +117,6 @@ public interface MigrationTestSet extends Testable {
         }
     }
 
-    @Managed(name = "Person")
     class AgePerson extends DerivableModel {
 
         public String name;
@@ -129,7 +139,6 @@ public interface MigrationTestSet extends Testable {
         }
     }
 
-    @Managed(name = "Person")
     class StringAgePerson extends DerivableModel {
 
         public String name;
@@ -152,7 +161,6 @@ public interface MigrationTestSet extends Testable {
         }
     }
 
-    @Managed(name = "Person")
     class AgeGenderPerson extends DerivableModel {
 
         public String name;
@@ -178,7 +186,6 @@ public interface MigrationTestSet extends Testable {
         }
     }
 
-    @Managed(name = "Person")
     class ZonedDateTimePerson extends DerivableModel {
 
         public String name;
