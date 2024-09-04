@@ -42,13 +42,6 @@ public interface Updatable<M extends Identifiable> {
     void update(M model, Specifier<M, ?>... specifiers);
 
     /**
-     * Update the specified model lazily.
-     * 
-     * @param model A target model.
-     */
-    void updateLazy(M model);
-
-    /**
      * Update the properties of all given models.
      * 
      * @param models
@@ -72,6 +65,40 @@ public interface Updatable<M extends Identifiable> {
      * @param models
      */
     default void updateAll(Signal<M> models) {
-        updateAll(models.toList());
+        models.to(this::update);
+    }
+
+    /**
+     * Update the specified model lazily.
+     * 
+     * @param model A target model.
+     */
+    void updateLazy(M model);
+
+    /**
+     * Update the properties of all given models.
+     * 
+     * @param models
+     */
+    default void updateAllLazy(M... models) {
+        updateAllLazy(I.list(models));
+    }
+
+    /**
+     * Update the properties of all given models.
+     * 
+     * @param models
+     */
+    default void updateAllLazy(Iterable<M> models) {
+        models.forEach(this::updateLazy);
+    }
+
+    /**
+     * Update the properties of all given models.
+     * 
+     * @param models
+     */
+    default void updateAllLazy(Signal<M> models) {
+        models.to(this::updateLazy);
     }
 }
