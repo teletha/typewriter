@@ -89,6 +89,40 @@ public interface UpdateTestSet extends Testable {
     }
 
     @Test
+    default void updateLazy() {
+        Person model1 = new Person("one", 10);
+        Person model2 = new Person("two", 20);
+
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.updateLazy(model1);
+        assert dao.count() == 0;
+
+        dao.updateLazy(model2);
+        assert dao.count() == 0;
+
+        dao.flush();
+        assert dao.count() == 2;
+    }
+
+    @Test
+    default void updateLazyLimitSize() {
+        QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
+        dao.setMax(20);
+        for (int i = 0; i < 10; i++) {
+            dao.updateLazy(new Person(Testable.random(), Testable.randomInt()));
+        }
+        assert dao.count() == 0;
+
+        for (int i = 0; i < 20; i++) {
+            dao.updateLazy(new Person(Testable.random(), Testable.randomInt()));
+        }
+        assert dao.count() == 20;
+
+        dao.flush();
+        assert dao.count() == 30;
+    }
+
+    @Test
     default void insertSpecifiedPropertyOnly() {
         Person model1 = new Person("one", 10);
         Person model2 = new Person("two", 20);

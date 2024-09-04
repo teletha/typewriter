@@ -18,16 +18,16 @@ import kiss.I;
 
 public abstract class LazyUpdatable<M extends Identifiable> implements Updatable<M> {
 
-    private int max = 256;
+    private int max = 250;
 
-    private long delay = 1000 * 60 * 3;
+    private long delay = 1000 * 15;
 
     private List<M> models = new ArrayList(max);
 
     private Disposable stop;
 
     /**
-     * Congifure the delay time of bulk update.
+     * Congifure the delay time of bulk update. (default: 15 seconds)
      * 
      * @param mills
      */
@@ -38,7 +38,7 @@ public abstract class LazyUpdatable<M extends Identifiable> implements Updatable
     }
 
     /**
-     * Congifure the maximum size of bulk update.
+     * Congifure the maximum size of bulk update. (default: 250)
      * 
      * @param size
      */
@@ -57,9 +57,9 @@ public abstract class LazyUpdatable<M extends Identifiable> implements Updatable
             models.add(model);
 
             if (max <= models.size()) {
-                commit();
+                flush();
             } else if (stop == null) {
-                stop = I.schedule(delay, TimeUnit.MILLISECONDS).to(this::commit);
+                stop = I.schedule(delay, TimeUnit.MILLISECONDS).to(this::flush);
             }
         }
     }
@@ -67,7 +67,7 @@ public abstract class LazyUpdatable<M extends Identifiable> implements Updatable
     /**
      * Force to update.
      */
-    public void commit() {
+    public void flush() {
         List<M> items = models;
         models = new ArrayList(max);
         updateAll(items);
