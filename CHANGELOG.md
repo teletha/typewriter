@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.11.0](https://github.com/teletha/typewriter/compare/v1.10.0...v1.11.0) (2024-09-04)
+
+
+### Features
+
+* add various Updatable#updateAllLazy ([ea5a11b](https://github.com/teletha/typewriter/commit/ea5a11bb3c8611826481f41bcf9e3e35ea8ee8eb))
+* PostgreSQL tests are now tremendously super-fast. ([b5352d4](https://github.com/teletha/typewriter/commit/b5352d4eab9df697c82e898dce7f7ff5dd6ed64a))
+* provide connection per thread instead of singleton ([c497787](https://github.com/teletha/typewriter/commit/c49778725e27bd5bc78b21e832a62be3926ab8ce))
+* support LINQ style Queryable#findBy() ([d0f0f9a](https://github.com/teletha/typewriter/commit/d0f0f9a0a78e56c0eb18e913f8c9b9e3ddce543d))
+* support record ([ec4f00c](https://github.com/teletha/typewriter/commit/ec4f00c1d07202017ea075543773fa73b46c0287))
+* UPSERT uses ON CONFLICT instead of REPLACE ([f3044b4](https://github.com/teletha/typewriter/commit/f3044b4f269db6801774a9b6c2025ea50a5c2198))
+* use DataSource partially ([a734797](https://github.com/teletha/typewriter/commit/a734797853211dddc516b5e27f373df7a522e325))
+
+
+### Bug Fixes
+
+* date-related constraints accept null property ([17fe199](https://github.com/teletha/typewriter/commit/17fe1990460174dda7665d247f9a8d5380ba0a48))
+* remove unused methods ([6c76e16](https://github.com/teletha/typewriter/commit/6c76e16d539d9185c02cbbd4abe340ea000c4ad7))
+* test lazy update ([a8d94c1](https://github.com/teletha/typewriter/commit/a8d94c1425dcfd86eba58f9632e04ab83197adfc))
+* test more ([1152d5d](https://github.com/teletha/typewriter/commit/1152d5d7b7303dd882d57c79ff046786f260c02f))
+* Testable accepts Identifiable instead of IdentifiableModel ([c28b743](https://github.com/teletha/typewriter/commit/c28b743afb20be9c882724b8d1ddde36af25f83d))
+* Updable#update with specifier throws error on non-existed item. ([8c858dc](https://github.com/teletha/typewriter/commit/8c858dc3df177f30fb76a7b47912c99b89ed00b8))
+
 ## [1.10.0](https://github.com/teletha/typewriter/compare/v1.9.2...v1.10.0) (2024-08-31)
 
 
