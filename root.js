@@ -206,6 +206,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Metadatable",
+			"packageName": "typewriter.api",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Migration",
 			"packageName": "typewriter.api",
 			"type": "AbstractClass"
