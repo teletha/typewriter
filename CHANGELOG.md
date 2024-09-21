@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/teletha/typewriter/compare/v1.11.0...v1.12.0) (2024-09-21)
+
+
+### Features
+
+* add Metadatable interface ([10f7f01](https://github.com/teletha/typewriter/commit/10f7f01670ae9e8902a273465200cfcde019142c))
+
 ## [1.11.0](https://github.com/teletha/typewriter/compare/v1.10.0...v1.11.0) (2024-09-04)
 
 
