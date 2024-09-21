@@ -30,6 +30,7 @@ import kiss.Variable;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import typewriter.api.Identifiable;
+import typewriter.api.Metadatable;
 import typewriter.api.QueryExecutor;
 import typewriter.api.Specifier;
 import typewriter.api.model.IdentifiableModel;
@@ -48,7 +49,7 @@ import typewriter.sqlite.SQLiteModel;
 /**
  * Data Access Object for RDBMS.
  */
-public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDBQuery<M>, RDB<M>> {
+public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDBQuery<M>, RDB<M>> implements Metadatable {
 
     /** The supported RDBMS. */
     public static final Dialect H2 = I.make(H2.class);
@@ -83,6 +84,12 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
 
     /** The connection provider. */
     protected final WiseSupplier<Connection> provider;
+
+    /** The last modified time. */
+    long lastAccessed;
+
+    /** The last modified time. */
+    long lastModified;
 
     /**
      * Data Access Object.
@@ -148,6 +155,22 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     @Override
     protected RDBQuery<M> createQueryable() {
         return new RDBQuery(dialect);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long lastAccessed() {
+        return lastAccessed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long lastModified() {
+        return lastModified;
     }
 
     /**

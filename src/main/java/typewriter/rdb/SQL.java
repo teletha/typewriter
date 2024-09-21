@@ -486,6 +486,7 @@ public class SQL<M extends Identifiable> {
                 }
                 prepared.execute();
                 log(null);
+                rdb.lastModified = System.currentTimeMillis();
             }
         } catch (SQLException e) {
             log(e);
@@ -524,6 +525,7 @@ public class SQL<M extends Identifiable> {
                         log(null);
                     }
                 }
+                rdb.lastAccessed = System.currentTimeMillis();
             } catch (SQLException e) {
                 log(e);
                 observer.error(new SQLException(text.toString(), e));
