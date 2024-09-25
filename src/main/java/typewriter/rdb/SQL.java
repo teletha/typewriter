@@ -549,11 +549,9 @@ public class SQL<M extends Identifiable> {
      */
     private void log(long mills) {
         if (mills < slow) {
-            I.debug("typewriter", message(mills));
+            I.debug("typewriter", message(mills, false));
         } else {
-            I.warn("typewriter", message(mills));
-            I.warn(StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE)
-                    .walk(stack -> stack.skip(1).map(this::frame).collect(Collectors.joining("\r\n"))));
+            I.warn("typewriter", message(mills, true));
         }
     }
 
@@ -563,8 +561,8 @@ public class SQL<M extends Identifiable> {
      * @param frame
      * @return
      */
-    private String frame(StackFrame frame) {
-        return "\tat" + frame.getClassName() + "." + frame.getMethodName() + "(" + frame.getFileName() + ":" + frame.getLineNumber() + ")";
+    private String format(StackFrame frame) {
+        return "\tat " + frame.getClassName() + "." + frame.getMethodName() + "(" + frame.getFileName() + ":" + frame.getLineNumber() + ")";
     }
 
     /**
@@ -572,13 +570,18 @@ public class SQL<M extends Identifiable> {
      * 
      * @return
      */
-    private Supplier message(long mills) {
+    private Supplier message(long mills, boolean stacktrace) {
         return () -> {
             StringBuilder builder = new StringBuilder("Typewriter executes in ").append(mills).append(" millis");
             builder.append(" Model: ").append(rdb.model.type.getCanonicalName());
             builder.append("\tTable: ").append(rdb.tableName);
             builder.append("\tDialect: ").append(rdb.dialect.kind);
             builder.append(" \tSQL: ").append(text.toString());
+
+            if (stacktrace) {
+                builder.append(StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE)
+                        .walk(stack -> stack.skip(5).map(this::format).collect(Collectors.joining("\r\n", "\r\n", ""))));
+            }
 
             return builder.toString();
         };
