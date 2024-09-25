@@ -9,6 +9,8 @@
  */
 package typewriter.rdb;
 
+import java.lang.StackWalker.Option;
+import java.lang.StackWalker.StackFrame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,6 +43,9 @@ import typewriter.query.AVGOption;
  * SQL writer.
  */
 public class SQL<M extends Identifiable> {
+
+    /** The threshold of slow query. */
+    private static final int slow = I.env("typewriter.query.slow", 500);
 
     /** The target table name. */
     public final String tableName;
@@ -478,6 +483,7 @@ public class SQL<M extends Identifiable> {
      * Execute query.
      */
     public void execute() {
+        long start = System.currentTimeMillis();
         int index = 1;
         try (Connection connection = rdb.provider.get()) {
             try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
@@ -485,12 +491,12 @@ public class SQL<M extends Identifiable> {
                     prepared.setObject(index++, variable);
                 }
                 prepared.execute();
-                log(null);
-                rdb.lastModified = System.currentTimeMillis();
             }
         } catch (SQLException e) {
-            log(e);
             throw I.quiet(e);
+        } finally {
+            long end = rdb.lastModified = System.currentTimeMillis();
+            log(end - start);
         }
     }
 
@@ -510,6 +516,8 @@ public class SQL<M extends Identifiable> {
         }
 
         return new Signal<ResultSet>((observer, disposer) -> {
+            long start = System.currentTimeMillis();
+
             int index = 1;
             try (Connection connection = rdb.provider.get()) {
                 try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
@@ -522,13 +530,13 @@ public class SQL<M extends Identifiable> {
                             observer.accept(result);
                         }
                         observer.complete();
-                        log(null);
                     }
                 }
-                rdb.lastAccessed = System.currentTimeMillis();
             } catch (SQLException e) {
-                log(e);
                 observer.error(new SQLException(text.toString(), e));
+            } finally {
+                long end = rdb.lastAccessed = System.currentTimeMillis();
+                log(end - start);
             }
             return disposer;
         }).map(process);
@@ -539,25 +547,34 @@ public class SQL<M extends Identifiable> {
      * 
      * @param e
      */
-    private void log(Throwable e) {
-        if (e == null) {
-            I.debug(message(e));
+    private void log(long mills) {
+        if (mills < slow) {
+            I.debug("typewriter", message(mills));
         } else {
-            I.error(message(e));
-            I.error(e);
+            I.warn("typewriter", message(mills));
+            I.warn(StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE)
+                    .walk(stack -> stack.skip(1).map(this::frame).collect(Collectors.joining("\r\n"))));
         }
+    }
+
+    /**
+     * Format stack frame.
+     * 
+     * @param frame
+     * @return
+     */
+    private String frame(StackFrame frame) {
+        return "\tat" + frame.getClassName() + "." + frame.getMethodName() + "(" + frame.getFileName() + ":" + frame.getLineNumber() + ")";
     }
 
     /**
      * Create log message lazily.
      * 
-     * @param e
      * @return
      */
-    private Supplier message(Throwable e) {
+    private Supplier message(long mills) {
         return () -> {
-            StringBuilder builder = new StringBuilder("Typewriter ");
-            builder.append(e == null ? "executes" : "throws ".concat(e.getMessage()));
+            StringBuilder builder = new StringBuilder("Typewriter executes in ").append(mills).append(" millis");
             builder.append(" Model: ").append(rdb.model.type.getCanonicalName());
             builder.append("\tTable: ").append(rdb.tableName);
             builder.append("\tDialect: ").append(rdb.dialect.kind);
