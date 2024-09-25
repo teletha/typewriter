@@ -27,7 +27,7 @@ public class Project extends bee.api.Project {
 
         require("com.github.teletha", "sinobu");
         require("com.github.teletha", "reincarnation");
-        require("org.mongodb", "mongodb-driver-sync").atProvided();
+        require("org.mongodb", "mongodb-driver-sync", "5.1.0").atProvided();
         require("org.xerial", "sqlite-jdbc").atProvided();
         require("com.h2database", "h2").atProvided();
         require("org.duckdb", "duckdb_jdbc").atProvided();
