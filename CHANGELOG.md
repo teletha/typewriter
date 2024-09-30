@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.13.0](https://github.com/teletha/typewriter/compare/v1.12.0...v1.13.0) (2024-09-30)
+
+
+### Features
+
+* add Metadatable#stamp ([1257a21](https://github.com/teletha/typewriter/commit/1257a2149722098878ece7ae97cee50828c96442))
+* add typewriter.query.slow property (default is 500millis) ([39ce811](https://github.com/teletha/typewriter/commit/39ce811a3188ca4385efd472fd2ab534043a5698))
+
+
+### Bug Fixes
+
+* downgrade mongo-driver ([aaa57f4](https://github.com/teletha/typewriter/commit/aaa57f474f2d84650800e75a3bae84af32a8f674))
+* log format ([d350ea2](https://github.com/teletha/typewriter/commit/d350ea2837d3fba2de26bb5fa9585e24683867b4))
+
 ## [1.12.0](https://github.com/teletha/typewriter/compare/v1.11.0...v1.12.0) (2024-09-21)
 
 
