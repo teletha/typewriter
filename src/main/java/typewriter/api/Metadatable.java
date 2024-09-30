@@ -24,4 +24,11 @@ public interface Metadatable {
      * @return
      */
     long lastModified();
+
+    /**
+     * Get the snapshot id of the data source.
+     * 
+     * @return
+     */
+    long stamp();
 }

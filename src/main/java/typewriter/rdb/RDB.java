@@ -91,6 +91,9 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     /** The last modified time. */
     long lastModified;
 
+    /** The incremental counter. */
+    long stamp;
+
     /**
      * Data Access Object.
      * 
@@ -171,6 +174,14 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     @Override
     public long lastModified() {
         return lastModified;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long stamp() {
+        return stamp;
     }
 
     /**

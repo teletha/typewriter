@@ -495,6 +495,7 @@ public class SQL<M extends Identifiable> {
         } catch (SQLException e) {
             throw I.quiet(e);
         } finally {
+            rdb.stamp++;
             long end = rdb.lastModified = System.currentTimeMillis();
             log(end - start);
         }
