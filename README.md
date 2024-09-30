@@ -6,7 +6,6 @@
     <a href="https://teletha.github.io/typewriter"><img src="https://img.shields.io/website.svg?down_color=red&down_message=CLOSE&label=Official%20Site&up_color=green&up_message=OPEN&url=https%3A%2F%2Fteletha.github.io%2Ftypewriter"></a>
 </p>
 
-
 ## Summary
 Provides a general-purpose, type-safe DAO. Currently supported databases are the following:
 * [H2](https://github.com/h2database/h2database)
@@ -18,20 +17,13 @@ Provides a general-purpose, type-safe DAO. Currently supported databases are the
 <p align="right"><a href="#top">back to top</a></p>
 
 
-## Usage
 
-<p align="right"><a href="#top">back to top</a></p>
+
 
 
 ## Prerequisites
 Typewriter runs on all major operating systems and requires only [Java version 21](https://docs.oracle.com/en/java/javase/21/) or later to run.
-To check, please run `java -version` from the command line interface. You should see something like this:
-```
-> java -version
-openjdk version "16" 2021-03-16
-OpenJDK Runtime Environment (build 16+36-2231)
-OpenJDK 64-Bit Server VM (build 16+36-2231, mixed mode, sharing)
-```
+To check, please run `java -version` on your terminal.
 <p align="right"><a href="#top">back to top</a></p>
 
 ## Install
@@ -117,7 +109,7 @@ Typewriter depends on the following products on runtime.
 * [asm-9.7](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.7)
 * [psychopath-1.13.0](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.13.0)
 * [reincarnation-1.8.0](https://mvnrepository.com/artifact/com.github.teletha/reincarnation/1.8.0)
-* [sinobu-3.13.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.13.0)
+* [sinobu-3.14.1](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.14.1)
 <p align="right"><a href="#top">back to top</a></p>
 
 
