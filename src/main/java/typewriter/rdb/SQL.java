@@ -580,8 +580,9 @@ public class SQL<M extends Identifiable> {
             builder.append(" \tSQL: ").append(text.toString());
 
             if (stacktrace) {
-                builder.append(StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE)
-                        .walk(stack -> stack.skip(5).map(this::format).collect(Collectors.joining("\r\n", "\r\n", ""))));
+                String trace = StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE)
+                        .walk(stack -> stack.skip(5).map(this::format).collect(Collectors.joining("\r\n", "\r\n", "")));
+                builder.append(trace);
             }
 
             return builder.toString();
