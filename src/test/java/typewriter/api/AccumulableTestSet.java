@@ -120,7 +120,8 @@ public interface AccumulableTestSet extends Testable {
         dao.update(model2);
         dao.update(model3);
 
-        double calculated = dao.avg(Person::getAge, o -> o.distinct()).to().exact();
+        Signal<Double> avg = dao.avg(Person::getAge, o -> o.distinct());
+        double calculated = avg.to().exact();
         assert calculated == 20;
     }
 
