@@ -41,10 +41,4 @@ public class Project extends bee.api.Project {
         require("org.apache.commons", "commons-lang3").atTest();
         require("org.slf4j", "slf4j-nop").atTest();
     }
-
-    public static class Compile extends bee.task.Compile {
-        {
-            useECJ = true;
-        }
-    }
 }
