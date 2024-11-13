@@ -12,11 +12,17 @@
 * [PostgreSQL](https://www.postgresql.org/)
 * [MongoDB](https://github.com/mongodb/mongo)
 * [DuckDB](https://duckdb.org/)</description>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.teletha</groupId>
 			<artifactId>antibug</artifactId>
-			<version>1.12.0</version>
+			<version>1.12.2</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
@@ -30,7 +36,7 @@
 		<dependency>
 			<groupId>org.duckdb</groupId>
 			<artifactId>duckdb_jdbc</artifactId>
-			<version>1.1.2</version>
+			<version>1.1.3</version>
 			<scope>provided</scope>
 			<exclusions/>
 		</dependency>
@@ -51,7 +57,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.4.1</version>
+			<version>3.5.0</version>
 			<scope>provided</scope>
 			<exclusions/>
 		</dependency>
@@ -79,21 +85,21 @@
 		<dependency>
 			<groupId>com.github.teletha</groupId>
 			<artifactId>psychopath</artifactId>
-			<version>2.0.0</version>
+			<version>2.0.2</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>com.github.teletha</groupId>
 			<artifactId>reincarnation</artifactId>
-			<version>1.8.0</version>
+			<version>1.9.0</version>
 			<scope>compile</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>com.github.teletha</groupId>
 			<artifactId>sinobu</artifactId>
-			<version>4.2.0</version>
+			<version>4.5.0</version>
 			<scope>compile</scope>
 			<exclusions/>
 		</dependency>
@@ -119,12 +125,6 @@
 			<exclusions/>
 		</dependency>
 	</dependencies>
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>https://opensource.org/licenses/MIT</url>
-		</license>
-	</licenses>
 	<repositories>
 		<repository>
 			<id>Maven</id>
@@ -157,12 +157,39 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
 				<configuration>
+					<source>23</source>
+					<target>23</target>
 					<encoding>UTF-8</encoding>
-					<release>23</release>
-					<compilerArgs/>
+					<compilerId>javac</compilerId>
+					<compilerArgs>
+						<arg>-parameters</arg>
+						<arg>-warn:none</arg>
+					</compilerArgs>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.2</version>
+				<configuration>
+					<argLine>-ea   -Dfile.encoding=UTF-8</argLine>
+					<reportFormat>plain</reportFormat>
+					<consoleOutputReporter>
+						<disable>true</disable>
+					</consoleOutputReporter>
+					<statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter"/>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>me.fabriciorby</groupId>
+						<artifactId>maven-surefire-junit5-tree-reporter</artifactId>
+						<version>1.3.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
