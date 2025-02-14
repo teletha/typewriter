@@ -4,226 +4,234 @@
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
 		<meta content="Explains how to use Typewriter and its API. " name="description"/>
-		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
 		<title>Typewriter API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="e">
-		<header class="m">
-			<h1 class="L" date="2024-09-30" ver="1.13.0"><code>Typewriter</code></h1>
-			<nav class="b"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="c">
+		<header class="I" date="2024-09-30" ver="1.13.0">
+			<h1 class="H"><code>Typewriter</code></h1>
+			<nav class="J"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
-					</svg><code>API</code></a><a href="https://github.com/teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#activity"/>
-					</svg>Activity</a><a href="https://github.com/teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#github"/>
-					</svg>Repository</a></nav>
-			<div class="V" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#sun"/>
 					</svg>
-				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/typewriter/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/typewriter" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="K"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon A svg" viewBox="0 0 24 24">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<main class="R">
-			<nav class="Z">
-				<div></div>
-			</nav>
-			<article class="f" id="Article">
-				<section class="H"><code class="K">typewriter.api</code>
-					<h2 class="Interface k"><code class="U">Constraint.LocalTimeConstraint</code></h2>
-					<div class="g">
-						<ul class="C F">
-							<li><code><a href="api/typewriter.api.Constraint.html">Constraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code>, <code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code></li>
-							<li><code><a href="api/typewriter.api.Constraint.TemporalConstraint.html">TemporalConstraint</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code>, <code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code></li>
-						</ul>
-					</div><span class="B"><p>The specialized <code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> for <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code>.</p></span></section>
-				<section class="H" id="is(int,int,int)">
-					<h2 class="W"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="U">is</code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>hour</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>minute</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>second</code></td>
-							<td></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="H" id="isNot(int,int,int)">
-					<h2 class="W"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="U">isNot</code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>hour</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>minute</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>second</code></td>
-							<td></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="H" id="isBefore(int,int,int)">
-					<h2 class="W"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="U">isBefore</code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>hour</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>minute</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>second</code></td>
-							<td></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="H" id="isBeforeOrSame(int,int,int)">
-					<h2 class="W"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="U">isBeforeOrSame</code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>hour</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>minute</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>second</code></td>
-							<td></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="H" id="isAfter(int,int,int)">
-					<h2 class="W"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="U">isAfter</code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>hour</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>minute</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>second</code></td>
-							<td></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="H" id="isAfterOrSame(int,int,int)">
-					<h2 class="W"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="U">isAfterOrSame</code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>hour</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>minute</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>second</code></td>
-							<td></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="H" id="assembleTemporalValue(int,int,int,int,int,int,int)">
-					<h2 class="W"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="U">assembleTemporalValue</code><code class="M">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>, <code>int</code><code class="parameterName">milli</code>)</code><i class="P"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>year</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>month</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>day</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>hour</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>minute</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>second</code></td>
-							<td></td>
-						</tr>
-						<tr class="S">
-							<td><code>int</code><code>milli</code></td>
-							<td></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-			</article>
-			<aside class="a" id="SubNavi">
-				<div class="O">
-					<h5 class="Y">Methods</h5>
-					<ul>
-						<li><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#is(int,int,int)">is</a></code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
-						<li><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isNot(int,int,int)">isNot</a></code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
-						<li><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isBefore(int,int,int)">isBefore</a></code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
-						<li><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isBeforeOrSame(int,int,int)">isBeforeOrSame</a></code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
-						<li><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isAfter(int,int,int)">isAfter</a></code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
-						<li><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isAfterOrSame(int,int,int)">isAfterOrSame</a></code><code class="M">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
-						<li><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#assembleTemporalValue(int,int,int,int,int,int,int)">assembleTemporalValue</a></code><code class="M">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>, <code>int</code><code class="parameterName">milli</code>)</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code></i></li>
+		<nav class="d"></nav>
+		<article class="X" id="Article">
+			<section class="S"><code class="a">typewriter.api</code>
+				<h2 class="Interface f"><code class="b">Constraint.LocalTimeConstraint</code></h2>
+				<div class="Y">
+					<ul class="C F">
+						<li><code><a aria-label="typewriter.api.Constraint" href="api/typewriter.api.Constraint.html">Constraint</a><code class="parameters"><code><a aria-label="java.time.LocalTime 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code>, <code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code></li>
+						<li><code><a aria-label="typewriter.api.Constraint.TemporalConstraint" href="api/typewriter.api.Constraint.TemporalConstraint.html">TemporalConstraint</a><code class="parameters"><code><a aria-label="java.time.LocalTime 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code>, <code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></code></code></li>
 					</ul>
-				</div>
-			</aside>
-		</main>
-		<script src="root.js"></script>
-		<script src="main.js" type="module"></script>
+				</div><span class="B"><p>The specialized <code><a aria-label="typewriter.api.Constraint" href="api/typewriter.api.Constraint.html">Constraint</a></code> for <code><a aria-label="java.time.LocalTime 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code>.</p></span></section>
+			<section class="S" id="is(int,int,int)">
+				<h2 class="s"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="b">is</code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="S" id="isNot(int,int,int)">
+				<h2 class="s"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="b">isNot</code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="S" id="isBefore(int,int,int)">
+				<h2 class="s"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="b">isBefore</code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="S" id="isBeforeOrSame(int,int,int)">
+				<h2 class="s"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="b">isBeforeOrSame</code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="S" id="isAfter(int,int,int)">
+				<h2 class="s"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="b">isAfter</code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="S" id="isAfterOrSame(int,int,int)">
+				<h2 class="s"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="b">isAfterOrSame</code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="S" id="assembleTemporalValue(int,int,int,int,int,int,int)">
+				<h2 class="s"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code class="b">assembleTemporalValue</code><code class="j">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>, <code>int</code><code class="parameterName">milli</code>)</code><i class="R"><code><a aria-label="java.time.LocalTime 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">year</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">month</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">day</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td></td>
+					</tr>
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">milli</code></td>
+						<td></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="java.time.LocalTime 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="e">
+			<div class="l">
+				<h5 class="L">Methods</h5>
+				<ul>
+					<li class="h"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#is(int,int,int)">is</a></code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
+					<li class="h"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isNot(int,int,int)">isNot</a></code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
+					<li class="h"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isBefore(int,int,int)">isBefore</a></code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
+					<li class="h"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isBeforeOrSame(int,int,int)">isBeforeOrSame</a></code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
+					<li class="h"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isAfter(int,int,int)">isAfter</a></code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
+					<li class="h"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#isAfterOrSame(int,int,int)">isAfterOrSame</a></code><code class="j">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.LocalTimeConstraint" href="api/typewriter.api.Constraint.LocalTimeConstraint.html">LocalTimeConstraint</a></code></i></li>
+					<li class="h"><i class="DEFAULT"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html#assembleTemporalValue(int,int,int,int,int,int,int)">assembleTemporalValue</a></code><code class="j">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>, <code>int</code><code class="parameterName">milli</code>)</code><i class="m"><code><a aria-label="java.time.LocalTime 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/time/LocalTime.html">LocalTime</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Z"/>
 	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
 </html>

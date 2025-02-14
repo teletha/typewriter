@@ -4,110 +4,118 @@
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
 		<meta content="Explains how to use Typewriter and its API. " name="description"/>
-		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
 		<title>Typewriter API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="e">
-		<header class="m">
-			<h1 class="L" date="2024-09-30" ver="1.13.0"><code>Typewriter</code></h1>
-			<nav class="b"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="c">
+		<header class="I" date="2024-09-30" ver="1.13.0">
+			<h1 class="H"><code>Typewriter</code></h1>
+			<nav class="J"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
-					</svg><code>API</code></a><a href="https://github.com/teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#activity"/>
-					</svg>Activity</a><a href="https://github.com/teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#github"/>
-					</svg>Repository</a></nav>
-			<div class="V" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#sun"/>
 					</svg>
-				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/typewriter/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/typewriter" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="K"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon A svg" viewBox="0 0 24 24">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<main class="R">
-			<nav class="Z">
-				<div></div>
-			</nav>
-			<article class="f" id="Article">
-				<section class="H"><code class="K">typewriter.api</code>
-					<h2 class="Interface k"><code class="U">Constraint.NumericConstraint</code><code class="M">&#60;<code>V</code>&#62;</code></h2>
-					<div class="g">
-						<ul class="C D">
-							<li><code>V</code><code class="extends"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Number.html">Number</a></code></code></li>
-						</ul>
-						<ul class="C F">
-							<li><code><a href="api/typewriter.api.Constraint.html">Constraint</a><code class="parameters"><code>V</code>, <code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></code></code></li>
-						</ul>
-					</div><span class="B"><p>The specialized <code><a href="api/typewriter.api.Constraint.html">Constraint</a></code> for <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Number.html">Number</a></code>.</p></span></section>
-				<section class="H" id="isLessThan(java.lang.Object)">
-					<h2 class="W"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isLessThan</code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>V</code><code>value</code></td>
-							<td><span><p>A conditional value.</p></span></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
-							<td><span><p>Chainable API.</p></span></td>
-						</tr>
-					</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-				<section class="H" id="isOrLessThan(java.lang.Object)">
-					<h2 class="W"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isOrLessThan</code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>V</code><code>value</code></td>
-							<td><span><p>A conditional value.</p></span></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
-							<td><span><p>Chainable API.</p></span></td>
-						</tr>
-					</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-				<section class="H" id="isMoreThan(java.lang.Object)">
-					<h2 class="W"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isMoreThan</code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>V</code><code>value</code></td>
-							<td><span><p>A conditional value.</p></span></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
-							<td><span><p>Chainable API.</p></span></td>
-						</tr>
-					</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-				<section class="H" id="isOrMoreThan(java.lang.Object)">
-					<h2 class="W"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="U">isOrMoreThan</code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="P"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>V</code><code>value</code></td>
-							<td><span><p>A conditional value.</p></span></td>
-						</tr>
-						<tr class="i">
-							<td><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
-							<td><span><p>Chainable API.</p></span></td>
-						</tr>
-					</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-			</article>
-			<aside class="a" id="SubNavi">
-				<div class="O">
-					<h5 class="Y">Methods</h5>
-					<ul>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isLessThan(java.lang.Object)">isLessThan</a></code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isOrLessThan(java.lang.Object)">isOrLessThan</a></code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isMoreThan(java.lang.Object)">isMoreThan</a></code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
-						<li><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isOrMoreThan(java.lang.Object)">isOrMoreThan</a></code><code class="M">(<code>V</code><code class="parameterName">value</code>)</code><i class="Q"><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
+		<nav class="d"></nav>
+		<article class="X" id="Article">
+			<section class="S"><code class="a">typewriter.api</code>
+				<h2 class="Interface f"><code class="b">Constraint.NumericConstraint</code><code class="j">&#60;<code>V</code>&#62;</code></h2>
+				<div class="Y">
+					<ul class="C D">
+						<li><code>V</code><code class="extends"><code><a aria-label="java.lang.Number 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Number.html">Number</a></code></code></li>
 					</ul>
-				</div>
-			</aside>
-		</main>
-		<script src="root.js"></script>
-		<script src="main.js" type="module"></script>
+					<ul class="C F">
+						<li><code><a aria-label="typewriter.api.Constraint" href="api/typewriter.api.Constraint.html">Constraint</a><code class="parameters"><code>V</code>, <code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></code></code></li>
+					</ul>
+				</div><span class="B"><p>The specialized <code><a aria-label="typewriter.api.Constraint" href="api/typewriter.api.Constraint.html">Constraint</a></code> for <code><a aria-label="java.lang.Number 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Number.html">Number</a></code>.</p></span></section>
+			<section class="S" id="isLessThan(java.lang.Object)">
+				<h2 class="s"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isLessThan</code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>V</code><code class="parameterName">value</code></td>
+						<td><span><p>A conditional value.</p></span></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
+						<td><span><p>Chainable API.</p></span></td>
+					</tr>
+				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="S" id="isOrLessThan(java.lang.Object)">
+				<h2 class="s"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isOrLessThan</code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>V</code><code class="parameterName">value</code></td>
+						<td><span><p>A conditional value.</p></span></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
+						<td><span><p>Chainable API.</p></span></td>
+					</tr>
+				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="S" id="isMoreThan(java.lang.Object)">
+				<h2 class="s"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isMoreThan</code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>V</code><code class="parameterName">value</code></td>
+						<td><span><p>A conditional value.</p></span></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
+						<td><span><p>Chainable API.</p></span></td>
+					</tr>
+				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="S" id="isOrMoreThan(java.lang.Object)">
+				<h2 class="s"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="b">isOrMoreThan</code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="R"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>V</code><code class="parameterName">value</code></td>
+						<td><span><p>A conditional value.</p></span></td>
+					</tr>
+					<tr class="T">
+						<td><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></td>
+						<td><span><p>Chainable API.</p></span></td>
+					</tr>
+				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
+		</article>
+		<aside class="e">
+			<div class="l">
+				<h5 class="L">Methods</h5>
+				<ul>
+					<li class="h"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isLessThan(java.lang.Object)">isLessThan</a></code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
+					<li class="h"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isOrLessThan(java.lang.Object)">isOrLessThan</a></code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
+					<li class="h"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isMoreThan(java.lang.Object)">isMoreThan</a></code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
+					<li class="h"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.NumericConstraint.html#isOrMoreThan(java.lang.Object)">isOrMoreThan</a></code><code class="j">(<code>V</code><code class="parameterName">value</code>)</code><i class="m"><code><a aria-label="typewriter.api.Constraint.NumericConstraint" href="api/typewriter.api.Constraint.NumericConstraint.html">NumericConstraint</a><code class="parameters"><code>V</code></code></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Z"/>
 	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
 </html>

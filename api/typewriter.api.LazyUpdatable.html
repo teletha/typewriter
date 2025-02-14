@@ -4,102 +4,110 @@
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
 		<meta content="Explains how to use Typewriter and its API. " name="description"/>
-		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
 		<title>Typewriter API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="e">
-		<header class="m">
-			<h1 class="L" date="2024-09-30" ver="1.13.0"><code>Typewriter</code></h1>
-			<nav class="b"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="c">
+		<header class="I" date="2024-09-30" ver="1.13.0">
+			<h1 class="H"><code>Typewriter</code></h1>
+			<nav class="J"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
-					</svg><code>API</code></a><a href="https://github.com/teletha/typewriter/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#activity"/>
-					</svg>Activity</a><a href="https://github.com/teletha/typewriter" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#github"/>
-					</svg>Repository</a></nav>
-			<div class="V" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#sun"/>
 					</svg>
-				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/typewriter/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/typewriter" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="K"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon A svg" viewBox="0 0 24 24">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<main class="R">
-			<nav class="Z">
-				<div></div>
-			</nav>
-			<article class="f" id="Article">
-				<section class="H"><code class="K">typewriter.api</code>
-					<h2 class="AbstractClass k"><code class="U">LazyUpdatable</code><code class="M">&#60;<code>M</code>&#62;</code></h2>
-					<div class="g">
-						<ul class="C D">
-							<li><code>M</code><code class="extends"><code><a href="api/typewriter.api.Identifiable.html">Identifiable</a></code></code></li>
-						</ul>
-						<ul class="C F">
-							<li><code><a href="api/typewriter.api.Updatable.html">Updatable</a><code class="parameters"><code>M</code></code></code></li>
-						</ul>
-						<ul class="C G">
-							<li><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></li>
-							<li><code><a href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>R</code>, <code>Q</code>, <code>Self</code></code></code></li>
-							<li><code><a href="api/typewriter.rdb.RDB.html">RDB</a><code class="parameters"><code>M</code></code></code></li>
-						</ul>
-					</div>
-				</section>
-				<section class="H" id="LazyUpdatable()">
-					<h2 class="W"><i class="PUBLIC"></i><code class="U">LazyUpdatable</code><code class="M">()</code></h2>
-				</section>
-				<section class="H" id="setDelay(long)">
-					<h2 class="W"><i class="PUBLIC"></i><code class="U">setDelay</code><code class="M">(<code>long</code><code class="parameterName">mills</code>)</code><i class="P"><code>void</code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>long</code><code>mills</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Congifure the delay time of bulk update. (default: 15 seconds)</p></span></section>
-				<section class="H" id="setMax(int)">
-					<h2 class="W"><i class="PUBLIC"></i><code class="U">setMax</code><code class="M">(<code>int</code><code class="parameterName">size</code>)</code><i class="P"><code>void</code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>int</code><code>size</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Congifure the maximum size of bulk update. (default: 250)</p></span></section>
-				<section class="H" id="updateLazy(java.lang.Object)">
-					<h2 class="W"><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code class="U">updateLazy</code><code class="M">(<code>M</code><code class="parameterName">model</code>)</code><i class="P"><code>void</code></i></h2>
-					<table class="l">
-						<tr class="S">
-							<td><code>M</code><code>model</code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
-				<section class="H" id="flush()">
-					<h2 class="W"><i class="PUBLIC"></i><code class="U">flush</code><code class="M">()</code><i class="P"><code>void</code></i></h2><span class="B"><p>Force to update.</p></span></section>
-			</article>
-			<aside class="a" id="SubNavi">
-				<div class="O">
-					<h5 class="Y">Constructors</h5>
-					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#LazyUpdatable()">LazyUpdatable</a></code><code class="M">()</code></li>
+		<nav class="d"></nav>
+		<article class="X" id="Article">
+			<section class="S"><code class="a">typewriter.api</code>
+				<h2 class="AbstractClass f"><code class="b">LazyUpdatable</code><code class="j">&#60;<code>M</code>&#62;</code></h2>
+				<div class="Y">
+					<ul class="C D">
+						<li><code>M</code><code class="extends"><code><a aria-label="typewriter.api.Identifiable" href="api/typewriter.api.Identifiable.html">Identifiable</a></code></code></li>
 					</ul>
-					<h5 class="Y">Methods</h5>
-					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#setDelay(long)">setDelay</a></code><code class="M">(<code>long</code><code class="parameterName">mills</code>)</code><i class="Q"><code>void</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#setMax(int)">setMax</a></code><code class="M">(<code>int</code><code class="parameterName">size</code>)</code><i class="Q"><code>void</code></i></li>
-						<li><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.LazyUpdatable.html#updateLazy(java.lang.Object)">updateLazy</a></code><code class="M">(<code>M</code><code class="parameterName">model</code>)</code><i class="Q"><code>void</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#flush()">flush</a></code><code class="M">()</code><i class="Q"><code>void</code></i></li>
+					<ul class="C F">
+						<li><code><a aria-label="typewriter.api.Updatable" href="api/typewriter.api.Updatable.html">Updatable</a><code class="parameters"><code>M</code></code></code></li>
+					</ul>
+					<ul class="C G">
+						<li><code><a aria-label="typewriter.mongo.Mongo" href="api/typewriter.mongo.Mongo.html">Mongo</a><code class="parameters"><code>M</code></code></code></li>
+						<li><code><a aria-label="typewriter.api.QueryExecutor" href="api/typewriter.api.QueryExecutor.html">QueryExecutor</a><code class="parameters"><code>M</code>, <code>R</code>, <code>Q</code>, <code>Self</code></code></code></li>
+						<li><code><a aria-label="typewriter.rdb.RDB" href="api/typewriter.rdb.RDB.html">RDB</a><code class="parameters"><code>M</code></code></code></li>
 					</ul>
 				</div>
-			</aside>
-		</main>
-		<script src="root.js"></script>
-		<script src="main.js" type="module"></script>
+			</section>
+			<section class="S" id="LazyUpdatable()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="b">LazyUpdatable</code><code class="j">()</code></h2>
+			</section>
+			<section class="S" id="setDelay(long)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="b">setDelay</code><code class="j">(<code>long</code><code class="parameterName">mills</code>)</code><i class="R"><code>void</code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>long</code><code class="parameterName">mills</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Congifure the delay time of bulk update. (default: 15 seconds)</p></span></section>
+			<section class="S" id="setMax(int)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="b">setMax</code><code class="j">(<code>int</code><code class="parameterName">size</code>)</code><i class="R"><code>void</code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>int</code><code class="parameterName">size</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Congifure the maximum size of bulk update. (default: 250)</p></span></section>
+			<section class="S" id="updateLazy(java.lang.Object)">
+				<h2 class="s"><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code class="b">updateLazy</code><code class="j">(<code>M</code><code class="parameterName">model</code>)</code><i class="R"><code>void</code></i></h2>
+				<table class="q">
+					<tr class="k">
+						<td><code>M</code><code class="parameterName">model</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="S" id="flush()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="b">flush</code><code class="j">()</code><i class="R"><code>void</code></i></h2><span class="B"><p>Force to update.</p></span></section>
+		</article>
+		<aside class="e">
+			<div class="l">
+				<h5 class="L">Constructors</h5>
+				<ul>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#LazyUpdatable()">LazyUpdatable</a></code><code class="j">()</code></li>
+				</ul>
+				<h5 class="L">Methods</h5>
+				<ul>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#setDelay(long)">setDelay</a></code><code class="j">(<code>long</code><code class="parameterName">mills</code>)</code><i class="m"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#setMax(int)">setMax</a></code><code class="j">(<code>int</code><code class="parameterName">size</code>)</code><i class="m"><code>void</code></i></li>
+					<li class="h"><i class="SYNCHRONIZED"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/typewriter.api.LazyUpdatable.html#updateLazy(java.lang.Object)">updateLazy</a></code><code class="j">(<code>M</code><code class="parameterName">model</code>)</code><i class="m"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/typewriter.api.LazyUpdatable.html#flush()">flush</a></code><code class="j">()</code><i class="m"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Z"/>
 	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
 </html>
