@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.13.1](https://github.com/teletha/typewriter/compare/v1.13.0...v1.13.1) (2025-02-14)
+
+
+### Bug Fixes
+
+* compile by javac ([03fe184](https://github.com/teletha/typewriter/commit/03fe18400dc86a4258ff7ea28a747c9bbbc6653b))
+* update reincarnation ([46aa979](https://github.com/teletha/typewriter/commit/46aa9795f45448d138e78faf848936ba065a38bc))
+
 ## [1.13.0](https://github.com/teletha/typewriter/compare/v1.12.0...v1.13.0) (2024-09-30)
 
 
