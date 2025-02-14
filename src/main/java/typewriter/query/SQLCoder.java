@@ -461,14 +461,14 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeCreateArray(Class type, List<Code> dimensions) {
+    public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues) {
+    public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions, List<Code> initialValues) {
     }
 
     /**
