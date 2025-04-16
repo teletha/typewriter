@@ -106,9 +106,11 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Typewriter depends on the following products on runtime.
+* [HikariCP-6.3.0](https://mvnrepository.com/artifact/com.zaxxer/HikariCP/6.3.0)
 * [asm-9.7.1](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.7.1)
 * [reincarnation-1.10.0](https://mvnrepository.com/artifact/com.github.teletha/reincarnation/1.10.0)
-* [sinobu-4.6.1](https://mvnrepository.com/artifact/com.github.teletha/sinobu/4.6.1)
+* [sinobu-4.7.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/4.7.0)
+* [slf4j-api-1.7.36](https://mvnrepository.com/artifact/org.slf4j/slf4j-api/1.7.36)
 <p align="right"><a href="#top">back to top</a></p>
 
 
