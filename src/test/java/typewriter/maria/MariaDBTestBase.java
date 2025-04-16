@@ -49,7 +49,7 @@ public class MariaDBTestBase implements Testable {
 
             DBConfigurationBuilder builder = DBConfigurationBuilder.newBuilder()
                     .setPort(RandomUtils.secure().randomInt(1024, 49151))
-                    .setDataDir(dir.toString())
+                    .setDataDir(dir.asJavaFile())
                     .setDeletingTemporaryBaseAndDataDirsOnShutdown(true);
 
             db = DB.newEmbeddedDB(builder.build());
