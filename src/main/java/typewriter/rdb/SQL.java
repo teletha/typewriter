@@ -485,6 +485,8 @@ public class SQL<M extends Identifiable> {
     public void execute() {
         long start = System.currentTimeMillis();
         int index = 1;
+
+        I.debug("[" + rdb.dialect.kind + "] START " + text);
         try (Connection connection = rdb.provider.get()) {
             try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
                 for (Object variable : variables) {
@@ -498,6 +500,7 @@ public class SQL<M extends Identifiable> {
             rdb.stamp++;
             long end = rdb.lastModified = System.currentTimeMillis();
             log(end - start);
+            I.debug("[" + rdb.dialect.kind + "] FINISH " + text);
         }
     }
 
@@ -518,8 +521,9 @@ public class SQL<M extends Identifiable> {
 
         return new Signal<ResultSet>((observer, disposer) -> {
             long start = System.currentTimeMillis();
-
             int index = 1;
+
+            I.debug("[" + rdb.dialect.kind + "] START " + text);
             try (Connection connection = rdb.provider.get()) {
                 try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
                     for (Object variable : variables) {
@@ -538,6 +542,7 @@ public class SQL<M extends Identifiable> {
             } finally {
                 long end = rdb.lastAccessed = System.currentTimeMillis();
                 log(end - start);
+                I.debug("[" + rdb.dialect.kind + "] FINISH " + text);
             }
             return disposer;
         }).map(process);
