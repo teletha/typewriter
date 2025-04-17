@@ -43,10 +43,13 @@ import kiss.WiseSupplier;
 class ConnectionPool implements WiseSupplier<Connection> {
 
     /** The address. */
-    private String url;
+    private final String url;
 
     /** The dialect. */
     private final Dialect dialect;
+
+    /** The readable name. */
+    private final String category;
 
     /** The max size of pooled connections. */
     private final int max;
@@ -79,14 +82,15 @@ class ConnectionPool implements WiseSupplier<Connection> {
         this.url = url;
         this.dialect = detectDialect(url);
         this.max = config("typewriter.connection.maxPool", 8);
-        this.min = config("typewriter.connection.minPool", 2);
+        this.min = config("typewriter.connection.minPool", 0);
         this.autoCommit = config("typewriter.connection.autoCommit", true);
         this.readOnly = config("typewriter.connection.readOnly", false);
-        this.timeout = config("typewriter.connection.timeout", 1000 * 30L);
+        this.timeout = config("typewriter.connection.timeout", 1000 * 15L);
         this.isolation = config("typewriter.connection.isolation", -1);
         this.threads = config("typewriter.connection.perThread", false) ? ThreadLocal.withInitial(ManagedConnection::new) : null;
         this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
+        this.category = "[" + dialect.kind + "-" + (threads == null ? "pool" : "per-thread") + "] ";
     }
 
     /**
@@ -161,7 +165,12 @@ class ConnectionPool implements WiseSupplier<Connection> {
             ManagedConnection connection = idles.poll();
             if (connection == null) {
                 if (max <= busy.size()) {
+                    log("Wait for idle connection");
                     connection = idles.poll(timeout, TimeUnit.MILLISECONDS);
+
+                    if (connection == null) {
+                        throw new SQLException(log("Timeout waiting for idle connection"));
+                    }
                 } else {
                     connection = new ManagedConnection();
                 }
@@ -170,8 +179,20 @@ class ConnectionPool implements WiseSupplier<Connection> {
             connection.processing = true;
             busy.add(connection);
 
+            log("Borrowed connection");
+
             return connection;
         }
+    }
+
+    private String log(String message) {
+        int idle = idles.size();
+        int active = busy.size();
+        int total = idle + active;
+        message = category + message + " (" + active + "/" + total + " max:" + max + " min:" + min + " auto:" + autoCommit + " write:" + !readOnly + " timeout:" + timeout + "ms)";
+
+        I.debug(message);
+        return message;
     }
 
     /** The connnection pool manager. */
@@ -236,6 +257,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
                 this.delegation.setAutoCommit(autoCommit);
                 this.delegation.setReadOnly(readOnly);
                 if (0 <= isolation) this.delegation.setTransactionIsolation(isolation);
+
+                log("Create connection");
             } catch (Exception e) {
                 throw I.quiet(e);
             }
@@ -282,6 +305,10 @@ class ConnectionPool implements WiseSupplier<Connection> {
          */
         @Override
         public void close() throws SQLException {
+            if (!processing) {
+                return;
+            }
+
             for (AutoCloseable resource : resources) {
                 try {
                     resource.close();
@@ -294,6 +321,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
             idles.offer(this);
             busy.remove(this);
             processing = false;
+
+            log("Refunded connection");
         }
 
         /**
