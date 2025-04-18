@@ -254,7 +254,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
         private ManagedConnection() {
             try {
                 this.delegation = dialect.createConnection(url, null);
-                this.delegation.setAutoCommit(autoCommit);
+                this.delegation.setAutoCommit(true);
                 this.delegation.setReadOnly(readOnly);
                 if (0 <= isolation) this.delegation.setTransactionIsolation(isolation);
 

@@ -189,7 +189,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public long count() {
-        return new SQL<>(this).select("count(*)").from(tableName).qurey().map(result -> result.getLong(1)).to().exact();
+        return new SQL<>(this).select("count(*)").from(tableName).qurey(result -> result.getLong(1)).to().exact();
     }
 
     /**
@@ -198,7 +198,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     @Override
     public <V> Signal<V> distinct(Specifier<M, V> specifier) {
         Property property = model.property(specifier.propertyName(dialect));
-        return new SQL<>(this).write("SELECT DISTINCT", property.name).from(tableName).qurey().map(result -> (V) decode(property, result));
+        return new SQL<>(this).write("SELECT DISTINCT", property.name).from(tableName).qurey(result -> (V) decode(property, result));
     }
 
     /**
@@ -211,8 +211,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .func("min", property)
                 .as(property.name)
                 .from(tableName)
-                .qurey()
-                .map(result -> (C) decode(property, result))
+                .qurey(result -> (C) decode(property, result))
                 .to();
     }
 
@@ -226,8 +225,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .func("max", property)
                 .as(property.name)
                 .from(tableName)
-                .qurey()
-                .map(result -> (C) decode(property, result))
+                .qurey(result -> (C) decode(property, result))
                 .to();
     }
 
@@ -236,7 +234,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption<M>> option) {
-        return new SQL<>(this).write("SELECT").avg(specifier, option).as("N").from(tableName).qurey().map(result -> result.getDouble("N"));
+        return new SQL<>(this).write("SELECT").avg(specifier, option).as("N").from(tableName).qurey(result -> result.getDouble("N"));
     }
 
     /**
@@ -249,8 +247,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .func("sum", property)
                 .as(property.name)
                 .from(tableName)
-                .qurey()
-                .map(result -> (N) decode(property, result))
+                .qurey(result -> (N) decode(property, result))
                 .to()
                 .exact();
     }

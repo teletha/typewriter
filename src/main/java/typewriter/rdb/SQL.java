@@ -507,19 +507,12 @@ public class SQL<M extends Identifiable> {
     /**
      * Execute query.
      */
-    public Signal<ResultSet> qurey() {
-        return qurey(x -> x);
-    }
-
-    /**
-     * Execute query.
-     */
     public <R> Signal<R> qurey(WiseFunction<ResultSet, R> process) {
         if (text.isEmpty()) {
             return I.signal();
         }
 
-        return new Signal<ResultSet>((observer, disposer) -> {
+        return new Signal<R>((observer, disposer) -> {
             long start = System.currentTimeMillis();
             int index = 1;
 
@@ -532,7 +525,7 @@ public class SQL<M extends Identifiable> {
 
                     try (ResultSet result = prepared.executeQuery()) {
                         while (!disposer.isDisposed() && !result.isClosed() && result.next()) {
-                            observer.accept(result);
+                            observer.accept(process.apply(result));
                         }
                         observer.complete();
                     }
@@ -545,7 +538,7 @@ public class SQL<M extends Identifiable> {
                 I.debug("[" + rdb.dialect.kind + "] FINISH " + text);
             }
             return disposer;
-        }).map(process);
+        }).buffer().flatIterable(e -> e);
     }
 
     /**
