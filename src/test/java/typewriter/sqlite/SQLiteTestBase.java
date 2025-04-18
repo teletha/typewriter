@@ -11,6 +11,7 @@ package typewriter.sqlite;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import kiss.Signal;
 import typewriter.api.Identifiable;
@@ -24,8 +25,10 @@ public class SQLiteTestBase implements Testable {
     private String db;
 
     @BeforeEach
-    void setup() {
+    void setup(TestInfo info) {
         db = "jdbc:sqlite:file:memdb" + Testable.randomInt() + "?mode=memory&cache=shared";
+
+        Testable.configure(info, db);
     }
 
     @AfterEach

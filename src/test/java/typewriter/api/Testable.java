@@ -9,9 +9,13 @@
  */
 package typewriter.api;
 
+import java.lang.reflect.Method;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.TestInfo;
 
+import kiss.I;
 import kiss.Signal;
 import typewriter.rdb.RDB;
 
@@ -92,5 +96,13 @@ public interface Testable {
      */
     static int randomInt() {
         return RandomUtils.secure().randomInt();
+    }
+
+    static void configure(TestInfo info, String url) {
+        Method method = info.getTestMethod().get();
+        Environment[] envs = method.getAnnotationsByType(Environment.class);
+        for (Environment env : envs) {
+            I.env(env.key() + "." + url, env.value());
+        }
     }
 }

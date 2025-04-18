@@ -16,6 +16,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
@@ -66,9 +67,11 @@ public class MariaDBTestBase implements Testable {
     }
 
     @BeforeEach
-    void init() throws IOException, ManagedProcessException {
+    void init(TestInfo info) throws IOException, ManagedProcessException {
         url = "jdbc:mariadb://localhost:" + db.getConfiguration().getPort() + "/" + Testable
                 .random() + "?useUnicode=true&characterEncoding=utf8";
+
+        Testable.configure(info, url);
     }
 
     @AfterEach

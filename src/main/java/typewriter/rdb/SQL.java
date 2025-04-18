@@ -538,7 +538,7 @@ public class SQL<M extends Identifiable> {
                 I.debug("[" + rdb.dialect.kind + "] FINISH " + text);
             }
             return disposer;
-        }).buffer().flatIterable(e -> e);
+        });
     }
 
     /**

@@ -11,6 +11,7 @@ package typewriter.h2;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import kiss.Signal;
 import typewriter.api.Identifiable;
@@ -24,8 +25,10 @@ public class H2TestBase implements Testable {
     private String db;
 
     @BeforeEach
-    void setup() {
+    void setup(TestInfo info) {
         db = "jdbc:h2:mem:test" + Testable.randomInt();
+
+        Testable.configure(info, db);
     }
 
     @AfterEach
