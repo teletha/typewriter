@@ -17,13 +17,15 @@ import typewriter.api.model.DerivableModel;
 public interface NestedConnectionTestSet extends Testable {
 
     @Test
+    @Environment(key = "typewriter.connection.maxPool", value = "1")
+    @Environment(key = "typewriter.connection.timeout", value = "500")
     default void nest() {
         Person person = new Person("test", 10);
 
         QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(person);
 
-        dao.findBy(person.getId()).to(p -> {
+        dao.findBy(person.getId()).buffer().flatIterable(e -> e).to(p -> {
             p.name = "updated";
             dao.update(p);
         });
@@ -32,16 +34,16 @@ public interface NestedConnectionTestSet extends Testable {
     }
 
     @Test
-    @Environment(key = "typewriter.connection.maxPool", value = "2")
-    @Environment(key = "typewriter.connection.timeout", value = "1000")
+    @Environment(key = "typewriter.connection.maxPool", value = "1")
+    @Environment(key = "typewriter.connection.timeout", value = "500")
     default void triple() {
         Person person = new Person("test", 10);
 
         QueryExecutor<Person, Signal<Person>, ?, ?> dao = createEmptyDB(Person.class);
         dao.update(person);
 
-        dao.findBy(person.getId()).to(x -> {
-            dao.findBy(person.getId()).to(p -> {
+        dao.findBy(person.getId()).buffer().to(_ -> {
+            dao.findBy(person.getId()).buffer().flatIterable(x -> x).to(p -> {
                 p.name = "updated";
                 dao.update(p);
             });

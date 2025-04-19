@@ -38,6 +38,7 @@ import kiss.Ⅱ;
 import typewriter.api.Identifiable;
 import typewriter.api.Specifier;
 import typewriter.query.AVGOption;
+import typewriter.rdb.ConnectionPool.ManagedConnection;
 
 /**
  * SQL writer.
@@ -45,7 +46,7 @@ import typewriter.query.AVGOption;
 public class SQL<M extends Identifiable> {
 
     /** The threshold of slow query. */
-    private static final int slow = I.env("typewriter.query.slow", 500);
+    private static final int slow = I.env("typewriter.query.slow", 1000);
 
     /** The target table name. */
     public final String tableName;
@@ -486,7 +487,6 @@ public class SQL<M extends Identifiable> {
         long start = System.currentTimeMillis();
         int index = 1;
 
-        I.debug("[" + rdb.dialect.kind + "] START " + text);
         try (Connection connection = rdb.provider.get()) {
             try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
                 for (Object variable : variables) {
@@ -500,42 +500,52 @@ public class SQL<M extends Identifiable> {
             rdb.stamp++;
             long end = rdb.lastModified = System.currentTimeMillis();
             log(end - start);
-            I.debug("[" + rdb.dialect.kind + "] FINISH " + text);
         }
     }
 
     /**
      * Execute query.
      */
-    public <R> Signal<R> qurey(WiseFunction<ResultSet, R> process) {
+    public <R> Signal<R> query(WiseFunction<ResultSet, R> process) {
         if (text.isEmpty()) {
             return I.signal();
         }
 
         return new Signal<R>((observer, disposer) -> {
+            List<R> items = new ArrayList(4);
+
             long start = System.currentTimeMillis();
             int index = 1;
 
-            I.debug("[" + rdb.dialect.kind + "] START " + text);
-            try (Connection connection = rdb.provider.get()) {
+            try (ManagedConnection connection = rdb.provider.get()) {
                 try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
                     for (Object variable : variables) {
                         prepared.setObject(index++, variable);
                     }
 
                     try (ResultSet result = prepared.executeQuery()) {
-                        while (!disposer.isDisposed() && !result.isClosed() && result.next()) {
-                            observer.accept(process.apply(result));
+                        while (!disposer.isDisposed() && result.next()) {
+                            items.add(process.apply(result));
                         }
-                        observer.complete();
                     }
                 }
             } catch (SQLException e) {
                 observer.error(new SQLException(text.toString(), e));
+                return disposer;
             } finally {
                 long end = rdb.lastAccessed = System.currentTimeMillis();
                 log(end - start);
-                I.debug("[" + rdb.dialect.kind + "] FINISH " + text);
+            }
+
+            try {
+                for (R item : items) {
+                    if (!disposer.isDisposed()) {
+                        observer.accept(item);
+                    }
+                }
+                observer.complete();
+            } catch (Throwable e) {
+                observer.error(e);
             }
             return disposer;
         });

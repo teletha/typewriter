@@ -43,6 +43,7 @@ import typewriter.maria.MariaModel;
 import typewriter.postgres.PostgreSQL;
 import typewriter.postgres.PostgresModel;
 import typewriter.query.AVGOption;
+import typewriter.rdb.ConnectionPool.ManagedConnection;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
 
@@ -83,7 +84,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     protected final Dialect dialect;
 
     /** The connection provider. */
-    protected final WiseSupplier<Connection> provider;
+    protected final WiseSupplier<ManagedConnection> provider;
 
     /** The last modified time. */
     long lastAccessed;
@@ -139,7 +140,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param provider A user specified backend connection.
      * @param createTable Should I create table?
      */
-    private RDB(Model<M> model, String name, Dialect dialect, WiseSupplier<Connection> provider) {
+    private RDB(Model<M> model, String name, Dialect dialect, WiseSupplier<ManagedConnection> provider) {
         Managed managed = model.type.getAnnotation(Managed.class);
         if (managed != null && !managed.name().isEmpty()) {
             name = managed.name();
@@ -189,7 +190,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public long count() {
-        return new SQL<>(this).select("count(*)").from(tableName).qurey(result -> result.getLong(1)).to().exact();
+        return new SQL<>(this).select("count(*)").from(tableName).query(result -> result.getLong(1)).to().exact();
     }
 
     /**
@@ -198,7 +199,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     @Override
     public <V> Signal<V> distinct(Specifier<M, V> specifier) {
         Property property = model.property(specifier.propertyName(dialect));
-        return new SQL<>(this).write("SELECT DISTINCT", property.name).from(tableName).qurey(result -> (V) decode(property, result));
+        return new SQL<>(this).write("SELECT DISTINCT", property.name).from(tableName).query(result -> (V) decode(property, result));
     }
 
     /**
@@ -211,7 +212,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .func("min", property)
                 .as(property.name)
                 .from(tableName)
-                .qurey(result -> (C) decode(property, result))
+                .query(result -> (C) decode(property, result))
                 .to();
     }
 
@@ -225,7 +226,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .func("max", property)
                 .as(property.name)
                 .from(tableName)
-                .qurey(result -> (C) decode(property, result))
+                .query(result -> (C) decode(property, result))
                 .to();
     }
 
@@ -234,7 +235,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public <N extends Number> Signal<Double> avg(Specifier<M, N> specifier, UnaryOperator<AVGOption<M>> option) {
-        return new SQL<>(this).write("SELECT").avg(specifier, option).as("N").from(tableName).qurey(result -> result.getDouble("N"));
+        return new SQL<>(this).write("SELECT").avg(specifier, option).as("N").from(tableName).query(result -> result.getDouble("N"));
     }
 
     /**
@@ -247,7 +248,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .func("sum", property)
                 .as(property.name)
                 .from(tableName)
-                .qurey(result -> (N) decode(property, result))
+                .query(result -> (N) decode(property, result))
                 .to()
                 .exact();
     }
@@ -260,7 +261,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
         return new SQL<>(this).write("SELECT *")
                 .from(tableName)
                 .write(query)
-                .qurey(result -> decode(model, model.properties(), I.make(model.type), result));
+                .query(result -> decode(model, model.properties(), I.make(model.type), result));
     }
 
     /**
@@ -278,7 +279,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
                 .names(properties)
                 .from(tableName)
                 .where(instance)
-                .qurey(result -> decode(model, properties, instance, result));
+                .query(result -> decode(model, properties, instance, result));
     }
 
     /**
@@ -333,7 +334,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public synchronized <R> R transactWith(WiseFunction<RDB<M>, R> operation) {
-        try (Connection connection = provider.get()) {
+        try (ManagedConnection connection = provider.get()) {
             connection.setAutoCommit(false);
 
             try {

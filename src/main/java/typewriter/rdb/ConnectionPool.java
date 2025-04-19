@@ -25,7 +25,6 @@ import java.sql.Savepoint;
 import java.sql.ShardingKey;
 import java.sql.Statement;
 import java.sql.Struct;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,22 +33,21 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 import kiss.I;
 import kiss.WiseSupplier;
 
-class ConnectionPool implements WiseSupplier<Connection> {
+class ConnectionPool implements WiseSupplier<ConnectionPool.ManagedConnection> {
 
     /** The address. */
     private final String url;
 
     /** The dialect. */
     private final Dialect dialect;
-
-    /** The readable name. */
-    private final String category;
 
     /** The max size of pooled connections. */
     private final int max;
@@ -76,21 +74,24 @@ class ConnectionPool implements WiseSupplier<Connection> {
     private final Set<ManagedConnection> busy;
 
     /** The connection type. */
-    private ThreadLocal<ManagedConnection> threads;
+    private final ThreadLocal<ManagedConnection> threads;
+
+    /** The stream mode. */
+    private final boolean stream;
 
     public ConnectionPool(String url) {
         this.url = url;
         this.dialect = detectDialect(url);
-        this.max = config("typewriter.connection.maxPool", 8);
+        this.max = config("typewriter.connection.maxPool", 16);
         this.min = config("typewriter.connection.minPool", 0);
         this.autoCommit = config("typewriter.connection.autoCommit", true);
         this.readOnly = config("typewriter.connection.readOnly", false);
-        this.timeout = config("typewriter.connection.timeout", 1000 * 15L);
+        this.timeout = config("typewriter.connection.timeout", 5000L);
         this.isolation = config("typewriter.connection.isolation", -1);
         this.threads = config("typewriter.connection.perThread", false) ? ThreadLocal.withInitial(ManagedConnection::new) : null;
+        this.stream = config("typewriter.connection.stream", true);
         this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
-        this.category = "[" + dialect.kind + "-" + (threads == null ? "pool" : "per-thread") + "] ";
     }
 
     /**
@@ -158,7 +159,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
      * @return
      */
     @Override
-    public synchronized Connection call() throws Exception {
+    public synchronized ManagedConnection call() throws Exception {
         if (threads != null) {
             return threads.get();
         } else {
@@ -169,7 +170,8 @@ class ConnectionPool implements WiseSupplier<Connection> {
                     connection = idles.poll(timeout, TimeUnit.MILLISECONDS);
 
                     if (connection == null) {
-                        throw new SQLException(log("Timeout waiting for idle connection"));
+                        log("Timeout waiting for idle connection");
+                        throw new SQLException("Timeout waiting for idle connection.");
                     }
                 } else {
                     connection = new ManagedConnection();
@@ -179,20 +181,19 @@ class ConnectionPool implements WiseSupplier<Connection> {
             connection.processing = true;
             busy.add(connection);
 
-            log("Borrowed connection");
+            log("Borrow connection");
 
             return connection;
         }
     }
 
-    private String log(String message) {
-        int idle = idles.size();
-        int active = busy.size();
-        int total = idle + active;
-        message = category + message + " (" + active + "/" + total + " max:" + max + " min:" + min + " auto:" + autoCommit + " write:" + !readOnly + " timeout:" + timeout + "ms)";
-
-        I.debug(message);
-        return message;
+    private void log(String message) {
+        I.debug("typewriter", (Supplier<String>) () -> {
+            int idle = idles.size();
+            int active = busy.size();
+            int total = idle + active;
+            return "[" + url + "] " + message + " (" + active + "/" + total + " max:" + max + " min:" + min + " auto:" + autoCommit + " write:" + !readOnly + " timeout:" + timeout + "ms)";
+        });
     }
 
     /** The connnection pool manager. */
@@ -236,13 +237,13 @@ class ConnectionPool implements WiseSupplier<Connection> {
     /**
      * Connection delegator.
      */
-    private class ManagedConnection implements Connection {
+    class ManagedConnection implements Connection {
 
         /** The backend. */
         private final Connection delegation;
 
         /** The managed resources. */
-        private final List<AutoCloseable> resources = new ArrayList();
+        private final List<AutoCloseable> resources = new CopyOnWriteArrayList();
 
         /** State. */
         private boolean processing;
@@ -322,7 +323,7 @@ class ConnectionPool implements WiseSupplier<Connection> {
             busy.remove(this);
             processing = false;
 
-            log("Refunded connection");
+            log("Return connection");
         }
 
         /**
