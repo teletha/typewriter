@@ -77,7 +77,7 @@ class ConnectionPool implements WiseSupplier<ConnectionPool.ManagedConnection> {
     private final ThreadLocal<ManagedConnection> threads;
 
     /** The stream mode. */
-    private final boolean stream;
+    private final boolean longevity;
 
     public ConnectionPool(String url) {
         this.url = url;
@@ -89,7 +89,7 @@ class ConnectionPool implements WiseSupplier<ConnectionPool.ManagedConnection> {
         this.timeout = config("typewriter.connection.timeout", 5000L);
         this.isolation = config("typewriter.connection.isolation", -1);
         this.threads = config("typewriter.connection.perThread", false) ? ThreadLocal.withInitial(ManagedConnection::new) : null;
-        this.stream = config("typewriter.connection.stream", true);
+        this.longevity = config("typewriter.connection.longevity", max > 4);
         this.idles = new ArrayBlockingQueue(max);
         this.busy = ConcurrentHashMap.newKeySet();
     }
@@ -451,7 +451,7 @@ class ConnectionPool implements WiseSupplier<ConnectionPool.ManagedConnection> {
          */
         @Override
         public int getHoldability() throws SQLException {
-            return delegation.getHoldability();
+            return longevity ? 0 : -1;
         }
 
         /**

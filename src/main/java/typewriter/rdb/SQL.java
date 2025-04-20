@@ -524,12 +524,21 @@ public class SQL<M extends Identifiable> {
                     }
 
                     try (ResultSet result = prepared.executeQuery()) {
-                        while (!disposer.isDisposed() && result.next()) {
-                            items.add(process.apply(result));
+                        if (connection.getHoldability() == 0) {
+                            while (!disposer.isDisposed() && result.next()) {
+                                observer.accept(process.apply(result));
+                            }
+                            observer.complete();
+                            return disposer;
+                        } else {
+                            while (!disposer.isDisposed() && result.next()) {
+                                items.add(process.apply(result));
+                            }
                         }
+
                     }
                 }
-            } catch (SQLException e) {
+            } catch (Throwable e) {
                 observer.error(new SQLException(text.toString(), e));
                 return disposer;
             } finally {
