@@ -41,7 +41,8 @@ public class SQLite extends Dialect {
         // Since the SQLite developers seem to think that threads are evil, you would be better off
         // having one thread handle all your database operations and serialize DB tasks on your own
         // using Java code.
-        I.env("typewriter.connection.maxPool.sqlite", 1);
+        I.env("typewriter.connection.max.sqlite", 1);
+        I.env("typewriter.connection.longevity.sqlite", false);
 
         TYPES.put(int.class, "integer");
         TYPES.put(long.class, "integer");

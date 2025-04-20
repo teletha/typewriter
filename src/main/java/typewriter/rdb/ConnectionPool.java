@@ -82,8 +82,8 @@ class ConnectionPool implements WiseSupplier<ConnectionPool.ManagedConnection> {
     public ConnectionPool(String url) {
         this.url = url;
         this.dialect = detectDialect(url);
-        this.max = config("typewriter.connection.maxPool", 16);
-        this.min = config("typewriter.connection.minPool", 0);
+        this.max = config("typewriter.connection.max", 16);
+        this.min = config("typewriter.connection.min", 0);
         this.autoCommit = config("typewriter.connection.autoCommit", true);
         this.readOnly = config("typewriter.connection.readOnly", false);
         this.timeout = config("typewriter.connection.timeout", 5000L);
