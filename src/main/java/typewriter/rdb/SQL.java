@@ -38,7 +38,6 @@ import kiss.Ⅱ;
 import typewriter.api.Identifiable;
 import typewriter.api.Specifier;
 import typewriter.query.AVGOption;
-import typewriter.rdb.ConnectionPool.ManagedConnection;
 
 /**
  * SQL writer.
@@ -517,7 +516,7 @@ public class SQL<M extends Identifiable> {
             long start = System.currentTimeMillis();
             int index = 1;
 
-            try (ManagedConnection connection = rdb.provider.get()) {
+            try (Connection connection = rdb.provider.get()) {
                 try (PreparedStatement prepared = connection.prepareStatement(text.toString())) {
                     for (Object variable : variables) {
                         prepared.setObject(index++, variable);

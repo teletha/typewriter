@@ -43,7 +43,6 @@ import typewriter.maria.MariaModel;
 import typewriter.postgres.PostgreSQL;
 import typewriter.postgres.PostgresModel;
 import typewriter.query.AVGOption;
-import typewriter.rdb.ConnectionPool.ManagedConnection;
 import typewriter.sqlite.SQLite;
 import typewriter.sqlite.SQLiteModel;
 
@@ -84,7 +83,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
     protected final Dialect dialect;
 
     /** The connection provider. */
-    protected final WiseSupplier<ManagedConnection> provider;
+    protected final WiseSupplier<Connection> provider;
 
     /** The last modified time. */
     long lastAccessed;
@@ -138,9 +137,8 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      * @param model A target model.
      * @param dialect A dialect of RDBMS.
      * @param provider A user specified backend connection.
-     * @param createTable Should I create table?
      */
-    private RDB(Model<M> model, String name, Dialect dialect, WiseSupplier<ManagedConnection> provider) {
+    private RDB(Model<M> model, String name, Dialect dialect, WiseSupplier<Connection> provider) {
         Managed managed = model.type.getAnnotation(Managed.class);
         if (managed != null && !managed.name().isEmpty()) {
             name = managed.name();
@@ -334,7 +332,7 @@ public class RDB<M extends Identifiable> extends QueryExecutor<M, Signal<M>, RDB
      */
     @Override
     public synchronized <R> R transactWith(WiseFunction<RDB<M>, R> operation) {
-        try (ManagedConnection connection = provider.get()) {
+        try (Connection connection = provider.get()) {
             connection.setAutoCommit(false);
 
             try {

@@ -41,7 +41,7 @@ import java.util.function.Supplier;
 import kiss.I;
 import kiss.WiseSupplier;
 
-class ConnectionPool implements WiseSupplier<ConnectionPool.ManagedConnection> {
+class ConnectionPool implements WiseSupplier<Connection> {
 
     /** The address. */
     private final String url;
@@ -159,7 +159,7 @@ class ConnectionPool implements WiseSupplier<ConnectionPool.ManagedConnection> {
      * @return
      */
     @Override
-    public synchronized ManagedConnection call() throws Exception {
+    public synchronized Connection call() throws Exception {
         if (threads != null) {
             return threads.get();
         } else {
