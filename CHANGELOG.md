@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.14.0](https://github.com/teletha/typewriter/compare/v1.13.0...1.14.0) (2025-04-20)
+
+
+### Features
+
+* change property name (maxPool -&gt; max, minPool -> min) ([c01ba0c](https://github.com/teletha/typewriter/commit/c01ba0ce5c09bc900e4d5c6661ed574126059bdb))
+* connection pool records log ([6d2cb5c](https://github.com/teletha/typewriter/commit/6d2cb5cc3a670dfce4d7f601c15240b1fa62fb9e))
+* sqlite connection pool is singleton now ([1490b8f](https://github.com/teletha/typewriter/commit/1490b8f6601543b30cd71dfc7179841311572520))
+* support typewriter.connection.longevity porperty ([e98bb62](https://github.com/teletha/typewriter/commit/e98bb628a233f3065c49eb9a26ac37d20ed1f8f8))
+
+
+### Bug Fixes
+
+* compile by javac ([03fe184](https://github.com/teletha/typewriter/commit/03fe18400dc86a4258ff7ea28a747c9bbbc6653b))
+* update mariadb tester ([635905b](https://github.com/teletha/typewriter/commit/635905b782aff7fe05839f4f307e52422eddacf1))
+* update reincarnation ([46aa979](https://github.com/teletha/typewriter/commit/46aa9795f45448d138e78faf848936ba065a38bc))
+
 ## [1.13.0](https://github.com/teletha/typewriter/compare/v1.12.0...v1.13.0) (2024-09-30)
 
 
