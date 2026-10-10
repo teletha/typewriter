@@ -41,7 +41,7 @@ public class DuckDB extends Dialect {
         TYPES.put(BigDecimal.class, "decimal");
         TYPES.put(Boolean.class, "boolean");
         TYPES.put(String.class, "varchar");
-        TYPES.put(List.class, "varchar[]");
+        TYPES.put(List.class, "json");
     }
 
     /**
@@ -87,7 +87,7 @@ public class DuckDB extends Dialect {
      */
     @Override
     public String commnadListLength() {
-        return "len";
+        return "json_array_length";
     }
 
     /**
@@ -95,7 +95,7 @@ public class DuckDB extends Dialect {
      */
     @Override
     public String commnadListContains(String propertyName, Object value) {
-        return "list_contains(" + propertyName + ", " + convert(value) + ")";
+        return "json_contains(" + propertyName + ", " + convert(value) + ")";
     }
 
     private String convert(Object value) {

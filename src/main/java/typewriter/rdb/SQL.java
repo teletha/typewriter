@@ -117,8 +117,6 @@ public class SQL<M extends Identifiable> {
             }
         }
 
-        rdb.dialect.commandLimitAndOffset(this, query.limit, query.offset);
-
         if (query.sorts != null) {
             count = 0;
             for (Ⅱ<Specifier, Boolean> sort : query.sorts) {
@@ -128,7 +126,13 @@ public class SQL<M extends Identifiable> {
                     text.append(count++ == 0 ? " ORDER BY " : ",").append(property.name.concat(name)).append(sort.ⅱ ? " ASC" : " DESC");
                 }
             }
+        } else {
+            // Deterministic order is not guaranteed by any DB engine, so fall back to the primary key.
+            text.append(" ORDER BY id");
         }
+
+        rdb.dialect.commandLimitAndOffset(this, query.limit, query.offset);
+
         return this;
     }
 
@@ -434,6 +438,9 @@ public class SQL<M extends Identifiable> {
         StringBuilder builder = new StringBuilder();
         if (o.orderBy != null) {
             builder.append(" ORDER BY ").append(o.orderBy);
+        } else if (o.from != 0 || o.to != 0) {
+            // A window frame requires a deterministic order; otherwise the result is implementation-defined.
+            builder.append(" ORDER BY id");
         }
         if (o.from != 0 || o.to != 0) {
             builder.append(" ROWS BETWEEN ").append(range(o.from)).append(" and ").append(range(o.to));
