@@ -3,55 +3,55 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
-		<meta content="Explains how to use Typewriter and its API. " name="description"/>
+		<meta content="Explains how to use Typewriter and its API. Provides a general-purpose, type-safe DAO. " name="description"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
 		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
 		<title>Typewriter API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="e">
-		<header class="W" date="2025-04-20" ver="1.14.0">
-			<h1 class="X"><code>Typewriter</code></h1>
-			<nav class="Y"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
+	<body class="JB">
+		<header class="Z" date="2025-04-20">
+			<h1 class="a"><a href="index.html"><code>Typewriter</code></a></h1>
+			<nav class="b"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
-				</a><a href="https://github.com/teletha/typewriter/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>
-				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
 						<use href="main.svg#activity"/>
 					</svg>
-				</a><a href="https://github.com/teletha/typewriter" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/typewriter/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/typewriter" id="Repository" target="_blank"><svg class="github">
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="Z"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+			<div class="c"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
-					</svg><svg class="moon A svg" viewBox="0 0 24 24">
+					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="S"></nav>
-		<article class="I" id="Article">
-			<section class="i"><code class="c">typewriter.api</code>
-				<h2 class="Interface g"><code class="l">Constraint</code><code class="Q">&#60;<code>V</code>, <code>Self</code>&#62;</code></h2>
-				<div class="k">
-					<ul class="C D">
+		<nav class="d"></nav>
+		<article class="v" id="Article">
+			<section class="m"><code class="Y">typewriter.api</code>
+				<h2 class="Interface t"><code class="CB">Constraint</code><code class="l">&lt;<code>V</code>, <code>Self</code>&gt;</code></h2>
+				<div class="z">
+					<ul class="E F">
 						<li><code>V</code></li>
 						<li><code>Self</code></li>
 					</ul>
-					<ul class="C G">
+					<ul class="E I">
 						<li><code><a aria-label="typewriter.api.Constraint.DateConstraint" href="api/typewriter.api.Constraint.DateConstraint.html">DateConstraint</a></code></li>
 						<li><code><a aria-label="typewriter.api.Constraint.ListConstraint" href="api/typewriter.api.Constraint.ListConstraint.html">ListConstraint</a><code class="parameters"><code>M</code></code></code></li>
 						<li><code><a aria-label="typewriter.api.Constraint.LocalDateConstraint" href="api/typewriter.api.Constraint.LocalDateConstraint.html">LocalDateConstraint</a></code></li>
@@ -66,85 +66,87 @@
 					</ul>
 				</div>
 			</section>
-			<section class="i" id="isNull()">
-				<h2 class="V"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="l">isNull</code><code class="Q">()</code><i class="p"><code>Self</code></i></h2>
-				<table class="H">
-					<tr class="b">
+			<section class="m" id="isNull()">
+				<h2 class="GB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="CB">isNull</code><code class="l">()</code><i class="P"><code>Self</code></i></h2>
+				<table class="q">
+					<tr class="j">
 						<td><code>Self</code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-			<section class="i" id="isNotNull()">
-				<h2 class="V"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="l">isNotNull</code><code class="Q">()</code><i class="p"><code>Self</code></i></h2>
-				<table class="H">
-					<tr class="b">
+				</table><span class="A"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="m" id="isNotNull()">
+				<h2 class="GB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="CB">isNotNull</code><code class="l">()</code><i class="P"><code>Self</code></i></h2>
+				<table class="q">
+					<tr class="j">
 						<td><code>Self</code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-			<section class="i" id="is(java.lang.Object)">
-				<h2 class="V"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="l">is</code><code class="Q">(<code>V</code><code class="parameterName">value</code>)</code><i class="p"><code>Self</code></i></h2>
-				<table class="H">
+				</table><span class="A"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="m" id="is(java.lang.Object)">
+				<h2 class="GB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="CB">is</code><code class="l">(<code>V</code><code class="parameterName">value</code>)</code><i class="P"><code>Self</code></i></h2>
+				<table class="q">
 					<tr class="R">
 						<td><code>V</code><code class="parameterName">value</code></td>
 						<td><span><p>A conditional value.</p></span></td>
 					</tr>
-					<tr class="b">
+					<tr class="j">
 						<td><code>Self</code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-			<section class="i" id="isNot(java.lang.Object)">
-				<h2 class="V"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="l">isNot</code><code class="Q">(<code>V</code><code class="parameterName">value</code>)</code><i class="p"><code>Self</code></i></h2>
-				<table class="H">
+				</table><span class="A"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="m" id="isNot(java.lang.Object)">
+				<h2 class="GB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="CB">isNot</code><code class="l">(<code>V</code><code class="parameterName">value</code>)</code><i class="P"><code>Self</code></i></h2>
+				<table class="q">
 					<tr class="R">
 						<td><code>V</code><code class="parameterName">value</code></td>
 						<td><span><p>A conditional value.</p></span></td>
 					</tr>
-					<tr class="b">
+					<tr class="j">
 						<td><code>Self</code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-			<section class="i" id="oneOf(java.lang.Object...)">
-				<h2 class="V"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="l">oneOf</code><code class="Q">(<code array="var">V</code><code class="parameterName">values</code>)</code><i class="p"><code>Self</code></i></h2>
-				<table class="H">
+				</table><span class="A"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="m" id="oneOf(java.lang.Object...)">
+				<h2 class="GB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="CB">oneOf</code><code class="l">(<code array="var">V</code><code class="parameterName">values</code>)</code><i class="P"><code>Self</code></i></h2>
+				<table class="q">
 					<tr class="R">
 						<td><code array="var">V</code><code class="parameterName">values</code></td>
 						<td><span><p>A conditional value set.</p></span></td>
 					</tr>
-					<tr class="b">
+					<tr class="j">
 						<td><code>Self</code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
-			<section class="i" id="oneOf(java.lang.Iterable)">
-				<h2 class="V"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="l">oneOf</code><code class="Q">(<code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="p"><code>Self</code></i></h2>
-				<table class="H">
+				</table><span class="A"><p>Describes conditions for the specified property.</p></span></section>
+			<section class="m" id="oneOf(java.lang.Iterable)">
+				<h2 class="GB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="CB">oneOf</code><code class="l">(<code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="P"><code>Self</code></i></h2>
+				<table class="q">
 					<tr class="R">
-						<td><code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code></td>
+						<td><code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code></td>
 						<td><span><p>A conditional value set.</p></span></td>
 					</tr>
-					<tr class="b">
+					<tr class="j">
 						<td><code>Self</code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Describes conditions for the specified property.</p></span></section>
+				</table><span class="A"><p>Describes conditions for the specified property.</p></span></section>
 		</article>
 		<aside class="f">
-			<div class="o">
-				<h5 class="q">Methods</h5>
+			<div class="u">
+				<h5 class="n">Methods</h5>
 				<ul>
-					<li class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#isNull()">isNull</a></code><code class="Q">()</code><i class="U"><code>Self</code></i></li>
-					<li class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#isNotNull()">isNotNull</a></code><code class="Q">()</code><i class="U"><code>Self</code></i></li>
-					<li class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#is(java.lang.Object)">is</a></code><code class="Q">(<code>V</code><code class="parameterName">value</code>)</code><i class="U"><code>Self</code></i></li>
-					<li class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#isNot(java.lang.Object)">isNot</a></code><code class="Q">(<code>V</code><code class="parameterName">value</code>)</code><i class="U"><code>Self</code></i></li>
-					<li class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#oneOf(java.lang.Object...)">oneOf</a></code><code class="Q">(<code array="var">V</code><code class="parameterName">values</code>)</code><i class="U"><code>Self</code></i></li>
-					<li class="m"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#oneOf(java.lang.Iterable)">oneOf</a></code><code class="Q">(<code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="U"><code>Self</code></i></li>
+					<li class="O"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#isNull()">isNull</a></code><code class="l">()</code><i class="EB"><code>Self</code></i></li>
+					<li class="O"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#isNotNull()">isNotNull</a></code><code class="l">()</code><i class="EB"><code>Self</code></i></li>
+					<li class="O"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#is(java.lang.Object)">is</a></code><code class="l">(<code>V</code><code class="parameterName">value</code>)</code><i class="EB"><code>Self</code></i></li>
+					<li class="O"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#isNot(java.lang.Object)">isNot</a></code><code class="l">(<code>V</code><code class="parameterName">value</code>)</code><i class="EB"><code>Self</code></i></li>
+					<li class="O"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#oneOf(java.lang.Object...)">oneOf</a></code><code class="l">(<code array="var">V</code><code class="parameterName">values</code>)</code><i class="EB"><code>Self</code></i></li>
+					<li class="O"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/typewriter.api.Constraint.html#oneOf(java.lang.Iterable)">oneOf</a></code><code class="l">(<code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="EB"><code>Self</code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="a"/>
+		<footer class="DB">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
 	</body>
 	<script src="root.js"></script>
 	<script src="main.js" type="module"></script>

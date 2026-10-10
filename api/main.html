@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Typewriter and its API. Provides a general-purpose, type-safe DAO. " name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Typewriter API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="JB">
+		<header class="Z" date="2025-04-20">
+			<h1 class="a"><a href="index.html"><code>Typewriter</code></a></h1>
+			<nav class="b"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/typewriter/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/typewriter" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="c"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="d"></nav>
+		<article class="v" id="Article">
+			<div class="m">
+				<section class="A">
+					<h2>Typewriter API Overview</h2>
+					<p>This page provides a concise overview of the available APIs, including their purpose, key functionalities, and usage patterns. It serves as a starting point for developers to understand how to integrate and interact with the system effectively.</p>
+					<section class="A">
+						<h4>🛠️ Interface</h4>
+						<table>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.ConditionSpecifier.html">Specifier.ConditionSpecifier</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Accumulable.html">Accumulable</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.html">Constraint</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.ListConstraint.html">Constraint.ListConstraint</a></code></td>
+								<td>The specialized Constraint for List.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.ZonedDateTimeConstraint.html">Constraint.ZonedDateTimeConstraint</a></code></td>
+								<td>The specialized Constraint for ZonedDateTime.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.OffsetDateTimeConstraint.html">Constraint.OffsetDateTimeConstraint</a></code></td>
+								<td>The specialized Constraint for OffsetDateTime.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.LocalDateTimeConstraint.html">Constraint.LocalDateTimeConstraint</a></code></td>
+								<td>The specialized Constraint for LocalDateTime.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.LocalTimeConstraint.html">Constraint.LocalTimeConstraint</a></code></td>
+								<td>The specialized Constraint for LocalTime.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.LocalDateConstraint.html">Constraint.LocalDateConstraint</a></code></td>
+								<td>The specialized Constraint for LocalDate.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.DateConstraint.html">Constraint.DateConstraint</a></code></td>
+								<td>The specialized Constraint for Date.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.TemporalConstraint.html">Constraint.TemporalConstraint</a></code></td>
+								<td>The specialized Constraint for temporal value.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.StringConstraint.html">Constraint.StringConstraint</a></code></td>
+								<td>The specialized Constraint for String.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.NumericConstraint.html">Constraint.NumericConstraint</a></code></td>
+								<td>The specialized Constraint for Number.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Constraint.TypeConstraint.html">Constraint.TypeConstraint</a></code></td>
+								<td>The specialized Constraint.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Updatable.html">Updatable</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Queryable.html">Queryable</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Metadatable.html">Metadatable</a></code></td>
+								<td>no description</td>
+							</tr>
+						</table>
+					</section>
+					<section class="A">
+						<h4>🛠️ Functional Interface</h4>
+						<table>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.html">Specifier</a></code></td>
+								<td>Generic property specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.ListSpecifier.html">Specifier.ListSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.ZonedDateTimeSpecifier.html">Specifier.ZonedDateTimeSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.OffsetDateTimeSpecifier.html">Specifier.OffsetDateTimeSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.LocalDateTimeSpecifier.html">Specifier.LocalDateTimeSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.LocalTimeSpecifier.html">Specifier.LocalTimeSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.LocalDateSpecifier.html">Specifier.LocalDateSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.DateSpecifier.html">Specifier.DateSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.StringSpecifier.html">Specifier.StringSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.BooleanSpecifier.html">Specifier.BooleanSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.CharSpecifier.html">Specifier.CharSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Specifier.NumericSpecifier.html">Specifier.NumericSpecifier</a></code></td>
+								<td>The specialized Specifier.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Identifiable.html">Identifiable</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Restorable.html">Restorable</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Transactional.html">Transactional</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.api.Deletable.html">Deletable</a></code></td>
+								<td>no description</td>
+							</tr>
+						</table>
+					</section>
+					<section class="A">
+						<h4>🛠️ Class</h4>
+						<table>
+							<tr>
+								<td><code><a href="api/typewriter.sqlite.SQLite.html">SQLite</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.rdb.RDB.html">RDB</a></code></td>
+								<td>Data Access Object for RDBMS.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.rdb.SQL.html">SQL</a></code></td>
+								<td>SQL writer.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.maria.MariaDB.html">MariaDB</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.h2.H2.html">H2</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.h2.Functions.html">Functions</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.mongo.Mongo.html">Mongo</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.mongo.MongoQuery.html">MongoQuery</a></code></td>
+								<td>Queryable</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.duck.DuckDB.html">DuckDB</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.query.SQLCoder.html">SQLCoder</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.query.SQLCodingOption.html">SQLCodingOption</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.query.AVGOption.html">AVGOption</a></code></td>
+								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/typewriter.postgres.PostgreSQL.html">PostgreSQL</a></code></td>
+								<td>no description</td>
+							</tr>
+						</table>
+					</section>
+				</section>
+			</div>
+		</article>
+		<aside class="f"></aside>
+		<footer class="DB">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
