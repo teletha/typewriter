@@ -107,7 +107,7 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 ## Dependency
 Typewriter depends on the following products on runtime.
 * [asm-9.11](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.11)
-* [reincarnation-1.10.1](https://mvnrepository.com/artifact/io.github.teletha/reincarnation/1.10.1)
+* [reincarnation-1.10.2](https://mvnrepository.com/artifact/io.github.teletha/reincarnation/1.10.2)
 * [sinobu-4.14.0](https://mvnrepository.com/artifact/io.github.teletha/sinobu/4.14.0)
 <p align="right"><a href="#top">back to top</a></p>
 
