@@ -24,7 +24,7 @@ public interface RecordTestSet extends Testable {
         QueryExecutor<Item, Signal<Item>, ?, ?> dao = createEmptyDB(Item.class);
         dao.updateAll(item1, item2, item3);
         assert dao.count() == 3;
-        assert dao.findBy(2).to().v.name.equals("two");
+        assert dao.findBy(2).to().get().name.equals("two");
     }
 
     @Test

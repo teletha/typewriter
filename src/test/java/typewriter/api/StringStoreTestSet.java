@@ -21,7 +21,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("AaBb"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("AaBb");
     }
 
@@ -30,7 +30,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("1245"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("1245");
     }
 
@@ -39,7 +39,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("abc1"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("abc1");
     }
 
@@ -48,7 +48,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("日本語テストだ！"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("日本語テストだ！");
     }
 
@@ -57,7 +57,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("😊📵🍎"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("😊📵🍎");
     }
 
@@ -66,7 +66,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description(" "));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals(" ");
     }
 
@@ -75,7 +75,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description(" head-space"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals(" head-space");
     }
 
@@ -84,7 +84,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("tail-space "));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("tail-space ");
     }
 
@@ -93,7 +93,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("\n"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("\n");
     }
 
@@ -102,7 +102,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("\r"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("\r");
     }
 
@@ -111,7 +111,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("\t"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("\t");
     }
 
@@ -120,7 +120,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("'"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("'");
     }
 
@@ -129,7 +129,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("\""));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("\"");
     }
 
@@ -138,7 +138,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("%"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("%");
     }
 
@@ -147,7 +147,7 @@ public interface StringStoreTestSet extends Testable {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("_"));
 
-        Description person = dao.limit(1).waitForTerminate().to().v;
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("_");
     }
 
@@ -155,8 +155,8 @@ public interface StringStoreTestSet extends Testable {
     default void escape() {
         QueryExecutor<Description, Signal<Description>, ?, ?> dao = createEmptyDB(Description.class);
         dao.update(new Description("\\"));
-    
-        Description person = dao.limit(1).waitForTerminate().to().v;
+
+        Description person = dao.limit(1).waitForTerminate().to().get();
         assert person.text.equals("\\");
     }
 

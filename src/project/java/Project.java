@@ -12,7 +12,7 @@ import static bee.api.License.*;
 
 public class Project extends bee.api.Project {
     {
-        product("com.github.teletha", "typewriter", ref("version.txt"));
+        product("io.github.teletha", "typewriter", ref("version.txt"));
         license(MIT);
         versionControlSystem("https://github.com/teletha/typewriter");
         describe("""
@@ -25,8 +25,8 @@ public class Project extends bee.api.Project {
                 * [DuckDB](https://duckdb.org/)
                 """);
 
-        require("com.github.teletha", "sinobu");
-        require("com.github.teletha", "reincarnation");
+        require("io.github.teletha", "sinobu");
+        require("io.github.teletha", "reincarnation");
         require("org.mongodb", "mongodb-driver-sync", "5.1.0").atProvided();
         require("org.xerial", "sqlite-jdbc").atProvided();
         require("com.h2database", "h2").atProvided();
@@ -35,9 +35,9 @@ public class Project extends bee.api.Project {
         require("ch.vorburger.mariaDB4j", "mariaDB4j").atProvided();
         require("de.softwareforge.testing", "pg-embedded").atProvided();
         require("com.surrealdb", "surrealdb-driver").atProvided();
-        require("com.github.teletha", "antibug").atTest();
+        require("io.github.teletha", "antibug").atTest();
         require("de.bwaldvogel", "mongo-java-server").atTest();
-        require("com.github.teletha", "psychopath").atTest();
+        require("io.github.teletha", "psychopath").atTest();
         require("org.apache.commons", "commons-lang3").atTest();
         require("org.slf4j", "slf4j-nop").atTest();
     }

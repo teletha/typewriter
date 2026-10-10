@@ -23,7 +23,7 @@ public interface EnumTestSet extends Testable {
         QueryExecutor<EnumValue, Signal<EnumValue>, ?, ?> dao = createEmptyDB(EnumValue.class);
         dao.update(new EnumValue(RetentionPolicy.CLASS));
 
-        EnumValue person = dao.limit(1).waitForTerminate().to().v;
+        EnumValue person = dao.limit(1).waitForTerminate().to().get();
         assert person.policy.equals(RetentionPolicy.CLASS);
     }
 
@@ -32,7 +32,7 @@ public interface EnumTestSet extends Testable {
         QueryExecutor<EnumValue, Signal<EnumValue>, ?, ?> dao = createEmptyDB(EnumValue.class);
         dao.update(new EnumValue(null));
 
-        EnumValue person = dao.limit(1).waitForTerminate().to().v;
+        EnumValue person = dao.limit(1).waitForTerminate().to().get();
         assert person.policy == null;
     }
 
