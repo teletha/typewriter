@@ -229,7 +229,7 @@
 
 ### Features
 
-* Add BackendModel#restoring instead of #restore(Consumer<M>). ([75ea065](https://www.github.com/teletha/typewriter/commit/75ea06565b7c4873b118c0484700627bb1307c07))
+* Add BackendModel#restoring instead of #restore(`Consumer<M>`). ([75ea065](https://www.github.com/teletha/typewriter/commit/75ea06565b7c4873b118c0484700627bb1307c07))
 * Provide Queryable#page as pagination helper. ([fc3929f](https://www.github.com/teletha/typewriter/commit/fc3929f6b86f8d5525671baa59b0314a74ee149b))
 * Support accumulable operators. (MIN MAX SVG SUM DISTINCT) ([55720f1](https://www.github.com/teletha/typewriter/commit/55720f1bdfda79ce7d35ae9e1e6011fba31033be))
 * Support distinct by single property. ([77a1265](https://www.github.com/teletha/typewriter/commit/77a1265542326780873651a872c73174c6aff0aa))
