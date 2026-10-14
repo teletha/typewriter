@@ -25,7 +25,10 @@ import kiss.Model;
 import kiss.Property;
 import kiss.Variable;
 import kiss.WiseTriConsumer;
+import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.Operand;
+import reincarnation.PatternCase;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -566,7 +569,28 @@ public class SQLCoder extends Coder<SQLCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<List<Class>, String, Code>> catchBlocks, Code follow) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeTryWithResources(List<Ⅱ<Operand, Operand>> resources, Code tryBlock, Code follow) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeSynchronized(Code lock, Code body, Code follow) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeTypeCase(boolean statement, List<PatternCase> patterns, Code caseBlock) {
     }
 
     /**
